@@ -1,0 +1,114 @@
+{
+  "id": "pc-bex",
+  "name": "Bex",
+  "npc": false,
+  "level": 3,
+  "ancestry": "human",
+  "class": "lancer",
+  "portrait": "pc-bex.jpg",
+  "coin": 3200,
+  "attrs": {
+    "strength": 16,
+    "agility": 11,
+    "endurance": 14,
+    "speed": 9,
+    "intellect": 11,
+    "will": 12,
+    "awareness": 12,
+    "presence": 10,
+    "appearance": 10
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 28
+    },
+    {
+      "id": "anima",
+      "total": 14
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 2,
+    "parry": 2,
+    "dodge": 1,
+    "block": 2,
+    "initiative": 0
+  },
+  "armor": [
+    {
+      "id": "siege_enforcer",
+      "name": "Siege Enforcer",
+      "prefix": "hecto",
+      "total": 800,
+      "slot": "body",
+      "set": {
+        "strength": 30,
+        "speed": 88
+      },
+      "attacks": [
+        {
+          "id": "punch",
+          "name": "Punch",
+          "damage": "1d6",
+          "prefix": "hecto"
+        },
+        {
+          "id": "kick",
+          "name": "Kick",
+          "damage": "2d6",
+          "prefix": "hecto"
+        }
+      ]
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "siege_cannon",
+      "name": "Siege Cannon",
+      "damage": "4d6",
+      "prefix": "kilo"
+    },
+    {
+      "id": "laser_rifle",
+      "name": "Laser rifle",
+      "damage": "3d6",
+      "prefix": "hecto"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "pilot_armor",
+      "name": "Pilot: power armor",
+      "qty": "70%"
+    },
+    {
+      "id": "gunnery",
+      "name": "Gunnery",
+      "qty": "65%"
+    },
+    {
+      "id": "sensor",
+      "name": "Sensors",
+      "qty": "50%"
+    }
+  ],
+  "activated": [
+    "siege_enforcer"
+  ],
+  "attack": "siege_cannon"
+}

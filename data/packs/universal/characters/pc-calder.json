@@ -1,0 +1,106 @@
+{
+  "id": "pc-calder",
+  "name": "Calder",
+  "npc": false,
+  "level": 6,
+  "ancestry": "human",
+  "class": "adept",
+  "portrait": "pc-calder.jpg",
+  "coin": 600,
+  "attrs": {
+    "strength": 8,
+    "agility": 11,
+    "endurance": 10,
+    "speed": 10,
+    "intellect": 16,
+    "will": 15,
+    "awareness": 14,
+    "presence": 13,
+    "appearance": 11
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 22
+    },
+    {
+      "id": "anima",
+      "total": 56
+    }
+  ],
+  "channels": {
+    "actions": 3,
+    "attack": 2,
+    "parry": 1,
+    "dodge": 2,
+    "block": 0,
+    "initiative": 1
+  },
+  "armor": [
+    {
+      "id": "robes",
+      "name": "Warded robes",
+      "prefix": "unit",
+      "total": 18,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d4",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "staff",
+      "name": "Staff",
+      "damage": "2d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "magic_shield",
+      "name": "Magic shield",
+      "kind": "spell",
+      "slot": "spell",
+      "prefix": "unit",
+      "total": 30
+    },
+    {
+      "id": "flame_bolt",
+      "name": "Flame bolt",
+      "kind": "spell",
+      "damage": "4d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "lore",
+      "name": "Lore",
+      "qty": "75%"
+    },
+    {
+      "id": "ritual",
+      "name": "Ritual",
+      "qty": "60%"
+    },
+    {
+      "id": "languages",
+      "name": "Languages",
+      "qty": "70%"
+    }
+  ],
+  "activated": [
+    "magic_shield",
+    "robes"
+  ],
+  "attack": "flame_bolt"
+}

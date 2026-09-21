@@ -1,0 +1,86 @@
+{
+  "id": "pc-iko",
+  "name": "Iko",
+  "npc": false,
+  "level": 6,
+  "ancestry": "human",
+  "class": "aegis",
+  "portrait": "pc-iko.jpg",
+  "coin": 1800,
+  "attrs": {
+    "strength": 16,
+    "agility": 15,
+    "endurance": 15,
+    "speed": 14,
+    "intellect": 11,
+    "will": 16,
+    "awareness": 13,
+    "presence": 12,
+    "appearance": 12
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 38
+    },
+    {
+      "id": "anima",
+      "total": 72
+    }
+  ],
+  "channels": {
+    "actions": 5,
+    "attack": 4,
+    "parry": 3,
+    "dodge": 3,
+    "block": 0,
+    "initiative": 3
+  },
+  "armor": [],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "warding_tattoo",
+      "name": "Warding tattoo",
+      "kind": "tattoo",
+      "slot": "tattoo",
+      "prefix": "hecto",
+      "total": 55
+    },
+    {
+      "id": "coil_tattoo",
+      "name": "Coil tattoo",
+      "kind": "tattoo",
+      "damage": "4d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "endure",
+      "name": "Endure",
+      "qty": "70%"
+    },
+    {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "qty": "55%"
+    }
+  ],
+  "activated": [
+    "warding_tattoo"
+  ],
+  "attack": "coil_tattoo"
+}

@@ -1,0 +1,90 @@
+{
+  "id": "npc-syrn",
+  "name": "Syrn",
+  "npc": true,
+  "level": 15,
+  "ancestry": "dragon",
+  "class": "beast",
+  "portrait": "npc-syrn.jpg",
+  "coin": 40000,
+  "attrs": {
+    "strength": 30,
+    "agility": 14,
+    "endurance": 28,
+    "speed": 18,
+    "intellect": 22,
+    "will": 20,
+    "awareness": 18,
+    "presence": 20,
+    "appearance": 16
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "kilo",
+      "total": 6
+    },
+    {
+      "id": "anima",
+      "total": 840
+    }
+  ],
+  "channels": {
+    "actions": 7,
+    "attack": 6,
+    "parry": 5,
+    "dodge": 4,
+    "block": 3,
+    "initiative": 5
+  },
+  "armor": [
+    {
+      "id": "scales",
+      "name": "Scales",
+      "prefix": "kilo",
+      "total": 10,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "bite",
+      "name": "Bite",
+      "damage": "4d6",
+      "prefix": "kilo"
+    },
+    {
+      "id": "claw",
+      "name": "Claw",
+      "damage": "3d6",
+      "prefix": "kilo"
+    },
+    {
+      "id": "breath",
+      "name": "Breath",
+      "damage": "6d6",
+      "prefix": "kilo"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "flight",
+      "name": "Flight",
+      "qty": ""
+    },
+    {
+      "id": "keen",
+      "name": "Keen sense",
+      "qty": "90%"
+    },
+    {
+      "id": "terror",
+      "name": "Terror",
+      "qty": ""
+    }
+  ],
+  "activated": [
+    "scales"
+  ],
+  "attack": "breath"
+}

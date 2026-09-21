@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lex</title>
+  <link rel="stylesheet" href="/static/sheet.css">
+</head>
+<body>
+  <header class="top">
+    <a id="home" href="/" hidden>Roster</a>
+    <label class="adapter-wrap">
+      <span>View</span>
+      <select id="adapter" aria-label="Adapter"></select>
+    </label>
+    <label class="adapter-wrap">
+      <span>Scale</span>
+      <select id="scale" aria-label="Scale"></select>
+    </label>
+    <p id="err" hidden></p>
+  </header>
+  <div id="sheet" class="sheet"></div>
+  <script type="module" src="/static/sheet.js"></script>
+</body>
+</html>

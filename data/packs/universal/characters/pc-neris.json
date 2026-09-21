@@ -1,0 +1,125 @@
+{
+  "id": "pc-neris",
+  "name": "Neris",
+  "npc": false,
+  "level": 8,
+  "ancestry": "human",
+  "class": "adept",
+  "portrait": "pc-neris.jpg",
+  "coin": 4000,
+  "attrs": {
+    "strength": 10,
+    "agility": 12,
+    "endurance": 13,
+    "speed": 12,
+    "intellect": 17,
+    "will": 16,
+    "awareness": 15,
+    "presence": 13,
+    "appearance": 12
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 26
+    },
+    {
+      "id": "anima",
+      "total": 196
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 2,
+    "parry": 2,
+    "dodge": 3,
+    "block": 0,
+    "initiative": 2
+  },
+  "armor": [
+    {
+      "id": "travel_cloak",
+      "name": "Travel cloak",
+      "prefix": "unit",
+      "total": 15,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "staff",
+      "name": "Staff",
+      "damage": "2d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "magic_shield",
+      "name": "Magic shield",
+      "kind": "spell",
+      "slot": "spell",
+      "prefix": "unit",
+      "total": 50
+    },
+    {
+      "id": "energy_bolt",
+      "name": "Energy bolt",
+      "kind": "spell",
+      "damage": "4d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "arc",
+      "name": "Arc",
+      "kind": "spell",
+      "damage": "1d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "call_storm",
+      "name": "Call storm",
+      "kind": "spell",
+      "damage": "10d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "channel",
+      "name": "Channel",
+      "qty": "80%"
+    },
+    {
+      "id": "lore",
+      "name": "Lore",
+      "qty": "75%"
+    },
+    {
+      "id": "sense_current",
+      "name": "Sense current",
+      "qty": "70%"
+    },
+    {
+      "id": "languages",
+      "name": "Languages",
+      "qty": "85%"
+    }
+  ],
+  "activated": [
+    "travel_cloak",
+    "magic_shield"
+  ],
+  "attack": "arc"
+}

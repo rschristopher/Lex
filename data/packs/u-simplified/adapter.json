@@ -1,0 +1,48 @@
+{
+  "id": "u-simplified",
+  "name": "U-simplified",
+  "view": true,
+  "attrs": {
+    "strength": {"label": "Strength", "from": "strength", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "dexterity": {"label": "Dexterity", "from": "agility", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "constitution": {"label": "Constitution", "from": "endurance", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "intelligence": {"label": "Intelligence", "from": "intellect", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "wisdom": {"label": "Wisdom", "from": "awareness", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "charisma": {"label": "Charisma", "from": "presence", "mod": {"sub": 10, "div": 2, "floor": true}}
+  },
+  "gauges": {
+    "hit_points": {"label": "Hit points", "kind": "hits"},
+    "stamina": {"label": "Stamina", "from": "anima"}
+  },
+  "channels": {
+    "actions": "Actions",
+    "attack": "Attack",
+    "parry": "Parry",
+    "dodge": "Dodge",
+    "block": {"label": "Block", "omit_zero": true},
+    "initiative": {
+      "label": "Initiative",
+      "terms": [
+        {"from": "initiative"},
+        {"mod": "dexterity"}
+      ]
+    }
+  },
+  "purse": "Coin",
+  "hit_order": ["psionic", "spell", "tattoo", "body"],
+  "groups": {
+    "armor": "Armor",
+    "weapons": "Weapons",
+    "psionic": "Psionics",
+    "spell": "Magic",
+    "tattoo": "Magic tattoos",
+    "abilities": "Skills"
+  },
+  "prefixes": {
+    "unit": {"damage": "D", "armor": "A"},
+    "deka": {"damage": "daD", "armor": "daA"},
+    "hecto": {"damage": "hD", "armor": "hA"},
+    "kilo": {"damage": "kD", "armor": "kA"},
+    "mega": {"damage": "MgD", "armor": "MgA"}
+  }
+}

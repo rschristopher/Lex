@@ -1,0 +1,96 @@
+{
+  "id": "pc-kesh",
+  "name": "Kesh",
+  "npc": false,
+  "level": 2,
+  "ancestry": "human",
+  "class": "scout",
+  "portrait": "pc-kesh.jpg",
+  "coin": 40,
+  "attrs": {
+    "strength": 15,
+    "agility": 12,
+    "endurance": 15,
+    "speed": 13,
+    "intellect": 9,
+    "will": 10,
+    "awareness": 12,
+    "presence": 10,
+    "appearance": 9
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 28
+    },
+    {
+      "id": "anima",
+      "total": 15
+    }
+  ],
+  "channels": {
+    "actions": 3,
+    "attack": 1,
+    "parry": 1,
+    "dodge": 2,
+    "block": 0,
+    "initiative": 1
+  },
+  "armor": [
+    {
+      "id": "hide",
+      "name": "Hide",
+      "prefix": "unit",
+      "total": 32,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "club",
+      "name": "Club",
+      "damage": "3d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "knife",
+      "name": "Knife",
+      "damage": "1d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "track",
+      "name": "Track",
+      "qty": "55%"
+    },
+    {
+      "id": "hunt",
+      "name": "Hunt",
+      "qty": "50%"
+    },
+    {
+      "id": "survival",
+      "name": "Survival",
+      "qty": "45%"
+    }
+  ],
+  "activated": [
+    "hide"
+  ],
+  "attack": "knife"
+}

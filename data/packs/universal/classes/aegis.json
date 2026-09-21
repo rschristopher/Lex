@@ -1,0 +1,11 @@
+{
+  "id": "aegis",
+  "name": "Aegis",
+  "kind": "class",
+  "effects": [
+    {"verb": "mod.channel", "target": "attack", "op": "add", "value": 2},
+    {"verb": "mod.channel", "target": "parry", "op": "add", "value": 1},
+    {"verb": "mod.channel", "target": "dodge", "op": "add", "value": 1},
+    {"verb": "mod.channel", "target": "actions", "op": "add", "value": 1}
+  ]
+}

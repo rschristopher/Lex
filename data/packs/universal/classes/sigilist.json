@@ -1,0 +1,10 @@
+{
+  "id": "sigilist",
+  "name": "Sigilist",
+  "kind": "class",
+  "effects": [
+    {"verb": "mod.channel", "target": "attack", "op": "add", "value": 1},
+    {"verb": "mod.channel", "target": "parry", "op": "add", "value": 1},
+    {"verb": "mod.channel", "target": "dodge", "op": "add", "value": 1}
+  ]
+}

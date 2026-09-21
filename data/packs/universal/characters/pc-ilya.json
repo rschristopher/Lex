@@ -1,0 +1,102 @@
+{
+  "id": "pc-ilya",
+  "name": "Ilya",
+  "npc": false,
+  "level": 4,
+  "ancestry": "human",
+  "class": "soldier",
+  "portrait": "pc-ilya.jpg",
+  "coin": 1200,
+  "attrs": {
+    "strength": 14,
+    "agility": 13,
+    "endurance": 14,
+    "speed": 12,
+    "intellect": 11,
+    "will": 11,
+    "awareness": 11,
+    "presence": 10,
+    "appearance": 10
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 32
+    },
+    {
+      "id": "anima",
+      "total": 14
+    }
+  ],
+  "channels": {
+    "actions": 3,
+    "attack": 2,
+    "parry": 2,
+    "dodge": 2,
+    "block": 0,
+    "initiative": 1
+  },
+  "armor": [
+    {
+      "id": "field_plate",
+      "name": "Field plate",
+      "prefix": "deka",
+      "total": 40,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "service_rifle",
+      "name": "Service rifle",
+      "damage": "4d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "sidearm",
+      "name": "Sidearm",
+      "damage": "2d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "knife",
+      "name": "Knife",
+      "damage": "1d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "drill",
+      "name": "Drill",
+      "qty": "60%"
+    },
+    {
+      "id": "first_aid",
+      "name": "First aid",
+      "qty": "45%"
+    },
+    {
+      "id": "athletics",
+      "name": "Athletics",
+      "qty": "50%"
+    }
+  ],
+  "activated": [
+    "field_plate"
+  ],
+  "attack": "service_rifle"
+}

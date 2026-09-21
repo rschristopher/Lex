@@ -1,0 +1,92 @@
+{
+  "id": "pc-mora",
+  "name": "Mora",
+  "npc": false,
+  "level": 5,
+  "ancestry": "human",
+  "class": "sensitive",
+  "portrait": "pc-mora.jpg",
+  "coin": 800,
+  "attrs": {
+    "strength": 9,
+    "agility": 12,
+    "endurance": 10,
+    "speed": 11,
+    "intellect": 16,
+    "will": 16,
+    "awareness": 15,
+    "presence": 14,
+    "appearance": 12
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 24
+    },
+    {
+      "id": "anima",
+      "total": 64
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 2,
+    "parry": 1,
+    "dodge": 3,
+    "block": 0,
+    "initiative": 2
+  },
+  "armor": [],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d4",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "tk_field",
+      "name": "Telekinetic defense field",
+      "kind": "psionic",
+      "slot": "psionic",
+      "prefix": "unit",
+      "threshold": 6,
+      "total": 40
+    },
+    {
+      "id": "mind_lance",
+      "name": "Mind lance",
+      "kind": "psionic",
+      "damage": "3d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "sense",
+      "name": "Sense",
+      "qty": "70%"
+    },
+    {
+      "id": "focus",
+      "name": "Focus",
+      "qty": "65%"
+    },
+    {
+      "id": "calm",
+      "name": "Calm",
+      "qty": "55%"
+    }
+  ],
+  "activated": [
+    "tk_field"
+  ],
+  "attack": "mind_lance"
+}

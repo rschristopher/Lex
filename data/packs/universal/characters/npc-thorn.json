@@ -1,0 +1,85 @@
+{
+  "id": "npc-thorn",
+  "name": "Thorn",
+  "npc": true,
+  "level": 10,
+  "ancestry": "dragon",
+  "class": "beast",
+  "portrait": "npc-thorn.jpg",
+  "coin": 8000,
+  "attrs": {
+    "strength": 22,
+    "agility": 12,
+    "endurance": 20,
+    "speed": 14,
+    "intellect": 18,
+    "will": 17,
+    "awareness": 16,
+    "presence": 16,
+    "appearance": 14
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "hecto",
+      "total": 50
+    },
+    {
+      "id": "anima",
+      "total": 329
+    }
+  ],
+  "channels": {
+    "actions": 5,
+    "attack": 4,
+    "parry": 3,
+    "dodge": 3,
+    "block": 2,
+    "initiative": 3
+  },
+  "armor": [
+    {
+      "id": "scales",
+      "name": "Scales",
+      "prefix": "hecto",
+      "total": 80,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "bite",
+      "name": "Bite",
+      "damage": "3d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "claw",
+      "name": "Claw",
+      "damage": "2d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "breath",
+      "name": "Breath",
+      "damage": "4d6",
+      "prefix": "hecto"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "flight",
+      "name": "Flight",
+      "qty": ""
+    },
+    {
+      "id": "keen",
+      "name": "Keen sense",
+      "qty": "80%"
+    }
+  ],
+  "activated": [
+    "scales"
+  ],
+  "attack": "breath"
+}

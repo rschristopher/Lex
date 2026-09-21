@@ -1,0 +1,102 @@
+{
+  "id": "pc-soren",
+  "name": "Soren",
+  "npc": false,
+  "level": 5,
+  "ancestry": "human",
+  "class": "sigilist",
+  "portrait": "pc-soren.jpg",
+  "coin": 420,
+  "attrs": {
+    "strength": 14,
+    "agility": 13,
+    "endurance": 13,
+    "speed": 12,
+    "intellect": 11,
+    "will": 15,
+    "awareness": 12,
+    "presence": 12,
+    "appearance": 11
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 34
+    },
+    {
+      "id": "anima",
+      "total": 52
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 3,
+    "parry": 3,
+    "dodge": 2,
+    "block": 0,
+    "initiative": 2
+  },
+  "armor": [
+    {
+      "id": "leathers",
+      "name": "Hardened leathers",
+      "prefix": "unit",
+      "total": 18,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "1d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "knife",
+      "name": "Knife",
+      "damage": "1d6",
+      "prefix": "unit"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "warding_tattoo",
+      "name": "Warding tattoo",
+      "kind": "tattoo",
+      "slot": "tattoo",
+      "prefix": "unit",
+      "threshold": 4,
+      "total": 28
+    },
+    {
+      "id": "coil_tattoo",
+      "name": "Coil tattoo",
+      "kind": "tattoo",
+      "damage": "3d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "endure",
+      "name": "Endure",
+      "qty": "60%"
+    },
+    {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "qty": "45%"
+    }
+  ],
+  "activated": [
+    "leathers",
+    "warding_tattoo"
+  ],
+  "attack": "coil_tattoo"
+}

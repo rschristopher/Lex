@@ -1,0 +1,96 @@
+{
+  "id": "pc-ryn",
+  "name": "Ryn",
+  "npc": false,
+  "level": 8,
+  "ancestry": "human",
+  "class": "augmented",
+  "portrait": "pc-ryn.jpg",
+  "coin": 2400,
+  "attrs": {
+    "strength": 22,
+    "agility": 20,
+    "endurance": 18,
+    "speed": 24,
+    "intellect": 12,
+    "will": 11,
+    "awareness": 14,
+    "presence": 10,
+    "appearance": 12
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 40
+    },
+    {
+      "id": "anima",
+      "total": 18
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 3,
+    "parry": 4,
+    "dodge": 4,
+    "block": 0,
+    "initiative": 3
+  },
+  "armor": [
+    {
+      "id": "harness",
+      "name": "Combat harness",
+      "prefix": "hecto",
+      "total": 50,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "2d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "2d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "resonant_blade",
+      "name": "Resonant blade",
+      "damage": "2d6",
+      "prefix": "hecto"
+    },
+    {
+      "id": "pulse_pistol",
+      "name": "Pulse pistol",
+      "damage": "2d6",
+      "prefix": "hecto"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "sprint",
+      "name": "Sprint",
+      "qty": "80%"
+    },
+    {
+      "id": "acrobatics",
+      "name": "Acrobatics",
+      "qty": "75%"
+    },
+    {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "qty": "50%"
+    }
+  ],
+  "activated": [
+    "harness"
+  ],
+  "attack": "resonant_blade"
+}

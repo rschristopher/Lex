@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# data/: ignore all pack/ingest contents; allow READMEs and the public pack.
+data/ingest/*
+!data/ingest/README.md
+data/packs/*
+!data/packs/README.md
+!data/packs/universal/
+!data/packs/universal/**
+!data/packs/u-simplified/
+!data/packs/u-simplified/**

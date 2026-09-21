@@ -1,0 +1,90 @@
+{
+  "id": "pc-venn",
+  "name": "Venn",
+  "npc": false,
+  "level": 7,
+  "ancestry": "mutant",
+  "class": "metahuman",
+  "portrait": "pc-venn.jpg",
+  "coin": 200,
+  "attrs": {
+    "strength": 18,
+    "agility": 16,
+    "endurance": 16,
+    "speed": 15,
+    "intellect": 12,
+    "will": 13,
+    "awareness": 12,
+    "presence": 11,
+    "appearance": 10
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 48
+    },
+    {
+      "id": "anima",
+      "total": 16
+    }
+  ],
+  "channels": {
+    "actions": 4,
+    "attack": 3,
+    "parry": 3,
+    "dodge": 4,
+    "block": 1,
+    "initiative": 2
+  },
+  "armor": [
+    {
+      "id": "carapace",
+      "name": "Carapace",
+      "prefix": "deka",
+      "total": 60,
+      "slot": "body"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "punch",
+      "name": "Punch",
+      "damage": "2d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "kick",
+      "name": "Kick",
+      "damage": "2d6",
+      "prefix": "unit"
+    },
+    {
+      "id": "plasma_lance",
+      "name": "Plasma lance",
+      "damage": "1d6",
+      "prefix": "hecto"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "endure",
+      "name": "Endure",
+      "qty": "80%"
+    },
+    {
+      "id": "leap",
+      "name": "Leap",
+      "qty": "70%"
+    },
+    {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "qty": "55%"
+    }
+  ],
+  "activated": [
+    "carapace"
+  ],
+  "attack": "plasma_lance"
+}
