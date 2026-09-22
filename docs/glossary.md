@@ -20,38 +20,27 @@ Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 ki
 
 **Hit Points** -- The number of damage a character can take. On the HUD this is a stacked bar with armor stacked from left to right (damage applies to the right-most layer) and it is ordered: flesh, then body armor, then magic fields, then psionic fields. On the HUD HP bar, black (empty) is shown only when the remaining band is base (Damage Threshold of 1) and the value is under `100 A`. Color on the HUD HP bar indicates the Damage Threshold: blood red (base, no prefix) through orange (deka), amber (hecto), and so on towards white.
 
-**Armor** -- Worn gear (from a leather jacket to a suit of power armor). Typically one body slot, magic and then psionics applied on top.
+**Armor** -- worn gear (from a leather jacket to a suit of power armor). Typically one body slot, magic and then psionics applied on top.
 
 
-**Anima** -- One spendable capacity for effort, spells, and psionics. U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
+**Anima** -- numeric capacity for magic and psionics. All living creatures comtain Anima. Adapters can relabel as needed, e.g., U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
 
 
 **Actioms** -- the total number of actions (usually attacks) a player can take per 10-second melee.
 
-**Strike** -- the numeric bonus applied to a `d20` to determine if an attack is a hit or a miss.
+**Strike** -- the numeric bonus applied to a roll (usually `d20`) to determine if an attack is a hit or a miss.
 
-**Parry / Dodge** -- The optional roll after an attack to determone if a successful hit is parried or dodged. A parry or dodge typically costs one action, although some characters have an automatic parry (from combat training), and some rare classwa possess an automatic dodge (a dodge that takes no action).
+**Parry / Dodge** -- the numeric bonuses applied to an optional roll (usually a `d20`) after an attack to determone if the attack is parried or dodged. A parry or dodge typically costs one action, although some characters have an automatic parry (from combat training), and some rare classes possess an automatic dodge (a dodge that takes no action).
 
-**Activated** -- What is on now (suit, shield, psiomic field, warding tattoo).
+**Attack** -- a player action attackimg a called target, unarmed (punch or kick) or atmed.
 
-**Attack** -- like actions, but clearly specified as an attack.
+**Magic** — spells, tattoos, or any innate abilities that cost Anima to activate. A magic shield is a spell you turn on, not armor you wear.
 
-**Punch / Kick** — Unarmed attacks, and not a row named Unarmed.
+**Psionics** -- psychic abilities that cost Anima to activate. A telekinetic field is a power you turn on, not armor you wear.
 
-**Segment** — One slice of the Hit Points bar. Hover names it.
 
-**Hit order** — Adapter list of which layer is hit first. Default: psionic, then spell, then tattoo, then body.
 
-**Scale** — HUD dropdown next to View. Auto, or force A / daA / hA / kA / …. Display only. Conversion does not change.
-
-## Sheet groups
-
-**Magic** — Spells. A magic shield is a spell you turn on, not armor you wear.
-
-**Psionics** — Psychic abilities. A telekinetic field is a power you turn on, not armor.
-
-**Magic tattoos** — Ink on the skin. Sigilist is personal (**A**). Aegis is war-scale (**hA**).
 
 ## Do not use
 
-Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold.
+Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold. Ink. Sigiliar. Aegis.
