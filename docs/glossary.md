@@ -1,6 +1,6 @@
 # Glossary
 
-The following terms are ussd in the Lex engine, defined in [universal-system.md](universal-system.md).
+The following terms are used in the Lex engine, see [universal-system.md](universal-system.md) for details.
 
 
 **Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine.
