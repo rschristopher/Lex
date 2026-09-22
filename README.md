@@ -1,8 +1,7 @@
 # Lex
 
-Lex is a playable universal RPG system (characters, combat, armor, damage) and a tablet roster/sheet. Other games map in as **adapters** (data), not as extra engines. Two people at the same table can use two adapters.
+Lex is a playable universal RPG system (characters, combat, armor, damage) which can integrate with any other system, allowing conversion to/from any ingested system.
 
-Harm is a single ratio to a reference unit. SI prefixes (`D`/`A`, `hD`/`hA`, …) are how large armor and damage are written. Expanding a ×100 suit into 77 000 “hit points” on a sheet built for tens or hundreds is the wrong representation — keep the prefix. See `docs/universal-system.md` and `docs/glossary.md`.
 
 ## Run
 
