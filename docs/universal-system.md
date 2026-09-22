@@ -1,8 +1,19 @@
-# Lex: A Universal RPG
+# Lex
 
-Terms are in [glossary.md](glossary.md). Use those words.
+Lex is a complete and playable RPG system which can convert characters, classes and lore to/from any other RPG. Lex is designed to be LLM-friendly in order to incorporate any material, from other RPGs to fantasy novels (including graphic novels) into a fully imtegrated multiverse.
 
-Lex is a complete, playable RPG system and universal engine.
+There are three primary components of Lex:
+
+1. character app -- manage a roster of characters (playable and non-playable characters), powered by the underlying universal effects/constraints engine, and generate character sheets compatible with any existing RPG.
+2. combat and gaming layer -- manage player combat and gaming where dice rolls stay on the table and Lex handles the math and rules enforcement; utilizes the same universal effects/constraints engine such that character sheets dynamically update during combat and gameplay.
+3. GM-assistant -- helps manage adventures (serial or episodic) within a larger campaign. LLM-friendly such that custom characters, character classes, locations, and lore can be ingested and integrated into a campaign. 
+
+For example, ingest Homer's Iliad and Odyssey alongside wild west novelas for a Greek mythological take on the wild west. 
+Or if you want to integrate Japanese demons (oni or yokai) alognside the Greek gods, point your favorite LLM at the relevant text (in any language) and ingest that into Lex.
+Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign. Lex is the ideal RPG harness for a LLM.
+
+
+See [glossary.md](glossary.md) for definitions of terms.
 
 The Lex app is NOT a virtual-table-top, and doesn't try to be. Lex manages characters (PCs and NPCs), assists with combat, and includes a GM-assistant to manage adventures and larger campaigns.
 The goal is that dice stay on the table, and Lex manages the math (using an effects/constraints engine) of leveling characters, combat, armor, and damage. 
