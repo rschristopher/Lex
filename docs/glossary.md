@@ -1,41 +1,42 @@
 # Glossary
 
-The following terms are ussd in the Lex engine rules, defined in [universal-system.md](universal-system.md).
+The following terms are ussd in the Lex engine, defined in [universal-system.md](universal-system.md).
 
-
-**Fold** -- a function that takes all character effects and constraints and outputs a character sheet (exact stats and attributes).
 
 **Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine.
 
 **Data Pack** -- parsed characters, classes, equipment, and adapter data that can be loaded into the Lex engine.
 
 
-**Armor Prefix** or **Damage Prefix** -- SI metric for for scale. Armor is usually a number, e.g., `75 hA` body armor, and damage is a usually a roll, `3d6 hD`. Base units have no prefix, a punch might be `1d6 D` and a leather hackey might offer `25 A`. Common prefixes are deka **daA**, hecto **hA**, kilo **kA**, and so on. Always print a space: `800 hA`. Dice rolls rarely need multipliers. `4d6×10 hD` is `4d6 kD`. Do not write ×10 on the dice when a prefix is available.
+**Armor Prefix** or **Damage Prefix** -- SI metric for for scale. Armor is a number, e.g., `75 hA` body armor, and damage is usually a roll, e.g., `3d6 hD`. 
+Base units have no prefix; a punch might be `1d6 D` and a leather jacket might offer `25 A`. 
+Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 kilo **kA**, and above. 
 
 **Scale** -- SI metric scale, e.g., deka x10, hecto x100, kilo x1000. Display and conversion between layers is automatic in Lex, which uses these prefixes.
 
-**Damage Threshold** -- Minimum damage, in that layer’s units. Damage less than the threshold does nothing, fractions and remainder round to 0. Default 1. In the Lex character UI, a leather armor might be `40 A` with threshold 6: the bar would show `40 A` plus HP; blows under 6 do nothing to the armor. Color follows the SI prefix (base HP is red). Dim remainder (not black) means the remaining band still has a damage threshold. Hover over the dim part of the bar identifies the threshold.
+**Damage Threshold** -- Damage less than the threshold does nothing, fractions and remainder round to 0. Default 1. In the Lex character UI, knight's armor might be `40 dA` with threshold 10: the bar would show `40 dA` plus HP; blows under 10 do nothing to the armor.
 
-**HUD** -- Heads Up Display on the Lex character sheet, shows core stats needed for combat.
+**HUD** -- Heads Up Display on the Lex character sheet, showing core stats needed for combat.
 
-**Hit Points** -- The number of damage a character can take. On the HUD this is a stacked bar with armor stacked from left to right (damage applies to the right-most layer) and it is ordered: flesh, body armor, magic fields, psionic fields). On the HUD HP bar we see black (empty) only when the remaining band is base (Damage Threshold of 1) and the value is under `100 A`. Color on the HUD HP bar indicates the Damage Threshold: blood red (base, no prefix) through orange (deka), amber (hecto), and so on towards white.
+**Hit Points** -- The number of damage a character can take. On the HUD this is a stacked bar with armor stacked from left to right (damage applies to the right-most layer) and it is ordered: flesh, then body armor, then magic fields, then psionic fields. On the HUD HP bar, black (empty) is shown only when the remaining band is base (Damage Threshold of 1) and the value is under `100 A`. Color on the HUD HP bar indicates the Damage Threshold: blood red (base, no prefix) through orange (deka), amber (hecto), and so on towards white.
 
 **Armor** -- Worn gear (from a leather jacket to a suit of power armor). Typically one body slot, magic and then psionics applied on top.
 
 
-**Anima** — One spendable capacity for hard effort, spells, and psionics. Universal prints Anima. U-simplified prints Stamina. Same gauge. Blue bar. Not hit points. Not a second magic battery.
+**Anima** -- One spendable capacity for effort, spells, and psionics. U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
 
-## Combat
 
-**Strike** — The attacker’s roll (the Attack channel).
+**Actioms** -- the total number of actions (usually attacks) a player can take per 10-second melee.
 
-**Parry / Dodge** — The optional roll after a strike. One attempt. Fail and you were hit. Automatic dodge is still dodge; it does not cost an action.
+**Strike** -- the numeric bonus applied to a `d20` to determine if an attack is a hit or a miss.
 
-**Activated** — What is on now (suit, shield, field, warding tattoo). Play state.
+**Parry / Dodge** -- The optional roll after an attack to determone if a successful hit is parried or dodged. A parry or dodge typically costs one action, although some characters have an automatic parry (from combat training), and some rare classwa possess an automatic dodge (a dodge that takes no action).
 
-**Attack** — The one strike in hand (gun, punch, fire bolt, coil tattoo).
+**Activated** -- What is on now (suit, shield, psiomic field, warding tattoo).
 
-**Punch / Kick** — Unarmed attacks. Not a row named Unarmed. A worn chassis may replace them with hecto fists while it is on.
+**Attack** -- like actions, but clearly specified as an attack.
+
+**Punch / Kick** — Unarmed attacks, and not a row named Unarmed.
 
 **Segment** — One slice of the Hit Points bar. Hover names it.
 
@@ -53,4 +54,4 @@ The following terms are ussd in the Lex engine rules, defined in [universal-syst
 
 ## Do not use
 
-Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. 
+Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold.
