@@ -1,40 +1,31 @@
 # Glossary
 
-Lex terms. Use these words. Do not invent replacements, and do not bring back names we dropped.
+The following terms are ussd in the Lex engine rules, defined in [universal-system.md](universal-system.md).
 
-The rules they sit in are [universal-system.md](universal-system.md).
 
-## Engine
+**Fold** -- a function that takes all character effects and constraints and outputs a character sheet (exact stats and attributes).
 
-**Fold** — Character JSON plus adapter JSON become a sheet. Combat reads the sheet. The browser does not invent numbers.
+**Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine.
 
-**Adapter** — A sheet language. Universal and U-simplified are adapters. An adapter relabels and hides. It is not a second combat system.
+**Data Pack** -- parsed characters, classes, equipment, and adapter data that can be loaded into the Lex engine.
 
-**Pack** — A directory of characters, classes, and adapter data. Packs load together. They are not exclusive.
 
-**Universal** — The native sheet: nine attributes, full combat scores, prefixes, Anima.
+**Armor Prefix** or **Damage Prefix** -- SI metric for for scale. Armor is usually a number, e.g., `75 hA` body armor, and damage is a usually a roll, `3d6 hD`. Base units have no prefix, a punch might be `1d6 D` and a leather hackey might offer `25 A`. Common prefixes are deka **daA**, hecto **hA**, kilo **kA**, and so on. Always print a space: `800 hA`. Dice rolls rarely need multipliers. `4d6×10 hD` is `4d6 kD`. Do not write ×10 on the dice when a prefix is available.
 
-**U-simplified** — The six-score sheet of the same character. Stamina is Anima. Same combat sequence as Universal.
+**Scale** -- SI metric scale, e.g., deka x10, hecto x100, kilo x1000. Display and conversion between layers is automatic in Lex, which uses these prefixes.
 
-## Harm
+**Damage Threshold** -- Minimum damage, in that layer’s units. Damage less than the threshold does nothing, fractions and remainder round to 0. Default 1. In the Lex character UI, a leather armor might be `40 A` with threshold 6: the bar would show `40 A` plus HP; blows under 6 do nothing to the armor. Color follows the SI prefix (base HP is red). Dim remainder (not black) means the remaining band still has a damage threshold. Hover over the dim part of the bar identifies the threshold.
 
-**Prefix** — SI nickname for scale: unit **A** / **D**, deka **daA**, hecto **hA**, kilo **kA**, and so on. Always print a space: `800 hA`. Dice are the roll only. `4d6×10 hD` is `4d6 kD`. Do not write ×10 on the dice.
+**HUD** -- Heads Up Display on the Lex character sheet, shows core stats needed for combat.
 
-**Factor** — SI scale versus unit: deka 10, hecto 100, kilo 1000. Display and conversion between layers use these prefixes only.
+**Hit Points** -- The number of damage a character can take. On the HUD this is a stacked bar with armor stacked from left to right (damage applies to the right-most layer) and it is ordered: flesh, body armor, magic fields, psionic fields). On the HUD HP bar we see black (empty) only when the remaining band is base (Damage Threshold of 1) and the value is under `100 A`. Color on the HUD HP bar indicates the Damage Threshold: blood red (base, no prefix) through orange (deka), amber (hecto), and so on towards white.
 
-**Threshold** — Minimum damage, in that layer’s units, that counts. Default 1. Mora’s field is 40 A with threshold 6: the bar is still 40 A plus body A; blows under 6 do nothing to the field. Color follows the SI prefix (unit is red). Dim remainder (not black) means the remaining band still bounces weak blows. Hover names the threshold.
+**Armor** -- Worn gear (from a leather jacket to a suit of power armor). Typically one body slot, magic and then psionics applied on top.
 
-**Conversion** — Each hit is turned into the target’s prefix and truncated toward zero. If the result is below that layer’s threshold, it is 0. Remainders are not saved.
-
-**Hit Points** — Remaining hits. On the HUD this is one bar: armor layers plus flesh. Flesh on the left, remaining armor next, depleted on the right. Black empty only when the remaining band is unit and threshold 1 and the bar is under 100 of the displayed prefix. Color is blood red (unit) through orange (deka), amber (hecto), gold (kilo and up).
-
-**Armor** — Worn gear (plate, a siege suit). One body slot. Not a spell, tattoo, or psionic ability.
 
 **Anima** — One spendable capacity for hard effort, spells, and psionics. Universal prints Anima. U-simplified prints Stamina. Same gauge. Blue bar. Not hit points. Not a second magic battery.
 
 ## Combat
-
-**Channel** — Combat scores: Actions, Attack, Parry, Dodge, Block, Initiative.
 
 **Strike** — The attacker’s roll (the Attack channel).
 
@@ -62,4 +53,4 @@ The rules they sit in are [universal-system.md](universal-system.md).
 
 ## Do not use
 
-Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Dice multipliers that duplicate a prefix (`×10 hD`). A static “hard to hit because of armor” number.
+Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. 
