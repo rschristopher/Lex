@@ -43,4 +43,6 @@ Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 ki
 
 ## Do not use
 
-Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold. Ink, Sigilist. Aegis.
+Please avoid jargon and nonsensical names. NO JARGON!
+
+Do not use the following in the Lex engine: Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold. Ink, Sigilist. Aegis.
