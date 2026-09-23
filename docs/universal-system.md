@@ -74,7 +74,7 @@ Lex defaults to 10-second melees for simplicity sake.
 
 In Lex a highly trained martial artist might have 8-10 actions per melee, and each of the villagers has only 3, and the tank might only have 2 (assuming a WWII-era tank).
 
-Our highly martial artist would easily defeat any one villager, but if there is 100 of them then the martial artist is going to be overwhelmed.
+Our highly skilled martial artist would easily defeat any one villager, but if there is 100 of them then the martial artist is going to be overwhelmed.
 The tank on the other hand is still impervious to pitch forks (and even punches from the martial artist).
 
 
@@ -171,6 +171,35 @@ An `hD` weapon against unit flesh is ×100 into hit points.
 ## Anima
 
 The numeric gauge for magic, psionics, and other abilities. Recuperates as one "catches their breath". 
+
+
+## Dice
+
+In Lex, dice stay on the eable, while dice rolls can be automated with the push of a button, the whole point of an RPG is the players' participation in a shared story, through their decision making and dice rolls. 
+
+Lex simply automates the boilerplate, such as conversion math, and stacked effects, allowing seamless universal gameplay.
+
+RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (bell curve) rolls, or `d100` probability rolls. Each major gaming system has its own dice rules, and competent GMs regularly modify these rules to fit the needs of their campaign. Lex enbraces this approach which is why dice mechanics are defined in the adapter layer (alongside labels and attribute conversion). So while one adapter uses a classic `d20` to determine if an attack is a hit or miss, another adapter could use `3d6` where a low roll determines a hit.
+
+Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
+
+That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is an 80 or higher (which would show as +30% bonus). And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+
+The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
+
+The adapter can define dice mechanics (even opt out) for the following areas:
+
++ attributes, character creation and per-level increases 
++ hit points and per-level increases
++ anima abd per-level increases
++ combat rolls, such as initiative, and bonuses for striking and dodging
++ skill rolls, or knowledge rolls
++ saving throws
+
+In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from to another using a simple probability conversion, and will say things like "roll 60 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`.
+
+Note that some rolls, like weapon damage, are fixed and universal across all ganes, alrhough where exceptions exist those be converted to standard hit point system (one of the few areas most games agree on).
+
 
 
 ## HUD 
