@@ -3,7 +3,7 @@
 The following terms are used in the Lex engine, see [universal-system.md](universal-system.md) for details.
 
 
-**Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine.
+**Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine. Adapters provide labels, attribute conversions, and dice math. The decision of whether to use a classic `d20` roll where a high roll is a hit, or a `3d6` roll where a low roll is a hit, is defined in the adapter. Lex simply converts to/from the universal engine, giving the GM full control, and dice stay on the table.
 
 **Data Pack** -- parsed characters, classes, equipment, and adapter data that can be loaded into the Lex engine.
 
