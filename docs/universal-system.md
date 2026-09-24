@@ -168,20 +168,35 @@ An `hD` weapon against unit flesh is ×100 into hit points.
 
 ## Anima
 
-The numeric gauge for magic, psionics, and other supernatural abilities. Anima recuperates dynamically as a character "catches their breath" during or after an encounter. 
+The numeric gauge for magic, psionics, and other supernatural abilities. 
+Anima is measured in Magi or Magic points `M`.
+Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
 
-### Scaling
 
-Lex uses the metric system to scale supernatural anima, using **M** (Magi points) as the base universal unit. While Anima does not utilize physical Damage Thresholds, metric prefixes are applied to the character's pool to make exceptionally large numbers clean, efficient, and easy to read on a character sheet.
+### Scaling and Anima Threshold
+
+Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) as the base universal unit. 
+And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean, efficient, and easy to read on a character sheet, especially for powerful characters.
 
 *   A base mortal character might have an Anima pool of `50 M`.
-*   A powerful demigod might possess an Anima pool of `120 hM` (Hecto-Magi), which represents `12,000 M`.
+*   A powerful demigod might possess an Anima pool of `120 hM` (hecto-Magi), which represents a whopping `12,000 M`.
 
 ### Trivial Costs and At-Will Powers
 
-When calculating resource consumption, Lex applies a consistent floor truncation rule based on the character's active Anima scale:
+When calculating resource consumption, Lex applies a consistent floor truncation rule based on the character's active Anima Threshold:
 
+```
+points_deducted = floor(spell_cost_base / character_anima_threshold)
+```
 
+If a high-tier character casts a low-cost spell, the final cost naturally resolves to zero. This models immense power seamlessly without requiring specialized trait rules or exception lists:
+
+*   **The God Effect:** A spell costing `30 M` cast by a demigod operating at a hecto-Magic scale (`hM`, scale 100) calculates as `floor(30 / 100) = 0`. The ability is free for that character to cast.
+*   **High-Tier Drain:** If that same demigod channels a world-shaking miracle costing `5,000 M`, the math resolves to `floor(5000 / 100) = 50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
+
+This also means that as spells and abilities are unlocked, the lower-level abilities becone free. Even for an entry-level mage, as they attain `dM` levels of abilities, with Anima costs of `10 M` or above, the lower-level abilities that cost less than 10 become free, like muscle memory.
+
+*Note: While a trivial ability may cost 0 M to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
 
 
 
