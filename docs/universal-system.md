@@ -166,11 +166,24 @@ A club at `2d6 D` against armor at Damage Threshold of 100 is 0, every time.
 An `hD` weapon against unit flesh is ×100 into hit points. 
 
 
-
-
 ## Anima
 
-The numeric gauge for magic, psionics, and other abilities. Recuperates as one "catches their breath". 
+The numeric gauge for magic, psionics, and other supernatural abilities. Anima recuperates dynamically as a character "catches their breath" during or after an encounter. 
+
+### Scaling
+
+Lex uses the metric system to scale supernatural anima, using **M** (Magi points) as the base universal unit. While Anima does not utilize physical Damage Thresholds, metric prefixes are applied to the character's pool to make exceptionally large numbers clean, efficient, and easy to read on a character sheet.
+
+*   A base mortal character might have an Anima pool of `50 M`.
+*   A powerful demigod might possess an Anima pool of `120 hM` (Hecto-Magi), which represents `12,000 M`.
+
+### Trivial Costs and At-Will Powers
+
+When calculating resource consumption, Lex applies a consistent floor truncation rule based on the character's active Anima scale:
+
+
+
+
 
 
 ## Dice
