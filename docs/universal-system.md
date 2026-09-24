@@ -178,8 +178,9 @@ Anima recuperates dynamically as a character "catches their breath" during or af
 Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) as the base universal unit. 
 And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean, efficient, and easy to read on a character sheet, especially for powerful characters.
 
-*   A base mortal character might have an Anima pool of `50 M`.
-*   A powerful demigod might possess an Anima pool of `120 hM` (hecto-Magi), which represents a whopping `12,000 M`.
+*   A base character with no real magic or psionic abilities might have an Anima pool of `12 M`.
+*   A mortal mage or psychic character might have an Anima pool of `160 M` with an Anima Threshold of 10, and thus `16 dM`
+*   A powerful demigod might possess an Anima pool of `120 hM`, which represents a whopping `12,000 M`.
 
 ### Trivial Costs and At-Will Powers
 
@@ -194,9 +195,11 @@ If a high-tier character casts a low-cost spell, the final cost naturally resolv
 *   **The God Effect:** A spell costing `30 M` cast by a demigod operating at a hecto-Magic scale (`hM`, scale 100) calculates as `floor(30 / 100) = 0`. The ability is free for that character to cast.
 *   **High-Tier Drain:** If that same demigod channels a world-shaking miracle costing `5,000 M`, the math resolves to `floor(5000 / 100) = 50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
 
-This also means that as spells and abilities are unlocked, the lower-level abilities becone free. Even for an entry-level mage, as they attain `dM` levels of abilities, with Anima costs of `10 M` or above, the lower-level abilities that cost less than 10 become free, like muscle memory.
+This also means that as character increases their Anima Threshold, their lower-level abilities (which costs less than their threshold) becone free. 
 
-*Note: While a trivial ability may cost 0 M to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
+For example, when an entry-level mage attains `dM` levels of abilities, with Anima costs of `10 M` or above, their lower-level abilities (any that require less than 10 M) become free, like muscle memory.
+
+*Note: While an ability may cost 0 M to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
 
 
 
