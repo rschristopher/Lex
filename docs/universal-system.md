@@ -221,15 +221,15 @@ The adapter can define dice mechanics (even opt out) for the following areas:
 + skill rolls, or knowledge rolls
 + saving throws
 
-In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from to another using a simple probability conversion, and will say things like "roll 60 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`.
+In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from one to another using a simple probability conversion, and will display rolls like "roll 60 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`.
 
-Note that some rolls, like weapon damage, are fixed and universal across all ganes, alrhough where exceptions exist those be converted to standard hit point system (one of the few areas most games agree on).
+Note that some rolls, like weapon damage, are fixed and universal across all games, although where exceptions exist those should be converted to the standard hit point system (one of the few areas most games agree on).
 
 
 
 ## HUD 
 
-HUD displays Hit Points and Anima and combat stats.
+HUD, Heads Up Display, displays Hit Points and Anima and combat stats.
 Combined Hit Points: flesh on the left, remaining armor next, depleted on the right. Remainder is a darker same-color fill when the Damage Threshold is greater than 1; hover on that remainder shows the Damage Threshold. Black empty only when you are on base unit hits (threshold 1) and under 100. Hit Points colors are blood red (unit) → orange (deka) → amber (hecto) → gold (kilo and up). Anima is blue. Roster and sheet use the same HUD.
 
 
