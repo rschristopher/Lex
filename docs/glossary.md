@@ -10,7 +10,7 @@ The following terms are used in the Lex engine, see [universal-system.md](univer
 
 **Armor Prefix** or **Damage Prefix** -- SI metric for for scale. Armor is a number, e.g., `75 hA` body armor, and damage is usually a roll, e.g., `3d6 hD`. 
 Base units have no prefix; a punch might be `1d6 D` and a leather jacket might offer `25 A`. 
-Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 kilo **kA**, and above. 
+Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kilo **kA**, and above. 
 
 **Scale** -- SI metric scale, e.g., deka x10, hecto x100, kilo x1000. Display and conversion between layers is automatic in Lex, which uses these prefixes.
 
@@ -26,7 +26,7 @@ Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 ki
 **Anima** -- numeric capacity for magic and psionics. All living creatures comtain Anima. Adapters can relabel as needed, e.g., U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
 
 
-**Actioms** -- the total number of actions (usually attacks) a player can take per 10-second melee.
+**Actions** -- the total number of actions (usually attacks) a player can take per 10-second melee.
 
 **Strike** -- the numeric bonus applied to a roll (usually `d20`) to determine if an attack is a hit or a miss.
 
@@ -43,6 +43,6 @@ Common prefixes are x10 deka **daA**, x100 hecto **hA**, less common is x1000 ki
 
 ## Do not use
 
-Please avoid jargon and nonsensical names. NO JARGON!
+NO JARGON!
 
-Do not use the following in the Lex engine: Soak. Energy (the old gauge name). Body (as the life bar). Unarmed (as a weapon name). Pool. Factor. Fold. Ink, Sigilist. Aegis.
+Do not use the following in the Lex engine: Soak, Energy (as a gauge name), Body (as the life bar), Unarmed (as a weapon name), Pool, Factor, Fold. Ink, Sigilist, Aegis, 
