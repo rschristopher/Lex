@@ -56,7 +56,7 @@ Login is a username and a password. The password may be blank. The player or the
 
 The server can hold dozens of campaigns and dozens of adventures. The GM opens one campaign, and one adventure in that campaign is in play.
 
-A login can have characters in more than one campaign. Before a campaign is open, the tablet lists every character on that login. After the GM opens a campaign, the screen is built around that campaign and one character. The player can switch to another of their characters in the open campaign, and can still open characters from closed campaigns, but those sit further back. In a fight, the modal follows whichever of their characters has the turn.
+A login can have characters in more than one campaign. Before a campaign is open, the tablet lists every character on that login. After the GM opens a campaign, the screen is built around that campaign and one character. The player can switch to another of their characters in the open campaign, and can still open characters from closed campaigns, but those sit further back. In a fight, the modal follows whichever of their characters has the turn. Outside that turn modal they may switch characters freely. The turn modal itself stays locked to the character whose action it is.
 
 The player does not browse campaigns or adventures. They see their characters, and anything the GM has shared.
 
