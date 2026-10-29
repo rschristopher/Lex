@@ -84,6 +84,10 @@ When the GM ends the fight, the combat screen goes away. The sheets stay, alread
 
 Outside a fight, a player can tap a skill on their sheet to open the same roll modal. The GM can also call for a roll, which opens the modal on that character's tablet. The same roll rules apply: the rolling tablet and the GM's tablet both show it, and either can type the result or auto-roll.
 
+## Attributes
+
+Attributes use a logarithmic scale centred on humans. 10 is an average adult, 20 is the best human on record, and every 10 points is ×10, one metric prefix. The mapping is in [universal-system.md](universal-system.md#attributes).
+
 ## Rewards
 
 After a fight, Lex can open a reward screen. The GM puts up a stack of items and can type an experience award for each character. Experience is spent later, on the sheet.
