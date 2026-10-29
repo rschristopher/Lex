@@ -68,7 +68,7 @@ The GM can generate a random non-player character before the game or during it. 
 
 A group is a list the GM makes so they can see who is together. Keep this simple. A fight is two or more groups. During that fight a character is in only one of those groups. Outside a fight the GM groups any characters they want. Groups that follow from location are later.
 
-The GM marks the groups as fighting. The tablets of the characters in those groups show the combat screen. Every tablet in the fight shows both groups and the initiative order the whole time. Players can see non-player hit points and armor. A later option can let the GM hide those numbers and show only what the character looks like.
+The GM marks the groups as fighting. The tablets of the characters in those groups show the combat screen. Every tablet in the fight shows both groups and the initiative order the whole time. Players can see non-player hit points and armor. In v1 those numbers are always visible; hiding them for a "what they look like" view is later work.
 
 Initiative is rolled once, at the start of the fight, on the table or with the auto-roll button. That order stays until the fight is over. Each melee gives every character their actions back, and Lex walks the same order, one action at a time. Characters with actions left keep coming around. Lex does not stop the fight to collect a new initiative. The GM ends the fight. The GM can call a fresh initiative if the situation changes, such as new characters joining.
 
