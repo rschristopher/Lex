@@ -308,6 +308,8 @@ Speed is how fast a character, animal, or vehicle moves over time. Above 90 it n
 
 A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn.
 
+Speed governs movement only. It gives no actions, initiative, or reaction time. Power armor that flies faster than light leaves an ordinary wearer with human reactions and human actions per melee. A species or occupation with high Speed can come with abilities that add actions or reactions, and those are abilities.
+
 The sheet shows top speed in the unit that reads best for its band:
 
 | Speed | Display | Example |
