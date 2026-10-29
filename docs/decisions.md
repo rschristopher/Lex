@@ -52,7 +52,7 @@ Gear is not bought with experience. The GM decides what loot exists, and the pla
 
 One local web server. The GM and the players are browsers on their own devices. This is not a cloud app and it is not real security.
 
-Login is a username and a password. The password may be blank. The player or the GM can create the login.
+Login is a username and a password. The password may be blank. The player or the GM can create the login. Usernames are unique.
 
 The server can hold dozens of campaigns and dozens of adventures. The GM opens one campaign, and one adventure in that campaign is in play.
 
