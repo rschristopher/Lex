@@ -58,7 +58,7 @@ A login can have characters in more than one campaign. Before a campaign is open
 
 The player does not browse campaigns or adventures. They see their characters, and anything the GM has shared.
 
-Players edit their own characters inside the constraints. The GM sees every player character and every non-player character, and can change a non-player character as they see fit. A GM can also directly edit any player character. Ordinary GM edits follow the same constraints and experience costs as a player's. The GM can also always add a power or ability to a character, or add a constraint to one.
+Players edit their own characters inside the constraints. The GM sees every player character and every non-player character, and can change a non-player character as they see fit. A GM can also directly edit any player character. Ordinary GM edits follow the same constraints and experience costs as a player's. The GM can also always add a power or ability to a character, or add a constraint to one. An owned ability that breaks a constraint stops working until the constraint is removed.
 
 The GM can generate a random non-player character before the game or during it. It is a full character. The pack decides which rolls are used. The GM can edit the result.
 
