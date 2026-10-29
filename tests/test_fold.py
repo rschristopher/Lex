@@ -45,7 +45,7 @@ def test_gear_groups():
     segs = sheet["defense"]["armor"]["segments"]
     assert [s["id"] for s in segs] == ["field_plate", "hit_points"]
     assert segs[0]["value"] == 40
-    assert segs[0]["prefix_label"] == "daA"
+    assert segs[0]["prefix_label"] == "dA"
     assert segs[0]["style"] == "deka"
     assert segs[0]["factor"] == 10
     assert segs[-1]["id"] == "hit_points"

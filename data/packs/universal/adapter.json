@@ -38,13 +38,13 @@
   },
   "prefixes": {
     "centi": {"damage": "cD", "armor": "cA"},
-    "deci": {"damage": "dD", "armor": "dA"},
+    "deci": {"damage": "deD", "armor": "deA"},
     "unit": {"damage": "D", "armor": "A"},
-    "deka": {"damage": "daD", "armor": "daA"},
+    "deka": {"damage": "dD", "armor": "dA"},
     "hecto": {"damage": "hD", "armor": "hA"},
     "kilo": {"damage": "kD", "armor": "kA"},
-    "mega": {"damage": "MgD", "armor": "MgA"},
-    "giga": {"damage": "GD", "armor": "GA"},
-    "tera": {"damage": "TD", "armor": "TA"}
+    "mega": {"damage": "mD", "armor": "mA"},
+    "giga": {"damage": "gD", "armor": "gA"},
+    "tera": {"damage": "tD", "armor": "tA"}
   }
 }

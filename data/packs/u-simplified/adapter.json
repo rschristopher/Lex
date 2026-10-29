@@ -40,9 +40,9 @@
   },
   "prefixes": {
     "unit": {"damage": "D", "armor": "A"},
-    "deka": {"damage": "daD", "armor": "daA"},
+    "deka": {"damage": "dD", "armor": "dA"},
     "hecto": {"damage": "hD", "armor": "hA"},
     "kilo": {"damage": "kD", "armor": "kA"},
-    "mega": {"damage": "MgD", "armor": "MgA"}
+    "mega": {"damage": "mD", "armor": "mA"}
   }
 }
