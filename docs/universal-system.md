@@ -212,7 +212,7 @@ That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., 
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
-The adapter can define dice mechanics (even opt out) for the following areas:
+A campaign uses one die system for every roll; systems are not mixed by area (see [decisions.md](decisions.md)). For each of the following areas, the adapter sets how that die is read, or opts the area out:
 
 + attributes, character creation and per-level increases 
 + hit points and per-level increases
