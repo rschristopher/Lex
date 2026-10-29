@@ -84,7 +84,7 @@ When the GM ends the fight, the combat screen goes away. The sheets stay, alread
 
 After a fight, Lex can open a reward screen. The GM puts up a stack of items and can type an experience award for each character. Experience is spent later, on the sheet.
 
-One player holds an item at a time. They click to claim it and click again to let go. Someone else who wants it talks with them at the table. The holder can let go, or the GM can assign it. The GM can also start a fight over it. The GM controls the screen and can close it whenever they want.
+One player holds an item at a time. They click to claim it and click again to let go. Someone else who wants it talks with them at the table. The holder can let go, or the GM can assign it. The GM can also start a fight over it. The GM controls the screen and can close it whenever they want. While an item is held, every tablet still shows the full item details.
 
 Items nobody took stay on the ground, unclaimed. The GM can open that stack again. Nothing is discarded and nothing is given away by closing the screen.
 
