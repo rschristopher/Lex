@@ -100,6 +100,10 @@ Player characters belong to the campaign and stay as the adventures change.
 
 For any adventure material, the GM can show it or hide it, for every player or for the players they pick. Players do not open the adventure. They see a map, or anything else, only when the GM sends it.
 
+## LLM and ingest
+
+An LLM can work with Lex in two ways: as a skill inside an existing LLM harness, or with Lex acting as the agentic harness itself. A goal is to ingest an entire book and produce a data pack of everything in it: characters, maps, abilities, powers, species, occupations, and so on.
+
 ## Packs and copyright
 
 During play, sqlite on the server is the live record. Packs are import and export. Characters move between Lex servers through data packs. An exported character can depend on other packs; how dependencies work is later detail. The repo ships only original packs. A pack converted from a copyrighted or licensed game, such as GURPS, Rifts, or D&D, lives only on the local server and is gitignored. It is never committed or published. Ingest notes about a copyrighted game follow the same rule: they stay local and gitignored, not committed to `data/ingest/`. `.gitignore` already enforces this: everything under `data/packs/` and `data/ingest/` is ignored except the READMEs and the original `universal` and `u-simplified` packs. 
