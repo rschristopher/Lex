@@ -228,7 +228,25 @@ A point is worth +10% at 10 and +3% at 29. Above 30 a point is ×1.58, so 5 poin
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers.
+Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+
+### Attribute table
+
+Strength, Speed, and Endurance are decided. The other six are proposals.
+
+| Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
+|---|---|---|---|---|---|---|---|---|
+| Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
+| Speed | top speed, 0.7 m/s per point | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 210 km/s; the fastest spacecraft, Parker Solar Probe, reached 192 km/s | 2.1 trillion km/s; 66 and up is faster than light | decided |
+| Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
+| Agility | balance, coordination, and precise movement; unitless | dodging, balance, acrobatics, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | proposal |
+| Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
+| Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
+| Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
+| Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
+| Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
+
+At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
 
 ### Prefix scores
 
@@ -283,7 +301,7 @@ Above 66 is faster than light.
 
 ### Endurance
 
-Endurance is resisting what happens to the body: fatigue, poison, disease, exposure, and staying conscious. It is also the default recovery rate, which a character's abilities can replace. It does not set flesh hit points or the flesh prefix.
+Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
 
 ### Open questions
 
@@ -312,6 +330,10 @@ If species and gear set it, Strength is for lifting and checks only. Nothing in 
 **Do flesh hit points grow with experience?**
 
 **Does Lex need a knock-out track separate from flesh hit points?**
+
+**How do two unitless scores above 30 compare in a check?**
+
+**When two species meet, whose standard sets Appearance?**
 
 **How is a contest between two characters at 100 settled?**
 
