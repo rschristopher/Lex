@@ -307,8 +307,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 If Strength sets it, Strength 33 punches at deka, 38 at hecto, and 43 at kilo, and a larger body adds more through its stroke. The deadlift record is 32, so humans keep unit dice, but the rule allows about 3.5 times what a real punch delivers.
 If species and gear set it, Strength is for lifting and checks only. Nothing in the engine stops a pack from giving a Strength 43 being a unit punch, so a pack has to keep the two consistent.
 
-**What does Endurance measure on the curve?**
-
 **What makes two humans of the same mass have different flesh hit points?**
 
 **Do flesh hit points grow with experience?**

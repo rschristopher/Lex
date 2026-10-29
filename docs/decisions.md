@@ -86,7 +86,7 @@ Outside a fight, a player can tap a skill on their sheet to open the same roll m
 
 ## Attributes
 
-Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. Above 30, every 5 points is ×10. Strength is lift, 6 kg per point. Speed is top speed, 0.7 m/s per point. Endurance is resisting what happens to the body: fatigue, poison, disease, exposure, staying conscious, and the default recovery rate. Flesh hit points are a total stored on the sheet, from species and body mass plus abilities. The flesh prefix comes from species or an ability, never from an attribute. The mapping is in [universal-system.md](universal-system.md#attributes).
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. Above 30, every 5 points is ×10. Strength is lift, 6 kg per point. Speed is top speed, 0.7 m/s per point. Endurance has no physical measure. It is resisting what happens to the body: fatigue, poison, disease, exposure, staying conscious, and the default recovery rate. Flesh hit points are a total stored on the sheet, from species and body mass plus abilities. The flesh prefix comes from species or an ability, never from an attribute. The mapping is in [universal-system.md](universal-system.md#attributes).
 
 The scale ends at 100, which means immeasurable. A character at 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM, never from the attribute.
 
