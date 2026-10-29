@@ -11,7 +11,7 @@
     "strength": 33,
     "agility": 11,
     "endurance": 14,
-    "speed": 28,
+    "speed": 8,
     "intellect": 11,
     "will": 12,
     "awareness": 12,
@@ -46,7 +46,7 @@
       "slot": "body",
       "set": {
         "strength": 110,
-        "speed": 101
+        "speed": 36
       },
       "attacks": [
         {
