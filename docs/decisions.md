@@ -2,8 +2,6 @@
 
 Planning record for the real Lex app. The code in this repo is still the character-sheet mockup. Terms are defined in [glossary.md](glossary.md). The engine rules are in [universal-system.md](universal-system.md).
 
-One question was asked and not answered. It is listed at the end.
-
 ## What Lex is
 
 Lex is one app with three jobs.
