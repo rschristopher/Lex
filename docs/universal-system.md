@@ -202,72 +202,79 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
 
-Attributes use a logarithmic scale centred on humans. 10 is an average adult. 20 is the best human on record. Every 10 points is ×10, which is one metric prefix. Every 3 points is about ×2.
+Attribute scores are integers. From 1 to 99 a score is linear. Above 99, every 10 points is ×10. 100 is ten times 10, so the linear range meets the first prefix, deka, at 100. 110 is hecto, 120 is kilo, 150 is mega, 180 is giga, and 210 is tera.
 
 Strength and Speed have a physical measure:
 
 ```
-lift  = 50 kg × 10^((Strength − 10) / 10)
-speed = 7 m/s × 10^((Speed − 10) / 10)
+Strength 1 to 100:  lift = 6 kg × Strength
+Strength above 100: lift = 600 kg × 10^((Strength − 100) / 10)
+Speed 1 to 100:     top speed = 0.2 m/s × Speed
+Speed above 100:    top speed = 20 m/s × 10^((Speed − 100) / 10)
 ```
 
-Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same numbers so that checks work the same way for every attribute.
+Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers, and 10 is an average adult.
 
 ### Strength
 
-Strike work is force times stroke. At the same stroke, ×10 lift is ×10 force and ×10 work, which is one damage prefix. A `1d6 D` punch averages 3.5 D for about 100 J (see the weapon table above), so 1 D is about 30 J.
+Strike work is force times stroke. At the same stroke, it grows with lift. Strength 10 strikes about 100 J, the `1d6 D` punch in the weapon table above, so 1 D is about 30 J. The prefix a Strength reaches is the prefix of its strike work.
 
-| Strength | Lift | Example | Strike work, human stroke | Average damage |
+| Strength | Lift | Strike work, human stroke | Average damage | Example |
 |---|---|---|---|---|
-| 10 | 50 kg | untrained adult | 100 J | 3.5 D |
-| 20 | 500 kg | deadlift world record, 510 kg | 1 kJ | 3.5 dD |
-| 26 | 2 t | car, 1.8 t | 4 kJ | 1.4 hD |
-| 30 | 5 t | power armor | 10 kJ | 3.5 hD |
-| 41 | 63 t | main battle tank | 125 kJ | 4.4 kD |
-| 50 | 500 t | | 1 MJ | 35 kD |
-| 70 | 50,000 t | | 100 MJ | 3.5 mD |
+| 1 | 6 kg | 10 J | 0.35 D | |
+| 8 | 48 kg | 80 J | 2.8 D | untrained adult, 34 to 70 kg |
+| 10 | 60 kg | 100 J | 3.5 D | |
+| 85 | 510 kg | 850 J | 30 D | deadlift world record, 510 kg |
+| 99 | 594 kg | 990 J | 35 D | |
+| 100 | 600 kg | 1 kJ | 3.5 dD | deka |
+| 105 | 1.9 t | 3.2 kJ | 1.1 hD | car, 1.8 t |
+| 110 | 6 t | 10 kJ | 3.5 hD | hecto, power armor |
+| 120 | 60 t | 100 kJ | 3.5 kD | kilo, main battle tank, 63 t |
+| 150 | 60,000 t | 100 MJ | 3.5 mD | mega |
 
-Muscle is limited by limb speed as well as force. A heavyweight boxer's measured punch is about 240 J, not the 1 kJ the Strength 20 row allows. A longer limb adds stroke: ×10 limb length adds one more damage prefix at the same Strength.
+Muscle is limited by limb speed as well as force. A heavyweight boxer's measured punch is about 240 J, not the 850 J that Strength 85 allows. A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
 
 ### Speed
 
+Distance in a 10-second melee is 2 m × Speed, up to 100.
+
 | Speed | Top speed | Per 10-second melee | Example |
 |---|---|---|---|
-| 10 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
-| 12 | 11 m/s | 110 m | |
-| 12.4 | 12.2 m/s | 122 m | 100 m world record peak, 12.3 m/s |
-| 16 | 28 m/s | 280 m | car on a highway, 100 km/h |
-| 20 | 70 m/s | 700 m | |
-| 27 | 350 m/s | 3.5 km | speed of sound |
-| 40 | 7 km/s | 70 km | near orbital speed |
-
-### Checks
-
-A check compares a score with a difficulty on the same scale. For a lift, the difficulty is the Strength whose lift equals the mass: `10 + 10 × log10(mass / 50 kg)`. The bonus is the score minus the difficulty. A bonus of +3 means about twice what the task needs, at any scale, so Strength 40 against Strength 43 is the same contest as 10 against 13.
-
-Lex turns the bonus into a chance, and shows the target on the campaign die. On a `d20` the target is 10 minus the bonus, as in [Dice](#dice). At +9 or more the check always succeeds. At −11 or less it always fails.
-
-| Bonus | Chance | `d20` | `3d6` | `d100` |
-|---|---|---|---|---|
-| −5 | 30% | 15 or higher | 8 or lower | 71 or higher |
-| −1 | 50% | 11 or higher | 10 or lower | 51 or higher |
-| 0 | 55% | 10 or higher | 10 or lower | 46 or higher |
-| +1 | 60% | 9 or higher | 11 or lower | 41 or higher |
-| +4 | 75% | 6 or higher | 12 or lower | 26 or higher |
-| +5 | 80% | 5 or higher | 13 or lower | 21 or higher |
-
-* A Strength 14 soldier lifts a 100 kg crate. The difficulty is 13 and the bonus is +1.
-* A Strength 30 power armor flips a 1.8 t car. The difficulty is 26 and the bonus is +4.
-* A Strength 40 dragon drags a 63 t tank. The difficulty is 41 and the bonus is −1.
+| 35 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
+| 52 | 10.4 m/s | 104 m | 100 m world record, average speed 10.44 m/s |
+| 62 | 12.4 m/s | 124 m | 100 m world record, peak speed 12.3 m/s |
+| 99 | 19.8 m/s | 198 m | |
+| 100 | 20 m/s | 200 m | deka |
+| 101 | 25 m/s | 250 m | |
+| 110 | 200 m/s | 2 km | hecto |
+| 112 | 320 m/s | 3.2 km | speed of sound, 343 m/s |
+| 120 | 2 km/s | 20 km | kilo |
+| 126 | 8 km/s | 80 km | orbital speed, 7.8 km/s |
 
 ### Open questions
 
+**How is a check bonus computed?**
+A check compares a score with a difficulty. For a lift, the difficulty is the Strength whose lift equals the mass. In the linear range the same difference in points is a different ratio at different scores: 10 against 20 is ×2, and 90 against 100 is ×1.1.
+One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded. Above 99 that is the score minus the difficulty. A bonus of +3 is about twice what the task needs at any score, so Strength 21 against 42 is the same contest as 110 against 113. On a `d20` the target is 10 minus the bonus, as in [Dice](#dice). At +9 or more the check always succeeds. At −11 or less it always fails.
+
+| Bonus | Chance | `d20` | `3d6` | `d100` |
+|---|---|---|---|---|
+| −3 | 40% | 13 or higher | 9 or lower | 61 or higher |
+| 0 | 55% | 10 or higher | 10 or lower | 46 or higher |
+| +1 | 60% | 9 or higher | 11 or lower | 41 or higher |
+| +5 | 80% | 5 or higher | 13 or lower | 21 or higher |
+
+* A Strength 21 soldier (126 kg) lifts a 100 kg crate. The difficulty is 17 and the bonus is +1.
+* Strength 21 arm-wrestles Strength 42. The bonus is −3.
+* A Strength 110 power armor flips a 1.8 t car. The difficulty is 105 and the bonus is +5.
+* A Strength 120 dragon drags a 63 t tank. The difficulty is 120 and the bonus is 0.
+
 **Does Strength set the prefix of unarmed damage, or do species and gear set it?**
-If Strength sets it, every 10 Strength is one prefix at the same stroke, and a larger body adds prefixes through its stroke. Inside the human range this overstates a punch by up to ×4, because muscle is limited by limb speed, so humans would keep unit dice up to Strength 20. A machine or supernatural being would follow the rule fully: Strength 30 punches at hecto and Strength 40 at kilo.
-If species and gear set it, Strength is for lifting and checks only. Nothing in the engine stops a pack from giving a Strength 40 being a unit punch, so a pack has to keep the two consistent.
+If Strength sets it, Strength 100 punches at deka, 110 at hecto, and 120 at kilo, and a larger body adds more through its stroke. No human reaches 100, so humans keep unit dice, but up to 85 the rule allows about 3.5 times what a real punch delivers.
+If species and gear set it, Strength is for lifting and checks only. Nothing in the engine stops a pack from giving a Strength 120 being a unit punch, so a pack has to keep the two consistent.
 
 **Does Endurance set the prefix of flesh hit points?**
-If Endurance sets it, every 10 Endurance is one prefix. A human with Endurance 20 has deka flesh, so punches (3.5 D) never hurt them, which breaks verisimilitude for humans.
+If Endurance sets it, Endurance 100 is deka flesh, 110 hecto, and 120 kilo. A hecto dragon needs Endurance 110 or more.
 If body mass sets it, flesh hit points grow with mass, about 30 hit points for a 70 kg human. A 6 t animal has about 26 hecto hit points: a 9 mm pistol (500 J, 17 D) does nothing, and a 7 kJ rifle round (250 D) does 2 hecto. Endurance is then for checks only, such as fatigue and poison.
 
 ### Anchors
@@ -275,7 +282,7 @@ If body mass sets it, flesh hit points grow with mass, about 30 hit points for a
 * Untrained adult deadlift, about 61 to 70 kg for men and 34 to 41 kg for women: [exercisemenu.com](https://exercisemenu.com/is-your-deadlift-good-average-weights-by-level-age/), from [Strength Level](https://strengthlevel.com/strength-standards/deadlift/kg) data
 * Deadlift world record, 510 kg (2025): [Guinness World Records](https://www.guinnessworldrecords.com/world-records/heaviest-deadlift)
 * Untrained adult top speed, 6 to 8 m/s: [trackandfieldapp.com](https://www.trackandfieldapp.com/how-fast-is-the-average-person-in-the-100m/)
-* 100 m world record peak speed, 12.3 m/s: [Usain Bolt's 100 m world-record analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10669785/)
+* 100 m world record, average 10.44 m/s and peak 12.3 m/s: [Usain Bolt's 100 m world-record analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10669785/)
 * Heavyweight punch, 8.9 m/s, equal to a 6 kg padded mallet (about 240 J): [The damaging punch](https://pmc.ncbi.nlm.nih.gov/articles/PMC1419171/)
 * Average new US vehicle, 1,839 kg (2024): [EPA data summary](https://sellmycarhub.com/guides/average-car-weight/)
 * M1A2 tank, about 63 t: [General Dynamics](https://international.gdls.com/english/products/ABRAMS/M1A2.pdf)
