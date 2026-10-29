@@ -1,12 +1,12 @@
 # Lex
 
-Lex is a complete and playable RPG system which can convert characters, classes and lore to/from any other RPG. Lex is designed to be LLM-friendly in order to incorporate any material, from other RPGs to fantasy novels (including graphic novels) into a fully imtegrated multiverse.
+Lex is a complete and playable RPG system which can convert characters, occupations, and lore to/from any other RPG. Lex is designed to be LLM-friendly in order to incorporate any material, from other RPGs to fantasy novels (including graphic novels) into a fully imtegrated multiverse.
 
 There are three primary components of Lex:
 
 1. character app -- manage a roster of characters (playable and non-playable characters), powered by the underlying universal effects/constraints engine, and generate character sheets compatible with any existing RPG.
 2. combat and gaming layer -- manage player combat and gaming where dice rolls stay on the table and Lex handles the math and rules enforcement; utilizes the same universal effects/constraints engine such that character sheets dynamically update during combat and gameplay.
-3. GM-assistant -- helps manage adventures (serial or episodic) within a larger campaign. LLM-friendly such that custom characters, character classes, locations, and lore can be ingested and integrated into a campaign. 
+3. GM-assistant -- helps manage adventures (serial or episodic) within a larger campaign. LLM-friendly such that custom characters, occupations, locations, and lore can be ingested and integrated into a campaign. 
 
 For example, ingest Homer's Iliad and Odyssey alongside wild west novelas for a Greek mythological take on the wild west. 
 Or if you want to integrate Japanese demons (oni or yokai) alognside the Greek gods, point your favorite LLM at the relevant text (in any language) and ingest that into Lex.
@@ -21,7 +21,7 @@ The goal is that dice stay on the table, and Lex manages the math (using an effe
 Other games are not separate engines. They are **adapters** which converts characters to/from other systems, acting as a kind of Rosetta stone for tabletop RPGs.
 Lex presupposes a multiversal RPG, where one can easily integrate disparate lore, for example, ingest Homer's Odyssey alongside wild-west novels for a Greek Mythological cowboy western campaign.
 
-**Packs are not exclusive.** Load as many as you want. Characters, classes, and lore from every pack sit in one campaign. 
+**Packs are not exclusive.** Load as many as you want. Characters, species, occupations, and lore from every pack sit in one campaign. 
 Every adapter with `"view": true` is a sheet language for that same campaign (presentation only, it does not change the underlying engine math).
 
 
@@ -54,7 +54,7 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 1. [optional] initiative roll, determine who goes first, and the order of combat
 2. attack, roll and determine if the attack succeeds
-3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or automatic dodge (from character class or ability) must choose this as it consumes an action.
+3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or automatic dodge (from occupation or ability) must choose this as it consumes an action.
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
 
@@ -233,6 +233,8 @@ HUD, Heads Up Display, displays Hit Points and Anima and combat stats.
 Combined Hit Points: flesh on the left, remaining armor next, depleted on the right. Remainder is a darker same-color fill when the Damage Threshold is greater than 1; hover on that remainder shows the Damage Threshold. Black empty only when you are on base unit hits (threshold 1) and under 100. Hit Points colors are blood red (unit) → orange (deka) → amber (hecto) → gold (kilo and up). Anima is blue. Roster and sheet use the same HUD.
 
 
-## Classes and lore
+## Occupations and lore
 
-Classes are mechanical packages (effects and constraints). Ancestry/species is a separate axis. Lore is prose the fold does not read. Ingest writes **rows** into `data/packs/` which is ingested into the Lex database; working notes and book links stay in `data/ingest/` (untracked except `data/ingest/README.md`).
+Species is what a character is, and exactly one. Occupation is what a character does. Lore is prose the engine does not read when resolving the sheet or a fight. The decisions for the app are in [decisions.md](decisions.md).
+
+Ingest writes **rows** into `data/packs/` which is ingested into the Lex database; working notes and book links stay in `data/ingest/` (untracked except `data/ingest/README.md`).
