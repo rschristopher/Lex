@@ -44,7 +44,7 @@ The GM adds unspent experience after a scene or after play. Each character gets 
 
 A new character's starting unspent experience is in the pack. The GM sets that amount. The player may spend it while creating the character or during play. Creation is not a phase the app locks. Fill the sheet enough for the GM to run, the way a paper sheet is filled in.
 
-Gear is not bought with experience. The GM decides what loot exists, and the players receive it.
+The GM decides what loot exists, and the players receive it.
 
 ## Server and who sees what
 
