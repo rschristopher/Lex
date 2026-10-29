@@ -74,6 +74,8 @@ On your action you pick a weapon or a power on the combat screen and tap a targe
 
 The modal is on the tablet of the character who is rolling and on the GM's tablet. Either can type the result or use the auto-roll button. The same rule covers every roll. A defense modal includes a pass, so the defender can keep the action and enter no roll.
 
+The GM can undo the last action, or several actions in a row, to fix a mistake such as a mistyped roll. Undo is GM-controlled.
+
 A player with paper says the action, for example "laser rifle to the bandit." The GM selects it, the player rolls, and the GM enters the number.
 
 When the GM ends the fight, the combat screen goes away. The sheets stay, already updated.
