@@ -8,10 +8,10 @@
   "portrait": "pc-iko.jpg",
   "coin": 1800,
   "attrs": {
-    "strength": 16,
+    "strength": 33,
     "agility": 15,
     "endurance": 15,
-    "speed": 12,
+    "speed": 55,
     "intellect": 11,
     "will": 16,
     "awareness": 13,

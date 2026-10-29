@@ -8,10 +8,10 @@
   "portrait": "pc-ilya.jpg",
   "coin": 1200,
   "attrs": {
-    "strength": 14,
+    "strength": 21,
     "agility": 13,
     "endurance": 14,
-    "speed": 11,
+    "speed": 44,
     "intellect": 11,
     "will": 11,
     "awareness": 11,

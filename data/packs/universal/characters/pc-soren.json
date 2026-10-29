@@ -8,10 +8,10 @@
   "portrait": "pc-soren.jpg",
   "coin": 420,
   "attrs": {
-    "strength": 14,
+    "strength": 21,
     "agility": 13,
     "endurance": 13,
-    "speed": 11,
+    "speed": 44,
     "intellect": 11,
     "will": 15,
     "awareness": 12,

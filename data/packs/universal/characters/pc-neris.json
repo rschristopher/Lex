@@ -8,10 +8,10 @@
   "portrait": "pc-neris.jpg",
   "coin": 4000,
   "attrs": {
-    "strength": 10,
+    "strength": 8,
     "agility": 12,
     "endurance": 13,
-    "speed": 10,
+    "speed": 35,
     "intellect": 17,
     "will": 16,
     "awareness": 15,

@@ -8,10 +8,10 @@
   "portrait": "pc-calder.jpg",
   "coin": 600,
   "attrs": {
-    "strength": 8,
+    "strength": 5,
     "agility": 11,
     "endurance": 10,
-    "speed": 10,
+    "speed": 35,
     "intellect": 16,
     "will": 15,
     "awareness": 14,

@@ -8,10 +8,10 @@
   "portrait": "pc-venn.jpg",
   "coin": 200,
   "attrs": {
-    "strength": 18,
+    "strength": 53,
     "agility": 16,
     "endurance": 16,
-    "speed": 13,
+    "speed": 70,
     "intellect": 12,
     "will": 13,
     "awareness": 12,
