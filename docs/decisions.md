@@ -94,6 +94,10 @@ Player characters belong to the campaign and stay as the adventures change.
 
 For any adventure material, the GM can show it or hide it, for every player or for the players they pick. Players do not open the adventure. They see a map, or anything else, only when the GM sends it.
 
+## Packs and copyright
+
+The repo ships only original packs. A pack converted from a copyrighted or licensed game, such as GURPS, Rifts, or D&D, lives only on the local server and is gitignored. It is never committed or published. The exact local folder is set when the engine is built.
+
 ## Campaign die
 
 The GM sets the campaign's die system (for example GURPS 3d6, d20, or d100). Every player at that table uses the same system. The GM can change it at any time, and the change applies to everyone. Systems are not mixed inside one campaign. Sheet labels may still differ per tablet; the die itself does not.
