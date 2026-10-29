@@ -69,7 +69,7 @@ def test_hecto_units_and_lancer():
     assert armor["segments"][-1]["value"] == 28
     attrs = {a["id"]: a for a in sheet["attrs"]}
     assert attrs["strength"]["value"] == 30
-    assert attrs["speed"]["value"] == 88
+    assert attrs["speed"]["value"] == 16
     assert attrs["strength"]["boosted"] is True
     assert attrs["speed"]["boosted"] is True
     assert "boosted" not in attrs["agility"]

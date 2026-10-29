@@ -8,7 +8,7 @@
   "portrait": "npc-thorn.jpg",
   "coin": 8000,
   "attrs": {
-    "strength": 22,
+    "strength": 30,
     "agility": 12,
     "endurance": 20,
     "speed": 14,
