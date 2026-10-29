@@ -306,6 +306,8 @@ Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30.
 
 Speed is how fast a character, animal, or vehicle moves over time. Above 90 it needs a mechanism that gets around the light-speed limit of general relativity, such as warping or folding space or jumping along a trajectory; without one, Speed stays below 90. Warping, folding, or jumping counts as Speed only when it can land anywhere along its path in a given time. Teleporting with a range, line of sight, or limits on the target is an ability, not Speed. Teleporting with no limits can be 100+, and anything faster than 100 comes from abilities.
 
+A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn.
+
 The sheet shows top speed in the unit that reads best for its band:
 
 | Speed | Display | Example |
@@ -351,8 +353,6 @@ If species and gear set it, Strength is for lifting and checks only. Nothing in 
 **Do flesh hit points grow with experience?**
 
 **Does Lex need a knock-out track separate from flesh hit points?**
-
-**Does a vehicle's Speed belong on the vehicle, the pilot, or both?**
 
 **How do two unitless scores above 30 compare in a check?**
 
