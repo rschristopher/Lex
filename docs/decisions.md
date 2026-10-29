@@ -18,7 +18,7 @@ Verisimilitude stays in force. Scale and damage threshold mean a pitchfork does 
 
 ## Species and occupation
 
-Species is what the character is, and exactly one. A human, an elf, a mutant, a dragon.
+Species is what the character is, and exactly one. A human, an elf, a mutant, a dragon. Things with the same name from different sources are different things, shown with their source, such as Elf (D&D) and Elf (Tolkien).
 
 Occupation is what the character does. A soldier, a politician, a wizard. Do not use Class or Ancestry for these. Armor Class is a different idea and is not used.
 
