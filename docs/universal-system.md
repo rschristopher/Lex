@@ -165,6 +165,16 @@ Also, any fractional remainder will not be applied (e.g., 192 base damage agains
 A club at `2d6 D` against armor at Damage Threshold of 100 is 0, every time. 
 An `hD` weapon against unit flesh is ×100 into hit points. 
 
+### Flesh
+
+A character's flesh hit points are a total stored on the sheet. The total comes from species and body mass, plus abilities. The flesh prefix comes from species or from an ability, never from an attribute.
+
+| Flesh prefix | Ignores | Example |
+|---|---|---|
+| hecto | a `5d6 D` pistol and a `1d6 dD` rifle | a dragon |
+| kilo | a `1d6 hD` heavy machine gun | a larger dragon |
+| mega | a `10d6 kD` heavy anti-tank cannon | |
+
 
 ## Anima
 
@@ -204,7 +214,7 @@ Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Wi
 
 Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. Above 30, every 5 points is ×10. The scale ends at 100.
 
-Strength, Speed, and Endurance have a physical measure. Each has a unit `u`:
+Strength and Speed have a physical measure. Each has a unit `u`:
 
 ```
 score 1 to 30:     measure = u × score
@@ -212,27 +222,26 @@ score 31 to 100:   measure = 30u × 10^((score − 30) / 5)
 
 Strength:   u = 6 kg of lift (10 J of strike work)
 Speed:      u = 0.7 m/s of top speed
-Endurance:  u = 3 flesh hit points
 ```
 
 A point is worth +10% at 10 and +3% at 29. Above 30 a point is ×1.58, so 5 points is one metric prefix. A score is rounded to the nearest integer.
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers.
+Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers.
 
 ### Prefix scores
 
-Strike work and flesh hit points reach each prefix at the same score:
+Strike work reaches each prefix at these Strength scores:
 
-| Prefix | Score | Strength lift | Strike work | Endurance flesh |
-|---|---|---|---|---|
-| deka | 33 | 717 kg | 1.2 kJ | 360 HP |
-| hecto | 38 | 7.2 t | 12 kJ | 3,600 HP |
-| kilo | 43 | 72 t | 120 kJ | 36,000 HP |
-| mega | 58 | 72,000 t | 120 MJ | 36 million HP |
-| giga | 73 | 72 million t | 120 GJ | 36 billion HP |
-| tera | 88 | 72 billion t | 120 TJ | 36 trillion HP |
+| Prefix | Strength | Lift | Strike work |
+|---|---|---|---|
+| deka | 33 | 717 kg | 1.2 kJ |
+| hecto | 38 | 7.2 t | 12 kJ |
+| kilo | 43 | 72 t | 120 kJ |
+| mega | 58 | 72,000 t | 120 MJ |
+| giga | 73 | 72 million t | 120 GJ |
+| tera | 88 | 72 billion t | 120 TJ |
 
 ### Strength
 
@@ -274,18 +283,7 @@ Above 66 is faster than light.
 
 ### Endurance
 
-Endurance sets flesh hit points: 30 for an average human.
-
-| Endurance | Flesh hit points | Example |
-|---|---|---|
-| 1 | 3 | |
-| 10 | 30 | average adult human, 70 kg |
-| 30 | 90 | |
-| 38 | 3,600 | hecto: a `5d6 D` pistol and a `1d6 dD` rifle do nothing |
-| 43 | 36,000 | kilo: a `1d6 hD` heavy machine gun does nothing |
-| 58 | 36 million | mega: a `10d6 kD` heavy anti-tank cannon does nothing |
-
-The examples assume the flesh prefix follows Endurance, which is still open.
+Endurance is resisting what happens to the body: fatigue, poison, disease, exposure, and staying conscious. It is also the default recovery rate, which a character's abilities can replace. It does not set flesh hit points or the flesh prefix.
 
 ### Open questions
 
@@ -309,9 +307,13 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 If Strength sets it, Strength 33 punches at deka, 38 at hecto, and 43 at kilo, and a larger body adds more through its stroke. The deadlift record is 32, so humans keep unit dice, but the rule allows about 3.5 times what a real punch delivers.
 If species and gear set it, Strength is for lifting and checks only. Nothing in the engine stops a pack from giving a Strength 43 being a unit punch, so a pack has to keep the two consistent.
 
-**Does Endurance set the prefix of flesh hit points?**
-If it does, flesh reaches each prefix at the scores above, and a hecto dragon needs Endurance 38 or more.
-If species sets it, Endurance sets only the count of flesh hit points. A 6 t animal at Endurance 39 has about 5,700 hit points either way.
+**What does Endurance measure on the curve?**
+
+**What makes two humans of the same mass have different flesh hit points?**
+
+**Do flesh hit points grow with experience?**
+
+**Does Lex need a knock-out track separate from flesh hit points?**
 
 **How is a contest between two characters at 100 settled?**
 
