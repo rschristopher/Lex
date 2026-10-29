@@ -98,7 +98,7 @@ For any adventure material, the GM can show it or hide it, for every player or f
 
 ## Packs and copyright
 
-The repo ships only original packs. A pack converted from a copyrighted or licensed game, such as GURPS, Rifts, or D&D, lives only on the local server and is gitignored. It is never committed or published. Ingest notes about a copyrighted game follow the same rule: they stay local and gitignored, not committed to `data/ingest/`. `.gitignore` already enforces this: everything under `data/packs/` and `data/ingest/` is ignored except the READMEs and the original `universal` and `u-simplified` packs. 
+Characters move between Lex servers through data packs. The repo ships only original packs. A pack converted from a copyrighted or licensed game, such as GURPS, Rifts, or D&D, lives only on the local server and is gitignored. It is never committed or published. Ingest notes about a copyrighted game follow the same rule: they stay local and gitignored, not committed to `data/ingest/`. `.gitignore` already enforces this: everything under `data/packs/` and `data/ingest/` is ignored except the READMEs and the original `universal` and `u-simplified` packs. 
 
 ## Campaign die
 
