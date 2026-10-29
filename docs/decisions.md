@@ -86,7 +86,7 @@ Outside a fight, a player can tap a skill on their sheet to open the same roll m
 
 ## Attributes
 
-Attribute scores are integers. From 1 to 99 they are linear. Above 99, every 10 points is ×10, and 100 is where the deka prefix starts. Strength is lift, 6 kg per point. Speed is top speed, 0.2 m/s per point. The other attributes have no physical measure, and 10 is an average adult. The mapping is in [universal-system.md](universal-system.md#attributes).
+Attribute scores are integers. For every attribute, 10 is an average human and 100 is superhuman but within reason. From 1 to 99 a score is linear. Above 99, every 10 points is ×10, and 100 is where the deka prefix starts. Strength is lift, 6 kg per point. Speed is top speed, 0.7 m/s per point. The mapping is in [universal-system.md](universal-system.md#attributes).
 
 ## Rewards
 

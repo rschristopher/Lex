@@ -202,18 +202,18 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
 
-Attribute scores are integers. From 1 to 99 a score is linear. Above 99, every 10 points is ×10. 100 is ten times 10, so the linear range meets the first prefix, deka, at 100. 110 is hecto, 120 is kilo, 150 is mega, 180 is giga, and 210 is tera.
+Attribute scores are integers. For every attribute, 10 is an average human and 100 is superhuman but within reason. From 1 to 99 a score is linear. Above 99, every 10 points is ×10. 100 is ten times 10, so the linear range meets the first prefix, deka, at 100. 110 is hecto, 120 is kilo, 150 is mega, 180 is giga, and 210 is tera.
 
 Strength and Speed have a physical measure:
 
 ```
 Strength 1 to 100:  lift = 6 kg × Strength
 Strength above 100: lift = 600 kg × 10^((Strength − 100) / 10)
-Speed 1 to 100:     top speed = 0.2 m/s × Speed
-Speed above 100:    top speed = 20 m/s × 10^((Speed − 100) / 10)
+Speed 1 to 100:     top speed = 0.7 m/s × Speed
+Speed above 100:    top speed = 70 m/s × 10^((Speed − 100) / 10)
 ```
 
-Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers, and 10 is an average adult.
+Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers.
 
 ### Strength
 
@@ -222,8 +222,7 @@ Strike work is force times stroke. At the same stroke, it grows with lift. Stren
 | Strength | Lift | Strike work, human stroke | Average damage | Example |
 |---|---|---|---|---|
 | 1 | 6 kg | 10 J | 0.35 D | |
-| 8 | 48 kg | 80 J | 2.8 D | untrained adult, 34 to 70 kg |
-| 10 | 60 kg | 100 J | 3.5 D | |
+| 10 | 60 kg | 100 J | 3.5 D | untrained adult, 34 to 70 kg |
 | 85 | 510 kg | 850 J | 30 D | deadlift world record, 510 kg |
 | 99 | 594 kg | 990 J | 35 D | |
 | 100 | 600 kg | 1 kJ | 3.5 dD | deka |
@@ -236,20 +235,22 @@ Muscle is limited by limb speed as well as force. A heavyweight boxer's measured
 
 ### Speed
 
-Distance in a 10-second melee is 2 m × Speed, up to 100.
+Distance in a 10-second melee is 7 m × Speed, up to 100.
 
 | Speed | Top speed | Per 10-second melee | Example |
 |---|---|---|---|
-| 35 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
-| 52 | 10.4 m/s | 104 m | 100 m world record, average speed 10.44 m/s |
-| 62 | 12.4 m/s | 124 m | 100 m world record, peak speed 12.3 m/s |
-| 99 | 19.8 m/s | 198 m | |
-| 100 | 20 m/s | 200 m | deka |
-| 101 | 25 m/s | 250 m | |
-| 110 | 200 m/s | 2 km | hecto |
-| 112 | 320 m/s | 3.2 km | speed of sound, 343 m/s |
-| 120 | 2 km/s | 20 km | kilo |
-| 126 | 8 km/s | 80 km | orbital speed, 7.8 km/s |
+| 2 | 1.4 m/s | 14 m | walking pace, 1.4 m/s |
+| 10 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
+| 15 | 10.5 m/s | 105 m | 100 m world record, average speed 10.44 m/s |
+| 18 | 12.6 m/s | 126 m | 100 m world record, peak speed 12.3 m/s |
+| 37 | 25.9 m/s | 259 m | hunting cheetah, measured top 25.9 m/s |
+| 99 | 69.3 m/s | 693 m | |
+| 100 | 70 m/s | 700 m | deka |
+| 107 | 350 m/s | 3.5 km | speed of sound, 343 m/s |
+| 110 | 700 m/s | 7 km | hecto |
+| 120 | 7 km/s | 70 km | kilo; orbital speed, 7.8 km/s |
+| 122 | 11.1 km/s | 111 km | escape velocity, 11.2 km/s |
+| 166 | 280,000 km/s | 2.8 million km | light is 300,000 km/s, between 166 and 167 |
 
 ### Open questions
 
@@ -282,6 +283,7 @@ If body mass sets it, flesh hit points grow with mass, about 30 hit points for a
 * Untrained adult deadlift, about 61 to 70 kg for men and 34 to 41 kg for women: [exercisemenu.com](https://exercisemenu.com/is-your-deadlift-good-average-weights-by-level-age/), from [Strength Level](https://strengthlevel.com/strength-standards/deadlift/kg) data
 * Deadlift world record, 510 kg (2025): [Guinness World Records](https://www.guinnessworldrecords.com/world-records/heaviest-deadlift)
 * Untrained adult top speed, 6 to 8 m/s: [trackandfieldapp.com](https://www.trackandfieldapp.com/how-fast-is-the-average-person-in-the-100m/)
+* Hunting cheetah top speed, 25.9 m/s: [Wilson et al., Nature 2013](https://www.nature.com/articles/nature12295)
 * 100 m world record, average 10.44 m/s and peak 12.3 m/s: [Usain Bolt's 100 m world-record analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10669785/)
 * Heavyweight punch, 8.9 m/s, equal to a 6 kg padded mallet (about 240 J): [The damaging punch](https://pmc.ncbi.nlm.nih.gov/articles/PMC1419171/)
 * Average new US vehicle, 1,839 kg (2024): [EPA data summary](https://sellmycarhub.com/guides/average-car-weight/)
