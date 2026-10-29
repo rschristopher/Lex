@@ -96,6 +96,6 @@ Player characters belong to the campaign and stay as the adventures change.
 
 For any adventure material, the GM can show it or hide it, for every player or for the players they pick. Players do not open the adventure. They see a map, or anything else, only when the GM sends it.
 
-## Not decided
+## Campaign die
 
-The modal has to show a die. It is not decided whether that die is always the campaign's die, with sheet labels free to differ per tablet.
+The GM sets the campaign's die system (for example GURPS 3d6, d20, or d100). Every player at that table uses the same system. The GM can change it at any time, and the change applies to everyone. Systems are not mixed inside one campaign. Sheet labels may still differ per tablet; the die itself does not.
