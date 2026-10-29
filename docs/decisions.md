@@ -86,7 +86,9 @@ Outside a fight, a player can tap a skill on their sheet to open the same roll m
 
 ## Attributes
 
-Attribute scores are integers. For every attribute, 10 is an average human and 100 is superhuman but within reason. From 1 to 99 a score is linear. Above 99, every 10 points is ×10, and 100 is where the deka prefix starts. Strength is lift, 6 kg per point. Speed is top speed, 0.7 m/s per point. The mapping is in [universal-system.md](universal-system.md#attributes).
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. Above 30, every 5 points is ×10. Strength is lift, 6 kg per point. Speed is top speed, 0.7 m/s per point. Endurance is flesh hit points, 3 per point. The mapping is in [universal-system.md](universal-system.md#attributes).
+
+The scale ends at 100, which means immeasurable. A character at 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM, never from the attribute.
 
 ## Rewards
 
