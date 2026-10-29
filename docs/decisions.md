@@ -70,7 +70,7 @@ The GM marks the groups as fighting. The tablets of the characters in those grou
 
 Initiative is rolled once, at the start of the fight, on the table or with the auto-roll button. That order stays until the fight is over. Each melee gives every character their actions back, and Lex walks the same order, one action at a time. Characters with actions left keep coming around. Lex does not stop the fight to collect a new initiative. The GM ends the fight. The GM can call a fresh initiative if the situation changes, such as new characters joining. When the GM ends the fight, Lex does not prompt about leftover actions; the combat screen goes away and sheets stay as updated.
 
-On your action you pick a weapon or a power on the combat screen and tap a target when the action needs one. A power spends Anima. If the action needs a roll, a modal shows that roll's dice and asks for the result, with a small button that rolls for you. If it does not need a roll, the effect happens when you select it.
+On your action you pick a weapon or a power on the combat screen and tap a target when the action needs one. A power spends Anima. Anima recovers as a character catches their breath: during a fight as each melee passes, and again after combat. If the action needs a roll, a modal shows that roll's dice and asks for the result, with a small button that rolls for you. If it does not need a roll, the effect happens when you select it.
 
 The modal is on the tablet of the character who is rolling and on the GM's tablet. Either can type the result or use the auto-roll button. The same rule covers every roll. A defense modal includes a pass, so the defender can keep the action and enter no roll.
 
