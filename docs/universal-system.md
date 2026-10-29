@@ -212,19 +212,20 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
 
-Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. Above 30, every 5 points is ×10. The scale ends at 100.
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
 
-Strength and Speed have a physical measure. Each has a unit `u`:
+Strength and Speed have a physical measure:
 
 ```
-score 1 to 30:     measure = u × score
-score 31 to 100:   measure = 30u × 10^((score − 30) / 5)
+Strength 1 to 30:    lift = 6 kg × Strength
+Strength 31 to 100:  lift = 180 kg × 10^((Strength − 30) / 5)
 
-Strength:   u = 6 kg of lift (10 J of strike work)
-Speed:      u = 0.7 m/s of top speed
+Speed 1 to 30:       top speed = 0.7 m/s × Speed
+Speed 31 to 90:      top speed = 21 m/s × 10^((Speed − 30) / 8.39)
+Speed 91 to 100:     top speed = c × 5^(Speed − 90)
 ```
 
-A point is worth +10% at 10 and +3% at 29. Above 30 a point is ×1.58, so 5 points is one metric prefix. A score is rounded to the nearest integer.
+A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, so 5 points is one metric prefix. A Speed point is ×1.32 from 30 to 90, where 90 is the speed of light, and ×5 above 90. A score is rounded to the nearest integer.
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
@@ -237,7 +238,7 @@ Strength, Speed, and Endurance are decided. The other six are proposals.
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
-| Speed | top speed, 0.7 m/s per point | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 210 km/s; the fastest spacecraft, Parker Solar Probe, reached 192 km/s | 2.1 trillion km/s; 66 and up is faster than light | decided |
+| Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
 | Agility | balance, coordination, and precise movement; unitless | dodging, balance, acrobatics, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | proposal |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
@@ -282,7 +283,7 @@ Muscle is limited by limb speed as well as force. A heavyweight boxer's measured
 
 ### Speed
 
-Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30, and 210 m × 10^((Speed − 30) / 5) above 30.
+Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30. Above 30, Lex shows it from the table.
 
 | Speed | Top speed | Per 10-second melee | Example |
 |---|---|---|---|
@@ -290,14 +291,34 @@ Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30,
 | 10 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
 | 15 | 10.5 m/s | 105 m | 100 m world record, average speed 10.44 m/s |
 | 18 | 12.6 m/s | 126 m | 100 m world record, peak speed 12.3 m/s |
-| 30 | 21 m/s | 210 m | hunting cheetah, measured top 25.9 m/s |
-| 36 | 330 m/s | 3.3 km | speed of sound, 343 m/s |
-| 38 | 840 m/s | 8.4 km | twice the speed of sound, 686 m/s |
-| 43 | 8.4 km/s | 84 km | orbital speed, 7.8 km/s |
-| 44 | 13 km/s | 130 km | escape velocity, 11.2 km/s |
-| 66 | 330,000 km/s | 3.3 million km | light is 300,000 km/s, between 65 and 66 |
+| 31 | 27.6 m/s | 276 m | hunting cheetah, measured top 25.9 m/s |
+| 40 | 327 m/s | 3.3 km | speed of sound, 343 m/s |
+| 52 | 8.8 km/s | 88 km | orbital speed 7.8 km/s; escape velocity 11.2 km/s is 53 |
+| 63 | 181 km/s | 1,800 km | fastest spacecraft, Parker Solar Probe, 192 km/s |
+| 78 | 0.037 c | 110,000 km | fusion-drive ship |
+| 90 | c | 3 million km | light, 299,792 km/s |
+| 91 | 5 c | 15 million km | |
+| 93 | 125 c | 0.35 light-hours | slow interstellar starship, about a parsec a week |
+| 94 to 95 | 625 c to 3,100 c | | typical interstellar starship, 2 to 10 light-years a day |
+| 97 to 98 | 9 to 45 light-years an hour | | fast interstellar starship |
+| 99 | 223 light-years an hour | | galaxy-crossing starship |
+| 100 | 1,100 light-years an hour | | crosses the Milky Way in about 4 days |
 
-Above 66 is faster than light.
+Instant travel and anything faster than 100 come from abilities.
+
+The sheet shows top speed in the unit that reads best for its band:
+
+| Speed | Display | Example |
+|---|---|---|
+| up to 40 | km/h | 18 is 45 km/h |
+| 40 to 45, in air | Mach | 40 is about Mach 1 |
+| 45 to 74 | km/s | 52 is 8.8 km/s |
+| 74 to 90 | fraction of c | 78 is 0.037 c |
+| 90 to 94 | multiples of c | 91 is 5 c |
+| 94 to 96 | light-years a day | 95 is 8.6 light-years a day |
+| 96 to 100 | light-years an hour | 99 is 223 light-years an hour |
+
+From 93 up, the sheet also shows the time to cross the Milky Way, 100,000 light-years: 800 years at 93, 160 years at 94, 32 years at 95, 6.4 years at 96, 94 days at 98, 19 days at 99, and 4 days at 100.
 
 ### Endurance
 
@@ -330,6 +351,10 @@ If species and gear set it, Strength is for lifting and checks only. Nothing in 
 **Do flesh hit points grow with experience?**
 
 **Does Lex need a knock-out track separate from flesh hit points?**
+
+**Does instant travel, such as a jump or a teleport, count as Speed?**
+
+**Does a vehicle's Speed belong on the vehicle, the pilot, or both?**
 
 **How do two unitless scores above 30 compare in a check?**
 
