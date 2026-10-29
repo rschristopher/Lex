@@ -91,7 +91,7 @@ A futuristic suit of power armor should easily defeat 100 medieval villagers, bu
 
 The actual physics of modern weaponry demonstrates this exact problem, and where most gaming systems tend to fail.
 
-| Weapon | Joules | Dice Formula | Average Rolled Damage | Steel Plate (300) | Ceramic Plate (2,000) | Tank Armor (300,000) |
+| Weapon | Joules | Dice Formula | Average Rolled Damage | Steel Plate (`3 hA`) | Ceramic Plate (`2 kA`) | Tank Armor (`300 kA`, threshold `10 kA`) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Punch** | ~100 J | **1d6** | 3.5 | n/a | n/a | n/a |
 | **9mm Pistol** | ~500 J | **5d6** | 17.5 | n/a | n/a | n/a |
@@ -114,10 +114,10 @@ We should know that a kilometer is 1000 meters, and we should never get confused
 The metrics system solves this exact problem of scaling very large (and very small) numbers.
 
 Lex uses the metrics system for **A** (armor) and **D** (damage).
-A human punch may do `1d6 D`, while the heavy anti-tank cannon inflicts `1d6 mD` (mega-damage) which is identical to `1d6 × 10,000 D`
+A human punch may do `1d6 D`, while the heavy anti-tank cannon inflicts `10d6 kD`, which averages the same as `1d6 × 10,000 D`. There is no prefix for 10,000; mega is 1,000,000.
 
 And while Lex supports any Damage Threshold (2, 42, or even 10,000 like the tank), a metrics prefix on armor can also imply a metrics-based Damage Threshold.
-For example, a tank with `300,000 A` and a Damage Threshold of 10,000 can be expressed simply as `30 mA`.
+For example, a tank with `300,000 A` and a Damage Threshold of 10,000 is `300 kA` with a threshold of `10 kA`.
 Or maybe a futuristic power armor with `250,000 A` and a Damage Threshold of 1,000 would be `250 kA`.
 
 A GM can chose whatever scale or range they desire, keeping it small without prefixes and thresholds (such as a medieval fantasy adventure),
@@ -208,7 +208,7 @@ RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (
 
 Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
 
-That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is an 80 or higher (which would show as +30% bonus). And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is a 21 or higher. And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
