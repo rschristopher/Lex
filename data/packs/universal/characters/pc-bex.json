@@ -8,9 +8,9 @@
   "portrait": "pc-bex.jpg",
   "coin": 3200,
   "attrs": {
-    "strength": 33,
+    "strength": 30,
     "agility": 11,
-    "endurance": 14,
+    "endurance": 9,
     "speed": 8,
     "intellect": 11,
     "will": 12,
@@ -45,8 +45,8 @@
       "total": 800,
       "slot": "body",
       "set": {
-        "strength": 110,
-        "speed": 36
+        "strength": 38,
+        "speed": 30
       },
       "attacks": [
         {

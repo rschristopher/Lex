@@ -68,8 +68,8 @@ def test_hecto_units_and_lancer():
     assert armor["segments"][0]["value"] == 800
     assert armor["segments"][-1]["value"] == 28
     attrs = {a["id"]: a for a in sheet["attrs"]}
-    assert attrs["strength"]["value"] == 110
-    assert attrs["speed"]["value"] == 36
+    assert attrs["strength"]["value"] == 38
+    assert attrs["speed"]["value"] == 30
     assert attrs["strength"]["boosted"] is True
     assert attrs["speed"]["boosted"] is True
     assert "boosted" not in attrs["agility"]
@@ -84,7 +84,7 @@ def test_hecto_units_and_lancer():
     off_doc["activated"] = []
     off = fold(off_doc, "universal")
     off_attrs = {a["id"]: a["value"] for a in off["attrs"]}
-    assert off_attrs["strength"] == 33
+    assert off_attrs["strength"] == 30
     assert off_attrs["speed"] == 8
     off_punch = next(r for g in off["groups"] if g["id"] == "weapons" for r in g["rows"] if r["id"] == "punch")
     assert off_punch["unit"] == "D"

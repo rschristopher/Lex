@@ -8,10 +8,10 @@
   "portrait": "npc-syrn.jpg",
   "coin": 40000,
   "attrs": {
-    "strength": 120,
+    "strength": 43,
     "agility": 14,
-    "endurance": 28,
-    "speed": 57,
+    "endurance": 39,
+    "speed": 31,
     "intellect": 22,
     "will": 20,
     "awareness": 18,

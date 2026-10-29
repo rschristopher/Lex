@@ -8,9 +8,9 @@
   "portrait": "pc-ryn.jpg",
   "coin": 2400,
   "attrs": {
-    "strength": 90,
+    "strength": 32,
     "agility": 20,
-    "endurance": 18,
+    "endurance": 13,
     "speed": 25,
     "intellect": 12,
     "will": 11,
