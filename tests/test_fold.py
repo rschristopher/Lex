@@ -6,10 +6,9 @@ def test_class_adds_channels():
     _pid, doc = load_character("pc-ilya")
     sheet = fold(doc, "universal")
     ch = {c["id"]: c["value"] for c in sheet["channels"]}
-    assert ch["attack"] == 4
+    assert ch["strike"] == 4
     assert ch["actions"] == 4
-    assert ch["parry"] == 2
-    assert ch["dodge"] == 2
+    assert ch["defense"] == 2
     assert "block" not in ch
     assert sheet["class"]["name"] == "Soldier"
     ids = [a["id"] for a in sheet["attrs"]]
@@ -22,9 +21,11 @@ def test_class_adds_channels():
 def test_hecto_weapon_marked_high():
     _pid, doc = load_character("pc-venn")
     sheet = fold(doc, "universal")
-    assert sheet["using"]["prefix"] == "hecto"
-    assert sheet["using"]["high"] is True
-    assert {c["id"] for c in sheet["channels"]} >= {"attack", "parry", "dodge", "block", "initiative"}
+    assert (sheet["using"]["damage"], sheet["using"]["prefix"]) == ("6d6", "unit")
+    plasma = sheet["using"]["bonus"][0]
+    assert (plasma["qty"], plasma["unit"], plasma["type"], plasma["high"]) == ("1d6", "hD", "plasma", True)
+    assert {c["id"] for c in sheet["channels"]} >= {"strike", "defense", "initiative"}
+    assert "block" not in {c["id"] for c in sheet["channels"]}
 
 
 def test_gear_groups():
@@ -45,7 +46,7 @@ def test_gear_groups():
     segs = sheet["defense"]["armor"]["segments"]
     assert [s["id"] for s in segs] == ["field_plate", "hit_points"]
     assert segs[0]["value"] == 40
-    assert segs[0]["prefix_label"] == "daA"
+    assert segs[0]["prefix_label"] == "dA"
     assert segs[0]["style"] == "deka"
     assert segs[0]["factor"] == 10
     assert segs[-1]["id"] == "hit_points"
@@ -68,8 +69,8 @@ def test_hecto_units_and_lancer():
     assert armor["segments"][0]["value"] == 800
     assert armor["segments"][-1]["value"] == 28
     attrs = {a["id"]: a for a in sheet["attrs"]}
-    assert attrs["strength"]["value"] == 30
-    assert attrs["speed"]["value"] == 88
+    assert attrs["strength"]["value"] == 38
+    assert attrs["speed"]["value"] == 31
     assert attrs["strength"]["boosted"] is True
     assert attrs["speed"]["boosted"] is True
     assert "boosted" not in attrs["agility"]
@@ -84,26 +85,25 @@ def test_hecto_units_and_lancer():
     off_doc["activated"] = []
     off = fold(off_doc, "universal")
     off_attrs = {a["id"]: a["value"] for a in off["attrs"]}
-    assert off_attrs["strength"] == 16
-    assert off_attrs["speed"] == 9
+    assert off_attrs["strength"] == 30
+    assert off_attrs["speed"] == 8
     off_punch = next(r for g in off["groups"] if g["id"] == "weapons" for r in g["rows"] if r["id"] == "punch")
     assert off_punch["unit"] == "D"
     ryn = fold(load_character("pc-ryn")[1], "universal")
     assert ryn["class"]["name"] == "Augmented"
-    assert ryn["using"]["prefix_label"] == "hD"
+    assert (ryn["using"]["damage"], ryn["using"]["prefix_label"]) == ("7d6", "D")
+    assert [(b["qty"], b["unit"], b["type"]) for b in ryn["using"]["bonus"]] == [("2d6", "hD", "resonance")]
     ch = {c["id"]: c["value"] for c in ryn["channels"]}
     assert ch["actions"] == 8
-    assert ch["dodge"] == 6
-    assert "auto_dodge" not in ch
-    assert next(c["automatic"] for c in ryn["channels"] if c["id"] == "dodge") is True
+    assert ch["defense"] == 8  # 6 trained + Agility 20 bonus
+    assert next(c["reflex"] for c in ryn["channels"] if c["id"] == "defense") is True
     simp = fold(doc, "u-simplified")
     g = {x["id"]: x for x in simp["gauges"]}
     assert list(g) == ["hit_points"]
     assert g["hit_points"]["label"] == "Hit points"
     assert g["hit_points"]["total"] == 28
     sch = {c["id"]: c["value"] for c in simp["channels"]}
-    assert "defense" not in sch
-    assert set(sch) == {"actions", "attack", "parry", "dodge", "block", "initiative"}
+    assert set(sch) == {"actions", "strike", "defense", "initiative"}
 
 
 def test_eval_mod():
@@ -128,14 +128,11 @@ def test_simplified_view():
     assert gauges["hit_points"]["label"] == "Hit points"
     assert gauges["hit_points"]["total"] == 32
     ch = {c["id"]: c["value"] for c in sheet["channels"]}
-    assert set(ch) == {"actions", "attack", "parry", "dodge", "initiative"}
-    assert "defense" not in ch
-    assert "auto_dodge" not in ch
-    assert ch["parry"] == 2
-    assert ch["dodge"] == 2
-    assert not any(c.get("automatic") for c in sheet["channels"])
+    assert set(ch) == {"actions", "strike", "defense", "initiative"}
+    assert ch["defense"] == 2
+    assert not any(c.get("reflex") for c in sheet["channels"])
     assert ch["initiative"] == 2
-    assert ch["attack"] == 4
+    assert ch["strike"] == 4
     assert ch["actions"] == 4
 
 

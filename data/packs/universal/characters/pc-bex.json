@@ -8,10 +8,10 @@
   "portrait": "pc-bex.jpg",
   "coin": 3200,
   "attrs": {
-    "strength": 16,
+    "strength": 30,
     "agility": 11,
     "endurance": 14,
-    "speed": 9,
+    "speed": 8,
     "intellect": 11,
     "will": 12,
     "awareness": 12,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 4,
-    "attack": 2,
-    "parry": 2,
-    "dodge": 1,
-    "block": 2,
+    "strike": 2,
+    "defense": 2,
     "initiative": 0
   },
   "armor": [
@@ -45,21 +43,23 @@
       "total": 800,
       "slot": "body",
       "set": {
-        "strength": 30,
-        "speed": 88
+        "strength": 38,
+        "speed": 31
       },
       "attacks": [
         {
           "id": "punch",
           "name": "Punch",
           "damage": "1d6",
-          "prefix": "hecto"
+          "material": "alloy",
+          "durability": "hecto"
         },
         {
           "id": "kick",
           "name": "Kick",
           "damage": "2d6",
-          "prefix": "hecto"
+          "material": "alloy",
+          "durability": "hecto"
         }
       ]
     }
@@ -69,13 +69,15 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "siege_cannon",

@@ -19,12 +19,11 @@ def test_roster_and_sheet():
         sheet = client.get("/characters/pc-ilya/sheet").json()
         assert sheet["name"] == "Ilya"
         labels = [c["label"] for c in sheet["channels"]]
-        assert labels == ["Actions", "Attack", "Parry", "Dodge", "Initiative"]
+        assert labels == ["Actions", "Strike", "Defense", "Initiative"]
         simp = client.get("/characters/pc-ilya/sheet", params={"adapter": "u-simplified"}).json()
         assert [a["label"] for a in simp["attrs"]][1] == "Dexterity"
         assert [g["label"] for g in simp["gauges"]] == ["Hit points"]
-        assert [c["id"] for c in simp["channels"]] == ["actions", "attack", "parry", "dodge", "initiative"]
-        assert all(c["id"] != "defense" for c in simp["channels"])
+        assert [c["id"] for c in simp["channels"]] == ["actions", "strike", "defense", "initiative"]
         skills = next(g for g in simp["groups"] if g["id"] == "abilities")
         assert skills["name"] == "Skills"
 

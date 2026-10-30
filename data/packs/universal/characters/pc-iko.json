@@ -8,10 +8,10 @@
   "portrait": "pc-iko.jpg",
   "coin": 1800,
   "attrs": {
-    "strength": 16,
+    "strength": 30,
     "agility": 15,
     "endurance": 15,
-    "speed": 14,
+    "speed": 16,
     "intellect": 11,
     "will": 16,
     "awareness": 13,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 5,
-    "attack": 4,
-    "parry": 3,
-    "dodge": 3,
-    "block": 0,
+    "strike": 4,
+    "defense": 3,
     "initiative": 3
   },
   "armor": [],
@@ -43,13 +41,15 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     }
   ],
   "abilities": [

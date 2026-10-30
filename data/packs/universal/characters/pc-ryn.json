@@ -8,10 +8,10 @@
   "portrait": "pc-ryn.jpg",
   "coin": 2400,
   "attrs": {
-    "strength": 22,
+    "strength": 32,
     "agility": 20,
     "endurance": 18,
-    "speed": 24,
+    "speed": 25,
     "intellect": 12,
     "will": 11,
     "awareness": 14,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 4,
-    "attack": 3,
-    "parry": 4,
-    "dodge": 4,
-    "block": 0,
+    "strike": 3,
+    "defense": 4,
     "initiative": 3
   },
   "armor": [
@@ -50,20 +48,30 @@
     {
       "id": "punch",
       "name": "Punch",
-      "damage": "2d6",
-      "prefix": "unit"
+      "damage": "1d6",
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
-      "damage": "2d6",
-      "prefix": "unit"
+      "damage": "1d6",
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "resonant_blade",
       "name": "Resonant blade",
-      "damage": "2d6",
-      "prefix": "hecto"
+      "damage": "1d6",
+      "material": "alloy steel",
+      "durability": "hecto",
+      "bonus": [
+        {
+          "damage": "2d6",
+          "prefix": "hecto",
+          "type": "resonance"
+        }
+      ]
     },
     {
       "id": "pulse_pistol",

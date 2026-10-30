@@ -8,10 +8,10 @@
   "portrait": "pc-ilya.jpg",
   "coin": 1200,
   "attrs": {
-    "strength": 14,
+    "strength": 21,
     "agility": 13,
     "endurance": 14,
-    "speed": 12,
+    "speed": 13,
     "intellect": 11,
     "will": 11,
     "awareness": 11,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 3,
-    "attack": 2,
-    "parry": 2,
-    "dodge": 2,
-    "block": 0,
+    "strike": 2,
+    "defense": 2,
     "initiative": 1
   },
   "armor": [
@@ -51,13 +49,15 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "service_rifle",
@@ -75,7 +75,8 @@
       "id": "knife",
       "name": "Knife",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "steel",
+      "durability": "deka"
     }
   ],
   "abilities": [

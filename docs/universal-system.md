@@ -54,9 +54,15 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 1. [optional] initiative roll, determine who goes first, and the order of combat
 2. attack, roll and determine if the attack succeeds
-3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or automatic dodge (from occupation or ability) must choose this as it consumes an action.
+3. [optional] defense, one roll to determine if a successful attack lands; the defender chooses to dodge or parry. A defense consumes an action unless the character has Reflex Defense (an ability).
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
+
+Combat has two bonuses, Strike and Defense. Strike applies to every attack. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
+
+A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
+
+An attack from outside combat, such as a sniper's first shot, is not perceived and lands with no defense roll. The target is then in combat and knows where the sniper is, so the sniper's later attacks that melee can be defended. The sniper can instead spend that action to relocate or leave combat and set up another opening shot. A sixth sense puts the character into combat before the unperceived attack; they roll initiative and can defend even against the first shot.
 
 Whether a 1-second round, or a multi-second melee where each player has a set number of actions within the melee, combat always iterates through that same pattern of attack, defense, and damage.
 
@@ -91,7 +97,7 @@ A futuristic suit of power armor should easily defeat 100 medieval villagers, bu
 
 The actual physics of modern weaponry demonstrates this exact problem, and where most gaming systems tend to fail.
 
-| Weapon | Joules | Dice Formula | Average Rolled Damage | Steel Plate (300) | Ceramic Plate (2,000) | Tank Armor (300,000) |
+| Weapon | Joules | Dice Formula | Average Rolled Damage | Steel Plate (`3 hA`) | Ceramic Plate (`2 kA`) | Tank Armor (`300 kA`, threshold `10 kA`) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Punch** | ~100 J | **1d6** | 3.5 | n/a | n/a | n/a |
 | **9mm Pistol** | ~500 J | **5d6** | 17.5 | n/a | n/a | n/a |
@@ -114,10 +120,10 @@ We should know that a kilometer is 1000 meters, and we should never get confused
 The metrics system solves this exact problem of scaling very large (and very small) numbers.
 
 Lex uses the metrics system for **A** (armor) and **D** (damage).
-A human punch may do `1d6 D`, while the heavy anti-tank cannon inflicts `1d6 mD` (mega-damage) which is identical to `1d6 × 10,000 D`
+A human punch may do `1d6 D`, while the heavy anti-tank cannon inflicts `10d6 kD`, which averages the same as `1d6 × 10,000 D`. There is no prefix for 10,000; mega is 1,000,000.
 
 And while Lex supports any Damage Threshold (2, 42, or even 10,000 like the tank), a metrics prefix on armor can also imply a metrics-based Damage Threshold.
-For example, a tank with `300,000 A` and a Damage Threshold of 10,000 can be expressed simply as `30 mA`.
+For example, a tank with `300,000 A` and a Damage Threshold of 10,000 is `300 kA` with a threshold of `10 kA`.
 Or maybe a futuristic power armor with `250,000 A` and a Damage Threshold of 1,000 would be `250 kA`.
 
 A GM can chose whatever scale or range they desire, keeping it small without prefixes and thresholds (such as a medieval fantasy adventure),
@@ -165,6 +171,16 @@ Also, any fractional remainder will not be applied (e.g., 192 base damage agains
 A club at `2d6 D` against armor at Damage Threshold of 100 is 0, every time. 
 An `hD` weapon against unit flesh is ×100 into hit points. 
 
+### Flesh
+
+A character's flesh hit points are a total stored on the sheet. The total comes from species and body mass, plus abilities. The flesh prefix comes from species or from an ability, never from an attribute.
+
+| Flesh prefix | Ignores | Example |
+|---|---|---|
+| hecto | a `5d6 D` pistol and a `1d6 dD` rifle | a dragon |
+| kilo | a `1d6 hD` heavy machine gun | a larger dragon |
+| mega | a `10d6 kD` heavy anti-tank cannon | |
+
 
 ## Anima
 
@@ -198,6 +214,241 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 
 
+## Attributes
+
+Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
+
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
+
+Strength and Speed have a physical measure:
+
+```
+Strength 1 to 30:    lift = 6 kg × Strength
+Strength 31 to 100:  lift = 180 kg × 10^((Strength − 30) / 5)
+
+Speed 1 to 30:       top speed = 0.7 m/s × Speed
+Speed 31 to 90:      top speed = 21 m/s × 10^((Speed − 30) / 8.39)
+Speed 91 to 100:     top speed = c × 5^(Speed − 90)
+```
+
+A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, so 5 points is one metric prefix. A Speed point is ×1.32 from 30 to 90, where 90 is the speed of light, and ×5 above 90. A score is rounded to the nearest integer.
+
+100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
+
+Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+
+### Attribute table
+
+Strength, Speed, Endurance, and Agility are decided. The other five are proposals.
+
+| Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
+|---|---|---|---|---|---|---|---|---|
+| Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
+| Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
+| Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
+| Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
+| Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
+| Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
+| Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
+| Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
+| Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
+
+At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
+
+### Prefix scores
+
+Strike work reaches each prefix at these Strength scores:
+
+| Prefix | Strength | Lift | Strike work |
+|---|---|---|---|
+| deka | 33 | 717 kg | 1.2 kJ |
+| hecto | 38 | 7.2 t | 12 kJ |
+| kilo | 43 | 72 t | 120 kJ |
+| mega | 58 | 72,000 t | 120 MJ |
+| giga | 73 | 72 million t | 120 GJ |
+| tera | 88 | 72 billion t | 120 TJ |
+
+### Strength
+
+Strike work is force times stroke. At the same stroke, it grows with lift. Strength 10 strikes about 100 J, the `1d6 D` punch in the weapon table above, so 1 D is about 30 J. The prefix a Strength reaches is the prefix of its strike work.
+
+| Strength | Lift | Strike work, human stroke | Average damage | Example |
+|---|---|---|---|---|
+| 1 | 6 kg | 10 J | 0.33 D | |
+| 10 | 60 kg | 100 J | 3.3 D | untrained adult, 34 to 70 kg |
+| 30 | 180 kg | 300 J | 10 D | |
+| 32 | 450 kg | 750 J | 25 D | deadlift world record, 510 kg |
+| 33 | 720 kg | 1.2 kJ | 4 dD | deka |
+| 35 | 1.8 t | 3 kJ | 1 hD | car, 1.8 t |
+| 38 | 7.2 t | 12 kJ | 4 hD | hecto, power armor |
+| 43 | 72 t | 120 kJ | 4 kD | kilo; main battle tank, 63 t |
+| 58 | 72,000 t | 120 MJ | 4 mD | mega |
+| 99 | 11 trillion t | 19 PJ | 630 tD | |
+
+A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
+
+Strength adds its strike work to fists and hand-to-hand weapons, at the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo.
+
+**Strength dice** is what a bare fist does. From 1 to 30 it is one d6 per full 10 points, at least 1, so a low Strength still punches `1d6 D`. Its cost is lift and carry. Above 30, every 5 points runs 1, 2, 3, 5, 7 dice, and then the next prefix starts again at 1. Where there is no next prefix, as between kilo and mega, the count goes ×10 every 5 points. Ten dice of one prefix average the same as one die of the next.
+
+| Strength | Strength dice | Kilo-rated `3d6` sword |
+|---|---|---|
+| 1 to 19 | `1d6 D` | `3d6 D` |
+| 20 to 29 | `2d6 D` | `4d6 D` |
+| 30, 31, 32 | `3d6`, `5d6`, `7d6 D` | `5d6`, `7d6`, `9d6 D` |
+| 33, 34, 35, 36, 37 | `1d6`, `2d6`, `3d6`, `5d6`, `7d6 dD` | `3d6`, `4d6`, `5d6`, `7d6`, `9d6 dD` |
+| 38 | `1d6 hD` | `3d6 hD` |
+| 43, 48, 53 | `1d6`, `10d6`, `100d6 kD` | `3d6`, `12d6`, `102d6 kD` |
+| 58 | `1d6 mD` | destroyed |
+| 73 | `1d6 gD` | destroyed |
+| 88, 93, 99, 100 | `1d6`, `10d6`, `200d6`, `300d6 tD` | destroyed |
+
+The Strength bonus is Strength dice minus 1. A weapon replaces the fist's die with its own dice:
+
+```
+hand-to-hand damage = (Strength dice − 1) + weapon dice, at the Strength's prefix
+```
+
+A weapon can also carry its own bonus damage, such as a magic sword's `+2d6` fire or a powered weapon's plasma or resonance. It adds on top of the Strength bonus and the weapon's dice, at its own prefix. Strength does not change it, and durability does not cap it.
+
+Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides. A blow that destroys a parrying weapon lands with full force, as a katana does through a balsa-wood parry. Durability is an optional rule.
+
+A wielder can pull a blow, striking as a lower Strength to spare a weapon or an ordinary foe. The free steps are 1 plus half the Agility bonus, rounded down: 1 at Agility 10, 3 at 30, 5 at 50. Pulling down that many prefix steps or fewer needs no roll. Past them, roll a `d20` and beat the number of extra steps: one extra fails on a 1, two extra on a 1 or 2. On a failure the blow lands at full Strength. This rule is optional.
+
+### Speed
+
+Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30. Above 30, Lex shows it from the table.
+
+| Speed | Top speed | Per 10-second melee | Example |
+|---|---|---|---|
+| 2 | 1.4 m/s | 14 m | walking pace, 1.4 m/s |
+| 10 | 7 m/s | 70 m | untrained adult sprint, 6 to 8 m/s |
+| 15 | 10.5 m/s | 105 m | 100 m world record, average speed 10.44 m/s |
+| 18 | 12.6 m/s | 126 m | 100 m world record, peak speed 12.3 m/s |
+| 31 | 27.6 m/s | 276 m | hunting cheetah, measured top 25.9 m/s |
+| 40 | 327 m/s | 3.3 km | speed of sound, 343 m/s |
+| 52 | 8.8 km/s | 88 km | orbital speed 7.8 km/s; escape velocity 11.2 km/s is 53 |
+| 63 | 181 km/s | 1,800 km | fastest spacecraft, Parker Solar Probe, 192 km/s |
+| 78 | 0.037 c | 110,000 km | fusion-drive ship |
+| 90 | c | 3 million km | light, 299,792 km/s |
+| 91 | 5 c | 15 million km | |
+| 93 | 125 c | 0.35 light-hours | slow interstellar starship, about a parsec a week |
+| 94 to 95 | 625 c to 3,100 c | | typical interstellar starship, 2 to 10 light-years a day |
+| 97 to 98 | 9 to 45 light-years an hour | | fast interstellar starship |
+| 99 | 223 light-years an hour | | galaxy-crossing starship |
+| 100 | 1,100 light-years an hour | | crosses the Milky Way in about 4 days |
+
+Speed is how fast a character, animal, or vehicle moves over time. Above 90 it needs a mechanism that gets around the light-speed limit of general relativity, such as warping or folding space or jumping along a trajectory; without one, Speed stays below 90. Warping, folding, or jumping counts as Speed only when it can land anywhere along its path in a given time. Teleporting with a range, line of sight, or limits on the target is an ability, not Speed. Teleporting with no limits can be 100+, and anything faster than 100 comes from abilities.
+
+A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn.
+
+Speed governs movement only. It gives no actions, initiative, or reaction time. Power armor that flies faster than light leaves an ordinary wearer with human reactions and human actions per melee. A species or occupation with high Speed can come with abilities that add actions or reactions, and those are abilities.
+
+The sheet shows top speed in the unit that reads best for its band:
+
+| Speed | Display | Example |
+|---|---|---|
+| up to 40 | km/h | 18 is 45 km/h |
+| 40 to 45, in air | Mach | 40 is about Mach 1 |
+| 45 to 74 | km/s | 52 is 8.8 km/s |
+| 74 to 90 | fraction of c | 78 is 0.037 c |
+| 90 to 94 | multiples of c | 91 is 5 c |
+| 94 to 96 | light-years a day | 95 is 8.6 light-years a day |
+| 96 to 100 | light-years an hour | 99 is 223 light-years an hour |
+
+From 93 up, the sheet also shows the time to cross the Milky Way, 100,000 light-years: 800 years at 93, 160 years at 94, 32 years at 95, 6.4 years at 96, 94 days at 98, 19 days at 99, and 4 days at 100.
+
+### Agility
+
+Agility is control and precision, not reaction time. It gives no initiative. By itself it is a bonus to Strike and Defense, and it sets the free steps for pulling a blow:
+
+```
+Agility bonus = max(0, floor(Agility / 5) − 2)
+```
+
+There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
+
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+
+#### Safe fall
+
+Safe fall is an ability from a skill such as gymnastics. The character lands from the safe height without damage, and the height grows with Agility:
+
+```
+safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
+```
+
+| Agility | Safe fall |
+|---|---|
+| 10 | 2 m |
+| 20 | 3 m |
+| 30 | 6 m |
+| 50 | about 96 m |
+| 75 | any fall on Earth; impacts to about 250 m/s |
+| 100 | impacts to about 1.4 km/s |
+
+A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful roll halves fall damage.
+
+#### Reflex Defense
+
+Reflex Defense makes a dodge or parry cost no action, so the character keeps their attacks. It rolls the normal Defense bonus: the Agility bonus plus training. In each melee, the first 1 + Agility bonus reflex defenses have no penalty, and each one after that is −2 cumulative (−2, −4, …).
+
+| Agility | 10 | 20 | 30 | 50 | 75 | 100 |
+|---|---|---|---|---|---|---|
+| Reflex defenses with no penalty | 1 | 3 | 5 | 9 | 14 | 19 |
+
+Reflex Defense is the same whatever its source. Like any defense, it works only against attacks the character perceives.
+
+Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense.
+
+### Endurance
+
+Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
+
+### Open questions
+
+**How is a check bonus computed?**
+A check compares a score with a difficulty. For a lift, the difficulty is the Strength whose lift equals the mass. Below 30 the same difference in points is a different ratio at different scores: 10 against 20 is ×2, and 25 against 30 is ×1.2.
+One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded. Above 30 it is twice the difference in score. A bonus of +3 is about twice what the task needs at any score. On a `d20` the target is 10 minus the bonus, as in [Dice](#dice). At +9 or more the check always succeeds. At −11 or less it always fails.
+
+| Bonus | Chance | `d20` | `3d6` | `d100` |
+|---|---|---|---|---|
+| −3 | 40% | 13 or higher | 9 or lower | 61 or higher |
+| 0 | 55% | 10 or higher | 10 or lower | 46 or higher |
+| +1 | 60% | 9 or higher | 11 or lower | 41 or higher |
+| +5 | 80% | 5 or higher | 13 or lower | 21 or higher |
+
+* A Strength 21 soldier (126 kg) lifts a 100 kg crate. The difficulty is 17 and the bonus is +1.
+* Strength 15 arm-wrestles Strength 30. The bonus is −3.
+* A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
+* A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
+
+**What makes two humans of the same mass have different flesh hit points?**
+
+**Do flesh hit points grow with experience?**
+
+**Does Lex need a knock-out track separate from flesh hit points?**
+
+**How do two unitless scores above 30 compare in a check?**
+
+**When two species meet, whose standard sets Appearance?**
+
+**How is a contest between two characters at 100 settled?**
+
+**How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
+
+### Anchors
+
+* Untrained adult deadlift, about 61 to 70 kg for men and 34 to 41 kg for women: [exercisemenu.com](https://exercisemenu.com/is-your-deadlift-good-average-weights-by-level-age/), from [Strength Level](https://strengthlevel.com/strength-standards/deadlift/kg) data
+* Deadlift world record, 510 kg (2025): [Guinness World Records](https://www.guinnessworldrecords.com/world-records/heaviest-deadlift)
+* Untrained adult top speed, 6 to 8 m/s: [trackandfieldapp.com](https://www.trackandfieldapp.com/how-fast-is-the-average-person-in-the-100m/)
+* Hunting cheetah top speed, 25.9 m/s: [Wilson et al., Nature 2013](https://www.nature.com/articles/nature12295)
+* 100 m world record, average 10.44 m/s and peak 12.3 m/s: [Usain Bolt's 100 m world-record analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10669785/)
+* Average new US vehicle, 1,839 kg (2024): [EPA data summary](https://sellmycarhub.com/guides/average-car-weight/)
+* M1A2 tank, about 63 t: [General Dynamics](https://international.gdls.com/english/products/ABRAMS/M1A2.pdf)
+
+
+
 ## Dice
 
 In Lex, dice stay on the eable, while dice rolls can be automated with the push of a button, the whole point of an RPG is the players' participation in a shared story, through their decision making and dice rolls. 
@@ -208,11 +459,11 @@ RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (
 
 Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
 
-That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is an 80 or higher (which would show as +30% bonus). And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is a 21 or higher. And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
-The adapter can define dice mechanics (even opt out) for the following areas:
+A campaign uses one die system for every roll; systems are not mixed by area (see [decisions.md](decisions.md)). For each of the following areas, the adapter sets how that die is read, or opts the area out:
 
 + attributes, character creation and per-level increases 
 + hit points and per-level increases

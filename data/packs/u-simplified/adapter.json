@@ -16,10 +16,8 @@
   },
   "channels": {
     "actions": "Actions",
-    "attack": "Attack",
-    "parry": "Parry",
-    "dodge": "Dodge",
-    "block": {"label": "Block", "omit_zero": true},
+    "strike": "Strike",
+    "defense": "Defense",
     "initiative": {
       "label": "Initiative",
       "terms": [
@@ -40,9 +38,9 @@
   },
   "prefixes": {
     "unit": {"damage": "D", "armor": "A"},
-    "deka": {"damage": "daD", "armor": "daA"},
+    "deka": {"damage": "dD", "armor": "dA"},
     "hecto": {"damage": "hD", "armor": "hA"},
     "kilo": {"damage": "kD", "armor": "kA"},
-    "mega": {"damage": "MgD", "armor": "MgA"}
+    "mega": {"damage": "mD", "armor": "mA"}
   }
 }

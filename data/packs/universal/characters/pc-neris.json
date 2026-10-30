@@ -8,10 +8,10 @@
   "portrait": "pc-neris.jpg",
   "coin": 4000,
   "attrs": {
-    "strength": 10,
+    "strength": 8,
     "agility": 12,
     "endurance": 13,
-    "speed": 12,
+    "speed": 10,
     "intellect": 17,
     "will": 16,
     "awareness": 15,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 4,
-    "attack": 2,
-    "parry": 2,
-    "dodge": 3,
-    "block": 0,
+    "strike": 2,
+    "defense": 3,
     "initiative": 2
   },
   "armor": [
@@ -51,19 +49,22 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "staff",
       "name": "Staff",
       "damage": "2d6",
-      "prefix": "unit"
+      "material": "wood",
+      "durability": "unit"
     }
   ],
   "abilities": [

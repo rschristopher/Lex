@@ -8,10 +8,10 @@
   "portrait": "pc-soren.jpg",
   "coin": 420,
   "attrs": {
-    "strength": 14,
+    "strength": 21,
     "agility": 13,
     "endurance": 13,
-    "speed": 12,
+    "speed": 13,
     "intellect": 11,
     "will": 15,
     "awareness": 12,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 4,
-    "attack": 3,
-    "parry": 3,
-    "dodge": 2,
-    "block": 0,
+    "strike": 3,
+    "defense": 3,
     "initiative": 2
   },
   "armor": [
@@ -51,19 +49,22 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "knife",
       "name": "Knife",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "steel",
+      "durability": "deka"
     }
   ],
   "abilities": [

@@ -8,10 +8,10 @@
   "portrait": "pc-venn.jpg",
   "coin": 200,
   "attrs": {
-    "strength": 18,
+    "strength": 31,
     "agility": 16,
     "endurance": 16,
-    "speed": 15,
+    "speed": 20,
     "intellect": 12,
     "will": 13,
     "awareness": 12,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 4,
-    "attack": 3,
-    "parry": 3,
-    "dodge": 4,
-    "block": 1,
+    "strike": 3,
+    "defense": 3,
     "initiative": 2
   },
   "armor": [
@@ -50,20 +48,30 @@
     {
       "id": "punch",
       "name": "Punch",
-      "damage": "2d6",
-      "prefix": "unit"
+      "damage": "1d6",
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
-      "damage": "2d6",
-      "prefix": "unit"
+      "damage": "1d6",
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "plasma_lance",
       "name": "Plasma lance",
-      "damage": "1d6",
-      "prefix": "hecto"
+      "damage": "2d6",
+      "material": "titanium",
+      "durability": "hecto",
+      "bonus": [
+        {
+          "damage": "1d6",
+          "prefix": "hecto",
+          "type": "plasma"
+        }
+      ]
     }
   ],
   "abilities": [

@@ -4,6 +4,6 @@
   "kind": "class",
   "effects": [
     {"verb": "mod.channel", "target": "initiative", "op": "add", "value": 2},
-    {"verb": "mod.channel", "target": "dodge", "op": "add", "value": 1}
+    {"verb": "mod.channel", "target": "defense", "op": "add", "value": 1}
   ]
 }

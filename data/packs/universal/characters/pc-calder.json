@@ -8,7 +8,7 @@
   "portrait": "pc-calder.jpg",
   "coin": 600,
   "attrs": {
-    "strength": 8,
+    "strength": 5,
     "agility": 11,
     "endurance": 10,
     "speed": 10,
@@ -31,10 +31,8 @@
   ],
   "channels": {
     "actions": 3,
-    "attack": 2,
-    "parry": 1,
-    "dodge": 2,
-    "block": 0,
+    "strike": 2,
+    "defense": 2,
     "initiative": 1
   },
   "armor": [
@@ -50,20 +48,23 @@
     {
       "id": "punch",
       "name": "Punch",
-      "damage": "1d4",
-      "prefix": "unit"
+      "damage": "1d6",
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "material": "flesh and bone",
+      "durability": "unit"
     },
     {
       "id": "staff",
       "name": "Staff",
       "damage": "2d6",
-      "prefix": "unit"
+      "material": "wood",
+      "durability": "unit"
     }
   ],
   "abilities": [

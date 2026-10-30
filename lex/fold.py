@@ -5,6 +5,8 @@ from typing import Any
 from lex import store
 from lex.paths import DEFAULT_ADAPTER
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
+from lex.agility import AGILITY_CHANNELS, agility_bonus, reflex_free
+from lex.strength import melee_damage
 
 
 def eval_mod(value: int, spec: dict[str, Any]) -> int:
@@ -43,13 +45,13 @@ def _apply_class(
     doc: dict[str, Any], klass: dict[str, Any] | None
 ) -> tuple[dict[str, int], set[str]]:
     channels: dict[str, int] = {}
-    automatic: set[str] = set()
+    reflex: set[str] = set()
     for k, v in (doc.get("channels") or {}).items():
         channels[k] = _channel_value(v)
-        if isinstance(v, dict) and v.get("automatic"):
-            automatic.add(k)
+        if isinstance(v, dict) and v.get("reflex"):
+            reflex.add(k)
     if not klass:
-        return channels, automatic
+        return channels, reflex
     for ef in klass.get("effects") or []:
         if ef.get("verb") != "mod.channel":
             continue
@@ -64,9 +66,9 @@ def _apply_class(
                 channels[target] = cur + val
             elif op == "replace":
                 channels[target] = val
-        if ef.get("automatic"):
-            automatic.add(target)
-    return channels, automatic
+        if ef.get("reflex"):
+            reflex.add(target)
+    return channels, reflex
 
 
 def _raw_attr(doc: dict[str, Any], key: str) -> int:
@@ -173,6 +175,35 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
     return out
 
 
+def _bonus_rows(w: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, Any]]:
+    """A weapon's own bonus damage, at its own prefix; Strength and durability do not touch it."""
+    rows = []
+    for b in w.get("bonus") or []:
+        prefix = b.get("prefix") or "unit"
+        rows.append({
+            "qty": b.get("damage"),
+            "unit": _label_prefix(adapter, prefix, "damage"),
+            "type": b.get("type") or "",
+            "prefix": prefix,
+            "high": factor(prefix) >= 100,
+        })
+    return rows
+
+
+def _with_strength(doc: dict[str, Any], weapons: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Hand-to-hand weapons (those with a durability) take the wielder's Strength."""
+    strength = _worn_attr_values(doc.get("attrs") or {}, doc).get("strength")
+    if strength is None:
+        return weapons
+    out = []
+    for w in weapons:
+        if w.get("durability") and w.get("damage"):
+            w = dict(w)
+            w.update(melee_damage(w["damage"], int(strength), w["durability"]))
+        out.append(w)
+    return out
+
+
 def _effective_weapons(doc: dict[str, Any]) -> list[dict[str, Any]]:
     weapons = [dict(w) for w in (doc.get("weapons") or [])]
     index = {w.get("id"): i for i, w in enumerate(weapons)}
@@ -188,7 +219,7 @@ def _effective_weapons(doc: dict[str, Any]) -> list[dict[str, Any]]:
             else:
                 index[aid] = len(weapons)
                 weapons.append(dict(a))
-    return weapons
+    return _with_strength(doc, weapons)
 
 
 def _attack_options(doc: dict[str, Any]) -> list[dict[str, Any]]:
@@ -364,8 +395,9 @@ def _fold_channels(
     attrs: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     spec_map = adapter.get("channels") or {}
-    raw, automatic = _apply_class(doc, klass)
+    raw, reflex = _apply_class(doc, klass)
     worn = worn_armor(doc)
+    agility = next((int(a["value"]) for a in attrs if a["id"] == "agility"), 0)
     out = []
     for cid, meta in spec_map.items():
         s = _ch_spec(meta, cid)
@@ -373,11 +405,14 @@ def _fold_channels(
             val = sum(_term_value(t, raw, attrs, worn) for t in s["terms"])
         else:
             val = int(raw.get(s["from"]) or 0)
+        if s["from"] in AGILITY_CHANNELS:
+            val += agility_bonus(agility)
         if s.get("omit_zero") and val == 0:
             continue
         row = {"id": cid, "label": s["label"], "value": val}
-        if cid in automatic:
-            row["automatic"] = True
+        if cid in reflex:
+            row["reflex"] = True
+            row["reflex_free"] = reflex_free(agility)
         out.append(row)
     return out
 
@@ -432,6 +467,8 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
             "select": "attack",
             "prefix": prefix,
             "high": factor(prefix) >= 100,
+            "destroyed": bool(w.get("destroyed")),
+            "bonus": _bonus_rows(w, adapter),
         })
 
     by_kind: dict[str, list[dict[str, Any]]] = {}
@@ -535,6 +572,8 @@ def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
             "prefix": prefix,
             "prefix_label": _label_prefix(adapter, prefix, "damage"),
             "high": factor(prefix) >= 100,
+            "destroyed": bool(src.get("destroyed")),
+            "bonus": _bonus_rows(src, adapter),
         }
 
     portrait = None
