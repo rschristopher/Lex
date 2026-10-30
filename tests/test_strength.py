@@ -38,3 +38,18 @@ def test_sheet_weapons_take_strength():
     assert row("pc-calder", "punch")["qty"] == "1d6"
     assert row("pc-ryn", "resonant_blade")["unit"] == "hD"
     assert (row("npc-syrn", "bite")["qty"], row("npc-syrn", "bite")["unit"]) == ("4d6", "kD")
+
+
+def test_bonus_damage_keeps_its_own_prefix():
+    _pid, doc = load_character("pc-kesh")
+    doc = dict(doc)
+    doc["attrs"] = dict(doc["attrs"], strength=38)
+    doc["weapons"] = [{
+        "id": "flame_knife", "name": "Flame knife", "damage": "1d6",
+        "material": "steel", "durability": "deka",
+        "bonus": [{"damage": "2d6", "prefix": "unit", "type": "fire"}],
+    }]
+    doc["attack"] = "flame_knife"
+    using = fold(doc, "universal")["using"]
+    assert (using["damage"], using["prefix"], using["destroyed"]) == ("1d6", "hecto", True)
+    assert using["bonus"] == [{"qty": "2d6", "unit": "D", "type": "fire", "prefix": "unit", "high": False}]

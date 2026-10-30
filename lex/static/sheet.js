@@ -241,6 +241,12 @@ function renderHud(s, stacked) {
     if (using.prefix_label) dmg.append(el("span", "u", using.prefix_label));
     act.append(dmg);
   }
+  for (const b of using?.bonus || []) {
+    const extra = el("div", "dmg" + (b.prefix ? ` ${b.prefix}` : ""), `+${b.qty}`);
+    if (b.unit) extra.append(el("span", "u", b.unit));
+    if (b.type) extra.append(el("span", "u", ` ${b.type}`));
+    act.append(extra);
+  }
   hud.append(act);
   return hud;
 }
@@ -306,7 +312,12 @@ function renderGroups(s, colA, colW) {
         box.append(line);
         continue;
       }
-      box.append(pickRow(row.name, row.qty, row.unit, Boolean(row.on), click, row.prefix || ""));
+      const pick = pickRow(row.name, row.qty, row.unit, Boolean(row.on), click, row.prefix || "");
+      for (const b of row.bonus || []) {
+        pick.append(el("span", "d" + (b.prefix ? ` ${b.prefix}` : ""), `+${b.qty}`));
+        pick.append(el("span", "t", [b.unit, b.type].filter(Boolean).join(" ")));
+      }
+      box.append(pick);
     }
     col.append(box);
   }

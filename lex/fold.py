@@ -174,6 +174,21 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
     return out
 
 
+def _bonus_rows(w: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, Any]]:
+    """A weapon's own bonus damage, at its own prefix; Strength and durability do not touch it."""
+    rows = []
+    for b in w.get("bonus") or []:
+        prefix = b.get("prefix") or "unit"
+        rows.append({
+            "qty": b.get("damage"),
+            "unit": _label_prefix(adapter, prefix, "damage"),
+            "type": b.get("type") or "",
+            "prefix": prefix,
+            "high": factor(prefix) >= 100,
+        })
+    return rows
+
+
 def _with_strength(doc: dict[str, Any], weapons: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Hand-to-hand weapons (those with a durability) take the wielder's Strength."""
     strength = _worn_attr_values(doc.get("attrs") or {}, doc).get("strength")
@@ -448,6 +463,7 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
             "prefix": prefix,
             "high": factor(prefix) >= 100,
             "destroyed": bool(w.get("destroyed")),
+            "bonus": _bonus_rows(w, adapter),
         })
 
     by_kind: dict[str, list[dict[str, Any]]] = {}
@@ -552,6 +568,7 @@ def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
             "prefix_label": _label_prefix(adapter, prefix, "damage"),
             "high": factor(prefix) >= 100,
             "destroyed": bool(src.get("destroyed")),
+            "bonus": _bonus_rows(src, adapter),
         }
 
     portrait = None
