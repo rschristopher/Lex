@@ -1,4 +1,4 @@
-from lex.agility import agility_bonus
+from lex.agility import agility_bonus, pull_fails_on, pull_free_steps
 from lex.fold import fold
 from lex.store import load_character
 
@@ -31,3 +31,11 @@ def test_reflex_defense_free_count_and_penalty():
     assert (defense("pc-ryn")["reflex"], defense("pc-ryn")["reflex_free"]) == (True, 3)
     assert defense("pc-venn")["reflex_free"] == 2
     assert "reflex" not in defense("pc-ilya")
+
+
+def test_pull_a_blow():
+    assert [pull_free_steps(a) for a in (10, 20, 30, 50)] == [1, 2, 3, 5]
+    assert pull_fails_on(10, 1) == 0
+    assert pull_fails_on(10, 2) == 1   # fails on a 1: 1 in 20
+    assert pull_fails_on(10, 3) == 2   # 1 in 10
+    assert pull_fails_on(30, 3) == 0

@@ -246,7 +246,7 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
-| Agility | control and precision, not reaction time; unitless | strike, defense, pulling a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
+| Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
@@ -313,7 +313,7 @@ A weapon can also carry its own bonus damage, such as a magic sword's `+2d6` fir
 
 Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides. A blow that destroys a parrying weapon lands with full force, as a katana does through a balsa-wood parry. Durability is an optional rule.
 
-A wielder can pull a blow, striking as a lower Strength to spare a weapon or an ordinary foe. Doing it reliably is an Agility roll. On a failure the blow lands at full Strength.
+A wielder can pull a blow, striking as a lower Strength to spare a weapon or an ordinary foe. The free steps are 1 plus half the Agility bonus, rounded down: 1 at Agility 10, 3 at 30, 5 at 50. Pulling down that many prefix steps or fewer needs no roll. Past them, roll a `d20` and beat the number of extra steps: one extra fails on a 1, two extra on a 1 or 2. On a failure the blow lands at full Strength. This rule is optional.
 
 ### Speed
 
@@ -360,7 +360,7 @@ From 93 up, the sheet also shows the time to cross the Milky Way, 100,000 light-
 
 ### Agility
 
-Agility is control and precision, not reaction time. It gives no initiative. By itself it is a bonus to Strike, Defense, and pulling a blow:
+Agility is control and precision, not reaction time. It gives no initiative. By itself it is a bonus to Strike and Defense, and it sets the free steps for pulling a blow:
 
 ```
 Agility bonus = max(0, floor(Agility / 5) − 2)
@@ -422,8 +422,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * Strength 15 arm-wrestles Strength 30. The bonus is −3.
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
-
-**How hard is the Agility roll to pull a blow, compared with how far it is pulled?**
 
 **What makes two humans of the same mass have different flesh hit points?**
 
