@@ -4,7 +4,7 @@ What is still open in Lex. Settled rules are in [universal-system.md](universal-
 
 ## Next
 
-- Attributes, one at a time: Intellect, Will, Awareness, Presence, and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
+- Attributes, one at a time: Will, Awareness, Presence, and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
 - The u-simplified adapter's Strength modifier conflicts with the Strength scale: Syrn's Strength 43 shows +16.
 - Safe fall: whether a successful roll halves fall damage above the safe height is still proposed ([Safe fall](universal-system.md#safe-fall)).
 

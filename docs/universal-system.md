@@ -264,7 +264,7 @@ Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no
 
 ### Attribute table
 
-Strength, Speed, Endurance, and Agility are decided. The other five are proposals.
+Strength, Speed, Endurance, Agility, and Intellect are decided. The other four are proposals.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -272,7 +272,7 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
 | Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
-| Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
+| Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
 | Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
@@ -426,6 +426,25 @@ Reflex Defense is the same whatever its source. Like any defense, it works only 
 
 Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense.
 
+### Intellect
+
+Intellect is reasoning, memory, and learning. From 1 to 30 it is the human range: 10 is average, 20 a human genius, and 30 a supernatural human genius. Its bonus uses the Agility formula and adds to knowledge and technical skill rolls:
+
+```
+Intellect bonus = max(0, floor(Intellect / 5) − 2)
+```
+
+The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, and +18 at 100. Abilities such as spellcasting or psionics can draw their own Intellect-based bonuses. Intellect does not add to willpower, perception, or initiative.
+
+Above 30, Intellect sets how fast and how deeply a mind learns:
+
+| Intellect | Learning |
+|---|---|
+| about 40 | perfect recall; masters a field in weeks |
+| about 50 | learns a language in hours, a field in a day |
+| about 75 | learns a field in minutes by reading or watching |
+| 100 | perfect knowledge: thinking about a subject is enough to know it completely, with no study; thinking about French gives fluency and its full history |
+
 ### Endurance
 
 Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
@@ -455,6 +474,8 @@ RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (
 Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
 
 That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is a 21 or higher. And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+
+Every bonus in Lex is stored once on a `d20` scale, where +1 is 5%, and the campaign die converts it.
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
