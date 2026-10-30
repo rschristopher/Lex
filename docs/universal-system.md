@@ -240,7 +240,7 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
-| Agility | control and precision, not reaction time; unitless | strike, parry, dodge, pulling a blow, balance, falling, throwing, catching, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
+| Agility | control and precision, not reaction time; unitless | strike, parry, dodge, pulling a blow, falling, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
@@ -358,29 +358,25 @@ Agility is control and precision, not reaction time. It gives no initiative.
 
 ```
 Agility bonus = max(0, floor(Agility / 5) − 2)
+safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 ```
 
-The bonus adds to strike, parry, dodge, and pulling a blow. There is no penalty below 10; low Agility costs the traits below and fails Agility rolls more often.
+The bonus adds to strike, parry, dodge, and pulling a blow. There is no penalty below 10; low Agility costs safe fall and fails Agility rolls more often.
 
-Each tier gives these traits with no roll. A harder feat is an Agility roll. Above 30, safe fall and throwing distance double every 5 points:
+Each tier gives these with no roll. A harder feat, such as a balance feat, is an Agility roll.
 
-```
-safe fall (m)       = 6 × 2^((Agility − 30) / 5)
-throw distance (m)  = 20 × 2^((Agility − 30) / 5)
-```
+| Agility | Bonus | Safe fall | Hands |
+|---|---|---|---|
+| 10 | +0 | 2 m | everyday tasks |
+| 20 | +2 | 3 m | picks a pocket; field-strips a weapon fast |
+| 30 | +4 | 6 m | stage sleight of hand; microsurgery steadiness; picks a lock in seconds |
+| 50 | +8 | about 96 m | any human hand skill at full speed |
+| 75 | +13 | any fall on Earth; impacts to about 250 m/s | finer than a human hand |
+| 100 | +18 | impacts to about 1.4 km/s | full control |
 
-| Agility | Bonus | Safe fall | Balance | Throwing: hits a 30 cm target at | Catching | Hands |
-|---|---|---|---|---|---|---|
-| 10 | +0 | 2 m | walks a 10 cm beam slowly | 5 m | a tossed object, about 5 m/s | everyday tasks |
-| 20 | +2 | 3 m | runs a 10 cm beam; walks a few metres of 2.5 cm slackline | 10 m | a hard-thrown ball, about 20 m/s | picks a pocket; field-strips a weapon fast |
-| 30 | +4 | 6 m | crosses hundreds of metres of highline; flips on a 10 cm beam | 20 m | a fastball or line drive, about 40 m/s | stage sleight of hand; microsurgery steadiness; picks a lock in seconds |
-| 50 | +8 | about 96 m | runs a wire in strong wind; balances on a moving vehicle | about 320 m | two objects at once while tumbling; blades by the handle | any human hand skill at full speed |
-| 75 | +13 | any fall on Earth; impacts to about 250 m/s | stands on a spear tip or a branch end in a storm | about 10 km | anything within reach in melee, several at once | finer than a human hand |
-| 100 | +18 | impacts to about 1.4 km/s | anything that bears its weight, at any speed it can reach | anything within its throwing range | anything it can react to | full control |
+A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful Agility roll halves fall damage.
 
-A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Catching speed stops at 30: full-draw arrows, bullets, and anything else faster than human reaction need an ability, as do acting first and dodging beams. Proposed: above the safe height, a successful Agility roll halves fall damage.
-
-Skills, occupations, and species add abilities on top of Agility, each with its own Agility-based bonuses. Gymnastics or a hand-to-hand fighting skill is an ability that any character who learns it gains. A sense for danger that adds to initiative, dodge, and parry, or an automatic dodge, is an ability too.
+Skills, occupations, and species add abilities on top of Agility, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. A sense for danger that adds to initiative, dodge, and parry, or an automatic dodge, is an ability too. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 ### Endurance
 
