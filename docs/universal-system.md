@@ -279,7 +279,9 @@ Strike work is force times stroke. At the same stroke, it grows with lift. Stren
 | 58 | 72,000 t | 120 MJ | 4 mD | mega |
 | 99 | 11 trillion t | 19 PJ | 630 tD | |
 
-Muscle is limited by limb speed as well as force. A heavyweight boxer's measured punch is about 240 J, not the 850 J that a 510 kg lift allows. A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
+A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
+
+Strength adds its strike work to fists and hand-to-hand weapons, and the blow takes the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo. Each weapon has a limit on the damage it can deliver, and a blow past that limit can destroy it, as a balsa-wood sword swung at kilo Strength would be.
 
 ### Speed
 
@@ -346,9 +348,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
 
-**Does Strength set the prefix of unarmed damage, or do species and gear set it?**
-If Strength sets it, Strength 33 punches at deka, 38 at hecto, and 43 at kilo, and a larger body adds more through its stroke. The deadlift record is 32, so humans keep unit dice, but the rule allows about 3.5 times what a real punch delivers.
-If species and gear set it, Strength is for lifting and checks only. Nothing in the engine stops a pack from giving a Strength 43 being a unit punch, so a pack has to keep the two consistent.
+**How is a weapon's limit written, and what happens to a blow past it?**
 
 **What makes two humans of the same mass have different flesh hit points?**
 
@@ -371,7 +371,6 @@ If species and gear set it, Strength is for lifting and checks only. Nothing in 
 * Untrained adult top speed, 6 to 8 m/s: [trackandfieldapp.com](https://www.trackandfieldapp.com/how-fast-is-the-average-person-in-the-100m/)
 * Hunting cheetah top speed, 25.9 m/s: [Wilson et al., Nature 2013](https://www.nature.com/articles/nature12295)
 * 100 m world record, average 10.44 m/s and peak 12.3 m/s: [Usain Bolt's 100 m world-record analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10669785/)
-* Heavyweight punch, 8.9 m/s, equal to a 6 kg padded mallet (about 240 J): [The damaging punch](https://pmc.ncbi.nlm.nih.gov/articles/PMC1419171/)
 * Average new US vehicle, 1,839 kg (2024): [EPA data summary](https://sellmycarhub.com/guides/average-car-weight/)
 * M1A2 tank, about 63 t: [General Dynamics](https://international.gdls.com/english/products/ABRAMS/M1A2.pdf)
 
