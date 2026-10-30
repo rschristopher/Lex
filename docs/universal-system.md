@@ -60,7 +60,9 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 Combat has two bonuses, Strike and Defense. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
 
-A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. In combat most attacks are perceived. A long-distance attack from outside the fight, such as a sniper's shot before any initiative roll, is not, so it cannot be defended against without a sixth sense, which makes every attack perceived.
+A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
+
+An attack from outside combat, such as a sniper's first shot, is not perceived and lands with no defense roll. The target is then in combat and knows where the sniper is, so the sniper's later attacks that melee can be defended. The sniper can instead spend that action to relocate or leave combat and set up another opening shot. A sixth sense puts the character into combat before the unperceived attack; they roll initiative and can defend even against the first shot.
 
 Whether a 1-second round, or a multi-second melee where each player has a set number of actions within the melee, combat always iterates through that same pattern of attack, defense, and damage.
 

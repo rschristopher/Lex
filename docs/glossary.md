@@ -37,7 +37,7 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Occupation** -- what the character does. A soldier, a politician, a wizard. Species is a separate fact. This is not Armor Class.
 
-**Strike / Defense** -- the two combat bonuses. Defense is one optional roll (usually a `d20`) after an attack; the defender chooses to dodge (needs room) or parry (against melee and thrown attacks, risks the weapon). A defense works only against an attack the defender perceives. A defense typically costs one action; Reflex Defense, an ability from some fighting skills, occupations, and species, makes it free.
+**Strike / Defense** -- the two combat bonuses. Defense is one optional roll (usually a `d20`) after an attack; the defender chooses to dodge (needs room) or parry (against melee and thrown attacks, risks the weapon). A defense works only against an attack the defender perceives; what is perceived is the attacker, not the projectile. A defense typically costs one action; Reflex Defense, an ability from some fighting skills, occupations, and species, makes it free.
 
 **Psionics** -- psychic abilities that cost Anima to activate. A telekinetic field is a power you turn on, not armor you wear.
 
