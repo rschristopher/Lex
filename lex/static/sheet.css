@@ -145,7 +145,7 @@ select, input {
   display: block; font-size: 0.8rem; color: var(--muted); font-weight: 600;
   line-height: 1.35; white-space: nowrap;
 }
-.hud .bar .stat.automatic b { color: var(--accent); cursor: help; }
+.hud .bar .stat.reflex b { color: var(--accent); cursor: help; }
 .hud .bar .stat span {
   font-size: 1.15rem; font-weight: 650; font-variant-numeric: tabular-nums;
 }

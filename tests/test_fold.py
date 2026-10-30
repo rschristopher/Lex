@@ -6,10 +6,9 @@ def test_class_adds_channels():
     _pid, doc = load_character("pc-ilya")
     sheet = fold(doc, "universal")
     ch = {c["id"]: c["value"] for c in sheet["channels"]}
-    assert ch["attack"] == 4
+    assert ch["strike"] == 4
     assert ch["actions"] == 4
-    assert ch["parry"] == 2
-    assert ch["dodge"] == 2
+    assert ch["defense"] == 2
     assert "block" not in ch
     assert sheet["class"]["name"] == "Soldier"
     ids = [a["id"] for a in sheet["attrs"]]
@@ -25,7 +24,7 @@ def test_hecto_weapon_marked_high():
     assert (sheet["using"]["damage"], sheet["using"]["prefix"]) == ("6d6", "unit")
     plasma = sheet["using"]["bonus"][0]
     assert (plasma["qty"], plasma["unit"], plasma["type"], plasma["high"]) == ("1d6", "hD", "plasma", True)
-    assert {c["id"] for c in sheet["channels"]} >= {"attack", "parry", "dodge", "block", "initiative"}
+    assert {c["id"] for c in sheet["channels"]} >= {"strike", "defense", "block", "initiative"}
 
 
 def test_gear_groups():
@@ -95,17 +94,15 @@ def test_hecto_units_and_lancer():
     assert [(b["qty"], b["unit"], b["type"]) for b in ryn["using"]["bonus"]] == [("2d6", "hD", "resonance")]
     ch = {c["id"]: c["value"] for c in ryn["channels"]}
     assert ch["actions"] == 8
-    assert ch["dodge"] == 8  # 6 trained + Agility 20 bonus
-    assert "auto_dodge" not in ch
-    assert next(c["automatic"] for c in ryn["channels"] if c["id"] == "dodge") is True
+    assert ch["defense"] == 8  # 6 trained + Agility 20 bonus
+    assert next(c["reflex"] for c in ryn["channels"] if c["id"] == "defense") is True
     simp = fold(doc, "u-simplified")
     g = {x["id"]: x for x in simp["gauges"]}
     assert list(g) == ["hit_points"]
     assert g["hit_points"]["label"] == "Hit points"
     assert g["hit_points"]["total"] == 28
     sch = {c["id"]: c["value"] for c in simp["channels"]}
-    assert "defense" not in sch
-    assert set(sch) == {"actions", "attack", "parry", "dodge", "block", "initiative"}
+    assert set(sch) == {"actions", "strike", "defense", "block", "initiative"}
 
 
 def test_eval_mod():
@@ -130,14 +127,11 @@ def test_simplified_view():
     assert gauges["hit_points"]["label"] == "Hit points"
     assert gauges["hit_points"]["total"] == 32
     ch = {c["id"]: c["value"] for c in sheet["channels"]}
-    assert set(ch) == {"actions", "attack", "parry", "dodge", "initiative"}
-    assert "defense" not in ch
-    assert "auto_dodge" not in ch
-    assert ch["parry"] == 2
-    assert ch["dodge"] == 2
-    assert not any(c.get("automatic") for c in sheet["channels"])
+    assert set(ch) == {"actions", "strike", "defense", "initiative"}
+    assert ch["defense"] == 2
+    assert not any(c.get("reflex") for c in sheet["channels"])
     assert ch["initiative"] == 2
-    assert ch["attack"] == 4
+    assert ch["strike"] == 4
     assert ch["actions"] == 4
 
 

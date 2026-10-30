@@ -20,9 +20,8 @@
   },
   "channels": {
     "actions": "Actions",
-    "attack": "Attack",
-    "parry": "Parry",
-    "dodge": "Dodge",
+    "strike": "Strike",
+    "defense": "Defense",
     "block": {"label": "Block", "omit_zero": true},
     "initiative": "Initiative"
   },

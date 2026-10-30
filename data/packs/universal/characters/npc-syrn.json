@@ -31,9 +31,8 @@
   ],
   "channels": {
     "actions": 7,
-    "attack": 6,
-    "parry": 5,
-    "dodge": 4,
+    "strike": 6,
+    "defense": 5,
     "block": 3,
     "initiative": 5
   },

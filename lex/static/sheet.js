@@ -224,9 +224,9 @@ function renderHud(s, stacked) {
   const ch = s.channels || [];
   bar.style.gridTemplateColumns = `repeat(${Math.max(ch.length, 1)}, minmax(0, 1fr))`;
   for (const c of ch) {
-    const st = el("div", "stat" + (c.automatic ? " automatic" : ""));
+    const st = el("div", "stat" + (c.reflex ? " reflex" : ""));
     const lab = el("b", "", c.label);
-    if (c.automatic) lab.title = c.reflex_free != null ? `reflex dodge: ${c.reflex_free} per melee with no penalty, then −2 each` : "automatic";
+    if (c.reflex) lab.title = `Reflex Defense: ${c.reflex_free} per melee with no penalty, then −2 each`;
     st.append(lab);
     const n = c.id === "actions" ? String(c.value) : fmtBonus(c.value);
     st.append(el("span", "", n));

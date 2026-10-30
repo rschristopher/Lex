@@ -4,8 +4,8 @@
   "kind": "class",
   "effects": [
     {"verb": "mod.channel", "target": "actions", "op": "add", "value": 4},
-    {"verb": "mod.channel", "target": "attack", "op": "add", "value": 2},
-    {"verb": "mod.channel", "target": "dodge", "op": "add", "value": 2, "automatic": true},
+    {"verb": "mod.channel", "target": "strike", "op": "add", "value": 2},
+    {"verb": "mod.channel", "target": "defense", "op": "add", "value": 2, "reflex": true},
     {"verb": "mod.channel", "target": "initiative", "op": "add", "value": 2}
   ]
 }

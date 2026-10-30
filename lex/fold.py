@@ -45,13 +45,13 @@ def _apply_class(
     doc: dict[str, Any], klass: dict[str, Any] | None
 ) -> tuple[dict[str, int], set[str]]:
     channels: dict[str, int] = {}
-    automatic: set[str] = set()
+    reflex: set[str] = set()
     for k, v in (doc.get("channels") or {}).items():
         channels[k] = _channel_value(v)
-        if isinstance(v, dict) and v.get("automatic"):
-            automatic.add(k)
+        if isinstance(v, dict) and v.get("reflex"):
+            reflex.add(k)
     if not klass:
-        return channels, automatic
+        return channels, reflex
     for ef in klass.get("effects") or []:
         if ef.get("verb") != "mod.channel":
             continue
@@ -66,9 +66,9 @@ def _apply_class(
                 channels[target] = cur + val
             elif op == "replace":
                 channels[target] = val
-        if ef.get("automatic"):
-            automatic.add(target)
-    return channels, automatic
+        if ef.get("reflex"):
+            reflex.add(target)
+    return channels, reflex
 
 
 def _raw_attr(doc: dict[str, Any], key: str) -> int:
@@ -395,7 +395,7 @@ def _fold_channels(
     attrs: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     spec_map = adapter.get("channels") or {}
-    raw, automatic = _apply_class(doc, klass)
+    raw, reflex = _apply_class(doc, klass)
     worn = worn_armor(doc)
     agility = next((int(a["value"]) for a in attrs if a["id"] == "agility"), 0)
     out = []
@@ -410,10 +410,9 @@ def _fold_channels(
         if s.get("omit_zero") and val == 0:
             continue
         row = {"id": cid, "label": s["label"], "value": val}
-        if cid in automatic:
-            row["automatic"] = True
-            if s["from"] == "dodge":
-                row["reflex_free"] = reflex_free(agility)
+        if cid in reflex:
+            row["reflex"] = True
+            row["reflex_free"] = reflex_free(agility)
         out.append(row)
     return out
 

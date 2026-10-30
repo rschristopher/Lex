@@ -54,9 +54,11 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 1. [optional] initiative roll, determine who goes first, and the order of combat
 2. attack, roll and determine if the attack succeeds
-3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or a reflex dodge (an ability) must choose this as it consumes an action.
+3. [optional] defense, one roll to determine if a successful attack lands; the defender chooses to dodge or parry. A defense consumes an action unless the character has Reflex Defense (an ability).
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
+
+Combat has two bonuses, Strike and Defense. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge works against any attack the defender perceives and needs room. Neither stops an area effect.
 
 Whether a 1-second round, or a multi-second melee where each player has a set number of actions within the melee, combat always iterates through that same pattern of attack, defense, and damage.
 
@@ -240,7 +242,7 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
-| Agility | control and precision, not reaction time; unitless | strike, parry, dodge, pulling a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
+| Agility | control and precision, not reaction time; unitless | strike, defense, pulling a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
@@ -354,7 +356,7 @@ From 93 up, the sheet also shows the time to cross the Milky Way, 100,000 light-
 
 ### Agility
 
-Agility is control and precision, not reaction time. It gives no initiative. By itself it is a bonus to strike, parry, dodge, and pulling a blow:
+Agility is control and precision, not reaction time. It gives no initiative. By itself it is a bonus to Strike, Defense, and pulling a blow:
 
 ```
 Agility bonus = max(0, floor(Agility / 5) − 2)
@@ -362,7 +364,7 @@ Agility bonus = max(0, floor(Agility / 5) − 2)
 
 There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
 
-Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. A reflex dodge is an ability. A sixth sense for danger, which adds to initiative, dodge, and parry, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 #### Safe fall
 
@@ -383,17 +385,17 @@ safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 
 A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful roll halves fall damage.
 
-#### Reflex dodge
+#### Reflex Defense
 
-A reflex dodge costs no action, so the character keeps their attacks. It rolls the normal dodge bonus: the Agility bonus plus training. In each melee, the first 1 + Agility bonus reflex dodges have no penalty, and each one after that is −2 cumulative (−2, −4, …).
+Reflex Defense makes a dodge or parry cost no action, so the character keeps their attacks. It rolls the normal Defense bonus: the Agility bonus plus training. In each melee, the first 1 + Agility bonus reflex defenses have no penalty, and each one after that is −2 cumulative (−2, −4, …).
 
 | Agility | 10 | 20 | 30 | 50 | 75 | 100 |
 |---|---|---|---|---|---|---|
-| Reflex dodges with no penalty | 1 | 3 | 5 | 9 | 14 | 19 |
+| Reflex defenses with no penalty | 1 | 3 | 5 | 9 | 14 | 19 |
 
 It works only against attacks the character perceives. A sixth sense extends that, even to attackers out of sight or at a distance. It never works against area effects. Whether it works against bullets or beams is set by the ability; a better version allows them.
 
-Certain fighting skills, acrobatic occupations, augmented soldiers, and species grant a reflex dodge.
+Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense. Proposed: from a fencing or sword-fighting skill, it covers only melee and thrown attacks.
 
 ### Endurance
 
@@ -429,7 +431,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Does the Agility bonus add to aimed guns and beams?**
 
-**Which fighting skills grant a reflex dodge, and at what level of training?**
+**Which fighting skills grant Reflex Defense, and at what level of training?**
 
 **When two species meet, whose standard sets Appearance?**
 
