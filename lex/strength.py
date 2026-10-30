@@ -29,11 +29,14 @@ def _dice_count(dice: str) -> int:
     return int(n or 1)
 
 
-def melee_damage(weapon_dice: str, score: int, durability: str) -> dict:
+def melee_damage(weapon_dice: str, score: int, durability: str, pulled: int | None = None) -> dict:
     """Strength bonus (Strength dice - 1) plus the weapon's dice, at the Strength prefix.
 
+    `pulled` strikes as a lower Strength (after a successful Agility roll).
     A Strength prefix above the durability destroys the weapon on the blow.
     """
+    if pulled is not None:
+        score = min(int(score), int(pulled))
     n, prefix = strength_dice(score)
     return {
         "damage": f"{n - 1 + _dice_count(weapon_dice)}d6",

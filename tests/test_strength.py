@@ -53,3 +53,11 @@ def test_bonus_damage_keeps_its_own_prefix():
     using = fold(doc, "universal")["using"]
     assert (using["damage"], using["prefix"], using["destroyed"]) == ("1d6", "hecto", True)
     assert using["bonus"] == [{"qty": "2d6", "unit": "D", "type": "fire", "prefix": "unit", "high": False}]
+
+
+def test_pulled_blow_spares_the_weapon():
+    full = melee_damage("3d6", 58, "kilo")
+    pulled = melee_damage("3d6", 58, "kilo", pulled=43)
+    assert full["destroyed"] is True
+    assert (pulled["damage"], pulled["prefix"], pulled["destroyed"]) == ("3d6", "kilo", False)
+    assert melee_damage("3d6", 20, "kilo", pulled=43)["damage"] == "4d6"

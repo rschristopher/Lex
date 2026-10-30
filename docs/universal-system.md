@@ -240,7 +240,7 @@ Strength, Speed, and Endurance are decided. The other six are proposals.
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
-| Agility | balance, coordination, and precise movement; unitless | dodging, balance, acrobatics, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | proposal |
+| Agility | balance, coordination, and precise movement; unitless | dodging, balance, acrobatics, fine hand work, pulling a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | proposal; pulling a blow is decided |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
@@ -305,7 +305,9 @@ hand-to-hand damage = (Strength dice − 1) + weapon dice, at the Strength's pre
 
 A weapon can also carry its own bonus damage, such as a magic sword's `+2d6` fire. It adds on top of the Strength bonus and the weapon's dice, at its own prefix. Strength does not change it, and durability does not cap it.
 
-Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
+Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides.
+
+A wielder can pull a blow, striking as a lower Strength to spare a weapon or an ordinary foe. Doing it reliably is an Agility roll. On a failure the blow lands at full Strength. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
 
 ### Speed
 
@@ -372,7 +374,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
 
-**Can a wielder pull a blow to the weapon's durability so it is not destroyed?**
+**How hard is the Agility roll to pull a blow, compared with how far it is pulled?**
 
 **Does a powered hand-to-hand weapon, such as a plasma lance, bring its own prefix instead of the wielder's Strength?**
 
