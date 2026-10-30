@@ -58,7 +58,7 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
 
-Combat has two bonuses, Strike and Defense. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
+Combat has two bonuses, Strike and Defense. Strike applies to every attack: melee, thrown, guns, and beams. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
 
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
@@ -432,8 +432,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **Does Lex need a knock-out track separate from flesh hit points?**
 
 **How do two unitless scores above 30 compare in a check?**
-
-**Does the Agility bonus add to aimed guns and beams?**
 
 **Which fighting skills grant Reflex Defense, and at what level of training?**
 
