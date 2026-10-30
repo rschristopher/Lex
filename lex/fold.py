@@ -5,6 +5,7 @@ from typing import Any
 from lex import store
 from lex.paths import DEFAULT_ADAPTER
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
+from lex.agility import AGILITY_CHANNELS, agility_bonus
 from lex.strength import melee_damage
 
 
@@ -396,6 +397,7 @@ def _fold_channels(
     spec_map = adapter.get("channels") or {}
     raw, automatic = _apply_class(doc, klass)
     worn = worn_armor(doc)
+    agility = next((int(a["value"]) for a in attrs if a["id"] == "agility"), 0)
     out = []
     for cid, meta in spec_map.items():
         s = _ch_spec(meta, cid)
@@ -403,6 +405,8 @@ def _fold_channels(
             val = sum(_term_value(t, raw, attrs, worn) for t in s["terms"])
         else:
             val = int(raw.get(s["from"]) or 0)
+        if s["from"] in AGILITY_CHANNELS:
+            val += agility_bonus(agility)
         if s.get("omit_zero") and val == 0:
             continue
         row = {"id": cid, "label": s["label"], "value": val}

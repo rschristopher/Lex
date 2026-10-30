@@ -95,7 +95,7 @@ def test_hecto_units_and_lancer():
     assert [(b["qty"], b["unit"], b["type"]) for b in ryn["using"]["bonus"]] == [("2d6", "hD", "resonance")]
     ch = {c["id"]: c["value"] for c in ryn["channels"]}
     assert ch["actions"] == 8
-    assert ch["dodge"] == 6
+    assert ch["dodge"] == 8  # 6 trained + Agility 20 bonus
     assert "auto_dodge" not in ch
     assert next(c["automatic"] for c in ryn["channels"] if c["id"] == "dodge") is True
     simp = fold(doc, "u-simplified")
