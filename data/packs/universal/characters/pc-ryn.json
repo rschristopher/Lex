@@ -64,8 +64,16 @@
     {
       "id": "resonant_blade",
       "name": "Resonant blade",
-      "damage": "2d6",
-      "prefix": "hecto"
+      "damage": "1d6",
+      "material": "alloy steel",
+      "durability": "hecto",
+      "bonus": [
+        {
+          "damage": "2d6",
+          "prefix": "hecto",
+          "type": "resonance"
+        }
+      ]
     },
     {
       "id": "pulse_pistol",

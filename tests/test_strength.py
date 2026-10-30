@@ -36,7 +36,8 @@ def test_sheet_weapons_take_strength():
     assert (row("pc-ryn", "punch")["qty"], row("pc-ryn", "punch")["unit"]) == ("7d6", "D")
     assert row("pc-kesh", "club")["qty"] == "4d6"
     assert row("pc-calder", "punch")["qty"] == "1d6"
-    assert row("pc-ryn", "resonant_blade")["unit"] == "hD"
+    blade = row("pc-ryn", "resonant_blade")
+    assert (blade["qty"], blade["unit"], blade["bonus"][0]["unit"]) == ("7d6", "D", "hD")
     assert (row("npc-syrn", "bite")["qty"], row("npc-syrn", "bite")["unit"]) == ("4d6", "kD")
 
 

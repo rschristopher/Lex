@@ -22,8 +22,9 @@ def test_class_adds_channels():
 def test_hecto_weapon_marked_high():
     _pid, doc = load_character("pc-venn")
     sheet = fold(doc, "universal")
-    assert sheet["using"]["prefix"] == "hecto"
-    assert sheet["using"]["high"] is True
+    assert (sheet["using"]["damage"], sheet["using"]["prefix"]) == ("6d6", "unit")
+    plasma = sheet["using"]["bonus"][0]
+    assert (plasma["qty"], plasma["unit"], plasma["type"], plasma["high"]) == ("1d6", "hD", "plasma", True)
     assert {c["id"] for c in sheet["channels"]} >= {"attack", "parry", "dodge", "block", "initiative"}
 
 
@@ -90,7 +91,8 @@ def test_hecto_units_and_lancer():
     assert off_punch["unit"] == "D"
     ryn = fold(load_character("pc-ryn")[1], "universal")
     assert ryn["class"]["name"] == "Augmented"
-    assert ryn["using"]["prefix_label"] == "hD"
+    assert (ryn["using"]["damage"], ryn["using"]["prefix_label"]) == ("7d6", "D")
+    assert [(b["qty"], b["unit"], b["type"]) for b in ryn["using"]["bonus"]] == [("2d6", "hD", "resonance")]
     ch = {c["id"]: c["value"] for c in ryn["channels"]}
     assert ch["actions"] == 8
     assert ch["dodge"] == 6

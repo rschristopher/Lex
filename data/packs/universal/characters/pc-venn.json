@@ -64,8 +64,16 @@
     {
       "id": "plasma_lance",
       "name": "Plasma lance",
-      "damage": "1d6",
-      "prefix": "hecto"
+      "damage": "2d6",
+      "material": "titanium",
+      "durability": "hecto",
+      "bonus": [
+        {
+          "damage": "1d6",
+          "prefix": "hecto",
+          "type": "plasma"
+        }
+      ]
     }
   ],
   "abilities": [
