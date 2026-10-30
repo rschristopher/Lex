@@ -281,7 +281,9 @@ Strike work is force times stroke. At the same stroke, it grows with lift. Stren
 
 A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
 
-Strength adds its strike work to fists and hand-to-hand weapons, and the blow takes the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo. Each weapon has a limit on the damage it can deliver, and a blow past that limit can destroy it, as a balsa-wood sword swung at kilo Strength would be.
+Strength adds its strike work to fists and hand-to-hand weapons as a Strength bonus, at the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo.
+
+Each hand-to-hand weapon has a durability, which is a prefix. The weapon's dice add to the Strength bonus and take the prefix of the wielder's Strength, up to the weapon's durability. A kilo-rated `3d6` sword does `3d6 D` on top of a human's Strength bonus, `3d6 hD` on top of a hecto Strength bonus, and at most `3d6 kD`. A blow past the durability destroys the weapon, as does parrying a blow above it; the GM decides. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
 
 ### Speed
 
@@ -348,7 +350,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
 
-**How is a weapon's limit written, and what happens to a blow past it?**
+**How many dice is a Strength bonus?**
 
 **What makes two humans of the same mass have different flesh hit points?**
 

@@ -51,19 +51,22 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit"
+      "prefix": "unit",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit"
+      "prefix": "unit",
+      "durability": "unit"
     },
     {
       "id": "staff",
       "name": "Staff",
       "damage": "2d6",
-      "prefix": "unit"
+      "prefix": "unit",
+      "durability": "deka"
     }
   ],
   "abilities": [

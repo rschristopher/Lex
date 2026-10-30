@@ -51,13 +51,15 @@
       "id": "punch",
       "name": "Punch",
       "damage": "2d6",
-      "prefix": "unit"
+      "prefix": "unit",
+      "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "2d6",
-      "prefix": "unit"
+      "prefix": "unit",
+      "durability": "unit"
     },
     {
       "id": "plasma_lance",
