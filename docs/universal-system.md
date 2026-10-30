@@ -362,7 +362,7 @@ Agility bonus = max(0, floor(Agility / 5) − 2)
 
 There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
 
-Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. A sense for danger that adds to initiative, dodge, and parry, or a reflex dodge, is an ability. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. A reflex dodge is an ability. A sixth sense for danger, which adds to initiative, dodge, and parry, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 #### Safe fall
 
@@ -382,6 +382,18 @@ safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 | 100 | impacts to about 1.4 km/s |
 
 A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful roll halves fall damage.
+
+#### Reflex dodge
+
+A reflex dodge costs no action, so the character keeps their attacks. It rolls the normal dodge bonus: the Agility bonus plus training. In each melee, the first 1 + Agility bonus reflex dodges have no penalty, and each one after that is −2 cumulative (−2, −4, …).
+
+| Agility | 10 | 20 | 30 | 50 | 75 | 100 |
+|---|---|---|---|---|---|---|
+| Reflex dodges with no penalty | 1 | 3 | 5 | 9 | 14 | 19 |
+
+It works only against attacks the character perceives. A sixth sense extends that, even to attackers out of sight or at a distance. It never works against area effects. Whether it works against bullets or beams is set by the ability; a better version allows them.
+
+Certain fighting skills, acrobatic occupations, augmented soldiers, and species grant a reflex dodge.
 
 ### Endurance
 
@@ -417,7 +429,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Does the Agility bonus add to aimed guns and beams?**
 
-**How does a reflex dodge work, and what are its limits?**
+**Which fighting skills grant a reflex dodge, and at what level of training?**
 
 **When two species meet, whose standard sets Appearance?**
 

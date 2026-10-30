@@ -37,7 +37,7 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Occupation** -- what the character does. A soldier, a politician, a wizard. Species is a separate fact. This is not Armor Class.
 
-**Parry / Dodge** -- the numeric bonuses applied to an optional roll (usually a `d20`) after an attack to determine if the attack is parried or dodged. A parry or dodge typically costs one action, although some characters have an automatic parry (from combat training), and some rare occupations possess a reflex dodge (a dodge that takes no action).
+**Parry / Dodge** -- the numeric bonuses applied to an optional roll (usually a `d20`) after an attack to determine if the attack is parried or dodged. A parry or dodge typically costs one action, although some characters have an automatic parry (from combat training), and some fighting skills, occupations, and species grant a reflex dodge (a dodge that takes no action).
 
 **Psionics** -- psychic abilities that cost Anima to activate. A telekinetic field is a power you turn on, not armor you wear.
 

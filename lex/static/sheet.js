@@ -226,7 +226,7 @@ function renderHud(s, stacked) {
   for (const c of ch) {
     const st = el("div", "stat" + (c.automatic ? " automatic" : ""));
     const lab = el("b", "", c.label);
-    if (c.automatic) lab.title = "automatic";
+    if (c.automatic) lab.title = c.reflex_free != null ? `reflex dodge: ${c.reflex_free} per melee with no penalty, then −2 each` : "automatic";
     st.append(lab);
     const n = c.id === "actions" ? String(c.value) : fmtBonus(c.value);
     st.append(el("span", "", n));

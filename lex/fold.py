@@ -5,7 +5,7 @@ from typing import Any
 from lex import store
 from lex.paths import DEFAULT_ADAPTER
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
-from lex.agility import AGILITY_CHANNELS, agility_bonus
+from lex.agility import AGILITY_CHANNELS, agility_bonus, reflex_free
 from lex.strength import melee_damage
 
 
@@ -412,6 +412,8 @@ def _fold_channels(
         row = {"id": cid, "label": s["label"], "value": val}
         if cid in automatic:
             row["automatic"] = True
+            if s["from"] == "dodge":
+                row["reflex_free"] = reflex_free(agility)
         out.append(row)
     return out
 
