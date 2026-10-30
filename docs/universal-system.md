@@ -54,7 +54,7 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 1. [optional] initiative roll, determine who goes first, and the order of combat
 2. attack, roll and determine if the attack succeeds
-3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or automatic dodge (from occupation or ability) must choose this as it consumes an action.
+3. [optional] defense, roll to determine if a successful attack lands (or was parried or dodged); characters without automatic parry (from combat training), or a reflex dodge (an ability) must choose this as it consumes an action.
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
 
@@ -240,7 +240,7 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Strength | lift, 6 kg per point | lifting, breaking, grappling; strike work | 6 kg | 60 kg, untrained adult | 180 kg; the deadlift record is 32 | 1,800 t | 18 trillion t | decided |
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
-| Agility | control and precision, not reaction time; unitless | strike, parry, dodge, pulling a blow, falling, fine hand work | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
+| Agility | control and precision, not reaction time; unitless | strike, parry, dodge, pulling a blow, falling | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
 | Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
@@ -363,20 +363,20 @@ safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 
 The bonus adds to strike, parry, dodge, and pulling a blow. There is no penalty below 10; low Agility costs safe fall and fails Agility rolls more often.
 
-Each tier gives these with no roll. A harder feat, such as a balance feat, is an Agility roll.
+Safe fall is Agility's only trait that needs no roll. A harder feat, such as a balance feat, is an Agility roll.
 
-| Agility | Bonus | Safe fall | Hands |
-|---|---|---|---|
-| 10 | +0 | 2 m | everyday tasks |
-| 20 | +2 | 3 m | picks a pocket; field-strips a weapon fast |
-| 30 | +4 | 6 m | stage sleight of hand; microsurgery steadiness; picks a lock in seconds |
-| 50 | +8 | about 96 m | any human hand skill at full speed |
-| 75 | +13 | any fall on Earth; impacts to about 250 m/s | finer than a human hand |
-| 100 | +18 | impacts to about 1.4 km/s | full control |
+| Agility | Bonus | Safe fall |
+|---|---|---|
+| 10 | +0 | 2 m |
+| 20 | +2 | 3 m |
+| 30 | +4 | 6 m |
+| 50 | +8 | about 96 m |
+| 75 | +13 | any fall on Earth; impacts to about 250 m/s |
+| 100 | +18 | impacts to about 1.4 km/s |
 
 A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful Agility roll halves fall damage.
 
-Skills, occupations, and species add abilities on top of Agility, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. A sense for danger that adds to initiative, dodge, and parry, or an automatic dodge, is an ability too. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities on top of Agility, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. A sense for danger that adds to initiative, dodge, and parry, or a reflex dodge, is an ability. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 ### Endurance
 
@@ -411,6 +411,8 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **How do two unitless scores above 30 compare in a check?**
 
 **Does the Agility bonus add to aimed guns and beams?**
+
+**How does a reflex dodge work, and what are its limits?**
 
 **When two species meet, whose standard sets Appearance?**
 
