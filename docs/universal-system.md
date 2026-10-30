@@ -368,7 +368,7 @@ Agility bonus = max(0, floor(Agility / 5) − 2)
 
 There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
 
-Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 #### Safe fall
 
@@ -430,8 +430,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **Does Lex need a knock-out track separate from flesh hit points?**
 
 **How do two unitless scores above 30 compare in a check?**
-
-**Which fighting skills grant Reflex Defense, and at what level of training?**
 
 **When two species meet, whose standard sets Appearance?**
 
