@@ -4,7 +4,7 @@ What is still open in Lex. Settled rules are in [universal-system.md](universal-
 
 ## Next
 
-- Attributes, one at a time: Will, Awareness, Presence, and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
+- Attributes, one at a time: Awareness, Presence, and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
 - The u-simplified adapter's Strength modifier conflicts with the Strength scale: Syrn's Strength 43 shows +16.
 - Safe fall: whether a successful roll halves fall damage above the safe height is still proposed ([Safe fall](universal-system.md#safe-fall)).
 
@@ -39,3 +39,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **How is a contest between two characters at 100 settled?**
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
+
+**Does Will use the same bonus formula as Agility and Intellect?**
+
+**What does Will look like above 30?**
