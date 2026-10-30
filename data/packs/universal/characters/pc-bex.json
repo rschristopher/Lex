@@ -53,14 +53,14 @@
           "id": "punch",
           "name": "Punch",
           "damage": "1d6",
-          "prefix": "hecto",
+          "material": "alloy",
           "durability": "hecto"
         },
         {
           "id": "kick",
           "name": "Kick",
           "damage": "2d6",
-          "prefix": "hecto",
+          "material": "alloy",
           "durability": "hecto"
         }
       ]
@@ -71,14 +71,14 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {

@@ -50,15 +50,15 @@
     {
       "id": "punch",
       "name": "Punch",
-      "damage": "2d6",
-      "prefix": "unit",
+      "damage": "1d6",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
-      "damage": "2d6",
-      "prefix": "unit",
+      "damage": "1d6",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {

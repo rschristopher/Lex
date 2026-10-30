@@ -51,22 +51,22 @@
       "id": "punch",
       "name": "Punch",
       "damage": "1d6",
-      "prefix": "unit",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
       "damage": "1d6",
-      "prefix": "unit",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "knife",
       "name": "Knife",
       "damage": "1d6",
-      "prefix": "unit",
-      "durability": "hecto"
+      "material": "steel",
+      "durability": "deka"
     }
   ],
   "abilities": [

@@ -281,9 +281,29 @@ Strike work is force times stroke. At the same stroke, it grows with lift. Stren
 
 A longer limb adds stroke: ×10 limb length is ×10 strike work at the same Strength.
 
-Strength adds its strike work to fists and hand-to-hand weapons as a Strength bonus, at the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo.
+Strength adds its strike work to fists and hand-to-hand weapons, at the prefix that strike work reaches, with no exceptions. A Strength that reaches kilo strikes at kilo.
 
-Each hand-to-hand weapon has a durability, which is a prefix. The weapon's dice add to the Strength bonus and take the prefix of the wielder's Strength, up to the weapon's durability. A kilo-rated `3d6` sword does `3d6 D` on top of a human's Strength bonus, `3d6 hD` on top of a hecto Strength bonus, and at most `3d6 kD`. A blow past the durability destroys the weapon, as does parrying a blow above it; the GM decides. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
+**Strength dice** is what a bare fist does. From 1 to 30 it is one d6 per full 10 points, at least 1, so a low Strength still punches `1d6 D`. Its cost is lift and carry. Above 30, every 5 points runs 1, 2, 3, 5, 7 dice, and then the next prefix starts again at 1. Where there is no next prefix, as between kilo and mega, the count goes ×10 every 5 points. Ten dice of one prefix average the same as one die of the next.
+
+| Strength | Strength dice | Kilo-rated `3d6` sword |
+|---|---|---|
+| 1 to 19 | `1d6 D` | `3d6 D` |
+| 20 to 29 | `2d6 D` | `4d6 D` |
+| 30, 31, 32 | `3d6`, `5d6`, `7d6 D` | `5d6`, `7d6`, `9d6 D` |
+| 33, 34, 35, 36, 37 | `1d6`, `2d6`, `3d6`, `5d6`, `7d6 dD` | `3d6`, `4d6`, `5d6`, `7d6`, `9d6 dD` |
+| 38 | `1d6 hD` | `3d6 hD` |
+| 43, 48, 53 | `1d6`, `10d6`, `100d6 kD` | `3d6`, `12d6`, `102d6 kD` |
+| 58 | `1d6 mD` | destroyed |
+| 73 | `1d6 gD` | destroyed |
+| 88, 93, 99, 100 | `1d6`, `10d6`, `200d6`, `300d6 tD` | destroyed |
+
+The Strength bonus is Strength dice minus 1. A weapon replaces the fist's die with its own dice:
+
+```
+hand-to-hand damage = (Strength dice − 1) + weapon dice, at the Strength's prefix
+```
+
+Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
 
 ### Speed
 
@@ -350,7 +370,11 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
 
-**How many dice is a Strength bonus?**
+**Can a wielder pull a blow to the weapon's durability so it is not destroyed?**
+
+**Does a powered hand-to-hand weapon, such as a plasma lance, bring its own prefix instead of the wielder's Strength?**
+
+**Does a blow that destroys a parrying weapon land as if it had not been parried?**
 
 **What makes two humans of the same mass have different flesh hit points?**
 

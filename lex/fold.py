@@ -5,6 +5,7 @@ from typing import Any
 from lex import store
 from lex.paths import DEFAULT_ADAPTER
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
+from lex.strength import melee_damage
 
 
 def eval_mod(value: int, spec: dict[str, Any]) -> int:
@@ -173,6 +174,20 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
     return out
 
 
+def _with_strength(doc: dict[str, Any], weapons: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Hand-to-hand weapons (those with a durability) take the wielder's Strength."""
+    strength = _worn_attr_values(doc.get("attrs") or {}, doc).get("strength")
+    if strength is None:
+        return weapons
+    out = []
+    for w in weapons:
+        if w.get("durability") and w.get("damage"):
+            w = dict(w)
+            w.update(melee_damage(w["damage"], int(strength), w["durability"]))
+        out.append(w)
+    return out
+
+
 def _effective_weapons(doc: dict[str, Any]) -> list[dict[str, Any]]:
     weapons = [dict(w) for w in (doc.get("weapons") or [])]
     index = {w.get("id"): i for i, w in enumerate(weapons)}
@@ -188,7 +203,7 @@ def _effective_weapons(doc: dict[str, Any]) -> list[dict[str, Any]]:
             else:
                 index[aid] = len(weapons)
                 weapons.append(dict(a))
-    return weapons
+    return _with_strength(doc, weapons)
 
 
 def _attack_options(doc: dict[str, Any]) -> list[dict[str, Any]]:
@@ -432,6 +447,7 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
             "select": "attack",
             "prefix": prefix,
             "high": factor(prefix) >= 100,
+            "destroyed": bool(w.get("destroyed")),
         })
 
     by_kind: dict[str, list[dict[str, Any]]] = {}
@@ -535,6 +551,7 @@ def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
             "prefix": prefix,
             "prefix_label": _label_prefix(adapter, prefix, "damage"),
             "high": factor(prefix) >= 100,
+            "destroyed": bool(src.get("destroyed")),
         }
 
     portrait = None

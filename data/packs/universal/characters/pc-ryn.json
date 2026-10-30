@@ -50,23 +50,22 @@
     {
       "id": "punch",
       "name": "Punch",
-      "damage": "2d6",
-      "prefix": "unit",
+      "damage": "1d6",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "kick",
       "name": "Kick",
-      "damage": "2d6",
-      "prefix": "unit",
+      "damage": "1d6",
+      "material": "flesh and bone",
       "durability": "unit"
     },
     {
       "id": "resonant_blade",
       "name": "Resonant blade",
       "damage": "2d6",
-      "prefix": "hecto",
-      "durability": "kilo"
+      "prefix": "hecto"
     },
     {
       "id": "pulse_pistol",
