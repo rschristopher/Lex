@@ -24,7 +24,8 @@ def test_hecto_weapon_marked_high():
     assert (sheet["using"]["damage"], sheet["using"]["prefix"]) == ("6d6", "unit")
     plasma = sheet["using"]["bonus"][0]
     assert (plasma["qty"], plasma["unit"], plasma["type"], plasma["high"]) == ("1d6", "hD", "plasma", True)
-    assert {c["id"] for c in sheet["channels"]} >= {"strike", "defense", "block", "initiative"}
+    assert {c["id"] for c in sheet["channels"]} >= {"strike", "defense", "initiative"}
+    assert "block" not in {c["id"] for c in sheet["channels"]}
 
 
 def test_gear_groups():
@@ -102,7 +103,7 @@ def test_hecto_units_and_lancer():
     assert g["hit_points"]["label"] == "Hit points"
     assert g["hit_points"]["total"] == 28
     sch = {c["id"]: c["value"] for c in simp["channels"]}
-    assert set(sch) == {"actions", "strike", "defense", "block", "initiative"}
+    assert set(sch) == {"actions", "strike", "defense", "initiative"}
 
 
 def test_eval_mod():

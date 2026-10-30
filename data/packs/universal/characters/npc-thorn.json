@@ -33,7 +33,6 @@
     "actions": 5,
     "strike": 4,
     "defense": 3,
-    "block": 2,
     "initiative": 3
   },
   "armor": [

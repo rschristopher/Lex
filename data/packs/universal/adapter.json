@@ -22,7 +22,6 @@
     "actions": "Actions",
     "strike": "Strike",
     "defense": "Defense",
-    "block": {"label": "Block", "omit_zero": true},
     "initiative": "Initiative"
   },
   "purse": "Coin",

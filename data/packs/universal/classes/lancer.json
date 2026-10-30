@@ -3,7 +3,6 @@
   "name": "Lancer",
   "kind": "class",
   "effects": [
-    {"verb": "mod.channel", "target": "strike", "op": "add", "value": 2},
-    {"verb": "mod.channel", "target": "block", "op": "add", "value": 2}
+    {"verb": "mod.channel", "target": "strike", "op": "add", "value": 2}
   ]
 }
