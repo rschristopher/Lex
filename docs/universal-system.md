@@ -58,7 +58,9 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 4. damage, roll to determine the exact amount of damage from a successful attack.
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
 
-Combat has two bonuses, Strike and Defense. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge works against any attack the defender perceives and needs room. Neither stops an area effect.
+Combat has two bonuses, Strike and Defense. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
+
+A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. In combat most attacks are perceived. A long-distance attack from outside the fight, such as a sniper's shot before any initiative roll, is not, so it cannot be defended against without a sixth sense, which makes every attack perceived.
 
 Whether a 1-second round, or a multi-second melee where each player has a set number of actions within the melee, combat always iterates through that same pattern of attack, defense, and damage.
 
@@ -393,9 +395,9 @@ Reflex Defense makes a dodge or parry cost no action, so the character keeps the
 |---|---|---|---|---|---|---|
 | Reflex defenses with no penalty | 1 | 3 | 5 | 9 | 14 | 19 |
 
-It works only against attacks the character perceives. A sixth sense extends that, even to attackers out of sight or at a distance. It never works against area effects. Whether it works against bullets or beams is set by the ability; a better version allows them.
+Reflex Defense is the same whatever its source. Like any defense, it works only against attacks the character perceives.
 
-Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense. Proposed: from a fencing or sword-fighting skill, it covers only melee and thrown attacks.
+Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense.
 
 ### Endurance
 
