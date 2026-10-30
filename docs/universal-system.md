@@ -303,6 +303,8 @@ The Strength bonus is Strength dice minus 1. A weapon replaces the fist's die wi
 hand-to-hand damage = (Strength dice − 1) + weapon dice, at the Strength's prefix
 ```
 
+A weapon can also carry its own bonus damage, such as a magic sword's `+2d6` fire. It adds on top of the Strength bonus and the weapon's dice.
+
 Each hand-to-hand weapon has a durability, which is a prefix set by its material. A wooden knife is unit; a quality steel or titanium staff is about hecto. A natural weapon's durability comes from the species. A blow whose prefix is above the durability destroys the weapon, as does parrying a blow above it; the GM decides. Proposed: the blow then lands as if it had not been parried. Durability is an optional rule.
 
 ### Speed
@@ -375,6 +377,8 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **Does a powered hand-to-hand weapon, such as a plasma lance, bring its own prefix instead of the wielder's Strength?**
 
 **Does a blow that destroys a parrying weapon land as if it had not been parried?**
+
+**Does a weapon's own bonus damage take its own prefix or the wielder's Strength prefix, and does the weapon's durability cap it?**
 
 **What makes two humans of the same mass have different flesh hit points?**
 
