@@ -8,6 +8,8 @@ There are three primary components of Lex:
 2. combat and gaming layer -- manage player combat and gaming where dice rolls stay on the table and Lex handles the math and rules enforcement; utilizes the same universal effects/constraints engine such that character sheets dynamically update during combat and gameplay.
 3. GM-assistant -- helps manage adventures (serial or episodic) within a larger campaign. LLM-friendly such that custom characters, occupations, locations, and lore can be ingested and integrated into a campaign. 
 
+The game is the GM talking and the players playing their characters in a shared story. The same game can be played with paper and dice alone; tablets assist. Lex does not play the game, and it has nothing to start or stop. Nothing in the app holds the table until a sheet is finished.
+
 For example, ingest Homer's Iliad and Odyssey alongside wild west novelas for a Greek mythological take on the wild west. 
 Or if you want to integrate Japanese demons (oni or yokai) alognside the Greek gods, point your favorite LLM at the relevant text (in any language) and ingest that into Lex.
 Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign. Lex is the ideal RPG harness for a LLM.
@@ -19,6 +21,7 @@ The Lex app is NOT a virtual-table-top, and doesn't try to be. Lex manages chara
 The goal is that dice stay on the table, and Lex manages the math (using an effects/constraints engine) of leveling characters, combat, armor, and damage. 
 
 Other games are not separate engines. They are **adapters** which converts characters to/from other systems, acting as a kind of Rosetta stone for tabletop RPGs.
+There is one Lex engine, and one campaign has one set of rules. An adapter is a sheet language: labels, attribute names, and which dice are shown. It does not change the math. A different melee engine is later work, and it is not part of this app.
 Lex presupposes a multiversal RPG, where one can easily integrate disparate lore, for example, ingest Homer's Odyssey alongside wild-west novels for a Greek Mythological cowboy western campaign.
 
 **Packs are not exclusive.** Load as many as you want. Characters, species, occupations, and lore from every pack sit in one campaign. 
@@ -43,6 +46,8 @@ This however creates many conflated and confusing situations where a literal tan
 
 *Verisimilitude* is the recognition that the system itself shouldn't require GM intervention to avoid villagers with pitchforks defeating a tank.
 Other systems have a more accurate and believable "Damage Resistance" concept (or "Damage Threshold"), where a tank is trivially easy to hit, but the damage from pitchforks is simply never able to hurt the tank, and the tank easily wins against 100 villagers, but the martial artist does not.
+
+Armor is worn hits on the harm track, not a to-hit number. The GM may adapt labels, within the limits of verisimilitude.
 
 
 
@@ -82,6 +87,26 @@ In Lex a highly trained martial artist might have 8-10 actions per melee, and ea
 
 Our highly skilled martial artist would easily defeat any one villager, but if there is 100 of them then the martial artist is going to be overwhelmed.
 The tank on the other hand is still impervious to pitch forks (and even punches from the martial artist).
+
+
+
+### Fights in the app
+
+A group is a list the GM makes to see who is together. A fight is two or more groups, and during it a character is in only one of them. Outside a fight the GM groups any characters they want. Groups that follow from location are later work.
+
+The GM marks the groups as fighting, and the tablets of the characters in those groups show the combat screen. Every tablet in the fight shows both groups and the initiative order the whole time. Players can see non-player hit points and armor; in the first version they are always visible, and hiding them for a "what they look like" view is later work.
+
+Initiative is rolled once, at the start of the fight, on the table or with the auto-roll button. That order stays until the fight is over. Each melee gives every character their actions back, and Lex walks the same order, one action at a time; characters with actions left keep coming around. Lex does not stop the fight to collect a new initiative. The GM can call a fresh initiative if the situation changes, such as new characters joining. The GM ends the fight: the combat screen goes away, the sheets stay as updated, and Lex does not prompt about leftover actions.
+
+On your action you pick a weapon or a power on the combat screen and tap a target when the action needs one. A power spends Anima. How hit points heal depends on the character. Damaged armor in most cases needs repair. At zero flesh hit points a character is unconscious or dead; what happens next is the GM's call. Timed effects and constraints count down by melee during a fight. Outside a fight, timing is the GM's call, and Lex gives the GM tooling to see those timed effects and constraints; Lex does not run a game clock. If the action needs a roll, a modal shows that roll's dice and asks for the result, with a small button that rolls for you. If it does not need a roll, the effect happens when you select it.
+
+The roll modal is on the tablet of the character who is rolling and on the GM's tablet. Either can type the result or use the auto-roll button. The same rule covers every roll. A defense modal includes a pass, so the defender can keep the action and enter no roll.
+
+The GM can undo the last action, or several actions in a row, to fix a mistake such as a mistyped roll.
+
+A player with paper says the action, for example "laser rifle to the bandit." The GM selects it, the player rolls, and the GM enters the number.
+
+Outside a fight, a player can tap a skill on their sheet to open the same roll modal, and the GM can call for a roll, which opens the modal on that character's tablet. The same roll rules apply.
 
 
 
@@ -405,37 +430,7 @@ Advanced fencing and sword-fighting skills, acrobatic occupations, augmented sol
 
 Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
 
-### Open questions
-
-**How is a check bonus computed?**
-A check compares a score with a difficulty. For a lift, the difficulty is the Strength whose lift equals the mass. Below 30 the same difference in points is a different ratio at different scores: 10 against 20 is ×2, and 25 against 30 is ×1.2.
-One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded. Above 30 it is twice the difference in score. A bonus of +3 is about twice what the task needs at any score. On a `d20` the target is 10 minus the bonus, as in [Dice](#dice). At +9 or more the check always succeeds. At −11 or less it always fails.
-
-| Bonus | Chance | `d20` | `3d6` | `d100` |
-|---|---|---|---|---|
-| −3 | 40% | 13 or higher | 9 or lower | 61 or higher |
-| 0 | 55% | 10 or higher | 10 or lower | 46 or higher |
-| +1 | 60% | 9 or higher | 11 or lower | 41 or higher |
-| +5 | 80% | 5 or higher | 13 or lower | 21 or higher |
-
-* A Strength 21 soldier (126 kg) lifts a 100 kg crate. The difficulty is 17 and the bonus is +1.
-* Strength 15 arm-wrestles Strength 30. The bonus is −3.
-* A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
-* A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
-
-**What makes two humans of the same mass have different flesh hit points?**
-
-**Do flesh hit points grow with experience?**
-
-**Does Lex need a knock-out track separate from flesh hit points?**
-
-**How do two unitless scores above 30 compare in a check?**
-
-**When two species meet, whose standard sets Appearance?**
-
-**How is a contest between two characters at 100 settled?**
-
-**How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
+Open questions are in [plan.md](plan.md#open-questions).
 
 ### Anchors
 
@@ -463,7 +458,7 @@ That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., 
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
-A campaign uses one die system for every roll; systems are not mixed by area (see [decisions.md](decisions.md)). For each of the following areas, the adapter sets how that die is read, or opts the area out:
+The GM sets the campaign's die system, for example `3d6`, `d20`, or `d100`. Every player at that table uses it, and the GM can change it at any time for everyone. A campaign uses one die system for every roll; systems are not mixed by area. Sheet labels may still differ per tablet; the die itself does not. For each of the following areas, the adapter sets how that die is read, or opts the area out:
 
 + attributes, character creation and per-level increases 
 + hit points and per-level increases
@@ -484,8 +479,76 @@ HUD, Heads Up Display, displays Hit Points and Anima and combat stats.
 Combined Hit Points: flesh on the left, remaining armor next, depleted on the right. Remainder is a darker same-color fill when the Damage Threshold is greater than 1; hover on that remainder shows the Damage Threshold. Black empty only when you are on base unit hits (threshold 1) and under 100. Hit Points colors are blood red (unit) → orange (deka) → amber (hecto) → gold (kilo and up). Anima is blue. Roster and sheet use the same HUD.
 
 
-## Occupations and lore
+## Species and occupations
 
-Species is what a character is, and exactly one. Occupation is what a character does. Lore is prose the engine does not read when resolving the sheet or a fight. The decisions for the app are in [decisions.md](decisions.md).
+Species is what a character is, and exactly one. A human, an elf, a mutant, a dragon. Things with the same name from different sources are different things, shown with their source, such as an elf from one book and an elf from another.
+
+Occupation is what a character does. A soldier, a politician, a wizard.
+
+An occupation is one ordered set of abilities, or several ordered sets side by side. A later set counts only when every set before it is met. The catalog is large, and includes catchalls such as Vagabond. The sheet shows the top two or three. The player can pin one as a reminder of what they are spending toward. The pin does not lock spending.
+
+Abilities are the truth. An ability works as soon as it is bought. Qualifying for an occupation follows from what the character owns. Gaps block the title and do not block the ability. The same purchase can satisfy a requirement on more than one occupation, and it is paid for once. Occupation positions are not added together. A wizard and a scholar are not a single higher number.
+
+Some species have growth that a source book writes as per-level bonuses. That growth is an occupation only that species can advance. The starting body is the first set, so a character who never spends on it stays there. Later sets are bought with experience. A metahuman can spend everything on Mage and leave the species occupation on its first set. The lock runs one way: only that species can advance that occupation, and the species can still advance any other occupation.
+
+Two characters of the same species can have different abilities available. Each carries their own list. A custom species occupation walks that list. The list can be one ordered set, or two or more ordered sets.
+
+An ability can be bought only when its constraints are met. A constraint can require a species, a previous set of an occupation, an ability already owned, or a list written on that character. The campaign can also forbid an ability. The set is made of the abilities you buy. Other abilities can require that set without being part of it.
+
+This is enough to convert characters from point-buy games and from level-based games into the same sheet. A point-buy system with no character level and no occupation level keeps its levels on single traits, and its sheet shows the points and the traits. A leveled occupation shows how far its ordered sets have been met.
+
+
+## Experience, prices, and loot
+
+The price of an ability is written in the data pack. The GM sets it while preparing data, not during play. Play spends that number.
+
+The GM adds unspent experience after a scene or after play. Each character gets their own amount. The GM decides. An adventure can record a suggested amount, and the GM can ignore it.
+
+A new character's starting unspent experience is in the pack. The player may spend it while creating the character or during play. Creation is not a phase the app locks. Fill the sheet enough for the GM to run, the way a paper sheet is filled in.
+
+The GM decides what loot exists, and the players receive it.
+
+### Rewards
+
+After a fight, Lex can open a reward screen. The GM puts up a stack of items and can type an experience award for each character. Experience is spent later, on the sheet.
+
+One player holds an item at a time. They click to claim it and click again to let go. Someone else who wants it talks with them at the table. The holder can let go, or the GM can assign it. The GM can also start a fight over it. The GM controls the screen and can close it whenever they want. While an item is held, every tablet still shows the full item details.
+
+Items nobody took stay on the ground, unclaimed. The GM can open that stack again. Nothing is discarded and nothing is given away by closing the screen.
+
+
+## Server and logins
+
+One local web server. The GM and the players are browsers on their own devices. This is not a cloud app and it is not real security.
+
+Login is a username and a password. The password may be blank. The player or the GM can create the login. Usernames are unique. Becoming the GM is an explicit setup or promote step; the first account created is not automatically GM. More than one login may be GM. A tablet is signed in as one login at a time. A shared tablet at the table is just the GM's login; players who use it are handled the same way as players with paper.
+
+The server can hold dozens of campaigns and dozens of adventures. The GM opens one campaign, and one adventure in that campaign is in play. Only one campaign is in play on the server at a time, even when there is more than one GM. Several GMs can co-run the same campaign, and every GM has full control of it. A GM can also play a character in a campaign they run; that character's turn opens the same locked modal as any player's.
+
+A login can have characters in more than one campaign. Before a campaign is open, the tablet lists every character on that login. After the GM opens a campaign, the screen is built around that campaign and one character. The player can switch to another of their characters in the open campaign, and can still open characters from closed campaigns, but those sit further back. In a fight, the modal follows whichever of their characters has the turn. Outside that turn modal they may switch characters freely, including characters not in the fight. The turn modal itself stays locked to the character whose action it is.
+
+The player does not browse campaigns or adventures. They see their characters, and anything the GM has shared.
+
+Players edit their own characters inside the constraints. The GM sees every player character and every non-player character, and can change a non-player character as they see fit. A GM can also directly edit any player character. Ordinary GM edits follow the same constraints and experience costs as a player's. The GM can also always add a power or ability to a character, or add a constraint to one. An owned ability that breaks a constraint stops working until the constraint is removed.
+
+The GM can generate a random non-player character before the game or during it. It is a full character. The pack decides which rolls are used. The GM can edit the result.
+
+
+## Adventures
+
+An adventure holds locations, stories in prose, maps, and non-player characters, plus any suggested experience, loot, and groups. The GM can edit it during the game. It is enough to run from.
+
+Player characters belong to the campaign and stay as the adventures change.
+
+For any adventure material, the GM can show it or hide it, for every player or for the players they pick. Players do not open the adventure. They see a map, or anything else, only when the GM sends it.
+
+
+## Lore, ingest, and packs
+
+Lore is prose the engine does not read when resolving the sheet or a fight.
+
+An LLM can work with Lex in two ways: as a skill inside an existing LLM harness, or with Lex acting as the agentic harness itself. A goal is to ingest an entire book and produce a data pack of everything in it: characters, maps, abilities, powers, species, occupations, and so on. The GM drives the LLM. They iterate together on every stat and number, the way a planning session works, and the LLM can recommend stats and numbers based on existing material.
 
 Ingest writes **rows** into `data/packs/` which is ingested into the Lex database; working notes and book links stay in `data/ingest/` (untracked except `data/ingest/README.md`).
+
+During play, sqlite on the server is the live record. Packs are import and export. Characters move between Lex servers through data packs. An exported character can depend on other packs; how dependencies work is later detail. The repo ships only original packs. A pack converted from a copyrighted or licensed game lives only on the local server and is gitignored. It is never committed or published. Ingest notes about a copyrighted game follow the same rule: they stay local and gitignored, not committed to `data/ingest/`. `.gitignore` enforces this: everything under `data/packs/` and `data/ingest/` is ignored except the READMEs and the original `universal` and `u-simplified` packs.

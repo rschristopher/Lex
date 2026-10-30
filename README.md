@@ -2,7 +2,7 @@
 
 Lex is a playable universal RPG system (characters, combat, armor, damage) which can integrate with any other system, allowing conversion to/from any ingested system.
 
-Decisions for the real app are in [docs/decisions.md](docs/decisions.md). The glossary is [docs/glossary.md](docs/glossary.md).
+The rules and app design are in [docs/universal-system.md](docs/universal-system.md); open questions and next steps are in [docs/plan.md](docs/plan.md). The glossary is [docs/glossary.md](docs/glossary.md).
 
 
 ## Run
