@@ -7,7 +7,7 @@ The following terms are used in the Lex engine, see [universal-system.md](univer
 
 **Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine. Adapters provide labels, attribute conversions, and dice math. The decision of whether to use a classic `d20` roll where a high roll is a hit, or a `3d6` roll where a low roll is a hit, is defined in the adapter. Lex simply converts to/from the universal engine, giving the GM full control, and dice stay on the table.
 
-**Adventure** -- locations, stories, maps, and non-player characters for one story, plus any suggested experience, loot, and groups. Adventures live in a campaign. See [decisions.md](decisions.md).
+**Adventure** -- locations, stories, maps, and non-player characters for one story, plus any suggested experience, loot, and groups. Adventures live in a campaign. See [universal-system.md](universal-system.md#adventures).
 
 **Anima** -- numeric capacity for magic and psionics. All living creatures contain Anima. Adapters can relabel as needed, e.g., U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
 
@@ -19,13 +19,15 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Attack** -- a player action attacking a called target, unarmed (punch or kick) or armed.
 
-**Campaign** -- the container for player characters and adventures. One campaign is open at a time. See [decisions.md](decisions.md).
+**Campaign** -- the container for player characters and adventures. One campaign is open at a time. See [universal-system.md](universal-system.md#server-and-logins).
 
 **Damage Threshold** -- Damage less than the threshold does nothing, fractions and remainder round to 0. Default 1. In the Lex character UI, knight's armor might be `40 dA` with threshold 10: the bar would show `40 dA` plus HP; blows under 10 do nothing to the armor.
 
 **Data Pack** -- parsed characters, species, occupations, equipment, and adapter data that can be loaded into the Lex engine. The GM sets ability prices and starting experience here, before play.
 
 **Experience** -- total, spent, and unspent. Any two fix the third. Unspent is what the player saves or spends. The GM adds it per character after a scene.
+
+**Free use** -- an option an ability can offer, bought with experience at a price the ability sets; with it, the ability costs no Anima. See [universal-system.md](universal-system.md#prefixes-and-free-use).
 
 **Group** -- a list the GM makes to see who is together. A fight is two or more groups. During a fight a character is in only one of those groups.
 

@@ -14,7 +14,7 @@ def test_class_adds_channels():
     ids = [a["id"] for a in sheet["attrs"]]
     assert ids == [
         "strength", "agility", "endurance", "speed",
-        "intellect", "will", "awareness", "presence", "appearance",
+        "intellect", "willpower", "awareness", "appearance",
     ]
 
 
@@ -123,6 +123,9 @@ def test_simplified_view():
     assert attrs["dexterity"]["value"] == 13
     assert attrs["dexterity"]["mod"] == 1
     assert attrs["wisdom"]["value"] == 11
+    # Charisma is derived: average of Appearance 10, Willpower 11, Intellect 11, rounded down.
+    assert attrs["charisma"]["value"] == 10
+    assert attrs["charisma"]["mod"] == 0
     gauges = {g["id"]: g for g in sheet["gauges"]}
     assert list(gauges) == ["hit_points"]
     assert gauges["hit_points"]["label"] == "Hit points"

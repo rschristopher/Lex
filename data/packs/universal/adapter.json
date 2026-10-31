@@ -8,9 +8,8 @@
     "endurance": "Endurance",
     "speed": "Speed",
     "intellect": "Intellect",
-    "will": "Will",
+    "willpower": "Willpower",
     "awareness": "Awareness",
-    "presence": "Presence",
     "appearance": "Appearance"
   },
   "gauges": {

@@ -162,10 +162,17 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
     for aid, meta in spec.items():
         s = _attr_spec(meta, aid)
         src = s["from"]
-        if src not in raw and aid not in raw:
-            continue
-        base = int(raw.get(src, raw.get(aid, 0)))
-        val = int(worn.get(src, worn.get(aid, base)))
+        if isinstance(src, list):
+            # Derived stat: the average of several attributes, rounded down.
+            if not all(k in raw for k in src):
+                continue
+            base = sum(int(raw[k]) for k in src) // len(src)
+            val = sum(int(worn.get(k, raw[k])) for k in src) // len(src)
+        else:
+            if src not in raw and aid not in raw:
+                continue
+            base = int(raw.get(src, raw.get(aid, 0)))
+            val = int(worn.get(src, worn.get(aid, base)))
         row = {"id": aid, "label": s["label"], "value": val}
         if val != base:
             row["boosted"] = True

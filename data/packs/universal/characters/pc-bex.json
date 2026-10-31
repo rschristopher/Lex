@@ -13,9 +13,8 @@
     "endurance": 14,
     "speed": 8,
     "intellect": 11,
-    "will": 12,
+    "willpower": 12,
     "awareness": 12,
-    "presence": 10,
     "appearance": 10
   },
   "gauges": [
