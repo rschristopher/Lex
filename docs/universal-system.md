@@ -213,6 +213,8 @@ The numeric gauge for magic, psionics, and other supernatural abilities.
 Anima is measured in Magi or Magic points `M`.
 Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
 
+Anima comes from [Willpower](#willpower), which also sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Willpower, and so enough Anima, to start the occupation, and the abilities, skills, powers, and spells they gain then grow their Anima further.
+
 
 ### Scaling and Anima Threshold
 
@@ -452,6 +454,8 @@ Endurance is how well a body holds up against what is done to it: fatigue, poiso
 ### Willpower
 
 Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
+
+Willpower is the source of a character's [Anima](#anima) and sets how fast it recovers.
 
 Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 

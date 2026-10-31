@@ -43,3 +43,11 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **Does Willpower use the same bonus formula as Agility and Intellect?**
 
 **What does Willpower look like above 30?**
+
+**How does Willpower set the size of Anima?**
+
+**What Willpower does a mage or psychic need to start?**
+
+**How do abilities grow Anima per level?**
+
+**How does Willpower set Anima recovery?**
