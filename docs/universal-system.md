@@ -238,6 +238,8 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 *Note: While an ability may cost nothing to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
 
+An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
+
 
 
 
@@ -456,6 +458,8 @@ Endurance is how well a body holds up against what is done to it: fatigue, poiso
 Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
 
 Willpower is the source of a character's [Anima](#anima) and sets how fast it recovers.
+
+As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
 
 Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 

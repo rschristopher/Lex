@@ -45,9 +45,11 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **What does Willpower look like above 30?**
 
 **How does Willpower set the size of Anima?**
+Proposal: base Anima equals Willpower in `M`, so Willpower 12 gives `12 M`, as in the non-caster example in [Anima](universal-system.md#anima).
 
 **What Willpower does a mage or psychic need to start?**
 
 **How do abilities grow Anima per level?**
+Proposal: a caster ability names a multiplier, and each level adds Willpower × that multiplier in `M`; Willpower 20 with ×10 gains `200 M` a level. Adapters pick the multiplier to match other systems' per-level amounts.
 
 **How does Willpower set Anima recovery?**
