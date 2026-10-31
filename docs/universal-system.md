@@ -219,17 +219,21 @@ Anima recuperates dynamically as a character "catches their breath" during or af
 
 Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. Willpower sets how fast Anima recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
 
-Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus. The ladder is a draft:
+Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus:
 
-| Level | Anima | Average human |
+| Level | Anima | Example |
 |---|---|---|
-| novice | Intellect + Willpower + Endurance + Strength | `50 M` |
-| apprentice | Intellect + 5 × Willpower + 3 × Endurance + 2 × Strength | `120 M` |
-| journeyman | to be set | |
-| expert | to be set | |
-| master | 3 × Intellect + 50 × Willpower + 30 × Endurance + 20 × Strength | `1,040 M` |
+| Novice | Intellect + Willpower + Endurance + Strength | all 10s: `50 M` |
+| Apprentice | 10 × Intellect + 100 × Willpower + 60 × Endurance + 30 × Strength | all 10s: `2,010 M` |
+| Professional | 50 × Intellect + 400 × Willpower + 300 × Endurance + 150 × Strength | all 15s: `13,510 M` |
+| Expert | 200 × Intellect + 1,600 × Willpower + 1,200 × Endurance + 600 × Strength | all 20s: `72,010 M` |
+| Master | 800 × Intellect + 6,400 × Willpower + 4,800 × Endurance + 2,400 × Strength | all 30s: `432,010 M` |
 
-Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so a human occupation's master level tops out in kilo: a master with 30 in all four has 90 + 1,500 + 900 + 600 + 10 = `3,100 M`, about `3 kM`. Mega and above is a separate, cosmic category that humans cannot reach.
+Most characters in a typical setting are Professional, and Expert is rare. A Master is a human trained to compete with superheroes and metahumans without cybernetics or metahuman abilities.
+
+Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Mega and above is a separate, cosmic category that takes more than an occupation.
+
+A pool is written in the prefix that matches the setting's power band. In a mega-damage setting, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new ley-line mage with 137 points has `137 hM` (`13,700 M`).
 
 
 ### Scaling and Anima Threshold
@@ -238,8 +242,8 @@ Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) 
 And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean and easy to read on a character sheet, especially for powerful characters.
 
 *   An average human with no magic or psionic abilities has an Anima pool of `50 M`.
-*   A mortal mage or psychic character might have an Anima pool of `160 M` with an Anima Threshold of 10, and thus `16 dM`
-*   A powerful demigod or metahuman might possess an Anima pool of `120 hM`, which represents a whopping `12,000 M` and an Anima Threshold of 100.
+*   An apprentice mage or psychic with all 10s has `2,010 M`.
+*   A professional mage or psychic might have `120 hM`, which is `12,000 M`, with an Anima Threshold of 100.
 
 ### Trivial Costs and At-Will Powers
 
@@ -247,8 +251,8 @@ When calculating resource consumption, any ability (spell, psionic, etc) that co
 
 If a high-tier character casts a low-cost spell, the final cost naturally resolves to zero. This models immense power seamlessly without requiring specialized trait rules or exception lists:
 
-*   **The God Effect:** A spell costing `30 M` cast by a demigod operating at a hecto-Magic scale (`hM`, scale 100) calculates as zero. The ability is free for that character to cast.
-*   **High-Tier Drain:** If that same demigod channels a world-shaking miracle costing `5,000 M`, the math resolves to `50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
+*   **The God Effect:** A spell costing `30 M` cast by a mage operating at a hecto-Magic scale (`hM`, scale 100) calculates as zero. The ability is free for that character to cast.
+*   **High-Tier Drain:** If that same mage channels a world-shaking miracle costing `5,000 M`, the math resolves to `50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
 
 This also means that as character increases their Anima Threshold, their lower-level abilities (which costs less than their threshold) becone free. 
 
@@ -256,7 +260,7 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
-Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are novice, apprentice, journeyman, expert, and master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
+Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are Novice, Apprentice, Professional, Expert, and Master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
 
 
 
