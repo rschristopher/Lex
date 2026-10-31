@@ -44,7 +44,9 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **What bonus does each skill level give?**
 
-**Are the Anima ladder multipliers right?**
+**What are the journeyman and expert Anima formulas?**
+
+**How is an Anima pool's prefix chosen?** The docs write `160 M` as `16 dM` and `12,000 M` as `120 hM`. Does a pool switch prefix as soon as it reaches that prefix's size, or stay in a prefix until it is 10 times the next?
 
 **Is the human species Anima bonus a flat 10 or a 3d6 roll?**
 

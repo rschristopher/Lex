@@ -219,15 +219,17 @@ Anima recuperates dynamically as a character "catches their breath" during or af
 
 Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. Willpower sets how fast Anima recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
 
-Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus. The multipliers are a first draft:
+Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus. The ladder is a draft:
 
-| Level | Anima |
-|---|---|
-| novice | Intellect + Willpower + Endurance + Strength |
-| apprentice | Intellect + 2 × Willpower + Endurance + Strength |
-| journeyman | Intellect + 3 × Willpower + 2 × Endurance + Strength |
-| expert | Intellect + 5 × Willpower + 3 × Endurance + 2 × Strength |
-| master | Intellect + 10 × Willpower + 5 × Endurance + 3 × Strength |
+| Level | Anima | Average human |
+|---|---|---|
+| novice | Intellect + Willpower + Endurance + Strength | `50 M` |
+| apprentice | Intellect + 5 × Willpower + 3 × Endurance + 2 × Strength | `120 M` |
+| journeyman | to be set | |
+| expert | to be set | |
+| master | 3 × Intellect + 50 × Willpower + 30 × Endurance + 20 × Strength | `1,040 M` |
+
+Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so a human occupation's master level tops out in kilo: a master with 30 in all four has 90 + 1,500 + 900 + 600 + 10 = `3,100 M`, about `3 kM`. Mega and above is a separate, cosmic category that humans cannot reach.
 
 
 ### Scaling and Anima Threshold
