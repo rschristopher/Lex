@@ -236,7 +236,7 @@ Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and 
 A pool is written in the prefix that matches the setting's power band. In a mega-damage setting, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new ley-line mage with 137 points has `137 hM` (`13,700 M`).
 
 
-### Prefixes and free use
+### Prefixes and ability upgrades
 
 Anima uses `M` as its unit. Prefixes are notation only: `120 hM` is `12,000 M`.
 
@@ -244,13 +244,7 @@ Anima uses `M` as its unit. Prefixes are notation only: `120 hM` is `12,000 M`.
 *   An apprentice mage or psychic with all 10s has `2,010 M`.
 *   A professional mage or psychic might have `120 hM`.
 
-Each ability sets its own free-use rule:
-
-*   Never free, with no option to buy.
-*   A reduced-cost option, a free-use option, or both, bought with experience at a price the ability sets once the Anima pool reaches a multiple of the ability's cost that the ability also sets, such as 10× or 100×.
-*   The same options, opened instead when the pool reaches the prefix above the cost, or 10× or 100× that prefix. One prefix step is only 10×: `1 kM` is `10 hM`.
-
-The character must already have the ability. Nothing becomes cheaper or free on its own when the pool grows. A free ability still takes an action.
+An ability can list upgrades, such as reduced cost, free use, or always on. Each upgrade unlocks when the Anima pool reaches a level the ability sets, such as `1 kM`, `10 kM`, or a multiple of the ability's cost; one prefix step is only 10×. Depending on the ability, an upgrade is automatic at that level or is bought with experience. The character must already have the ability. Some abilities have no upgrades. For example, a psychic's sixth sense might become free at `1 kM`, and a fire-bolt power might offer reduced cost from `10 kM`. A free ability still takes an action.
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 

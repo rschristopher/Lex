@@ -3,6 +3,8 @@
 The following terms are used in the Lex engine, see [universal-system.md](universal-system.md) for details. Keep these entries in alphabetical order.
 
 
+**Ability upgrades** -- options an ability can list, such as reduced cost, free use, or always on. Each unlocks at an Anima pool level the ability sets, automatically or bought with experience, once the character has the ability. See [universal-system.md](universal-system.md#prefixes-and-ability-upgrades).
+
 **Actions** -- the total number of actions (usually attacks) a player can take per 10-second melee.
 
 **Adapter** -- a presentation layer of a character sheet that is compatible with the Lex universal engine. Adapters provide labels, attribute conversions, and dice math. The decision of whether to use a classic `d20` roll where a high roll is a hit, or a `3d6` roll where a low roll is a hit, is defined in the adapter. Lex simply converts to/from the universal engine, giving the GM full control, and dice stay on the table.
@@ -26,8 +28,6 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 **Data Pack** -- parsed characters, species, occupations, equipment, and adapter data that can be loaded into the Lex engine. The GM sets ability prices and starting experience here, before play.
 
 **Experience** -- total, spent, and unspent. Any two fix the third. Unspent is what the player saves or spends. The GM adds it per character after a scene.
-
-**Free use** -- an option an ability can offer, bought with experience at a price the ability sets, once the character has the ability and their Anima pool reaches the multiple of its cost, or of the next prefix, that the ability sets; with it, the ability costs no Anima. Some abilities offer no such option. A reduced-cost option works the same way. See [universal-system.md](universal-system.md#prefixes-and-free-use).
 
 **Group** -- a list the GM makes to see who is together. A fight is two or more groups. During a fight a character is in only one of those groups.
 

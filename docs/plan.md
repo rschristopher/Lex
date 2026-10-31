@@ -44,11 +44,9 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **What bonus does each skill level give?**
 
-**How is a free-use option's experience price set?**
+**How is a bought upgrade's experience price set?**
 
 **How much does a reduced-cost option reduce the cost?**
-
-**Can an ability become free automatically at its multiple, or is free use always a purchase?**
 
 **Is the human species Anima bonus a flat 10 or a 3d6 roll?**
 
