@@ -241,7 +241,7 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 ## Attributes
 
-Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
+Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, Presence, and Appearance.
 
 Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
 
@@ -260,11 +260,11 @@ A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, 
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+Agility, Endurance, Intellect, Willpower, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
 
 ### Attribute table
 
-Strength, Speed, Endurance, Agility, Intellect, and Will are decided. The other three are proposals.
+Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The other three are proposals.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -273,7 +273,7 @@ Strength, Speed, Endurance, Agility, Intellect, and Will are decided. The other 
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
 | Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
-| Will | willpower and resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
+| Willpower | resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
 | Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
 | Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
@@ -449,11 +449,11 @@ Above 30, Intellect sets how fast and how deeply a mind learns:
 
 Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
 
-### Will
+### Willpower
 
-Will is willpower and resolve, the mental mirror of Endurance. Endurance covers the body's limits; Will covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Will; the body's tolerance for it is Endurance.
+Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
 
-Adapters map willpower stats from point-buy and level-based games to Will: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
+Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 
 Open questions are in [plan.md](plan.md#open-questions).
 

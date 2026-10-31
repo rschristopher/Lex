@@ -40,6 +40,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
 
-**Does Will use the same bonus formula as Agility and Intellect?**
+**Does Willpower use the same bonus formula as Agility and Intellect?**
 
-**What does Will look like above 30?**
+**What does Willpower look like above 30?**

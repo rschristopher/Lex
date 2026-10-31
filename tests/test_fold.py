@@ -14,7 +14,7 @@ def test_class_adds_channels():
     ids = [a["id"] for a in sheet["attrs"]]
     assert ids == [
         "strength", "agility", "endurance", "speed",
-        "intellect", "will", "awareness", "presence", "appearance",
+        "intellect", "willpower", "awareness", "presence", "appearance",
     ]
 
 
