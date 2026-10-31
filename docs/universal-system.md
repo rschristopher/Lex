@@ -244,7 +244,13 @@ Anima uses `M` as its unit. Prefixes are notation only: `120 hM` is `12,000 M`.
 *   An apprentice mage or psychic with all 10s has `2,010 M`.
 *   A professional mage or psychic might have `120 hM`.
 
-An ability can offer a reduced-cost option, a free-use option, or both, each bought with experience at a price the ability sets. The character must already have the ability, and their Anima pool must be at a higher prefix than the ability's cost: a hecto-cost spell's options open once the pool is kilo. Nothing becomes cheaper or free on its own when the pool reaches a higher prefix. An ability without these options always costs its full Anima. A free ability still takes an action.
+Each ability sets its own free-use rule:
+
+*   Never free, with no option to buy.
+*   A reduced-cost option, a free-use option, or both, bought with experience at a price the ability sets once the Anima pool reaches a multiple of the ability's cost that the ability also sets, such as 10× or 100×.
+*   The same options, opened instead when the pool reaches the prefix above the cost, or 10× or 100× that prefix. One prefix step is only 10×: `1 kM` is `10 hM`.
+
+The character must already have the ability. Nothing becomes cheaper or free on its own when the pool grows. A free ability still takes an action.
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
