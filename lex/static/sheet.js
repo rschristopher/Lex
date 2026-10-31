@@ -335,7 +335,7 @@ function renderPlay(s) {
   const ident = el("div");
   ident.append(el("h1", "", s.name || s.id));
   const bits = [s.ancestry?.name, s.class?.name, s.level != null ? `Level ${s.level}` : ""].filter(Boolean);
-  ident.append(el("p", "occ", bits.join(" · ")));
+  ident.append(el("p", "occupation", bits.join(" · ")));
   whoBox.append(ident);
   left.append(whoBox);
   const list = s.attrs || [];
