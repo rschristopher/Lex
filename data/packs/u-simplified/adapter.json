@@ -7,8 +7,7 @@
     "dexterity": {"label": "Dexterity", "from": "agility", "mod": {"sub": 10, "div": 2, "floor": true}},
     "constitution": {"label": "Constitution", "from": "endurance", "mod": {"sub": 10, "div": 2, "floor": true}},
     "intelligence": {"label": "Intelligence", "from": "intellect", "mod": {"sub": 10, "div": 2, "floor": true}},
-    "wisdom": {"label": "Wisdom", "from": "awareness", "mod": {"sub": 10, "div": 2, "floor": true}},
-    "charisma": {"label": "Charisma", "from": "presence", "mod": {"sub": 10, "div": 2, "floor": true}}
+    "wisdom": {"label": "Wisdom", "from": "awareness", "mod": {"sub": 10, "div": 2, "floor": true}}
   },
   "gauges": {
     "hit_points": {"label": "Hit points", "kind": "hits"},

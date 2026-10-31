@@ -217,7 +217,7 @@ The numeric gauge for magic, psionics, and other supernatural abilities.
 Anima is measured in Magi or Magic points `M`.
 Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
 
-Anima comes from [Willpower](#willpower), which also sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima, from Willpower, to pay for their first abilities, and the abilities, skills, powers, and spells they gain then grow their Anima further.
+Anima comes from Strength, Endurance, [Willpower](#willpower), and Intellect, plus a species bonus if any. Willpower sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities, and the abilities, skills, powers, and spells they gain then grow their Anima further.
 
 
 ### Scaling and Anima Threshold
@@ -251,7 +251,7 @@ Each spell, power, or ability has its own skill level, so a character can be an 
 
 ## Attributes
 
-Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, Presence, and Appearance.
+Lex has eight core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, and Appearance. Persuading, leading, intimidating, and performing are abilities.
 
 Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
 
@@ -270,11 +270,11 @@ A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, 
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Endurance, Intellect, Willpower, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+Agility, Endurance, Intellect, Willpower, Awareness, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
 
 ### Attribute table
 
-Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The other three are proposals.
+Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The other two are proposals.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -285,7 +285,6 @@ Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The o
 | Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
 | Willpower | resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
 | Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
-| Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
 | Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
 
 At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
@@ -463,7 +462,7 @@ Endurance is how well a body holds up against what is done to it: fatigue, poiso
 
 Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
 
-Willpower is the source of a character's [Anima](#anima) and sets how fast it recovers.
+Willpower is one of the sources of a character's [Anima](#anima), and it sets how fast Anima recovers.
 
 As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
 

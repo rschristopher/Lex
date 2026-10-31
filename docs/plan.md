@@ -4,7 +4,7 @@ What is still open in Lex. Settled rules are in [universal-system.md](universal-
 
 ## Next
 
-- Attributes, one at a time: Awareness, Presence, and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
+- Attributes, one at a time: Awareness and Appearance are still proposals in the [attribute table](universal-system.md#attribute-table).
 - The u-simplified adapter's Strength modifier conflicts with the Strength scale: Syrn's Strength 43 shows +16.
 - Safe fall: whether a successful roll halves fall damage above the safe height is still proposed ([Safe fall](universal-system.md#safe-fall)).
 
@@ -44,10 +44,9 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **What is the intermediate skill level called, and what bonus does each skill level give?**
 
-**How does Willpower set the size of Anima?**
-Proposal: base Anima equals Willpower in `M`, so Willpower 12 gives `12 M`, as in the non-caster example in [Anima](universal-system.md#anima).
+**How do Strength, Endurance, Willpower, Intellect and a species bonus combine into Anima?**
 
 **How do abilities grow Anima per level?**
-Proposal: a caster ability names a multiplier, and each level adds Willpower × that multiplier in `M`; Willpower 20 with ×10 gains `200 M` a level. Adapters pick the multiplier to match other systems' per-level amounts.
+Proposal: a caster ability names a multiplier, and each level adds the character's base Anima × that multiplier in `M`; a base of `20 M` with ×10 gains `200 M` a level. Adapters pick the multiplier to match other systems' per-level amounts.
 
 **How does Willpower set Anima recovery?**

@@ -14,7 +14,7 @@ def test_class_adds_channels():
     ids = [a["id"] for a in sheet["attrs"]]
     assert ids == [
         "strength", "agility", "endurance", "speed",
-        "intellect", "willpower", "awareness", "presence", "appearance",
+        "intellect", "willpower", "awareness", "appearance",
     ]
 
 
@@ -119,7 +119,7 @@ def test_simplified_view():
     sheet = fold(doc, "u-simplified")
     assert sheet["adapter"] == "u-simplified"
     attrs = {a["id"]: a for a in sheet["attrs"]}
-    assert set(attrs) == {"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
+    assert set(attrs) == {"strength", "dexterity", "constitution", "intelligence", "wisdom"}
     assert attrs["dexterity"]["value"] == 13
     assert attrs["dexterity"]["mod"] == 1
     assert attrs["wisdom"]["value"] == 11
