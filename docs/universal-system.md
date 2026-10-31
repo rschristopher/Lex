@@ -65,6 +65,8 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 
 Combat has two bonuses, Strike and Defense. Strike applies to every attack. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
 
+Every attack is physical or mental. A physical attack hits the body, such as a punch, a fireball, lightning, or conjured chains, vines, or tentacles, and is Strike against Defense. A mental attack acts on the target's mind or will, such as mind control, a trance, fear, or an illusion, including an illusion of chains. The attacker rolls the ability's own bonus, and the target makes a resist roll with their Willpower bonus. Resisting, like Defense, is reflexive and never costs the target an action.
+
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
 An attack from outside combat, such as a sniper's first shot, is not perceived and lands with no defense roll. The target is then in combat and knows where the sniper is, so the sniper's later attacks that melee can be defended. The sniper can instead spend that action to relocate or leave combat and set up another opening shot. A sixth sense puts the character into combat before the unperceived attack; they roll initiative and can defend even against the first shot.
@@ -213,7 +215,7 @@ The numeric gauge for magic, psionics, and other supernatural abilities.
 Anima is measured in Magi or Magic points `M`.
 Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
 
-Anima comes from [Willpower](#willpower), which also sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Willpower, and so enough Anima, to start the occupation, and the abilities, skills, powers, and spells they gain then grow their Anima further.
+Anima comes from [Willpower](#willpower), which also sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima, from Willpower, to pay for their first abilities, and the abilities, skills, powers, and spells they gain then grow their Anima further.
 
 
 ### Scaling and Anima Threshold
@@ -239,6 +241,8 @@ This also means that as character increases their Anima Threshold, their lower-l
 *Note: While an ability may cost nothing to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
+
+Each spell or power carries its own skill bonus, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. Using a spell or power is a roll that can fail: a novice fails often, an expert sometimes, and a master never. A master's ability can still be resisted.
 
 
 
@@ -460,6 +464,8 @@ Willpower is resolve, the mental mirror of Endurance. Endurance covers the body'
 Willpower is the source of a character's [Anima](#anima) and sets how fast it recovers.
 
 As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
+
+Willpower's bonus is the resist roll against a [mental attack](#combat-rules). At 100 a character is immune to all mental magic and psionics; physical attacks still apply.
 
 Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 

@@ -40,14 +40,12 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
 
-**Does Willpower use the same bonus formula as Agility and Intellect?**
+**How does the Willpower resist bonus scale?** Does it use the Agility and Intellect formula, and how does it rise from 30 to immunity at 100?
 
-**What does Willpower look like above 30?**
+**How is a spell's or power's own bonus rated, and what bonus is mastery, which never fails?**
 
 **How does Willpower set the size of Anima?**
 Proposal: base Anima equals Willpower in `M`, so Willpower 12 gives `12 M`, as in the non-caster example in [Anima](universal-system.md#anima).
-
-**What Willpower does a mage or psychic need to start?**
 
 **How do abilities grow Anima per level?**
 Proposal: a caster ability names a multiplier, and each level adds Willpower × that multiplier in `M`; Willpower 20 with ×10 gains `200 M` a level. Adapters pick the multiplier to match other systems' per-level amounts.
