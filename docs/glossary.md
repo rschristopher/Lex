@@ -27,7 +27,7 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Experience** -- total, spent, and unspent. Any two fix the third. Unspent is what the player saves or spends. The GM adds it per character after a scene.
 
-**Free use** -- an option an ability can offer, bought with experience at a price the ability sets; with it, the ability costs no Anima. See [universal-system.md](universal-system.md#prefixes-and-free-use).
+**Free use** -- an option an ability can offer, bought with experience at a price the ability sets, once the character has the ability and their Anima pool is at a higher prefix than its cost; with it, the ability costs no Anima. A reduced-cost option works the same way. See [universal-system.md](universal-system.md#prefixes-and-free-use).
 
 **Group** -- a list the GM makes to see who is together. A fight is two or more groups. During a fight a character is in only one of those groups.
 

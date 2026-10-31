@@ -46,6 +46,8 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How is a free-use option's experience price set?**
 
+**How much does a reduced-cost option reduce the cost?**
+
 **Is the human species Anima bonus a flat 10 or a 3d6 roll?**
 
 **What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
