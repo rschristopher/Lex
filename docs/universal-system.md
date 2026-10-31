@@ -244,7 +244,7 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
-Each spell or power carries its own skill bonus, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. Using a spell or power is a roll that can fail: a novice fails often, an expert sometimes, and a master never. A master's ability can still be resisted.
+Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are at least novice, an intermediate level, expert, and master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
 
 
 
@@ -444,7 +444,7 @@ Intellect is reasoning, memory, and learning. From 1 to 30 it is the human range
 Intellect bonus = max(0, floor(Intellect / 5) − 2)
 ```
 
-The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, and +18 at 100. Abilities such as spellcasting or psionics can draw their own Intellect-based bonuses. Intellect does not add to willpower, perception, or initiative.
+The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, and +18 at 100. Some abilities, such as a spell or psionic power, use the Intellect bonus. Intellect does not add to willpower, perception, or initiative.
 
 Above 30, Intellect sets how fast and how deeply a mind learns:
 

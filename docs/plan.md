@@ -42,7 +42,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Does an attack's target number come from the ability's own bonus alone, and what is the base target for Strike, Defense, and resist rolls?**
 
-**How is a spell's or power's own bonus rated, and what bonus is mastery, which never fails?**
+**What is the intermediate skill level called, and what bonus does each skill level give?**
 
 **How does Willpower set the size of Anima?**
 Proposal: base Anima equals Willpower in `M`, so Willpower 12 gives `12 M`, as in the non-caster example in [Anima](universal-system.md#anima).
