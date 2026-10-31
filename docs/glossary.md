@@ -27,6 +27,8 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Experience** -- total, spent, and unspent. Any two fix the third. Unspent is what the player saves or spends. The GM adds it per character after a scene.
 
+**Free use** -- an option an ability can offer, bought with experience at a price the ability sets; with it, the ability costs no Anima. See [universal-system.md](universal-system.md#prefixes-and-free-use).
+
 **Group** -- a list the GM makes to see who is together. A fight is two or more groups. During a fight a character is in only one of those groups.
 
 **Hit Points** -- The number of damage a character can take. On the HUD this is a stacked bar with armor stacked from left to right (damage applies to the right-most layer) and it is ordered: flesh, then body armor, then magic fields, then psionic fields. On the HUD HP bar, black (empty) is shown only when the remaining band is base (Damage Threshold of 1) and the value is under `100 A`. Color on the HUD HP bar indicates the Damage Threshold: blood red (base, no prefix) through orange (deka), amber (hecto), and so on towards white.

@@ -44,7 +44,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **What bonus does each skill level give?**
 
-**How is free use of a power bought?** Proposal, not confirmed: free use is bought per power with experience along the occupation path, replacing the rule that anything cheaper than the pool's prefix is free. That rule leaves small mega-damage-scale spells free, and it stalls between kilo and mega, where there is no prefix. What does free use cost, and which powers can have it?
+**How is a free-use option's experience price set?**
 
 **Is the human species Anima bonus a flat 10 or a 3d6 roll?**
 

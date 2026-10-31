@@ -236,27 +236,15 @@ Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and 
 A pool is written in the prefix that matches the setting's power band. In a mega-damage setting, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new ley-line mage with 137 points has `137 hM` (`13,700 M`).
 
 
-### Scaling and Anima Threshold
+### Prefixes and free use
 
-Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) as the base universal unit. 
-And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean and easy to read on a character sheet, especially for powerful characters.
+Anima uses `M` as its unit. Prefixes are notation only: `120 hM` is `12,000 M`.
 
-*   An average human with no magic or psionic abilities has an Anima pool of `50 M`.
+*   An average human with no magic or psionic abilities has `50 M`.
 *   An apprentice mage or psychic with all 10s has `2,010 M`.
-*   A professional mage or psychic might have `120 hM`, which is `12,000 M`, with an Anima Threshold of 100.
+*   A professional mage or psychic might have `120 hM`.
 
-### Trivial Costs and At-Will Powers
-
-When calculating resource consumption, any ability (spell, psionic, etc) that costs less than a character's Anima Threshold is free, become an at-will power.
-
-If a high-tier character casts a low-cost spell, the final cost naturally resolves to zero. This models immense power seamlessly without requiring specialized trait rules or exception lists:
-
-*   **The God Effect:** A spell costing `30 M` cast by a mage operating at a hecto-Magic scale (`hM`, scale 100) calculates as zero. The ability is free for that character to cast.
-*   **High-Tier Drain:** If that same mage channels a world-shaking miracle costing `5,000 M`, the math resolves to `50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
-
-This also means that as character increases their Anima Threshold, their lower-level abilities (which costs less than their threshold) becone free. 
-
-*Note: While an ability may cost nothing to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
+An ability can offer a free-use option, bought with experience at a price the ability sets; with it, the ability costs no Anima. An ability without that option always costs Anima. A free ability still takes an action.
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
