@@ -215,9 +215,9 @@ A character's flesh hit points are a total stored on the sheet. The total comes 
 
 The numeric gauge for magic, psionics, and other supernatural abilities. 
 Anima is measured in Magi or Magic points `M`.
-Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
+Anima recovers at Willpower % of the character's total Anima per minute: Willpower 10 refills in 10 minutes, and Willpower 100 in 1 minute. In a fight, recovery comes only between melees, one sixth of the per-minute amount after each 10-second melee, and none within a melee. Between fights, a character recovers fully.
 
-Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. Willpower sets how fast Anima recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
+Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
 
 Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus:
 
@@ -466,7 +466,7 @@ Endurance is how well a body holds up against what is done to it: fatigue, poiso
 
 Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
 
-Willpower is one of the sources of a character's [Anima](#anima), and it sets how fast Anima recovers.
+Willpower is one of the sources of a character's [Anima](#anima), and it sets how fast Anima [recovers](#anima): Willpower % of the total per minute.
 
 As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
 

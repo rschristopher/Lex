@@ -13,6 +13,8 @@ The following terms are used in the Lex engine, see [universal-system.md](univer
 
 **Anima** -- numeric capacity for magic and psionics. All living creatures contain Anima. Adapters can relabel as needed, e.g., U-simplified calls this Stamina. It is rendered with a blue bar on the HUD.
 
+**Anima recovery** -- Willpower % of total Anima per minute; in a fight, one sixth of that after each melee and none within a melee; full between fights.
+
 **Armor** -- worn gear (from a leather jacket to a suit of power armor). Typically one body slot, magic and then psionics applied on top.
 
 **Armor Prefix** or **Damage Prefix** -- SI metric for scale. Armor is a number, e.g., `75 hA` body armor, and damage is usually a roll, e.g., `3d6 hD`.
