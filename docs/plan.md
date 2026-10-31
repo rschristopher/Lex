@@ -42,11 +42,12 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Does an attack's target number come from the ability's own bonus alone, and what is the base target for Strike, Defense, and resist rolls?**
 
-**What is the intermediate skill level called, and what bonus does each skill level give?**
+**What bonus does each skill level give?**
 
-**How do Strength, Endurance, Willpower, Intellect and a species bonus combine into Anima?**
+**Are the Anima ladder multipliers right?**
 
-**How do abilities grow Anima per level?**
-Proposal: a caster ability names a multiplier, and each level adds the character's base Anima × that multiplier in `M`; a base of `20 M` with ×10 gains `200 M` a level. Adapters pick the multiplier to match other systems' per-level amounts.
+**Is the human species Anima bonus a flat 10 or a 3d6 roll?**
+
+**What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
 
 **How does Willpower set Anima recovery?**

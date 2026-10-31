@@ -217,7 +217,17 @@ The numeric gauge for magic, psionics, and other supernatural abilities.
 Anima is measured in Magi or Magic points `M`.
 Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
 
-Anima comes from Strength, Endurance, [Willpower](#willpower), and Intellect, plus a species bonus if any. Willpower sets how fast it recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities, and the abilities, skills, powers, and spells they gain then grow their Anima further.
+Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. Willpower sets how fast Anima recovers. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
+
+Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus. The multipliers are a first draft:
+
+| Level | Anima |
+|---|---|
+| novice | Intellect + Willpower + Endurance + Strength |
+| apprentice | Intellect + 2 × Willpower + Endurance + Strength |
+| journeyman | Intellect + 3 × Willpower + 2 × Endurance + Strength |
+| expert | Intellect + 5 × Willpower + 3 × Endurance + 2 × Strength |
+| master | Intellect + 10 × Willpower + 5 × Endurance + 3 × Strength |
 
 
 ### Scaling and Anima Threshold
@@ -225,7 +235,7 @@ Anima comes from Strength, Endurance, [Willpower](#willpower), and Intellect, pl
 Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) as the base universal unit. 
 And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean and easy to read on a character sheet, especially for powerful characters.
 
-*   A base character with no real magic or psionic abilities might have an Anima pool of `12 M`.
+*   An average human with no magic or psionic abilities has an Anima pool of `50 M`.
 *   A mortal mage or psychic character might have an Anima pool of `160 M` with an Anima Threshold of 10, and thus `16 dM`
 *   A powerful demigod or metahuman might possess an Anima pool of `120 hM`, which represents a whopping `12,000 M` and an Anima Threshold of 100.
 
@@ -244,14 +254,14 @@ This also means that as character increases their Anima Threshold, their lower-l
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
-Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are at least novice, an intermediate level, expert, and master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
+Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are novice, apprentice, journeyman, expert, and master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
 
 
 
 
 ## Attributes
 
-Lex has eight core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, and Appearance. Persuading, leading, intimidating, and performing are abilities.
+Lex has eight core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, and Appearance. Persuading, leading, intimidating, and performing are abilities. Adapters can derive stats such as Charisma from Appearance, Willpower, and Intellect.
 
 Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
 
