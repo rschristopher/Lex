@@ -40,7 +40,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
 
-**How does the Willpower resist bonus scale?** Does it use the Agility and Intellect formula, and how does it rise from 30 to immunity at 100?
+**Does an attack's target number come from the ability's own bonus alone, and what is the base target for Strike, Defense, and resist rolls?**
 
 **How is a spell's or power's own bonus rated, and what bonus is mastery, which never fails?**
 

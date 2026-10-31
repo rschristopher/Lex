@@ -67,6 +67,8 @@ Combat has two bonuses, Strike and Defense. Strike applies to every attack. A pa
 
 Every attack is physical or mental. A physical attack hits the body, such as a punch, a fireball, lightning, or conjured chains, vines, or tentacles, and is Strike against Defense. A mental attack acts on the target's mind or will, such as mind control, a trance, fear, or an illusion, including an illusion of chains. The attacker rolls the ability's own bonus, and the target makes a resist roll with their Willpower bonus. Resisting, like Defense, is reflexive and never costs the target an action.
 
+Rolls are never compared. The attacker rolls against their own target to land the attack. If it lands, the defender rolls against their own target to dodge, parry, or resist. A lucky attack only lands, and can still be dodged or resisted.
+
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
 An attack from outside combat, such as a sniper's first shot, is not perceived and lands with no defense roll. The target is then in combat and knows where the sniper is, so the sniper's later attacks that melee can be defended. The sniper can instead spend that action to relocate or leave combat and set up another opening shot. A sixth sense puts the character into combat before the unperceived attack; they roll initiative and can defend even against the first shot.
@@ -465,7 +467,12 @@ Willpower is the source of a character's [Anima](#anima) and sets how fast it re
 
 As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
 
-Willpower's bonus is the resist roll against a [mental attack](#combat-rules). At 100 a character is immune to all mental magic and psionics; physical attacks still apply.
+Willpower's bonus is the resist roll against a [mental attack](#combat-rules), on the `d20` scale. It is +0 up to 10, then +1 every 5 points up to +10 at 60, then +1 every 4 points up to +20 at 100:
+
+* +1 to +10 at 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+* +11 to +20 at 64, 68, 72, 76, 80, 84, 88, 92, 96, 100
+
++20 at 100 is immunity to all mental attacks; physical attacks still apply. Powers can add their own resist bonuses, some only against one kind of attack: an immunity to hypnotic suggestion lets a low-Willpower character resist that attack as if at Willpower 100. Shielding other people's minds is an ability, not part of Willpower.
 
 Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 
