@@ -14,3 +14,5 @@ data/packs/*
 !data/packs/universal/**
 !data/packs/u-simplified/
 !data/packs/u-simplified/**
+lex.db
+lex.db-*
