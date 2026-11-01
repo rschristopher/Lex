@@ -26,3 +26,19 @@ def test_effect_rows_are_checked(tmp_path):
     assert "op" not in {r[1] for r in conn.execute("PRAGMA table_info(effects)")}
     with pytest.raises(sqlite3.IntegrityError):
         conn.execute("INSERT INTO users (username, role) VALUES ('a', 'admin')")
+
+
+def test_migrates_a_version_1_database(tmp_path):
+    path = tmp_path / "old.db"
+    old = sqlite3.connect(path)
+    old.executescript(db.MIGRATIONS[0])
+    old.execute("PRAGMA user_version = 1")
+    old.execute("INSERT INTO packs VALUES ('p', 'P')")
+    old.execute("INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, op, value)"
+                " VALUES ('ability', 'p', 'x', 0, 'mod.channel', 'strike', 'add', 2)")
+    old.commit()
+    old.close()
+    conn = db.connect(path)
+    assert db.version(conn) == len(db.MIGRATIONS)
+    row = conn.execute("SELECT verb, target, value, level FROM effects").fetchone()
+    assert tuple(row) == ("mod.channel", "strike", 2, None)

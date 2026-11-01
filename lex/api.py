@@ -256,7 +256,8 @@ def buy(cid: str, body: dict[str, Any], adapter: str | None = Query(default=None
         raise HTTPException(403, "only the GM can grant an ability")
     pack, aid = _ref(conn, "abilities", body.get("ability"))
     try:
-        engine.buy_ability(conn, cid, pack, aid, grant=grant)
+        level = body.get("level")
+        engine.buy_ability(conn, cid, pack, aid, grant=grant, level=level if isinstance(level, int) else None)
     except engine.Refused as e:
         raise HTTPException(409, str(e))
     return sheet(conn, cid, adapter)

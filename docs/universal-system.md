@@ -409,7 +409,7 @@ Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30.
 
 Speed is how fast a character, animal, or vehicle moves over time. Above 90 it needs a mechanism that gets around the light-speed limit of general relativity, such as warping or folding space or jumping along a trajectory; without one, Speed stays below 90. Warping, folding, or jumping counts as Speed only when it can land anywhere along its path in a given time. Teleporting with a range, line of sight, or limits on the target is an ability, not Speed. Teleporting with no limits can be 100+, and anything faster than 100 comes from abilities.
 
-A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn. Power armor and robot armor are vehicles with their own attributes, which replace the wearer's physical attributes, Strength and Speed, while worn; normal armor has no attributes. A vehicle has only physical attributes. Piloting is a skill, and it does not benefit from Agility.
+A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn. Power armor and robot armor are vehicles with their own attributes, which replace the wearer's physical attributes, Strength and Speed, while worn; normal armor has no attributes. A vehicle has only physical attributes.
 
 Speed governs movement only. It gives no actions, initiative, or reaction time. Power armor that flies faster than light leaves an ordinary wearer with human reactions and human actions per melee. A species or occupation with high Speed can come with abilities that add actions or reactions, and those are abilities.
 
@@ -437,7 +437,7 @@ Agility bonus = max(0, floor(Agility / 5) − 2)
 
 There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
 
-Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. A skill can provide its own bonuses, and any skill can have levels, from novice through master, bought with experience. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 #### Safe fall
 

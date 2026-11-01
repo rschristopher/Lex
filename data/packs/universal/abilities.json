@@ -16,8 +16,7 @@
   {
     "id": "pilot_armor",
     "name": "Pilot: power armor",
-    "qty": "70%",
-    "agility": false
+    "qty": "70%"
   },
   {
     "id": "gunnery",

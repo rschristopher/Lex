@@ -66,6 +66,11 @@ def resolved_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
     for o in conn.execute("SELECT * FROM character_abilities WHERE character_id=? ORDER BY position", (cid,)):
         cat = conn.execute("SELECT * FROM abilities WHERE pack=? AND id=?", (o["ability_pack"], o["ability_id"])).fetchone()
         row = _merged(o, cat, o["ability_pack"], o["ability_id"])
+        if o["level"] is not None:
+            lv = conn.execute("SELECT name FROM ability_levels WHERE ability_pack=? AND ability_id=? AND level=?",
+                              (o["ability_pack"], o["ability_id"], o["level"])).fetchone()
+            row["level"] = o["level"]
+            row["level_name"] = lv["name"] if lv else str(o["level"])
         problems = broken.get((o["ability_pack"], o["ability_id"]))
         if problems:
             row["inactive"] = problems

@@ -81,15 +81,20 @@ def _num(v: float) -> float | int:
     return int(v) if isinstance(v, float) and v.is_integer() else v
 
 
-def owner_effects(conn: sqlite3.Connection, owner_type: str, pack: str, oid: str) -> list[dict[str, Any]]:
+def owner_effects(
+    conn: sqlite3.Connection, owner_type: str, pack: str, oid: str, level: int | None = None
+) -> list[dict[str, Any]]:
+    """Effect rows of an owner itself (level None) or of one of its levels."""
     out = []
     for r in conn.execute(
-        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
-        (owner_type, pack, oid),
+        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS ? ORDER BY position",
+        (owner_type, pack, oid, level),
     ):
         e = {"verb": r["verb"], "target": r["target"], "value": _num(r["value"]) if r["value"] is not None else None}
         e.update({k: v for k, v in json.loads(r["data"]).items() if not k.startswith("_")})
         e["source"] = {"type": owner_type, "pack": pack, "id": oid}
+        if level is not None:
+            e["source"]["level"] = level
         out.append(e)
     return out
 
@@ -191,6 +196,9 @@ def character_effects(conn: sqlite3.Connection, cid: str) -> tuple[list[dict[str
             broken[key] = problems
             continue
         effects += owner_effects(conn, "ability", *key)
+        if r["level"] is not None:
+            # Only the owned level's own effect rows; the docs do not say lower levels add up.
+            effects += owner_effects(conn, "ability", *key, level=r["level"])
     active = {r["ref"] for r in conn.execute("SELECT ref FROM character_active WHERE character_id=?", (cid,))}
     for r in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
         if r["item_id"] in active:
@@ -202,9 +210,19 @@ class Refused(Exception):
     pass
 
 
-def buy_ability(conn: sqlite3.Connection, cid: str, pack: str, aid: str, *, grant: bool = False) -> int:
-    """Buy an ability with unspent experience, inside its constraints. grant=True is the GM adding it outright.
+def ability_levels(conn: sqlite3.Connection, pack: str, aid: str) -> list[sqlite3.Row]:
+    return conn.execute(
+        "SELECT * FROM ability_levels WHERE ability_pack=? AND ability_id=? ORDER BY level", (pack, aid)
+    ).fetchall()
 
+
+def buy_ability(
+    conn: sqlite3.Connection, cid: str, pack: str, aid: str, *, grant: bool = False, level: int | None = None
+) -> int:
+    """Buy an ability, or its next level, with unspent experience inside its constraints.
+
+    An ability with levels is bought one level at a time, starting at its first; levels cannot be skipped.
+    `level`, when given, must be that next level. grant=True is the GM adding it outright.
     Returns the unspent experience left.
     """
     ab = conn.execute("SELECT * FROM abilities WHERE pack=? AND id=?", (pack, aid)).fetchone()
@@ -213,23 +231,44 @@ def buy_ability(conn: sqlite3.Connection, cid: str, pack: str, aid: str, *, gran
     ch = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
     if ch is None:
         raise KeyError(cid)
-    if (pack, aid) in owned_abilities(conn, cid):
-        raise Refused("already owned")
+    owned = conn.execute(
+        "SELECT * FROM character_abilities WHERE character_id=? AND ability_pack=? AND ability_id=?", (cid, pack, aid)
+    ).fetchone()
+    levels = ability_levels(conn, pack, aid)
+    if levels:
+        nxt = (owned["level"] or 0) + 1 if owned else 1
+        if nxt > len(levels):
+            raise Refused("already at the top level")
+        if level is not None and level != nxt:
+            raise Refused(f"buy level {nxt} ({levels[nxt - 1]['name']}) first; levels cannot be skipped")
+        price = levels[nxt - 1]["price"]
+    else:
+        if owned:
+            raise Refused("already owned")
+        if level is not None:
+            raise Refused("this ability has no levels")
+        nxt, price = None, ab["price"]
     left = ch["xp_unspent"] or 0
     if not grant:
         problems = unmet(conn, cid, "ability", pack, aid)
         if problems:
             raise Refused("; ".join(problems))
-        if ab["price"] is None:
-            raise Refused("the pack sets no price for this ability")
-        if left < ab["price"]:
-            raise Refused(f"needs {ab['price']} experience, {left} unspent")
-        left -= ab["price"]
-    pos = conn.execute(
-        "SELECT COALESCE(MAX(position), -1) + 1 FROM character_abilities WHERE character_id=?", (cid,)
-    ).fetchone()[0]
+        if price is None:
+            raise Refused("the pack sets no price for this " + ("level" if levels else "ability"))
+        if left < price:
+            raise Refused(f"needs {price} experience, {left} unspent")
+        left -= price
     with conn:
-        conn.execute("INSERT INTO character_abilities VALUES (?,?,?,?,'{}')", (cid, pos, pack, aid))
+        if owned:
+            conn.execute("UPDATE character_abilities SET level=? WHERE character_id=? AND ability_pack=? AND ability_id=?",
+                         (nxt, cid, pack, aid))
+        else:
+            pos = conn.execute(
+                "SELECT COALESCE(MAX(position), -1) + 1 FROM character_abilities WHERE character_id=?", (cid,)
+            ).fetchone()[0]
+            conn.execute(
+                "INSERT INTO character_abilities (character_id, position, ability_pack, ability_id, data, level)"
+                " VALUES (?,?,?,?,'{}',?)", (cid, pos, pack, aid, nxt))
         if not grant:
             conn.execute("UPDATE characters SET xp_unspent=? WHERE id=?", (left, cid))
     return left

@@ -167,7 +167,8 @@ def test_wearer_effects_do_not_reach_inside_a_worn_vehicle(conn):
         {"verb": "mod.attr", "target": "agility", "value": 2},
     ]}]))
     with conn:
-        conn.execute("INSERT INTO character_abilities VALUES ('pc-bex', 99, 'test', 'might', '{}')")
+        conn.execute("INSERT INTO character_abilities (character_id, position, ability_pack, ability_id)"
+                     " VALUES ('pc-bex', 99, 'test', 'might')")
 
     def attrs():
         return {a["id"]: a["value"] for a in sheet(conn, "pc-bex")["attrs"]}
@@ -185,23 +186,93 @@ def test_wearer_effects_do_not_reach_inside_a_worn_vehicle(conn):
     assert (off["strength"], off["speed"], off["agility"]) == (35, 11, 13)
 
 
-def test_piloting_skill_does_not_benefit_from_agility(conn):
-    packs.import_pack(conn, pack(
-        abilities=[{"id": "pilot_skiff", "name": "Pilot: skiff", "agility": False},
-                   {"id": "tumbling", "name": "Tumbling", "agility": True}],
-        characters=[{"id": "zadok", "name": "Zadok", "attrs": {"agility": 30},
-                     "abilities": [{"id": "pilot_skiff", "qty": "60%"}, {"id": "tumbling", "qty": "40%"}]}],
-    ))
 
-    def skills():
-        rows = next(g for g in sheet(conn, "zadok")["groups"] if g["id"] == "abilities")["rows"]
-        return {r["id"]: r for r in rows}
+def leveled_pack():
+    # Test-only rows: level names, count, prices, and bonuses all come from the pack.
+    return pack(
+        abilities=[
+            {"id": "occult_lore", "name": "Occult lore", "levels": [
+                {"name": "Initiate", "price": 2, "effects": [{"verb": "mod.channel", "target": "initiative", "value": 1}]},
+                {"name": "Adept of the Necronomicon", "price": 4,
+                 "effects": [{"verb": "mod.channel", "target": "initiative", "value": 3}]},
+                {"name": "Dreamer of R'lyeh", "price": 9,
+                 "effects": [{"verb": "mod.channel", "target": "initiative", "value": 6},
+                             {"verb": "mod.channel", "target": "defense", "value": 1}]},
+            ]},
+            {"id": "swimming", "name": "Swimming", "price": 1,
+             "effects": [{"verb": "mod.channel", "target": "defense", "value": 1}]},
+        ],
+        characters=[{"id": "armitage", "name": "Armitage", "unspent_experience": 20,
+                     "channels": {"strike": 0, "defense": 0, "initiative": 0}}],
+    )
 
-    high = skills()
-    with conn:
-        conn.execute("UPDATE character_attrs SET value=10 WHERE character_id='zadok' AND attr='agility'")
-    low = skills()
-    assert high["pilot_skiff"] == low["pilot_skiff"] == {"id": "pilot_skiff", "name": "Pilot: skiff", "qty": "60%"}
-    assert (high["tumbling"]["agility_bonus"], low["tumbling"]["agility_bonus"]) == (4, 0)
-    # The shipped piloting skill is marked the same way.
-    assert '"agility": false' in conn.execute("SELECT data FROM abilities WHERE id='pilot_armor'").fetchone()[0]
+
+def test_skill_effect_rows_apply(conn):
+    packs.import_pack(conn, leveled_pack())
+    assert channels(conn, "armitage")["defense"] == 0
+    engine.buy_ability(conn, "armitage", "test", "swimming")
+    assert channels(conn, "armitage")["defense"] == 1
+    try:
+        engine.buy_ability(conn, "armitage", "test", "swimming")
+        raise AssertionError("bought an unleveled skill twice")
+    except engine.Refused as e:
+        assert "already owned" in str(e)
+
+
+def test_skill_levels_bought_in_order(conn):
+    packs.import_pack(conn, leveled_pack())
+
+    def level_row():
+        rows = next(g for g in sheet(conn, "armitage")["groups"] if g["id"] == "abilities")["rows"]
+        return next(r for r in rows if r["id"] == "occult_lore")
+
+    try:
+        engine.buy_ability(conn, "armitage", "test", "occult_lore", level=2)
+        raise AssertionError("skipped a level")
+    except engine.Refused as e:
+        assert "buy level 1 (Initiate) first" in str(e)
+    assert engine.buy_ability(conn, "armitage", "test", "occult_lore", level=1) == 18
+    assert channels(conn, "armitage")["initiative"] == 1
+    assert level_row()["level"] == "Initiate"
+    try:
+        engine.buy_ability(conn, "armitage", "test", "occult_lore", level=3)
+        raise AssertionError("skipped a level")
+    except engine.Refused as e:
+        assert "levels cannot be skipped" in str(e)
+    assert engine.buy_ability(conn, "armitage", "test", "occult_lore") == 14
+    # Only the owned level's effect rows apply.
+    assert channels(conn, "armitage")["initiative"] == 3
+    assert engine.buy_ability(conn, "armitage", "test", "occult_lore") == 5
+    ch = channels(conn, "armitage")
+    assert (ch["initiative"], ch["defense"]) == (6, 1)
+    assert level_row()["level"] == "Dreamer of R'lyeh"
+    try:
+        engine.buy_ability(conn, "armitage", "test", "occult_lore")
+        raise AssertionError("past the top level")
+    except engine.Refused as e:
+        assert "top level" in str(e)
+    # The owned level round-trips through export.
+    assert packs.character_doc(conn, "armitage")["abilities"] == [{"id": "occult_lore", "level": 3}]
+
+
+def test_leveled_pack_round_trips(conn, tmp_path):
+    packs.import_pack(conn, leveled_pack())
+    engine.buy_ability(conn, "armitage", "test", "occult_lore")
+    first = packs.export_pack(conn, "test", tmp_path / "a")
+    packs.import_pack(conn, first)
+    second = packs.export_pack(conn, "test", tmp_path / "b")
+    for name in ("abilities.json", "characters/armitage.json"):
+        assert (first / name).read_text() == (second / name).read_text()
+    assert channels(conn, "armitage")["initiative"] == 1
+    for change, message in (
+        (lambda d: d["abilities"][0].update(price=3), "an ability with levels sets its price on each level"),
+        (lambda d: d["characters"][0].update(abilities=[{"id": "occult_lore", "level": 4}]),
+         "level: must be one of the ability's levels, 1 to 3"),
+    ):
+        bad = leveled_pack()
+        change(bad)
+        try:
+            packs.import_pack(conn, bad)
+            raise AssertionError(message)
+        except packs.PackError as e:
+            assert message in " | ".join(e.errors)

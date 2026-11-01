@@ -271,6 +271,22 @@ MIGRATIONS: list[str] = [
         FOREIGN KEY (item_pack, item_id) REFERENCES items(pack, id) ON DELETE CASCADE
     );
     """,
+    # 4: any skill or ability can have ordered levels (names come from the pack), each with its own
+    # experience price and effect rows. A character owns one level of it.
+    """
+    CREATE TABLE ability_levels (
+        ability_pack TEXT NOT NULL,
+        ability_id TEXT NOT NULL,
+        level INTEGER NOT NULL,   -- 1, 2, ... in the pack's order
+        name TEXT NOT NULL,
+        price INTEGER,            -- experience; NULL means the pack sets no price
+        data TEXT NOT NULL DEFAULT '{}',
+        PRIMARY KEY (ability_pack, ability_id, level),
+        FOREIGN KEY (ability_pack, ability_id) REFERENCES abilities(pack, id) ON DELETE CASCADE
+    );
+    ALTER TABLE effects ADD COLUMN level INTEGER;              -- NULL: the owner itself; n: its level n
+    ALTER TABLE character_abilities ADD COLUMN level INTEGER;  -- the level owned, for abilities with levels
+    """,
 ]
 
 

@@ -419,7 +419,6 @@ def _fold_person(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
 
 
 def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, Any]]:
-    agility = _worn_attr_values(doc.get("attrs") or {}, doc).get("agility", 0)
     names = adapter.get("groups") or {}
     on = set(doc.get("activated") or [])
     attack = doc.get("attack")
@@ -473,9 +472,8 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
         kind = a.get("kind")
         if not kind:
             row = {"id": a.get("id"), "name": a.get("name"), "qty": a.get("qty") or ""}
-            if a.get("agility") is True:
-                # The skill row says it benefits from Agility; the bonus is shown beside it.
-                row["agility_bonus"] = agility_bonus(agility)
+            if a.get("level_name"):
+                row["level"] = a["level_name"]
             skill_rows.append(row)
             continue
         prefix = a.get("prefix") or "unit"
@@ -502,6 +500,8 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
                 "prefix": prefix,
                 "high": factor(prefix) >= 100 if a.get("damage") else False,
             }
+        if a.get("level_name"):
+            row["level"] = a["level_name"]
         by_kind.setdefault(kind, []).append(row)
 
     groups = []

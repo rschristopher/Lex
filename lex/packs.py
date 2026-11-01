@@ -18,7 +18,7 @@ CHAR_COLUMNS = {
     "attack": "attack", "unspent_experience": "xp_unspent",
 }
 REF_COLUMNS = {"species": "species", "occupation": "occupation", "pinned": "pinned"}
-ROW_SPLIT = ("attrs", "effects", "requires", "sets")
+ROW_SPLIT = ("attrs", "effects", "requires", "sets", "levels")
 
 
 class PackError(ValueError):
@@ -132,7 +132,7 @@ def _check_row(row: Any, where: str, errors: list[str], need: tuple[str, ...] = 
     return ok
 
 
-def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors) -> None:
+def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors, level=None) -> None:
     if effects is None:
         return
     if not isinstance(effects, list):
@@ -149,9 +149,9 @@ def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors) ->
             continue
         extra = {k: v for k, v in ef.items() if k not in ("verb", "target", "value")}
         conn.execute(
-            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value, data)"
-            " VALUES (?,?,?,?,?,?,?,?)",
-            (owner_type, pack, owner_id, i, ef["verb"], ef["target"], value, _dumps(extra)),
+            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value, data, level)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
+            (owner_type, pack, owner_id, i, ef["verb"], ef["target"], value, _dumps(extra), level),
         )
 
 
@@ -223,17 +223,37 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
             w = f"abilities[{i}]"
             if not _check_row(row, w, errors):
                 continue
-            if "agility" in row and not isinstance(row["agility"], bool):
-                errors.append(f"{w}.agility: must be true or false (whether the skill benefits from Agility)")
-                continue
             price = row.get("price")
             if price is not None and (not isinstance(price, int) or price < 0):
                 errors.append(f"{w}: price must be a whole number of experience")
                 continue
+            levels = row.get("levels")
+            if levels is not None:
+                if not isinstance(levels, list) or not levels:
+                    errors.append(f"{w}.levels: must be a non-empty list")
+                    continue
+                if price is not None:
+                    errors.append(f"{w}: an ability with levels sets its price on each level")
+                    continue
             conn.execute(
                 "INSERT INTO abilities (pack, id, position, name, kind, price, data) VALUES (?,?,?,?,?,?,?)",
                 (pid, row["id"], i, row["name"], row.get("kind"), price, _catalog_data(row)),
             )
+            for li, lv in enumerate(levels or [], start=1):
+                lw = f"{w}.levels[{li - 1}]"
+                if not isinstance(lv, dict) or not isinstance(lv.get("name"), str) or not lv["name"]:
+                    errors.append(f"{lw}: needs a name")
+                    continue
+                lp = lv.get("price")
+                if lp is not None and (not isinstance(lp, int) or lp < 0):
+                    errors.append(f"{lw}: price must be a whole number of experience")
+                    continue
+                conn.execute(
+                    "INSERT INTO ability_levels VALUES (?,?,?,?,?,?)",
+                    (pid, row["id"], li, lv["name"], lp,
+                     _dumps({k: v for k, v in lv.items() if k not in ("name", "price", "effects")})),
+                )
+                _insert_effects(conn, "ability", pid, row["id"], lv.get("effects"), lw, errors, level=li)
         for i, row in enumerate(doc["items"]):
             w = f"items[{i}]"
             if not _check_row(row, w, errors, ("id", "name", "kind")):
@@ -372,9 +392,20 @@ def _import_character(conn, refs: _Refs, pid: str, ci: int, c: Any, errors: list
                 errors.append(f"{w}.items[{i}]: attributes belong on the vehicle row, not on the character")
                 continue
             r = refs.resolve(table, own.get("id"), f"{w}.{key}[{i}]", errors)
-            if r:
-                conn.execute(f"INSERT INTO {col} VALUES (?,?,?,?,?)",
-                             (cid, i, r[0], r[1], _dumps({k: v for k, v in own.items() if k != "id"})))
+            if not r:
+                continue
+            ref_cols = "item_pack, item_id" if key == "items" else "ability_pack, ability_id"
+            data = _dumps({k: v for k, v in own.items() if k not in ("id", "level")})
+            if key == "abilities" and "level" in own:
+                n = conn.execute("SELECT COUNT(*) FROM ability_levels WHERE ability_pack=? AND ability_id=?", r).fetchone()[0]
+                if not isinstance(own["level"], int) or not 1 <= own["level"] <= n:
+                    errors.append(f"{w}.abilities[{i}].level: must be one of the ability's levels, 1 to {n}")
+                    continue
+                conn.execute(f"INSERT INTO {col} (character_id, position, {ref_cols}, data, level) VALUES (?,?,?,?,?,?)",
+                             (cid, i, r[0], r[1], data, own["level"]))
+            else:
+                conn.execute(f"INSERT INTO {col} (character_id, position, {ref_cols}, data) VALUES (?,?,?,?,?)",
+                             (cid, i, r[0], r[1], data))
     for ref in c.get("list") or []:
         r = refs.resolve("abilities", ref, f"{w}.list", errors)
         if r:
@@ -392,11 +423,11 @@ def _ref_out(owner_pack: str, pack: str | None, rid: str | None) -> str | None:
     return rid if pack == owner_pack else f"{pack}:{rid}"
 
 
-def _effects_out(conn, owner_type, pack, oid) -> list[dict[str, Any]]:
+def _effects_out(conn, owner_type, pack, oid, level=None) -> list[dict[str, Any]]:
     out = []
     for r in conn.execute(
-        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
-        (owner_type, pack, oid),
+        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS ? ORDER BY position",
+        (owner_type, pack, oid, level),
     ):
         extra = json.loads(r["data"])
         ef: dict[str, Any] = {"verb": r["verb"], "target": r["target"]}
@@ -436,6 +467,21 @@ def _row_out(conn, owner_type: str, pack: str, r: sqlite3.Row) -> dict[str, Any]
         row["effects"] = effects
     if reqs:
         row["requires"] = reqs
+    if owner_type == "ability":
+        levels = []
+        for lv in conn.execute(
+            "SELECT * FROM ability_levels WHERE ability_pack=? AND ability_id=? ORDER BY level", (pack, r["id"])
+        ):
+            out: dict[str, Any] = {"name": lv["name"]}
+            if lv["price"] is not None:
+                out["price"] = lv["price"]
+            out.update(json.loads(lv["data"]))
+            lvl_effects = _effects_out(conn, "ability", pack, r["id"], lv["level"])
+            if lvl_effects:
+                out["effects"] = lvl_effects
+            levels.append(out)
+        if levels:
+            row["levels"] = levels
     return row
 
 
@@ -479,7 +525,9 @@ def character_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
     for key, col, pcol, icol in (("items", "character_items", "item_pack", "item_id"),
                                  ("abilities", "character_abilities", "ability_pack", "ability_id")):
         rows = [
-            {"id": _ref_out(pack, o[pcol], o[icol]), **json.loads(o["data"])}
+            {"id": _ref_out(pack, o[pcol], o[icol]),
+             **({"level": o["level"]} if "level" in o.keys() and o["level"] is not None else {}),
+             **json.loads(o["data"])}
             for o in conn.execute(f"SELECT * FROM {col} WHERE character_id=? ORDER BY position", (cid,))
         ]
         if rows:
