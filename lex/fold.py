@@ -474,8 +474,6 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
             row = {"id": a.get("id"), "name": a.get("name"), "qty": a.get("qty") or ""}
             if a.get("level_name"):
                 row["level"] = a["level_name"]
-            if a.get("casting"):
-                row["casting"] = a["casting"]
             skill_rows.append(row)
             continue
         prefix = a.get("prefix") or "unit"
@@ -504,8 +502,6 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
             }
         if a.get("level_name"):
             row["level"] = a["level_name"]
-        if a.get("casting"):
-            row["casting"] = a["casting"]
         by_kind.setdefault(kind, []).append(row)
 
     groups = []

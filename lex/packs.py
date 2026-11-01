@@ -61,7 +61,6 @@ def read_pack(src: Path) -> dict[str, Any]:
         "occupations": [_read(p) for p in sorted((src / "occupations").glob("*.json"))],
         "abilities": _read(src / "abilities.json") if (src / "abilities.json").is_file() else [],
         "items": _read(src / "items.json") if (src / "items.json").is_file() else [],
-        "ladders": _read(src / "ladders.json") if (src / "ladders.json").is_file() else [],
         "characters": [],
         "portraits": {},
         "lore": [],
@@ -93,7 +92,6 @@ class _Refs:
             "occupations": {r["id"] for r in doc["occupations"]},
             "abilities": {r["id"] for r in doc["abilities"]},
             "items": {r["id"] for r in doc["items"]},
-            "ladders": {r["id"] for r in doc.get("ladders") or [] if isinstance(r, dict)},
         }
 
     def resolve(self, table: str, ref: Any, where: str, errors: list[str]) -> tuple[str, str] | None:
@@ -221,28 +219,6 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 continue
             conn.execute("INSERT INTO species (pack, id, position, name, data) VALUES (?,?,?,?,?)",
                          (pid, row["id"], i, row["name"], _catalog_data(row)))
-        for i, row in enumerate(doc.get("ladders") or []):
-            w = f"ladders[{i}]"
-            if not _check_row(row, w, errors):
-                continue
-            steps = row.get("levels")
-            if not isinstance(steps, list) or not steps:
-                errors.append(f"{w}.levels: must be a non-empty list")
-                continue
-            conn.execute("INSERT INTO ladders (pack, id, position, name, data) VALUES (?,?,?,?,?)",
-                         (pid, row["id"], i, row["name"], _catalog_data(row)))
-            for li, st in enumerate(steps, start=1):
-                sw = f"{w}.levels[{li - 1}]"
-                if not isinstance(st, dict) or not isinstance(st.get("name"), str) or not st["name"]:
-                    errors.append(f"{sw}: needs a name")
-                    continue
-                d20 = st.get("d20")
-                if d20 is not None and (not isinstance(d20, int) or not 1 <= d20 <= 20):
-                    errors.append(f"{sw}.d20: must be 1 to 20, or null for no roll")
-                    continue
-                conn.execute("INSERT INTO ladder_levels VALUES (?,?,?,?,?,?)",
-                             (pid, row["id"], li, st["name"], d20,
-                              _dumps({k: v for k, v in st.items() if k not in ("name", "d20")})))
         for i, row in enumerate(doc["abilities"]):
             w = f"abilities[{i}]"
             if not _check_row(row, w, errors):
@@ -252,21 +228,6 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 errors.append(f"{w}: price must be a whole number of experience")
                 continue
             levels = row.get("levels")
-            ladder = None
-            if row.get("ladder") is not None:
-                ladder = refs.resolve("ladders", row["ladder"], f"{w}.ladder", errors)
-                if ladder is None:
-                    continue
-                steps = conn.execute("SELECT name FROM ladder_levels WHERE ladder_pack=? AND ladder_id=? ORDER BY level",
-                                     ladder).fetchall()
-                levels = levels if levels is not None else [{} for _ in steps]
-                if not isinstance(levels, list) or len(levels) != len(steps):
-                    errors.append(f"{w}.levels: must have one entry per level of its ladder ({len(steps)})")
-                    continue
-                if any(not isinstance(lv, dict) or "name" in lv for lv in levels):
-                    errors.append(f"{w}.levels: names come from the ladder; give only price and effects")
-                    continue
-                levels = [{"name": s["name"], **lv} for s, lv in zip(steps, levels)]
             if levels is not None:
                 if not isinstance(levels, list) or not levels:
                     errors.append(f"{w}.levels: must be a non-empty list")
@@ -278,9 +239,6 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 "INSERT INTO abilities (pack, id, position, name, kind, price, data) VALUES (?,?,?,?,?,?,?)",
                 (pid, row["id"], i, row["name"], row.get("kind"), price, _catalog_data(row)),
             )
-            if ladder:
-                conn.execute("UPDATE abilities SET ladder_pack=?, ladder_id=? WHERE pack=? AND id=?",
-                             (*ladder, pid, row["id"]))
             for li, lv in enumerate(levels or [], start=1):
                 lw = f"{w}.levels[{li - 1}]"
                 if not isinstance(lv, dict) or not isinstance(lv.get("name"), str) or not lv["name"]:
@@ -522,10 +480,6 @@ def _row_out(conn, owner_type: str, pack: str, r: sqlite3.Row) -> dict[str, Any]
             if lvl_effects:
                 out["effects"] = lvl_effects
             levels.append(out)
-        if levels and r["ladder_id"]:
-            levels = [{k: v for k, v in lv.items() if k != "name"} for lv in levels]
-            if not any(levels):
-                levels = []
         if levels:
             row["levels"] = levels
     return row
@@ -602,18 +556,6 @@ def export_pack(conn: sqlite3.Connection, pack_id: str, dest: str | Path) -> Pat
     ad = conn.execute("SELECT data FROM adapters WHERE pack=?", (pack_id,)).fetchone()
     if ad:
         (dest / "adapter.json").write_text(ad["data"], encoding="utf-8")
-    ladders = conn.execute("SELECT * FROM ladders WHERE pack=? ORDER BY position", (pack_id,)).fetchall()
-    if ladders:
-        out = []
-        for lad in ladders:
-            row = json.loads(lad["data"])
-            steps = []
-            for st in conn.execute("SELECT * FROM ladder_levels WHERE ladder_pack=? AND ladder_id=? ORDER BY level",
-                                   (pack_id, lad["id"])):
-                steps.append({"name": st["name"], "d20": st["d20"], **json.loads(st["data"])})
-            row["levels"] = steps
-            out.append(row)
-        _write(dest / "ladders.json", out)
     for table, owner_type, fname in (("species", "species", "species.json"),
                                      ("abilities", "ability", "abilities.json"),
                                      ("items", "item", "items.json")):

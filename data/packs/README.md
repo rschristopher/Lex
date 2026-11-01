@@ -8,7 +8,6 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 | `adapter.json` | a sheet language: labels, attribute conversions, dice |
 | `species.json` | species, with `effects` and `requires` |
 | `occupations/<id>.json` | an occupation, with `effects` and ordered `sets` of ability ids |
-| `ladders.json` | shared level ladders: level names and the casting roll target at each |
 | `abilities.json` | abilities, with `price`, `effects`, and `requires` |
 | `items.json` | armor, weapons, and other gear (`kind`), with `effects` while worn |
 | `characters/<id>.json` | a character: attributes, gauges, and the ids it owns, with its own values |
@@ -17,7 +16,6 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 An effect is `{"verb": "mod.channel" or "mod.attr", "target", "value"}`. Every effect and constraint a character owns applies.
 A vehicle is an item with `"kind": "vehicle"` and its own `attrs`, only physical ones (Strength, Speed) and only those that apply: `{"strength": 38, "speed": 31}`. Power armor and robot armor are vehicles with a `slot`; while worn, their attributes replace the wearer's physical attributes (Strength and Speed) and the rest stay the wearer's. Normal armor and other items have no `attrs`.
 Any ability or skill can have ordered `levels`, each `{"name", "price", "effects"}`; the pack names them (for example novice through master), and then the price is on each level, not the ability. A character owns one level, `{"id": "skill_id", "level": 2}`, bought in order with experience; the effects of every level up to the owned one stack.
-`ladders.json` holds shared level ladders: `{"id", "name", "levels": [{"name", "d20"}]}`, where `d20` is the casting roll target at that level and `null` means no roll. An ability that uses one says `"ladder": "skill_levels"`; its level names and casting targets come from the ladder, and its own `levels`, if given, are one `{"price", "effects"}` per ladder level.
 A requirement is `{"kind": "species" | "ability" | "occupation_set" | "list", "id", "set"}`.
 A reference to another pack is `pack:id`.
 

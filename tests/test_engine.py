@@ -1,11 +1,9 @@
-import json
-
 from lex import engine, packs
 from lex.sheet import sheet
 
 
 def pack(pid="test", **rows):
-    doc = {"id": pid, "name": pid, "adapter": None, "species": [], "occupations": [], "abilities": [], "ladders": [],
+    doc = {"id": pid, "name": pid, "adapter": None, "species": [], "occupations": [], "abilities": [],
            "items": [], "characters": [], "portraits": {}, "lore": []}
     doc.update(rows)
     return doc
@@ -278,55 +276,3 @@ def test_leveled_pack_round_trips(conn, tmp_path):
             raise AssertionError(message)
         except packs.PackError as e:
             assert message in " | ".join(e.errors)
-
-
-def test_casting_roll_comes_from_the_ladder_rows(conn):
-    # A non-physical ability that references the shipped skill-level ladder; prices are this test's own.
-    packs.import_pack(conn, pack(
-        abilities=[{"id": "dread_whisper", "name": "Dread whisper", "kind": "psionic",
-                    "ladder": "universal:skill_levels",
-                    "levels": [{"price": 1}, {"price": 1}, {"price": 1}, {"price": 1}, {"price": 1}]}],
-        characters=[{"id": "wilbur", "name": "Wilbur", "unspent_experience": 5}],
-    ))
-    seen = []
-    for _ in range(5):
-        engine.buy_ability(conn, "wilbur", "test", "dread_whisper")
-        rows = next(g for g in sheet(conn, "wilbur")["groups"] if g["id"] == "psionic")["rows"]
-        c = next(r for r in rows if r["id"] == "dread_whisper")["casting"]
-        seen.append((c["level"], c["d20"], c["roll"]))
-    # docs/universal-system.md casting table.
-    assert seen == [
-        ("Novice", 11, True), ("Apprentice", 7, True), ("Professional", 5, True),
-        ("Expert", None, False), ("Master", None, False),
-    ]
-
-
-def test_ladder_ability_round_trips(conn, tmp_path):
-    packs.import_pack(conn, pack(abilities=[
-        {"id": "dread_whisper", "name": "Dread whisper", "ladder": "universal:skill_levels",
-         "levels": [{"price": 1}, {"price": 2}, {"price": 3}, {"price": 4}, {"price": 5}]},
-        {"id": "dream_sight", "name": "Dream sight", "ladder": "universal:skill_levels"},
-    ]))
-    first = packs.export_pack(conn, "test", tmp_path / "a")
-    packs.import_pack(conn, first)
-    second = packs.export_pack(conn, "test", tmp_path / "b")
-    assert (first / "abilities.json").read_text() == (second / "abilities.json").read_text()
-    rows = {r["id"]: r for r in json.loads((first / "abilities.json").read_text())}
-    assert "levels" not in rows["dream_sight"]
-    assert rows["dread_whisper"]["levels"][4] == {"price": 5}
-
-
-def test_ladder_validation(conn):
-    bad = pack(
-        ladders=[{"id": "l", "name": "L", "levels": [{"name": "One", "d20": 21}]}],
-        abilities=[{"id": "a", "name": "A", "ladder": "universal:skill_levels", "levels": [{"price": 1}]},
-                   {"id": "b", "name": "B", "ladder": "nowhere"}],
-    )
-    try:
-        packs.import_pack(conn, bad)
-        raise AssertionError
-    except packs.PackError as e:
-        text = " | ".join(e.errors)
-        assert "d20: must be 1 to 20, or null for no roll" in text
-        assert "must have one entry per level of its ladder (5)" in text
-        assert "unknown ladders 'nowhere'" in text
