@@ -49,14 +49,12 @@
       {
         "verb": "mod.attr",
         "target": "strength",
-        "op": "replace",
-        "value": 38
+        "value": 8
       },
       {
         "verb": "mod.attr",
         "target": "speed",
-        "op": "replace",
-        "value": 31
+        "value": 23
       }
     ]
   },

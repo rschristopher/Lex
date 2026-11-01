@@ -5,19 +5,16 @@
     {
       "verb": "mod.channel",
       "target": "strike",
-      "op": "add",
       "value": 2
     },
     {
       "verb": "mod.channel",
       "target": "defense",
-      "op": "add",
       "value": 1
     },
     {
       "verb": "mod.channel",
       "target": "actions",
-      "op": "add",
       "value": 1
     }
   ]

@@ -5,7 +5,6 @@
     {
       "verb": "mod.channel",
       "target": "initiative",
-      "op": "add",
       "value": 1
     }
   ]

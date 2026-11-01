@@ -13,7 +13,7 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 | `characters/<id>.json` | a character: attributes, gauges, and the ids it owns, with its own values |
 | `portraits/`, `lore/*.md` | images and lore prose |
 
-An effect is `{"verb": "mod.channel" or "mod.attr", "target", "op": "add" or "replace", "value"}`.
+An effect is `{"verb": "mod.channel" or "mod.attr", "target", "value"}`. Every effect and constraint a character owns applies.
 A requirement is `{"kind": "species" | "ability" | "occupation_set" | "list", "id", "set"}`.
 A reference to another pack is `pack:id`.
 

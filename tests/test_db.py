@@ -20,8 +20,9 @@ def test_effect_rows_are_checked(tmp_path):
     conn.execute("INSERT INTO packs VALUES ('p', 'P')")
     with pytest.raises(sqlite3.IntegrityError):
         conn.execute(
-            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, op, value)"
-            " VALUES ('ability', 'p', 'x', 0, 'mod.channel', 'strike', 'multiply', 2)"
+            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value)"
+            " VALUES ('weather', 'p', 'x', 0, 'mod.channel', 'strike', 2)"
         )
+    assert "op" not in {r[1] for r in conn.execute("PRAGMA table_info(effects)")}
     with pytest.raises(sqlite3.IntegrityError):
         conn.execute("INSERT INTO users (username, role) VALUES ('a', 'admin')")

@@ -13,15 +13,15 @@ def channels(conn, cid):
     return {c["id"]: c["value"] for c in sheet(conn, cid)["channels"]}
 
 
-def test_apply_effects_adds_then_replaces():
+def test_every_effect_applies():
     effects = [
-        {"verb": "mod.attr", "target": "speed", "op": "replace", "value": 31},
-        {"verb": "mod.attr", "target": "speed", "op": "add", "value": 2},
-        {"verb": "mod.attr", "target": "strength", "op": "add", "value": 2},
-        {"verb": "mod.channel", "target": "defense", "op": "add", "value": 1, "reflex": True},
+        {"verb": "mod.attr", "target": "speed", "value": 23},
+        {"verb": "mod.attr", "target": "speed", "value": 2},
+        {"verb": "mod.attr", "target": "strength", "value": 2},
+        {"verb": "mod.channel", "target": "defense", "value": 1, "reflex": True},
     ]
     vals, flagged = engine.apply_effects({"speed": 8, "strength": 10}, effects, "mod.attr")
-    assert vals == {"speed": 31, "strength": 12}
+    assert vals == {"speed": 33, "strength": 12}
     assert flagged == set()
     assert engine.apply_effects({}, effects, "mod.channel") == ({"defense": 1}, {"defense"})
 
@@ -30,13 +30,13 @@ def lore_pack():
     # Every rule here is a row in a pack; the engine has no idea what any of it is.
     return pack(
         species=[{"id": "deep_one", "name": "Deep One",
-                  "effects": [{"verb": "mod.channel", "target": "initiative", "op": "add", "value": 1}]}],
+                  "effects": [{"verb": "mod.channel", "target": "initiative", "value": 1}]}],
         abilities=[
             {"id": "tide_sense", "name": "Tide sense", "price": 3,
-             "effects": [{"verb": "mod.channel", "target": "defense", "op": "add", "value": 2, "reflex": True}]},
+             "effects": [{"verb": "mod.channel", "target": "defense", "value": 2, "reflex": True}]},
             {"id": "deep_call", "name": "Deep call", "price": 5,
              "requires": [{"kind": "species", "id": "deep_one"}],
-             "effects": [{"verb": "mod.channel", "target": "strike", "op": "add", "value": 1}]},
+             "effects": [{"verb": "mod.channel", "target": "strike", "value": 1}]},
             {"id": "elder_sign", "name": "Elder sign", "price": 2,
              "requires": [{"kind": "occupation_set", "id": "keeper", "set": 1}]},
             {"id": "old_tongue", "name": "Old tongue", "price": 1, "requires": [{"kind": "list"}]},

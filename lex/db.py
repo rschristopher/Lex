@@ -239,6 +239,25 @@ MIGRATIONS: list[str] = [
         embedding BLOB
     );
     """,
+    # 2: effects have no operation; every effect row a character owns applies.
+    """
+    CREATE TABLE effects_new (
+        rowid INTEGER PRIMARY KEY,
+        owner_type TEXT NOT NULL CHECK (owner_type IN ('species', 'occupation', 'ability', 'item')),
+        owner_pack TEXT NOT NULL REFERENCES packs(id) ON DELETE CASCADE,
+        owner_id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        verb TEXT NOT NULL,       -- e.g. mod.channel, mod.attr
+        target TEXT NOT NULL,     -- e.g. strike, strength
+        value REAL,
+        data TEXT NOT NULL DEFAULT '{}'
+    );
+    INSERT INTO effects_new (rowid, owner_type, owner_pack, owner_id, position, verb, target, value, data)
+        SELECT rowid, owner_type, owner_pack, owner_id, position, verb, target, value, data FROM effects;
+    DROP TABLE effects;
+    ALTER TABLE effects_new RENAME TO effects;
+    CREATE INDEX effects_owner ON effects(owner_type, owner_pack, owner_id);
+    """,
 ]
 
 

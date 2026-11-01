@@ -141,21 +141,15 @@ def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors) ->
         if not isinstance(ef, dict) or not ef.get("verb") or not ef.get("target"):
             errors.append(f"{w}: needs verb and target")
             continue
-        op = ef.get("op") or "add"
-        if op not in ("add", "replace"):
-            errors.append(f"{w}: op must be add or replace")
-            continue
         value = ef.get("value")
         if value is not None and not isinstance(value, (int, float)):
             errors.append(f"{w}: value must be a number")
             continue
-        extra = {k: v for k, v in ef.items() if k not in ("verb", "target", "op", "value")}
-        if "op" not in ef:
-            extra["_no_op"] = True
+        extra = {k: v for k, v in ef.items() if k not in ("verb", "target", "value")}
         conn.execute(
-            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, op, value, data)"
-            " VALUES (?,?,?,?,?,?,?,?,?)",
-            (owner_type, pack, owner_id, i, ef["verb"], ef["target"], op, value, _dumps(extra)),
+            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value, data)"
+            " VALUES (?,?,?,?,?,?,?,?)",
+            (owner_type, pack, owner_id, i, ef["verb"], ef["target"], value, _dumps(extra)),
         )
 
 
@@ -386,8 +380,6 @@ def _effects_out(conn, owner_type, pack, oid) -> list[dict[str, Any]]:
     ):
         extra = json.loads(r["data"])
         ef: dict[str, Any] = {"verb": r["verb"], "target": r["target"]}
-        if not extra.pop("_no_op", False):
-            ef["op"] = r["op"]
         if r["value"] is not None:
             ef["value"] = _num(r["value"])
         ef.update(extra)

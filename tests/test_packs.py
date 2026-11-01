@@ -36,8 +36,8 @@ def test_import_rows(conn):
     assert n("SELECT COUNT(*) FROM occupations") == 10
     assert n("SELECT COUNT(*) FROM effects WHERE owner_type='occupation' AND verb='mod.channel'") >= 10
     # Worn gear that sets an attribute is effect rows too.
-    rows = conn.execute("SELECT target, op, value FROM effects WHERE owner_type='item' AND owner_id='siege_enforcer'").fetchall()
-    assert [tuple(r) for r in rows] == [("strength", "replace", 38), ("speed", "replace", 31)]
+    rows = conn.execute("SELECT target, value FROM effects WHERE owner_type='item' AND owner_id='siege_enforcer'").fetchall()
+    assert [tuple(r) for r in rows] == [("strength", 8), ("speed", 23)]
     own = conn.execute("SELECT item_id FROM character_items WHERE character_id='pc-bex' ORDER BY position").fetchall()
     assert [r[0] for r in own][:1] == ["siege_enforcer"]
 
@@ -52,7 +52,7 @@ def test_reimport_keeps_owner(conn):
 
 def test_validation_is_all_or_nothing(conn):
     bad = pack(
-        abilities=[{"id": "x", "name": "X", "effects": [{"verb": "mod.channel", "target": "strike", "op": "multiply", "value": 2}]}],
+        abilities=[{"id": "x", "name": "X", "effects": [{"verb": "mod.channel", "target": "strike", "value": "two"}]}],
         characters=[
             {"id": "c1", "name": "C1", "species": "nope", "attrs": {"strength": -1}},
             {"id": "pc-ilya", "name": "Again"},
@@ -62,7 +62,7 @@ def test_validation_is_all_or_nothing(conn):
     with pytest.raises(packs.PackError) as e:
         packs.import_pack(conn, bad)
     text = " | ".join(e.value.errors)
-    assert "op must be add or replace" in text
+    assert "value must be a number" in text
     assert "unknown species 'nope'" in text
     assert "strength: must be a number, 0 or more" in text
     assert "id already used by pack universal" in text

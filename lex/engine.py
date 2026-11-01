@@ -12,23 +12,19 @@ OWNER_TABLES = {"species": "species", "occupation": "occupations", "ability": "a
 def apply_effects(
     base: dict[str, float], effects: Iterable[dict[str, Any]], verb: str
 ) -> tuple[dict[str, float], set[str]]:
-    """Apply every effect row with this verb: all adds, then replaces (a replace sets the value outright).
+    """Apply every effect row with this verb; they all add to their target.
 
     Returns the new values and the targets an effect flagged as reflex.
     """
     values = dict(base)
     flagged: set[str] = set()
-    rows = [e for e in effects if e.get("verb") == verb]
-    for e in rows:
+    for e in effects:
+        if e.get("verb") != verb:
+            continue
         if e.get("reflex"):
             flagged.add(e["target"])
-        if e.get("value") is None:
-            continue
-        if (e.get("op") or "add") == "add":
+        if e.get("value") is not None:
             values[e["target"]] = values.get(e["target"], 0) + e["value"]
-    for e in rows:
-        if e.get("value") is not None and e.get("op") == "replace":
-            values[e["target"]] = e["value"]
     return {k: _num(v) for k, v in values.items()}, flagged
 
 
@@ -42,7 +38,7 @@ def owner_effects(conn: sqlite3.Connection, owner_type: str, pack: str, oid: str
         "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
         (owner_type, pack, oid),
     ):
-        e = {"verb": r["verb"], "target": r["target"], "op": r["op"], "value": _num(r["value"]) if r["value"] is not None else None}
+        e = {"verb": r["verb"], "target": r["target"], "value": _num(r["value"]) if r["value"] is not None else None}
         e.update({k: v for k, v in json.loads(r["data"]).items() if not k.startswith("_")})
         e["source"] = {"type": owner_type, "pack": pack, "id": oid}
         out.append(e)
