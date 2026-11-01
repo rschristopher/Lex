@@ -44,6 +44,29 @@ def apply_worn_vehicles(base: dict[str, float], vehicles: Iterable[dict[str, flo
     return values
 
 
+def worn_vehicle_attributes(
+    base: dict[str, float], vehicles: list[dict[str, Any]], effects: Iterable[dict[str, Any]]
+) -> dict[str, float]:
+    """Attributes for a wearer inside worn vehicles (power armor, robot armor).
+
+    The vehicles' physical attributes replace the wearer's entirely: only effects that belong to a worn
+    vehicle apply to them. Every effect still applies to the other attributes.
+    """
+    effects = list(effects)
+    replaced = {k for v in vehicles for k in (v.get("attrs") or {}) if k in PHYSICAL_ATTRIBUTES}
+    if not replaced:
+        values, _ = apply_effects(base, effects, "mod.attr")
+        return values
+    worn = {(v.get("pack"), v.get("id")) for v in vehicles}
+    own = [e for e in effects
+           if (e.get("source") or {}).get("type") == "item"
+           and ((e.get("source") or {}).get("pack"), (e.get("source") or {}).get("id")) in worn]
+    rest, _ = apply_effects(base, [e for e in effects if e.get("target") not in replaced], "mod.attr")
+    inside, _ = apply_effects(apply_worn_vehicles(base, [v.get("attrs") or {} for v in vehicles]),
+                              [e for e in own if e.get("target") in replaced], "mod.attr")
+    return {**rest, **{k: inside[k] for k in replaced}}
+
+
 def vehicle_attributes(conn: sqlite3.Connection, pack: str, item_id: str) -> dict[str, float]:
     """A vehicle's own attribute values, only those that apply to it."""
     return {

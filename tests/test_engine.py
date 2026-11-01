@@ -157,3 +157,29 @@ def test_vehicle_rows_have_their_own_attributes(conn):
     attrs = {a["id"]: a["value"] for a in s["attrs"]}
     assert (attrs["strength"], attrs["speed"]) == (9, 7)
     assert engine.vehicle_attributes(conn, "universal", "scales") == {}
+
+
+def test_wearer_effects_do_not_reach_inside_a_worn_vehicle(conn):
+    # Bex owns an ability row with +5 Strength, +3 Speed and +2 Agility.
+    packs.import_pack(conn, pack(abilities=[{"id": "might", "name": "Might", "effects": [
+        {"verb": "mod.attr", "target": "strength", "value": 5},
+        {"verb": "mod.attr", "target": "speed", "value": 3},
+        {"verb": "mod.attr", "target": "agility", "value": 2},
+    ]}]))
+    with conn:
+        conn.execute("INSERT INTO character_abilities VALUES ('pc-bex', 99, 'test', 'might', '{}')")
+
+    def attrs():
+        return {a["id"]: a["value"] for a in sheet(conn, "pc-bex")["attrs"]}
+
+    suit = attrs()
+    assert (suit["strength"], suit["speed"], suit["agility"]) == (38, 31, 13)
+    # An effect that belongs to the worn vehicle itself still applies to its values.
+    with conn:
+        conn.execute("INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value)"
+                     " VALUES ('item', 'universal', 'siege_enforcer', 0, 'mod.attr', 'strength', 1)")
+    assert attrs()["strength"] == 39
+    with conn:
+        conn.execute("DELETE FROM character_active WHERE character_id='pc-bex'")
+    off = attrs()
+    assert (off["strength"], off["speed"], off["agility"]) == (35, 11, 13)
