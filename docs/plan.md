@@ -40,7 +40,7 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
 
-**Does an attack's target number come from the ability's own bonus alone, and what is the base target for Strike, Defense, and resist rolls?**
+**Does an attack's roll use the ability's own bonus alone, or do other bonuses add to it?**
 
 **How is a bought upgrade's experience price set?**
 

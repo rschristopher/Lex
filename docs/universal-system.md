@@ -69,6 +69,8 @@ Every attack is physical or mental. A physical attack hits the body, such as a p
 
 Rolls are never compared. The attacker rolls against their own target to land the attack. If it lands, the defender rolls against their own target to dodge, parry, or resist. A lucky attack only lands, and can still be dodged or resisted.
 
+With no bonuses, a Strike, Defense, or resist roll succeeds on 11 or higher on a `d20`, which is 50%. Each +1 lowers the roll needed by 1, which is +5%.
+
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
 An attack from outside combat, such as a sniper's first shot, is not perceived and lands with no defense roll. The target is then in combat and knows where the sniper is, so the sniper's later attacks that melee can be defended. The sniper can instead spend that action to relocate or leave combat and set up another opening shot. A sixth sense puts the character into combat before the unperceived attack; they roll initiative and can defend even against the first shot.
@@ -533,7 +535,7 @@ RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (
 
 Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
 
-That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is a 21 or higher. And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` means the user needs a 6 or higher to hit, a 75% likelihood. On a `d100` that is 26 or higher. A `3d6` roll low to hit cannot match 75% exactly: 12 or lower is 74.1% (160 of 216), the closest, and 13 or lower is 83.8%.
 
 Every bonus in Lex is stored once on a `d20` scale, where +1 is 5%, and the campaign die converts it.
 
@@ -548,7 +550,7 @@ The GM sets the campaign's die system, for example `3d6`, `d20`, or `d100`. Ever
 + skill rolls, or knowledge rolls
 + saving throws
 
-In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from one to another using a simple probability conversion, and will display rolls like "roll 60 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`.
+In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from one to another using a simple probability conversion, and will display rolls like "roll 56 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`, both 45%.
 
 Note that some rolls, like weapon damage, are fixed and universal across all games, although where exceptions exist those should be converted to the standard hit point system (one of the few areas most games agree on).
 
