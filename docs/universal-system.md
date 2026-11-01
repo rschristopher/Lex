@@ -310,7 +310,7 @@ Agility, Endurance, Intellect, Willpower, and Appearance have no physical measur
 
 ### Attribute table
 
-Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. Appearance is a proposal.
+All seven attributes are decided.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -320,7 +320,7 @@ Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. Appea
 | Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
 | Willpower | resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
-| Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
+| Appearance | how attractive a character is; unitless | nothing; it affects no game mechanics | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | decided |
 
 At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
 
@@ -509,6 +509,10 @@ Willpower's bonus is the resist roll against a [mental attack](#combat-rules), o
 +20 at 100 is immunity to all mental attacks; physical attacks still apply. Powers can add their own resist bonuses, some only against one kind of attack: an immunity to hypnotic suggestion lets a low-Willpower character resist that attack as if at Willpower 100. Shielding other people's minds is an ability, not part of Willpower.
 
 Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
+
+### Appearance
+
+Appearance rates how attractive a character is. It affects no game mechanics in Lex; it is kept for campaigns that wish to use it.
 
 Open questions are in [plan.md](plan.md#open-questions).
 
