@@ -14,7 +14,8 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 | `portraits/`, `lore/*.md` | images and lore prose |
 
 An effect is `{"verb": "mod.channel" or "mod.attr", "target", "value"}`. Every effect and constraint a character owns applies.
-A vehicle is an item with `"kind": "vehicle"` and its own `attrs`, only those that apply: `{"strength": 38, "speed": 31}`. Power armor and robot armor are vehicles with a `slot`; while worn, their attributes replace the wearer's physical attributes (Strength and Speed) and the rest stay the wearer's. Normal armor and other items have no `attrs`.
+A vehicle is an item with `"kind": "vehicle"` and its own `attrs`, only physical ones (Strength, Speed) and only those that apply: `{"strength": 38, "speed": 31}`. Power armor and robot armor are vehicles with a `slot`; while worn, their attributes replace the wearer's physical attributes (Strength and Speed) and the rest stay the wearer's. Normal armor and other items have no `attrs`.
+An ability row can say `"agility": true` if the skill benefits from Agility, or `false` if it does not (piloting does not).
 A requirement is `{"kind": "species" | "ability" | "occupation_set" | "list", "id", "set"}`.
 A reference to another pack is `pack:id`.
 

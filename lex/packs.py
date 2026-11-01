@@ -7,7 +7,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-from lex.engine import ATTRIBUTES, VEHICLE
+from lex.engine import PHYSICAL_ATTRIBUTES, VEHICLE
 
 CHAR_KEYS = [
     "id", "name", "npc", "level", "species", "occupation", "pinned", "unspent_experience",
@@ -223,6 +223,9 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
             w = f"abilities[{i}]"
             if not _check_row(row, w, errors):
                 continue
+            if "agility" in row and not isinstance(row["agility"], bool):
+                errors.append(f"{w}.agility: must be true or false (whether the skill benefits from Agility)")
+                continue
             price = row.get("price")
             if price is not None and (not isinstance(price, int) or price < 0):
                 errors.append(f"{w}: price must be a whole number of experience")
@@ -240,9 +243,10 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 errors.append(f"{w}: only a vehicle has attributes; {row['kind']} has none")
                 continue
             if attrs is not None and (not isinstance(attrs, dict) or not all(
-                k in ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in attrs.items()
+                k in PHYSICAL_ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in attrs.items()
             )):
-                errors.append(f"{w}.attrs: must map attributes ({', '.join(ATTRIBUTES)}) to numbers, 0 or more")
+                errors.append(f"{w}.attrs: a vehicle has only physical attributes ({', '.join(PHYSICAL_ATTRIBUTES)}),"
+                              " as numbers, 0 or more")
                 continue
             conn.execute("INSERT INTO items (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
                          (pid, row["id"], i, row["name"], row["kind"], _catalog_data(row)))

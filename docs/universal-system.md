@@ -409,7 +409,7 @@ Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30.
 
 Speed is how fast a character, animal, or vehicle moves over time. Above 90 it needs a mechanism that gets around the light-speed limit of general relativity, such as warping or folding space or jumping along a trajectory; without one, Speed stays below 90. Warping, folding, or jumping counts as Speed only when it can land anywhere along its path in a given time. Teleporting with a range, line of sight, or limits on the target is an ability, not Speed. Teleporting with no limits can be 100+, and anything faster than 100 comes from abilities.
 
-A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn. Power armor and robot armor are vehicles with their own attributes, which replace the wearer's physical attributes, Strength and Speed, while worn; normal armor has no attributes.
+A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn. Power armor and robot armor are vehicles with their own attributes, which replace the wearer's physical attributes, Strength and Speed, while worn; normal armor has no attributes. A vehicle has only physical attributes. Piloting is a skill, and it does not benefit from Agility.
 
 Speed governs movement only. It gives no actions, initiative, or reaction time. Power armor that flies faster than light leaves an ordinary wearer with human reactions and human actions per melee. A species or occupation with high Speed can come with abilities that add actions or reactions, and those are abilities.
 

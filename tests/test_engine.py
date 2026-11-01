@@ -147,12 +147,12 @@ def test_worn_vehicle_replaces_physical_attributes(conn):
 def test_vehicle_rows_have_their_own_attributes(conn):
     # A vehicle that is not worn: its own attribute rows, only those that apply, resolved on its own.
     packs.import_pack(conn, pack(
-        items=[{"id": "skiff", "name": "Skiff", "kind": "vehicle", "attrs": {"speed": 40, "endurance": 25}}],
+        items=[{"id": "skiff", "name": "Skiff", "kind": "vehicle", "attrs": {"speed": 40}}],
         characters=[{"id": "zadok", "name": "Zadok", "attrs": {"strength": 9, "speed": 7}, "items": ["skiff"]}],
     ))
-    assert engine.vehicle_attributes(conn, "test", "skiff") == {"speed": 40, "endurance": 25}
+    assert engine.vehicle_attributes(conn, "test", "skiff") == {"speed": 40}
     s = sheet(conn, "zadok")
-    assert s["vehicles"] == [{"id": "skiff", "name": "Skiff", "attrs": {"speed": 40, "endurance": 25}}]
+    assert s["vehicles"] == [{"id": "skiff", "name": "Skiff", "attrs": {"speed": 40}}]
     # The pilot's own sheet is untouched by a vehicle that is not worn.
     attrs = {a["id"]: a["value"] for a in s["attrs"]}
     assert (attrs["strength"], attrs["speed"]) == (9, 7)
@@ -183,3 +183,25 @@ def test_wearer_effects_do_not_reach_inside_a_worn_vehicle(conn):
         conn.execute("DELETE FROM character_active WHERE character_id='pc-bex'")
     off = attrs()
     assert (off["strength"], off["speed"], off["agility"]) == (35, 11, 13)
+
+
+def test_piloting_skill_does_not_benefit_from_agility(conn):
+    packs.import_pack(conn, pack(
+        abilities=[{"id": "pilot_skiff", "name": "Pilot: skiff", "agility": False},
+                   {"id": "tumbling", "name": "Tumbling", "agility": True}],
+        characters=[{"id": "zadok", "name": "Zadok", "attrs": {"agility": 30},
+                     "abilities": [{"id": "pilot_skiff", "qty": "60%"}, {"id": "tumbling", "qty": "40%"}]}],
+    ))
+
+    def skills():
+        rows = next(g for g in sheet(conn, "zadok")["groups"] if g["id"] == "abilities")["rows"]
+        return {r["id"]: r for r in rows}
+
+    high = skills()
+    with conn:
+        conn.execute("UPDATE character_attrs SET value=10 WHERE character_id='zadok' AND attr='agility'")
+    low = skills()
+    assert high["pilot_skiff"] == low["pilot_skiff"] == {"id": "pilot_skiff", "name": "Pilot: skiff", "qty": "60%"}
+    assert (high["tumbling"]["agility_bonus"], low["tumbling"]["agility_bonus"]) == (4, 0)
+    # The shipped piloting skill is marked the same way.
+    assert '"agility": false' in conn.execute("SELECT data FROM abilities WHERE id='pilot_armor'").fetchone()[0]

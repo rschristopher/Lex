@@ -58,7 +58,7 @@ def test_reimport_keeps_owner(conn):
 def test_validation_is_all_or_nothing(conn):
     bad = pack(
         items=[{"id": "plate", "name": "Plate", "kind": "armor", "attrs": {"strength": 30}},
-               {"id": "rig", "name": "Rig", "kind": "vehicle", "attrs": {"luck": 3}}],
+               {"id": "rig", "name": "Rig", "kind": "vehicle", "attrs": {"agility": 3}}],
         abilities=[{"id": "x", "name": "X", "effects": [{"verb": "mod.channel", "target": "strike", "value": "two"}]}],
         characters=[
             {"id": "c1", "name": "C1", "species": "nope", "attrs": {"strength": -1}},
@@ -72,7 +72,7 @@ def test_validation_is_all_or_nothing(conn):
     text = " | ".join(e.value.errors)
     assert "value must be a number" in text
     assert "items[0]: only a vehicle has attributes; armor has none" in text
-    assert "items[1].attrs: must map attributes" in text
+    assert "items[1].attrs: a vehicle has only physical attributes (strength, speed)" in text
     assert "characters/c3.items[0]: attributes belong on the vehicle row" in text
     assert "unknown species 'nope'" in text
     assert "strength: must be a number, 0 or more" in text
