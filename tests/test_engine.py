@@ -119,7 +119,7 @@ def test_no_price_means_no_purchase(conn):
         assert "no price" in str(e)
 
 
-def test_layer_replaces_physical_attributes_while_worn(conn):
+def test_worn_vehicle_replaces_physical_attributes(conn):
     def attrs(cid):
         return {a["id"]: a["value"] for a in sheet(conn, cid)["attrs"]}
 
@@ -142,3 +142,18 @@ def test_layer_replaces_physical_attributes_while_worn(conn):
     assert (calder["strength"], calder["speed"]) == (38, 31)
     assert (before["strength"], before["speed"]) != (38, 31)
     assert calder["intellect"] == before["intellect"] and calder["willpower"] == before["willpower"]
+
+
+def test_vehicle_rows_have_their_own_attributes(conn):
+    # A vehicle that is not worn: its own attribute rows, only those that apply, resolved on its own.
+    packs.import_pack(conn, pack(
+        items=[{"id": "skiff", "name": "Skiff", "kind": "vehicle", "attrs": {"speed": 40, "endurance": 25}}],
+        characters=[{"id": "zadok", "name": "Zadok", "attrs": {"strength": 9, "speed": 7}, "items": ["skiff"]}],
+    ))
+    assert engine.vehicle_attributes(conn, "test", "skiff") == {"speed": 40, "endurance": 25}
+    s = sheet(conn, "zadok")
+    assert s["vehicles"] == [{"id": "skiff", "name": "Skiff", "attrs": {"speed": 40, "endurance": 25}}]
+    # The pilot's own sheet is untouched by a vehicle that is not worn.
+    attrs = {a["id"]: a["value"] for a in s["attrs"]}
+    assert (attrs["strength"], attrs["speed"]) == (9, 7)
+    assert engine.vehicle_attributes(conn, "universal", "scales") == {}

@@ -258,6 +258,19 @@ MIGRATIONS: list[str] = [
     ALTER TABLE effects_new RENAME TO effects;
     CREATE INDEX effects_owner ON effects(owner_type, owner_pack, owner_id);
     """,
+    # 3: a vehicle (items.kind = 'vehicle', including power armor and robot armor) has its own
+    # attribute values, only for the attributes that apply to it. Other items have none.
+    """
+    CREATE TABLE item_attrs (
+        item_pack TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        attr TEXT NOT NULL,
+        value REAL NOT NULL,
+        PRIMARY KEY (item_pack, item_id, attr),
+        FOREIGN KEY (item_pack, item_id) REFERENCES items(pack, id) ON DELETE CASCADE
+    );
+    """,
 ]
 
 

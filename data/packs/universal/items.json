@@ -28,10 +28,6 @@
     "prefix": "hecto",
     "total": 800,
     "slot": "body",
-    "layer": {
-      "strength": 38,
-      "speed": 31
-    },
     "attacks": [
       {
         "id": "punch",
@@ -48,7 +44,11 @@
         "durability": "hecto"
       }
     ],
-    "kind": "armor"
+    "kind": "vehicle",
+    "attrs": {
+      "strength": 38,
+      "speed": 31
+    }
   },
   {
     "id": "punch",

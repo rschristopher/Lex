@@ -1,5 +1,4 @@
 import filecmp
-import json
 
 import pytest
 
@@ -38,8 +37,12 @@ def test_import_rows(conn):
     assert n("SELECT COUNT(*) FROM effects WHERE owner_type='occupation' AND verb='mod.channel'") >= 10
     # Worn gear that sets an attribute is effect rows too.
     assert conn.execute("SELECT COUNT(*) FROM effects WHERE owner_type='item' AND owner_id='siege_enforcer'").fetchone()[0] == 0
-    layer = json.loads(conn.execute("SELECT data FROM items WHERE id='siege_enforcer'").fetchone()[0])["layer"]
-    assert layer == {"strength": 38, "speed": 31}
+    assert conn.execute("SELECT kind FROM items WHERE id='siege_enforcer'").fetchone()[0] == "vehicle"
+    rows = conn.execute("SELECT attr, value FROM item_attrs WHERE item_id='siege_enforcer' ORDER BY position").fetchall()
+    assert [tuple(r) for r in rows] == [("strength", 38), ("speed", 31)]
+    # Normal armor has no attribute rows.
+    assert conn.execute("SELECT COUNT(*) FROM item_attrs JOIN items ON items.pack=item_pack AND items.id=item_id"
+                        " WHERE items.kind<>'vehicle'").fetchone()[0] == 0
     own = conn.execute("SELECT item_id FROM character_items WHERE character_id='pc-bex' ORDER BY position").fetchall()
     assert [r[0] for r in own][:1] == ["siege_enforcer"]
 
@@ -54,19 +57,23 @@ def test_reimport_keeps_owner(conn):
 
 def test_validation_is_all_or_nothing(conn):
     bad = pack(
-        items=[{"id": "suit", "name": "Suit", "kind": "armor", "layer": {"intellect": 30}}],
+        items=[{"id": "plate", "name": "Plate", "kind": "armor", "attrs": {"strength": 30}},
+               {"id": "rig", "name": "Rig", "kind": "vehicle", "attrs": {"luck": 3}}],
         abilities=[{"id": "x", "name": "X", "effects": [{"verb": "mod.channel", "target": "strike", "value": "two"}]}],
         characters=[
             {"id": "c1", "name": "C1", "species": "nope", "attrs": {"strength": -1}},
             {"id": "pc-ilya", "name": "Again"},
             {"id": "c2"},
+            {"id": "c3", "name": "C3", "items": [{"id": "universal:siege_enforcer", "attrs": {"strength": 50}}]},
         ],
     )
     with pytest.raises(packs.PackError) as e:
         packs.import_pack(conn, bad)
     text = " | ".join(e.value.errors)
     assert "value must be a number" in text
-    assert "items[0].layer: must map physical attributes (strength, speed)" in text
+    assert "items[0]: only a vehicle has attributes; armor has none" in text
+    assert "items[1].attrs: must map attributes" in text
+    assert "characters/c3.items[0]: attributes belong on the vehicle row" in text
     assert "unknown species 'nope'" in text
     assert "strength: must be a number, 0 or more" in text
     assert "id already used by pack universal" in text

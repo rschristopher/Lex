@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lex.engine import apply_effects, apply_layers
+from lex.engine import VEHICLE, apply_effects, apply_worn_vehicles
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
 from lex.agility import AGILITY_CHANNELS, agility_bonus, reflex_free
 from lex.strength import melee_damage
@@ -136,9 +136,9 @@ def worn_armor(doc: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def _worn_attr_values(base: dict[str, Any], doc: dict[str, Any]) -> dict[str, Any]:
-    """Attributes under any worn layer, then every owned row's mod.attr effects (worn gear only while worn)."""
-    layered = apply_layers(base, [p["layer"] for p in worn_pieces(doc) if p.get("layer")])
-    values, _ = apply_effects(layered, doc.get("_effects") or [], "mod.attr")
+    """Attributes inside any worn vehicle, then every owned row's mod.attr effects (worn gear only while worn)."""
+    worn = apply_worn_vehicles(base, [p.get("attrs") or {} for p in worn_pieces(doc) if p.get("kind") == VEHICLE])
+    values, _ = apply_effects(worn, doc.get("_effects") or [], "mod.attr")
     return values
 
 

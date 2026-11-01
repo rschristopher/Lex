@@ -6,9 +6,11 @@ import json
 import sqlite3
 from typing import Any, Iterable
 
-# docs/universal-system.md, Attributes: "Strength and Speed have a physical measure";
-# Agility, Endurance, Intellect, Willpower, and Appearance have none.
+# docs/universal-system.md, Attributes: "Lex has seven core attributes".
+ATTRIBUTES = ("strength", "agility", "endurance", "speed", "intellect", "willpower", "appearance")
+# Same section: "Strength and Speed have a physical measure"; the other five have none.
 PHYSICAL_ATTRIBUTES = ("strength", "speed")
+VEHICLE = "vehicle"
 
 OWNER_TABLES = {"species": "species", "occupation": "occupations", "ability": "abilities", "item": "items"}
 
@@ -32,14 +34,24 @@ def apply_effects(
     return {k: _num(v) for k, v in values.items()}, flagged
 
 
-def apply_layers(base: dict[str, float], layers: Iterable[dict[str, float]]) -> dict[str, float]:
-    """A worn layer (power armor, robot armor) replaces the wearer's physical attributes with its own."""
+def apply_worn_vehicles(base: dict[str, float], vehicles: Iterable[dict[str, float]]) -> dict[str, float]:
+    """A worn vehicle (power armor, robot armor) replaces the wearer's physical attributes with its own."""
     values = dict(base)
-    for layer in layers:
-        for k, v in layer.items():
+    for attrs in vehicles:
+        for k, v in attrs.items():
             if k in PHYSICAL_ATTRIBUTES:
                 values[k] = v
     return values
+
+
+def vehicle_attributes(conn: sqlite3.Connection, pack: str, item_id: str) -> dict[str, float]:
+    """A vehicle's own attribute values, only those that apply to it."""
+    return {
+        r["attr"]: _num(r["value"])
+        for r in conn.execute(
+            "SELECT attr, value FROM item_attrs WHERE item_pack=? AND item_id=? ORDER BY position", (pack, item_id)
+        )
+    }
 
 
 def _num(v: float) -> float | int:

@@ -50,11 +50,17 @@ def resolved_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
     armor: list[dict[str, Any]] = []
     weapons: list[dict[str, Any]] = []
     gear: list[dict[str, Any]] = []
+    vehicles: list[dict[str, Any]] = []
     for o in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
         cat = conn.execute("SELECT * FROM items WHERE pack=? AND id=?", (o["item_pack"], o["item_id"])).fetchone()
         row = _merged(o, cat, o["item_pack"], o["item_id"])
         kind = row.get("kind")
-        (armor if kind == "armor" else weapons if kind == "weapon" else gear).append(row)
+        if kind == engine.VEHICLE:
+            row["attrs"] = engine.vehicle_attributes(conn, o["item_pack"], o["item_id"])
+            # Worn vehicles (power armor, robot armor) take a slot like armor; others are not worn.
+            (armor if row.get("slot") else vehicles).append(row)
+        else:
+            (armor if kind == "armor" else weapons if kind == "weapon" else gear).append(row)
     effects, broken = engine.character_effects(conn, cid)
     abilities = []
     for o in conn.execute("SELECT * FROM character_abilities WHERE character_id=? ORDER BY position", (cid,)):
@@ -68,6 +74,7 @@ def resolved_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
     doc["armor"] = armor
     doc["weapons"] = weapons
     doc["gear"] = gear
+    doc["vehicles"] = vehicles
     doc["abilities"] = abilities
     doc["_effects"] = effects
     return doc
@@ -95,6 +102,7 @@ def sheet(conn: sqlite3.Connection, cid: str, adapter_id: str | None = None) -> 
         portrait=portrait,
     )
     out["occupations"] = engine.occupation_progress(conn, cid)[:3]
+    out["vehicles"] = [{"id": v["id"], "name": v.get("name"), "attrs": v["attrs"]} for v in doc["vehicles"]]
     out["pinned"] = _named(conn, "occupations", ch["pinned_pack"], ch["pinned_id"])
     out["unspent_experience"] = ch["xp_unspent"]
     out["inactive"] = [{"id": a["id"], "name": a.get("name"), "why": a["inactive"]}

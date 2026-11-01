@@ -7,7 +7,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-from lex.engine import PHYSICAL_ATTRIBUTES
+from lex.engine import ATTRIBUTES, VEHICLE
 
 CHAR_KEYS = [
     "id", "name", "npc", "level", "species", "occupation", "pinned", "unspent_experience",
@@ -18,7 +18,7 @@ CHAR_COLUMNS = {
     "attack": "attack", "unspent_experience": "xp_unspent",
 }
 REF_COLUMNS = {"species": "species", "occupation": "occupation", "pinned": "pinned"}
-ROW_SPLIT = ("effects", "requires", "sets")
+ROW_SPLIT = ("attrs", "effects", "requires", "sets")
 
 
 class PackError(ValueError):
@@ -235,15 +235,19 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
             w = f"items[{i}]"
             if not _check_row(row, w, errors, ("id", "name", "kind")):
                 continue
-            layer = row.get("layer")
-            if layer is not None and (
-                not isinstance(layer, dict)
-                or not all(k in PHYSICAL_ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in layer.items())
-            ):
-                errors.append(f"{w}.layer: must map physical attributes ({', '.join(PHYSICAL_ATTRIBUTES)}) to numbers, 0 or more")
+            attrs = row.get("attrs")
+            if attrs is not None and row["kind"] != VEHICLE:
+                errors.append(f"{w}: only a vehicle has attributes; {row['kind']} has none")
+                continue
+            if attrs is not None and (not isinstance(attrs, dict) or not all(
+                k in ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in attrs.items()
+            )):
+                errors.append(f"{w}.attrs: must map attributes ({', '.join(ATTRIBUTES)}) to numbers, 0 or more")
                 continue
             conn.execute("INSERT INTO items (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
                          (pid, row["id"], i, row["name"], row["kind"], _catalog_data(row)))
+            for ai, (k, v) in enumerate((attrs or {}).items()):
+                conn.execute("INSERT INTO item_attrs VALUES (?,?,?,?,?)", (pid, row["id"], ai, k, v))
         for row in doc["occupations"]:
             w = f"occupations/{row.get('id') if isinstance(row, dict) else '?'}"
             if not _check_row(row, w, errors):
@@ -360,6 +364,9 @@ def _import_character(conn, refs: _Refs, pid: str, ci: int, c: Any, errors: list
             if not isinstance(own, dict):
                 errors.append(f"{w}.{key}[{i}]: must be an id or object")
                 continue
+            if key == "items" and "attrs" in own:
+                errors.append(f"{w}.items[{i}]: attributes belong on the vehicle row, not on the character")
+                continue
             r = refs.resolve(table, own.get("id"), f"{w}.{key}[{i}]", errors)
             if r:
                 conn.execute(f"INSERT INTO {col} VALUES (?,?,?,?,?)",
@@ -413,6 +420,12 @@ def _requires_out(conn, owner_type, pack, oid) -> list[dict[str, Any]]:
 
 def _row_out(conn, owner_type: str, pack: str, r: sqlite3.Row) -> dict[str, Any]:
     row = json.loads(r["data"])
+    if owner_type == "item":
+        attrs = conn.execute(
+            "SELECT attr, value FROM item_attrs WHERE item_pack=? AND item_id=? ORDER BY position", (pack, r["id"])
+        ).fetchall()
+        if attrs:
+            row["attrs"] = {a["attr"]: _num(a["value"]) for a in attrs}
     effects = _effects_out(conn, owner_type, pack, r["id"])
     reqs = _requires_out(conn, owner_type, pack, r["id"])
     if effects:
