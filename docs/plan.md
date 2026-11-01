@@ -21,6 +21,7 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 ### Adventures
 - The GM prepares an adventure with locations, stories, maps, non-player characters, suggested experience, loot, and groups, and edits it during play ([Adventures](universal-system.md#adventures)).
 - The GM shows or hides any adventure material for every player or chosen players.
+- The GM uses the GM-assistant with an LLM to create maps, towns, and adventure material, including at the table during play.
 
 ### Play and fights
 - The GM groups characters and starts a fight; every tablet in it shows both groups and the initiative order ([Fights in the app](universal-system.md#fights-in-the-app)).

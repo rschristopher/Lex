@@ -12,7 +12,7 @@ The game is the GM talking and the players playing their characters in a shared 
 
 For example, ingest Homer's Iliad and Odyssey alongside wild west novelas for a Greek mythological take on the wild west. 
 Or if you want to integrate Japanese demons (oni or yokai) alognside the Greek gods, point your favorite LLM at the relevant text (in any language) and ingest that into Lex.
-Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign. Lex is the ideal RPG harness for a LLM.
+Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign, including at the table during play. Lex is the ideal RPG harness for a LLM.
 
 
 See [glossary.md](glossary.md) for definitions of terms.
