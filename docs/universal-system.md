@@ -231,7 +231,7 @@ Every mage or psychic occupation has the same Anima ladder, bought with experien
 
 Most characters in a typical setting are Professional, and Expert is rare. A Master is a human trained to compete with superheroes and metahumans without cybernetics or metahuman abilities.
 
-Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Mega and above is a separate, cosmic category that takes more than an occupation.
+Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Mega and above is a separate, cosmic category. Experience and occupations cannot reach it, and regular humans never do; it takes a special source, such as being a metahuman or a gift of cosmic power, always at the GM's discretion.
 
 A pool is written in the prefix that matches the setting's power band. In a high-damage setting where powers deal hecto-scale damage, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new mage with 137 points has `137 hM` (`13,700 M`).
 

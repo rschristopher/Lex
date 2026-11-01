@@ -51,3 +51,5 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
 
 **How is the one-sixth per melee rounded for small pools, or does recovery accrue exactly?**
+
+**What powers and rules come with the cosmic tier, mega Anima and above?**
