@@ -7,6 +7,8 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+from lex.engine import PHYSICAL_ATTRIBUTES
+
 CHAR_KEYS = [
     "id", "name", "npc", "level", "species", "occupation", "pinned", "unspent_experience",
     "portrait", "coin", "attrs", "gauges", "channels", "items", "abilities", "list", "activated", "attack",
@@ -232,6 +234,13 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
         for i, row in enumerate(doc["items"]):
             w = f"items[{i}]"
             if not _check_row(row, w, errors, ("id", "name", "kind")):
+                continue
+            layer = row.get("layer")
+            if layer is not None and (
+                not isinstance(layer, dict)
+                or not all(k in PHYSICAL_ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in layer.items())
+            ):
+                errors.append(f"{w}.layer: must map physical attributes ({', '.join(PHYSICAL_ATTRIBUTES)}) to numbers, 0 or more")
                 continue
             conn.execute("INSERT INTO items (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
                          (pid, row["id"], i, row["name"], row["kind"], _catalog_data(row)))

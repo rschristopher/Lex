@@ -6,6 +6,10 @@ import json
 import sqlite3
 from typing import Any, Iterable
 
+# docs/universal-system.md, Attributes: "Strength and Speed have a physical measure";
+# Agility, Endurance, Intellect, Willpower, and Appearance have none.
+PHYSICAL_ATTRIBUTES = ("strength", "speed")
+
 OWNER_TABLES = {"species": "species", "occupation": "occupations", "ability": "abilities", "item": "items"}
 
 
@@ -26,6 +30,16 @@ def apply_effects(
         if e.get("value") is not None:
             values[e["target"]] = values.get(e["target"], 0) + e["value"]
     return {k: _num(v) for k, v in values.items()}, flagged
+
+
+def apply_layers(base: dict[str, float], layers: Iterable[dict[str, float]]) -> dict[str, float]:
+    """A worn layer (power armor, robot armor) replaces the wearer's physical attributes with its own."""
+    values = dict(base)
+    for layer in layers:
+        for k, v in layer.items():
+            if k in PHYSICAL_ATTRIBUTES:
+                values[k] = v
+    return values
 
 
 def _num(v: float) -> float | int:

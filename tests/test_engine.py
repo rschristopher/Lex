@@ -117,3 +117,28 @@ def test_no_price_means_no_purchase(conn):
         raise AssertionError
     except engine.Refused as e:
         assert "no price" in str(e)
+
+
+def test_layer_replaces_physical_attributes_while_worn(conn):
+    def attrs(cid):
+        return {a["id"]: a["value"] for a in sheet(conn, cid)["attrs"]}
+
+    bex = attrs("pc-bex")
+    assert (bex["strength"], bex["speed"]) == (38, 31)
+    assert (bex["agility"], bex["endurance"], bex["intellect"], bex["willpower"]) == (11, 14, 11, 12)
+    with conn:
+        conn.execute("DELETE FROM character_active WHERE character_id='pc-bex'")
+    off = attrs("pc-bex")
+    assert (off["strength"], off["speed"]) == (30, 8)
+
+    # A different wearer gets the suit's values, not their own plus something.
+    with conn:
+        conn.execute("INSERT INTO character_items VALUES ('pc-calder', 99, 'universal', 'siege_enforcer', '{}')")
+        conn.execute("DELETE FROM character_active WHERE character_id='pc-calder'")
+        conn.execute("INSERT INTO character_active VALUES ('pc-calder', 0, 'siege_enforcer')")
+    before = {a["attr"]: a["value"] for a in conn.execute(
+        "SELECT attr, value FROM character_attrs WHERE character_id='pc-calder'")}
+    calder = attrs("pc-calder")
+    assert (calder["strength"], calder["speed"]) == (38, 31)
+    assert (before["strength"], before["speed"]) != (38, 31)
+    assert calder["intellect"] == before["intellect"] and calder["willpower"] == before["willpower"]

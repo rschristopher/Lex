@@ -1,4 +1,5 @@
 import filecmp
+import json
 
 import pytest
 
@@ -36,8 +37,9 @@ def test_import_rows(conn):
     assert n("SELECT COUNT(*) FROM occupations") == 10
     assert n("SELECT COUNT(*) FROM effects WHERE owner_type='occupation' AND verb='mod.channel'") >= 10
     # Worn gear that sets an attribute is effect rows too.
-    rows = conn.execute("SELECT target, value FROM effects WHERE owner_type='item' AND owner_id='siege_enforcer'").fetchall()
-    assert [tuple(r) for r in rows] == [("strength", 8), ("speed", 23)]
+    assert conn.execute("SELECT COUNT(*) FROM effects WHERE owner_type='item' AND owner_id='siege_enforcer'").fetchone()[0] == 0
+    layer = json.loads(conn.execute("SELECT data FROM items WHERE id='siege_enforcer'").fetchone()[0])["layer"]
+    assert layer == {"strength": 38, "speed": 31}
     own = conn.execute("SELECT item_id FROM character_items WHERE character_id='pc-bex' ORDER BY position").fetchall()
     assert [r[0] for r in own][:1] == ["siege_enforcer"]
 
@@ -52,6 +54,7 @@ def test_reimport_keeps_owner(conn):
 
 def test_validation_is_all_or_nothing(conn):
     bad = pack(
+        items=[{"id": "suit", "name": "Suit", "kind": "armor", "layer": {"intellect": 30}}],
         abilities=[{"id": "x", "name": "X", "effects": [{"verb": "mod.channel", "target": "strike", "value": "two"}]}],
         characters=[
             {"id": "c1", "name": "C1", "species": "nope", "attrs": {"strength": -1}},
@@ -63,6 +66,7 @@ def test_validation_is_all_or_nothing(conn):
         packs.import_pack(conn, bad)
     text = " | ".join(e.value.errors)
     assert "value must be a number" in text
+    assert "items[0].layer: must map physical attributes (strength, speed)" in text
     assert "unknown species 'nope'" in text
     assert "strength: must be a number, 0 or more" in text
     assert "id already used by pack universal" in text

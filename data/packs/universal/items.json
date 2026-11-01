@@ -28,6 +28,10 @@
     "prefix": "hecto",
     "total": 800,
     "slot": "body",
+    "layer": {
+      "strength": 38,
+      "speed": 31
+    },
     "attacks": [
       {
         "id": "punch",
@@ -44,19 +48,7 @@
         "durability": "hecto"
       }
     ],
-    "kind": "armor",
-    "effects": [
-      {
-        "verb": "mod.attr",
-        "target": "strength",
-        "value": 8
-      },
-      {
-        "verb": "mod.attr",
-        "target": "speed",
-        "value": 23
-      }
-    ]
+    "kind": "armor"
   },
   {
     "id": "punch",

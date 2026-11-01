@@ -14,6 +14,7 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 | `portraits/`, `lore/*.md` | images and lore prose |
 
 An effect is `{"verb": "mod.channel" or "mod.attr", "target", "value"}`. Every effect and constraint a character owns applies.
+An item can carry a `layer`, such as power armor or robot armor: `{"strength": 38, "speed": 31}`. While it is worn, its values replace the wearer's physical attributes (Strength and Speed); the rest stay the wearer's.
 A requirement is `{"kind": "species" | "ability" | "occupation_set" | "list", "id", "set"}`.
 A reference to another pack is `pack:id`.
 
