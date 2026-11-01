@@ -289,7 +289,7 @@ A target can still resist. Skill level and the Anima ladder level are separate. 
 
 Lex has seven core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, and Appearance. Persuading, leading, intimidating, and performing are abilities. Hiding and stealth are skills, and a GM can call for a skill or ability roll. Adapters can derive stats such as Charisma from Appearance, Willpower, and Intellect.
 
-Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100. Below 1, a tiny creature's Strength or Speed is a fraction between 0 and 1, and the formula reads the same: Strength 0.5 lifts 3 kg.
 
 Strength and Speed have a physical measure:
 

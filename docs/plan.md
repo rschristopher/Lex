@@ -26,8 +26,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How is a contest between two characters at 100 settled?**
 
-**How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
-
 **Does an attack's roll use the ability's own bonus alone, or do other bonuses add to it?**
 
 **What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
