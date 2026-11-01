@@ -629,7 +629,7 @@ For any adventure material, the GM can show it or hide it, for every player or f
 
 ## Lore, ingest, and packs
 
-Lore is prose the engine does not read when resolving the sheet or a fight.
+Lore is prose the engine does not read when resolving the sheet or a fight. Lore is searched by meaning, with vector search in sqlite, so the GM-assistant finds the relevant pieces for each question.
 
 Lex is the agentic harness for ingest. The LLM reads a source material, such as Greek mythology or a Civil War story, and iterates with the user on building a data pack from it: characters, locations, powers, and everything else in it. Anyone can ingest; usually it is the GM.
 
