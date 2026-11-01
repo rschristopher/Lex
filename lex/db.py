@@ -287,6 +287,30 @@ MIGRATIONS: list[str] = [
     ALTER TABLE effects ADD COLUMN level INTEGER;              -- NULL: the owner itself; n: its level n
     ALTER TABLE character_abilities ADD COLUMN level INTEGER;  -- the level owned, for abilities with levels
     """,
+    # 5: a shared ladder of levels (names, casting roll target) that abilities reference instead of
+    # repeating it. d20 NULL means no roll.
+    """
+    CREATE TABLE ladders (
+        pack TEXT NOT NULL REFERENCES packs(id) ON DELETE CASCADE,
+        id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        data TEXT NOT NULL DEFAULT '{}',
+        PRIMARY KEY (pack, id)
+    );
+    CREATE TABLE ladder_levels (
+        ladder_pack TEXT NOT NULL,
+        ladder_id TEXT NOT NULL,
+        level INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        d20 INTEGER,              -- casting roll: this or higher on a d20; NULL is no roll
+        data TEXT NOT NULL DEFAULT '{}',
+        PRIMARY KEY (ladder_pack, ladder_id, level),
+        FOREIGN KEY (ladder_pack, ladder_id) REFERENCES ladders(pack, id) ON DELETE CASCADE
+    );
+    ALTER TABLE abilities ADD COLUMN ladder_pack TEXT;
+    ALTER TABLE abilities ADD COLUMN ladder_id TEXT;
+    """,
 ]
 
 

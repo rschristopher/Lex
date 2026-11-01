@@ -71,6 +71,14 @@ def resolved_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
                               (o["ability_pack"], o["ability_id"], o["level"])).fetchone()
             row["level"] = o["level"]
             row["level_name"] = lv["name"] if lv else str(o["level"])
+            step = conn.execute(
+                "SELECT ll.* FROM abilities AS a JOIN ladder_levels AS ll ON ll.ladder_pack=a.ladder_pack"
+                " AND ll.ladder_id=a.ladder_id WHERE a.pack=? AND a.id=? AND ll.level=?",
+                (o["ability_pack"], o["ability_id"], o["level"]),
+            ).fetchone()
+            if step:
+                # The casting roll at this level, from the ladder rows: a d20 target, or no roll.
+                row["casting"] = {"level": step["name"], "d20": step["d20"], "roll": step["d20"] is not None}
         problems = broken.get((o["ability_pack"], o["ability_id"]))
         if problems:
             row["inactive"] = problems

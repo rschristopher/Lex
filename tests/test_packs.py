@@ -7,7 +7,7 @@ from lex.paths import PACK_DIR
 
 
 def pack(pid="test", **rows):
-    doc = {"id": pid, "name": pid, "adapter": None, "species": [], "occupations": [], "abilities": [],
+    doc = {"id": pid, "name": pid, "adapter": None, "species": [], "occupations": [], "abilities": [], "ladders": [],
            "items": [], "characters": [], "portraits": {}, "lore": []}
     doc.update(rows)
     return doc
