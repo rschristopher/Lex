@@ -46,8 +46,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How much does a reduced-cost option reduce the cost?**
 
-**Is the human species Anima bonus a flat 10 or a 3d6 roll?**
-
 **What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
 
 **How is the one-sixth per melee rounded for small pools, or does recovery accrue exactly?**

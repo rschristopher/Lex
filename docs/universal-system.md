@@ -219,7 +219,7 @@ The numeric gauge for magic, psionics, and other supernatural abilities.
 Anima is measured in Magi or Magic points `M`.
 Anima recovers at Willpower % of the character's total Anima per minute: Willpower 10 refills in 10 minutes, and Willpower 100 in 1 minute. In a fight, recovery comes only between melees, one sixth of the per-minute amount after each 10-second melee, and none within a melee. Between fights, a character recovers fully.
 
-Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is 10, so an average human has `50 M`. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
+Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is rolled `3d6`, from 3 to 18. Anima examples use 10 for it, so an average human has `50 M`. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
 
 Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus:
 
