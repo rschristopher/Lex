@@ -36,4 +36,12 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 
 ## Technical design
 
-- Lore is stored in sqlite and searched by meaning with vector search, so the GM-assistant finds the relevant lore for each question.
+- `lex/db.py`: the sqlite schema and migrations (live record).
+- `lex/packs.py`: pack import (validated, all or nothing) and export; `tests/test_packs.py` round-trips the shipped packs byte for byte.
+- `data/packs/README.md`: the pack file layout; `data/packs/universal/` is the example.
+- `lex/engine.py`: effect rows, requirement rows, occupation sets, buying with experience; `tests/test_engine.py`.
+- `lex/sheet.py` and `lex/fold.py`: a sheet resolved from sqlite and rendered by an adapter.
+- `lex/api.py`: HTTP endpoints, logins, and edit permissions; `tests/test_api.py`.
+- `lex/index.html`, `lex/static/`: the roster and sheet UI.
+- `lex/cli.py`: `lex import`, `lex export`, `lex user`, `lex serve`, `lex test`.
+- Lore is stored in sqlite (`lore` table) and searched by meaning with vector search; the search is not built yet.

@@ -105,3 +105,5 @@ def test_player_ui_served(conn):
         assert 'id="adapter"' in page.text
         assert 'id="scale"' in page.text
         assert 'id="home"' in page.text
+        for el in ('id="login"', 'id="signup"', 'id="new-character"', 'id="new-species"'):
+            assert el in page.text

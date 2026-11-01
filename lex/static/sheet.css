@@ -47,6 +47,17 @@ select, input {
   border: 1px solid var(--line); padding: 0.4rem 0.7rem; font: inherit;
 }
 #err { color: #ff6b6b; margin: 0; margin-left: auto; }
+.auth { display: flex; align-items: center; gap: 0.45rem; margin-left: auto; }
+#err:not([hidden]) + .auth, #err:not([hidden]) ~ .auth { margin-left: 0; }
+.auth input { width: 8rem; }
+.auth button, .create button {
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); padding: 0.4rem 0.7rem; font: inherit; cursor: pointer;
+}
+.auth button:hover, .create button:hover { border-color: var(--ink); }
+#who { color: var(--muted); font-size: 0.85rem; }
+.create { display: flex; gap: 0.45rem; padding: 0.6rem 1.25rem; border-bottom: 1px solid var(--line); }
+.create[hidden], .auth[hidden] { display: none; }
 
 .sheet {
   display: grid;

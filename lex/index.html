@@ -18,7 +18,24 @@
       <select id="scale" aria-label="Scale"></select>
     </label>
     <p id="err" hidden></p>
+    <form id="login" class="auth" hidden>
+      <input id="username" placeholder="Username" autocomplete="username" required>
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+      <button type="submit">Sign in</button>
+      <button type="button" id="signup">Sign up</button>
+    </form>
+    <div id="account" class="auth" hidden>
+      <span id="who"></span>
+      <button type="button" id="new-character">New character</button>
+      <button type="button" id="logout">Sign out</button>
+    </div>
   </header>
+  <form id="create" class="create" hidden>
+    <input id="new-name" placeholder="Name" required>
+    <select id="new-species" required></select>
+    <button type="submit">Create</button>
+    <button type="button" id="create-cancel">Cancel</button>
+  </form>
   <div id="sheet" class="sheet"></div>
   <script type="module" src="/static/sheet.js"></script>
 </body>
