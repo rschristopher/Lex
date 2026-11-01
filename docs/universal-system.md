@@ -287,7 +287,7 @@ A target can still resist. Skill level and the Anima ladder level are separate. 
 
 ## Attributes
 
-Lex has eight core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, Awareness, and Appearance. Persuading, leading, intimidating, and performing are abilities. Adapters can derive stats such as Charisma from Appearance, Willpower, and Intellect.
+Lex has seven core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, and Appearance. Persuading, leading, intimidating, and performing are abilities. Hiding and stealth are skills, and a GM can call for a skill or ability roll. Adapters can derive stats such as Charisma from Appearance, Willpower, and Intellect.
 
 Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
 
@@ -306,11 +306,11 @@ A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, 
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Endurance, Intellect, Willpower, Awareness, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+Agility, Endurance, Intellect, Willpower, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
 
 ### Attribute table
 
-Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The other two are proposals.
+Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. Appearance is a proposal.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -320,7 +320,6 @@ Strength, Speed, Endurance, Agility, Intellect, and Willpower are decided. The o
 | Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
 | Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
 | Willpower | resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
-| Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
 | Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
 
 At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
