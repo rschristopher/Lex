@@ -33,3 +33,7 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 
 ### Rewards
 - After a fight the GM puts up loot and experience; players claim and release items, and unclaimed items stay on the ground ([Rewards](universal-system.md#rewards)).
+
+## Technical design
+
+- Lore is stored in sqlite and searched by meaning with vector search, so the GM-assistant finds the relevant lore for each question.
