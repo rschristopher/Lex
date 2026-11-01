@@ -1,13 +1,33 @@
 # Plan
 
-This is the implementation plan for Lex. The rules and app design are in [universal-system.md](universal-system.md); terms are in [glossary.md](glossary.md).
+This is the implementation plan for Lex: the use cases Lex supports, which drive the technical design. The rules and app design are in [universal-system.md](universal-system.md); terms are in [glossary.md](glossary.md).
 
-The existing code is a mockup built on hardcoded JSON files. Lex is built from the ground up in this order. Each layer is documented and tested with competing systems and data packs.
+## Use cases
 
-1. **Data layer.** A sqlite schema for the effects and constraints engine, the combat layer, and lore. During play, sqlite on the server is the live record ([Lore, ingest, and packs](universal-system.md#lore-ingest-and-packs)).
-2. **Ingest.** Load the JSON packs in `data/packs/` into sqlite, and export characters back to packs.
-3. **Engine.** The fold that resolves a character sheet from its effects and constraints, and the combat layer ([Combat Rules](universal-system.md#combat-rules), [Fights in the app](universal-system.md#fights-in-the-app)).
-4. **API.** REST HTTP endpoints for character sheets, combat, and lore.
-5. **UI.** The roster and character sheet, with leveling and rule enforcement; the combat screen; and lore, browsing maps and concepts. Every device is a browser on the one local server ([Server and logins](universal-system.md#server-and-logins)).
-6. **Packs.** Ingest other systems locally to prove the universal system. Only original and public domain packs are published.
-7. **Later.** Research and a proof of concept for an adapter that plays by another system's rules, not only converting to and from Lex.
+### Setting up
+- The GM runs one local server; the GM and players sign in from browsers on their own devices ([Server and logins](universal-system.md#server-and-logins)).
+- The GM loads packs into a campaign, from many sources at once ([Lore, ingest, and packs](universal-system.md#lore-ingest-and-packs)).
+- The GM sets the campaign's die system and can change it at any time ([Dice](universal-system.md#dice)).
+- The GM and an LLM ingest a book or another game into a pack, iterating on every stat together.
+
+### Characters
+- A player creates a character and fills the sheet as far as the GM needs to run, spending starting experience then or in play ([Experience, prices, and loot](universal-system.md#experience-prices-and-loot)).
+- A player spends experience on abilities within their constraints, and pins an occupation they are spending toward ([Species and occupations](universal-system.md#species-and-occupations)).
+- A player sees their sheet in any adapter's sheet language.
+- A player sees every character on their login across campaigns and switches between them.
+- The GM sees and edits every character, adds abilities or constraints, and generates random non-player characters.
+- A character converts to and from another game's sheet, and moves between Lex servers as a pack.
+
+### Adventures
+- The GM prepares an adventure with locations, stories, maps, non-player characters, suggested experience, loot, and groups, and edits it during play ([Adventures](universal-system.md#adventures)).
+- The GM shows or hides any adventure material for every player or chosen players.
+
+### Play and fights
+- The GM groups characters and starts a fight; every tablet in it shows both groups and the initiative order ([Fights in the app](universal-system.md#fights-in-the-app)).
+- On their action a player picks a weapon or power and a target, and enters the roll or uses auto-roll; a defender rolls or passes.
+- A player with paper says the action, and the GM enters it.
+- The GM undoes mistakes, calls a fresh initiative, and ends the fight.
+- Outside a fight, a player taps a skill to roll, or the GM calls for a roll.
+
+### Rewards
+- After a fight the GM puts up loot and experience; players claim and release items, and unclaimed items stay on the ground ([Rewards](universal-system.md#rewards)).
