@@ -2,10 +2,6 @@
 
 What is still open in Lex. Settled rules are in [universal-system.md](universal-system.md); terms are in [glossary.md](glossary.md).
 
-## Next
-
-- Safe fall: whether a successful roll halves fall damage above the safe height is still proposed ([Safe fall](universal-system.md#safe-fall)).
-
 ## Open questions
 
 **How is a check bonus computed?**
@@ -24,10 +20,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 * A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
 * A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
 
-**What makes two humans of the same mass have different flesh hit points?**
-
-**Do flesh hit points grow with experience?**
-
 **Does Lex need a knock-out track separate from flesh hit points?**
 
 **How do two unitless scores above 30 compare in a check?**
@@ -37,10 +29,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
 
 **Does an attack's roll use the ability's own bonus alone, or do other bonuses add to it?**
-
-**How is a bought upgrade's experience price set?**
-
-**How much does a reduced-cost option reduce the cost?**
 
 **What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
 

@@ -456,7 +456,7 @@ safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 | 75 | any fall on Earth; impacts to about 250 m/s |
 | 100 | impacts to about 1.4 km/s |
 
-A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful roll halves fall damage.
+A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe.
 
 #### Reflex Defense
 
