@@ -9,7 +9,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from lex import db, engine
+from lex import combat, db, engine
 from lex.paths import PKG
 from lex.sheet import list_adapters, list_sheets, sheet
 
@@ -263,6 +263,150 @@ def buy(cid: str, body: dict[str, Any], adapter: str | None = Query(default=None
     return sheet(conn, cid, adapter)
 
 
+# ---------------------------------------------------------------- fights
+
+
+def _fight_or_404(conn, fid: int) -> None:
+    try:
+        combat._fight(conn, fid)
+    except KeyError:
+        raise HTTPException(404, "no such fight")
+
+
+def _combat(fn, *args, **kw):
+    try:
+        return fn(*args, **kw)
+    except combat.CombatError as e:
+        raise HTTPException(409, str(e))
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+def _whole(v: Any, what: str) -> int | None:
+    if v is None:
+        return None
+    if not isinstance(v, int) or isinstance(v, bool):
+        raise HTTPException(422, f"{what} must be a whole number")
+    return v
+
+
+@app.post("/fights")
+def start_fight(body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    """The GM marks two or more groups as fighting: {"groups": [{"name", "characters": [ids]}], "die", "low", "pull_rule"}."""
+    groups = body.get("groups")
+    if not isinstance(groups, list) or not all(isinstance(g, dict) for g in groups):
+        raise HTTPException(422, "groups must be a list of {name, characters}")
+    fid = _combat(combat.start, conn, groups, die=str(body.get("die") or "d20"), low=bool(body.get("low")),
+                  pull_rule=bool(body.get("pull_rule")))
+    return combat.state(conn, fid)
+
+
+@app.get("/fights")
+def list_fights(conn: sqlite3.Connection = Depends(get_conn)):
+    return [dict(r) for r in conn.execute("SELECT id, status, melee, die, ended_reason FROM fights ORDER BY id DESC")]
+
+
+@app.get("/fights/{fid}")
+def get_fight(fid: int, conn: sqlite3.Connection = Depends(get_conn)):
+    """Every tablet in the fight sees both groups, the order, hit points and armor."""
+    _fight_or_404(conn, fid)
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/initiative")
+def fight_initiative(fid: int, body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn),
+                     user=Depends(need_user)):
+    """{"character", "value"}; leave value out to auto-roll."""
+    _fight_or_404(conn, fid)
+    cid = str(body.get("character") or "")
+    _editable(conn, cid, user)
+    _combat(combat.roll_initiative, conn, fid, cid, _whole(body.get("value"), "value"))
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/act")
+def fight_act(fid: int, body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn),
+              user=Depends(need_user)):
+    """{"actor", "use", "target", "unperceived", "pull"} or {"actor", "leave": true}."""
+    _fight_or_404(conn, fid)
+    actor = str(body.get("actor") or "")
+    _editable(conn, actor, user)
+    if body.get("unperceived") and user["role"] != "gm":
+        raise HTTPException(403, "only the GM marks an attack as unperceived")
+    _combat(combat.act, conn, fid, actor, body.get("use"), body.get("target"), leave=bool(body.get("leave")),
+            unperceived=bool(body.get("unperceived")), pull=_whole(body.get("pull"), "pull"))
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/roll")
+def fight_roll(fid: int, body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn),
+               user=Depends(need_user)):
+    """The waiting roll, on the roller's tablet or the GM's: {"value"} or {"values"} for damage; a defense adds
+    {"choice": "dodge" | "parry" | "pass"}. Leave the number out to auto-roll."""
+    _fight_or_404(conn, fid)
+    p = combat._pending(conn, fid)
+    if not p:
+        raise HTTPException(409, "no roll is waiting")
+    _editable(conn, p["roller"], user)
+    values = body.get("values")
+    if values is not None and (not isinstance(values, list) or not all(isinstance(v, int) for v in values)):
+        raise HTTPException(422, "values must be a list of whole numbers")
+    result = _combat(combat.roll, conn, fid, _whole(body.get("value"), "value"), choice=body.get("choice"),
+                     values=values)
+    return {**combat.state(conn, fid), "result": result}
+
+
+@app.post("/fights/{fid}/undo")
+def fight_undo(fid: int, body: dict[str, Any] | None = None, conn: sqlite3.Connection = Depends(get_conn),
+               _gm=Depends(need_gm)):
+    _fight_or_404(conn, fid)
+    _combat(combat.undo, conn, fid, _whole((body or {}).get("count", 1), "count"))
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/initiative/fresh")
+def fight_fresh_initiative(fid: int, conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    _fight_or_404(conn, fid)
+    _combat(combat.fresh_initiative, conn, fid)
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/join")
+def fight_join(fid: int, body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    _fight_or_404(conn, fid)
+    _character(conn, str(body.get("character") or ""))
+    _combat(combat.join, conn, fid, str(body["character"]), _whole(body.get("group"), "group") or 0)
+    return combat.state(conn, fid)
+
+
+@app.post("/fights/{fid}/end")
+def fight_end(fid: int, conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    _fight_or_404(conn, fid)
+    _combat(combat.end, conn, fid)
+    return combat.state(conn, fid)
+
+
+@app.get("/timers")
+def list_timers(conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    """GM tooling: every timed effect or constraint, in or out of a fight. Lex runs no game clock."""
+    return combat.timers(conn)
+
+
+@app.post("/timers")
+def add_timer(body: dict[str, Any], conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    cid = str(body.get("character") or "")
+    _character(conn, cid)
+    _combat(combat.add_timer, conn, cid, str(body.get("ref") or ""), _whole(body.get("melees"), "melees") or 0)
+    return combat.timers(conn)
+
+
+@app.delete("/timers/{tid}")
+def drop_timer(tid: int, conn: sqlite3.Connection = Depends(get_conn), _gm=Depends(need_gm)):
+    with conn:
+        conn.execute("DELETE FROM timers WHERE id=?", (tid,))
+    return combat.timers(conn)
+
+
 @app.get("/portraits/{pack_id}/{name}")
 def portrait(pack_id: str, name: str, conn: sqlite3.Connection = Depends(get_conn)):
     r = conn.execute("SELECT data FROM portraits WHERE pack=? AND name=?", (pack_id, name)).fetchone()
@@ -275,6 +419,11 @@ def portrait(pack_id: str, name: str, conn: sqlite3.Connection = Depends(get_con
 @app.get("/")
 def index():
     return FileResponse(PKG / "index.html")
+
+
+@app.get("/fight")
+def fight_screen():
+    return FileResponse(PKG / "fight.html")
 
 
 if (PKG / "static").is_dir():

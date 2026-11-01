@@ -1,0 +1,14 @@
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 1rem; }
+.group h3 { margin: 0 0 .5rem; }
+.combatant { border: 1px solid #8884; border-radius: .5rem; padding: .5rem; margin-bottom: .5rem; }
+.combatant.current { outline: 3px solid #e9b44c; }
+.combatant.down, .combatant.left { opacity: .45; }
+.combatant .bar { display: flex; gap: 2px; height: .6rem; margin: .3rem 0; }
+.combatant .bar span { background: #4a90d9; }
+.combatant .bar span.flesh { background: #c0392b; }
+.combatant .meta { font-size: .85rem; opacity: .8; }
+#turn, .setup, .gm { margin: 1rem; }
+#turn button, .gm button { margin: .2rem; }
+.log { margin: 1rem; font-size: .85rem; max-height: 14rem; overflow: auto; }
+.small { font-size: .8rem; }
+dialog input { width: 5rem; font-size: 1.4rem; }

@@ -42,6 +42,8 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 - `lex/engine.py`: effect rows, requirement rows, occupation sets, buying with experience; `tests/test_engine.py`.
 - `lex/sheet.py` and `lex/fold.py`: a sheet resolved from sqlite and rendered by an adapter.
 - `lex/api.py`: HTTP endpoints, logins, and edit permissions; `tests/test_api.py`.
+- `lex/combat.py`, `lex/dice.py`: fights (groups, initiative, the action walk, Strike/Defense/resist rolls on the campaign die, damage through layers to flesh, Anima, timed effects, undo, automatic end); the `/fights` endpoints in `lex/api.py`; `tests/test_combat.py`.
 - `lex/index.html`, `lex/static/`: the roster and sheet UI.
+- `lex/fight.html`, `lex/static/fight.js`: the combat screen and roll modal.
 - `lex/cli.py`: `lex import`, `lex export`, `lex user`, `lex serve`, `lex test`.
 - Lore is stored in sqlite (`lore` table) and searched by meaning with vector search; the search is not built yet.

@@ -287,6 +287,58 @@ MIGRATIONS: list[str] = [
     ALTER TABLE effects ADD COLUMN level INTEGER;              -- NULL: the owner itself; n: its level n
     ALTER TABLE character_abilities ADD COLUMN level INTEGER;  -- the level owned, for abilities with levels
     """,
+    # 5: fights. Dice stay on the table; these rows hold the order, actions, the roll being asked for,
+    # and a log with a snapshot before every step so the GM can undo.
+    """
+    CREATE TABLE fights (
+        id INTEGER PRIMARY KEY,
+        campaign_id INTEGER REFERENCES campaigns(id) ON DELETE SET NULL,
+        status TEXT NOT NULL CHECK (status IN ('initiative', 'melee', 'ended')),
+        melee INTEGER NOT NULL DEFAULT 0,
+        die TEXT NOT NULL DEFAULT 'd20',     -- the campaign die, e.g. d20, 3d6, d100
+        die_low INTEGER NOT NULL DEFAULT 0,  -- 1 when a low roll succeeds on this die
+        pull_rule INTEGER NOT NULL DEFAULT 0,
+        current TEXT,                        -- character whose action it is
+        ended_reason TEXT
+    );
+    CREATE TABLE fight_groups (
+        fight_id INTEGER NOT NULL REFERENCES fights(id) ON DELETE CASCADE,
+        group_no INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        PRIMARY KEY (fight_id, group_no)
+    );
+    CREATE TABLE combatants (
+        fight_id INTEGER NOT NULL REFERENCES fights(id) ON DELETE CASCADE,
+        character_id TEXT NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
+        group_no INTEGER NOT NULL,
+        position INTEGER NOT NULL,
+        init_roll INTEGER,
+        initiative REAL,
+        actions_left INTEGER NOT NULL DEFAULT 0,
+        reflex_used INTEGER NOT NULL DEFAULT 0,
+        status TEXT NOT NULL DEFAULT 'in' CHECK (status IN ('in', 'down', 'left')),
+        PRIMARY KEY (fight_id, character_id)
+    );
+    CREATE TABLE fight_pending (
+        fight_id INTEGER PRIMARY KEY REFERENCES fights(id) ON DELETE CASCADE,
+        data TEXT NOT NULL
+    );
+    CREATE TABLE fight_log (
+        id INTEGER PRIMARY KEY,
+        fight_id INTEGER NOT NULL REFERENCES fights(id) ON DELETE CASCADE,
+        kind TEXT NOT NULL,
+        actor TEXT,
+        data TEXT NOT NULL DEFAULT '{}',
+        snapshot TEXT NOT NULL
+    );
+    -- Timed effects and constraints: something switched on that switches off after some melees.
+    CREATE TABLE timers (
+        id INTEGER PRIMARY KEY,
+        character_id TEXT NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
+        ref TEXT NOT NULL,
+        melees_left INTEGER NOT NULL
+    );
+    """,
 ]
 
 

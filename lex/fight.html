@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lex · Fight</title>
+  <link rel="stylesheet" href="/static/sheet.css">
+  <link rel="stylesheet" href="/static/fight.css">
+</head>
+<body>
+  <header class="top">
+    <a href="/">Roster</a>
+    <span id="who"></span>
+    <p id="err" hidden></p>
+  </header>
+  <form id="setup" class="setup" hidden>
+    <h2>New fight</h2>
+    <div id="pick"></div>
+    <label>Die <input id="die" value="d20" size="6"></label>
+    <label><input type="checkbox" id="low"> low roll succeeds</label>
+    <label><input type="checkbox" id="pull-rule"> pulling blows</label>
+    <button type="submit">Start fight</button>
+  </form>
+  <main id="fight" hidden>
+    <p id="status"></p>
+    <div id="groups" class="groups"></div>
+    <section id="turn"></section>
+    <div id="gm" class="gm" hidden>
+      <button type="button" id="undo">Undo</button>
+      <button type="button" id="fresh">Fresh initiative</button>
+      <button type="button" id="end">End fight</button>
+    </div>
+    <ol id="log" class="log" reversed></ol>
+  </main>
+  <dialog id="modal">
+    <form method="dialog" id="roll-form">
+      <p id="ask"></p>
+      <div id="choices"></div>
+      <div id="inputs"></div>
+      <button type="submit" id="enter">Enter</button>
+      <button type="button" id="auto" class="small">Roll for me</button>
+    </form>
+  </dialog>
+  <script type="module" src="/static/fight.js"></script>
+</body>
+</html>

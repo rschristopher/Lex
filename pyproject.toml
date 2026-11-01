@@ -20,6 +20,7 @@ packages = ["lex"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "lex/index.html" = "lex/index.html"
+"lex/fight.html" = "lex/fight.html"
 "lex/static" = "lex/static"
 
 [dependency-groups]

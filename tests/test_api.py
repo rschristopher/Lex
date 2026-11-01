@@ -107,3 +107,47 @@ def test_player_ui_served(conn):
         assert 'id="home"' in page.text
         for el in ('id="login"', 'id="signup"', 'id="new-character"', 'id="new-species"'):
             assert el in page.text
+
+
+def test_fight_permissions_and_flow(conn):
+    with TestClient(app) as gm, TestClient(app) as ana, TestClient(app) as ben:
+        _login(gm, "gm", "gm", conn)
+        _login(ana, "ana")
+        _login(ben, "ben")
+        gm.patch("/characters/pc-calder", json={"owner": "ana"})
+        gm.patch("/characters/pc-kesh", json={"owner": "ben"})
+        groups = [{"name": "Adepts", "characters": ["pc-calder"]}, {"name": "Raiders", "characters": ["pc-kesh"]}]
+        assert ana.post("/fights", json={"groups": groups}).status_code == 403
+        r = gm.post("/fights", json={"groups": groups})
+        assert r.status_code == 200
+        fid = r.json()["id"]
+        # A player rolls only for their own character; everyone can watch the fight.
+        assert ana.post(f"/fights/{fid}/initiative", json={"character": "pc-kesh", "value": 5}).status_code == 403
+        assert ana.post(f"/fights/{fid}/initiative", json={"character": "pc-calder", "value": 99}).status_code == 409
+        assert ana.post(f"/fights/{fid}/initiative", json={"character": "pc-calder", "value": 15}).status_code == 200
+        st = ben.post(f"/fights/{fid}/initiative", json={"character": "pc-kesh"}).json()  # auto-roll
+        assert st["status"] == "melee" and ben.get(f"/fights/{fid}").json()["groups"][0]["combatants"][0]["id"] == "pc-calder"
+        first = st["current"]
+        mine, theirs = (ana, ben) if first == "pc-calder" else (ben, ana)
+        other = "pc-kesh" if first == "pc-calder" else "pc-calder"
+        assert theirs.post(f"/fights/{fid}/act", json={"actor": first, "use": "punch", "target": other}).status_code == 403
+        st = mine.post(f"/fights/{fid}/act", json={"actor": first, "use": "punch", "target": other}).json()
+        assert st["pending"]["roller"] == first
+        assert theirs.post(f"/fights/{fid}/roll", json={"value": 20}).status_code == 403
+        st = gm.post(f"/fights/{fid}/roll", json={"value": 20}).json()  # the GM types the paper player's roll
+        assert st["result"]["landed"] and st["pending"]["roller"] == other
+        st = theirs.post(f"/fights/{fid}/roll", json={"choice": "pass"}).json()
+        assert st["pending"]["step"] == "damage"
+        assert mine.post(f"/fights/{fid}/undo", json={"count": 1}).status_code == 403
+        assert gm.post(f"/fights/{fid}/undo", json={"count": 1}).json()["pending"]["step"] == "defense"
+        assert ana.post(f"/fights/{fid}/end").status_code == 403
+        assert gm.post(f"/fights/{fid}/end").json()["status"] == "ended"
+
+
+def test_fight_screen_served(conn):
+    with TestClient(app) as client:
+        page = client.get("/fight").text
+        for el in ('id="groups"', 'id="modal"', 'id="auto"', 'id="undo"', 'id="end"', "/static/fight.js"):
+            assert el in page
+        assert client.get("/static/fight.js").status_code == 200
+        assert 'href="/fight"' in client.get("/").text

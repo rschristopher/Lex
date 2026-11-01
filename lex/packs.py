@@ -132,6 +132,25 @@ def _check_row(row: Any, where: str, errors: list[str], need: tuple[str, ...] = 
     return ok
 
 
+# Fields a fight reads on an ability or item row (lex/combat.py). All optional.
+COMBAT_COUNTS = ("cost", "melees", "bonus_roll")
+COMBAT_FLAGS = ("mental", "area", "thrown")
+
+
+def _check_combat(row: dict[str, Any], where: str, errors: list[str]) -> bool:
+    ok = True
+    for k in COMBAT_COUNTS:
+        v = row.get(k)
+        if v is not None and (isinstance(v, bool) or not isinstance(v, int) or (k != "bonus_roll" and v < 0)):
+            errors.append(f"{where}.{k}: must be a whole number" + ("" if k == "bonus_roll" else ", 0 or more"))
+            ok = False
+    for k in COMBAT_FLAGS:
+        if k in row and not isinstance(row[k], bool):
+            errors.append(f"{where}.{k}: must be true or false")
+            ok = False
+    return ok
+
+
 def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors, level=None) -> None:
     if effects is None:
         return
@@ -221,7 +240,7 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                          (pid, row["id"], i, row["name"], _catalog_data(row)))
         for i, row in enumerate(doc["abilities"]):
             w = f"abilities[{i}]"
-            if not _check_row(row, w, errors):
+            if not _check_row(row, w, errors) or not _check_combat(row, w, errors):
                 continue
             price = row.get("price")
             if price is not None and (not isinstance(price, int) or price < 0):
@@ -256,7 +275,7 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 _insert_effects(conn, "ability", pid, row["id"], lv.get("effects"), lw, errors, level=li)
         for i, row in enumerate(doc["items"]):
             w = f"items[{i}]"
-            if not _check_row(row, w, errors, ("id", "name", "kind")):
+            if not _check_row(row, w, errors, ("id", "name", "kind")) or not _check_combat(row, w, errors):
                 continue
             attrs = row.get("attrs")
             if attrs is not None and row["kind"] != VEHICLE:
