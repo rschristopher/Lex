@@ -235,21 +235,21 @@ Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and 
 
 #### Cosmic tiers
 
-Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×1,000, and each later tier multiplies the one before by 1,000:
+Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×100, and each later tier multiplies the one before by 1,000:
 
-| Tier | Fallen equivalent | Prefix | Anima, plus the species bonus | All 10s (`M`) | All 100s (`M`) |
-|---|---|---|---|---|---|
-| Angels | Fallen Angels | mega | 8 × 10⁵ I + 64 × 10⁵ W + 48 × 10⁵ E + 24 × 10⁵ S | 1.44 × 10⁸ + 10 | 1.44 × 10⁹ + 10 |
-| Archangels | Fallen Archangels | giga | 8 × 10⁸ I + 64 × 10⁸ W + 48 × 10⁸ E + 24 × 10⁸ S | 1.44 × 10¹¹ + 10 | 1.44 × 10¹² + 10 |
-| Principalities | Fallen Principalities | tera | 8 × 10¹¹ I + 64 × 10¹¹ W + 48 × 10¹¹ E + 24 × 10¹¹ S | 1.44 × 10¹⁴ + 10 | 1.44 × 10¹⁵ + 10 |
-| Powers | Fallen Powers | peta | 8 × 10¹⁴ I + 64 × 10¹⁴ W + 48 × 10¹⁴ E + 24 × 10¹⁴ S | 1.44 × 10¹⁷ + 10 | 1.44 × 10¹⁸ + 10 |
-| Virtues | Fallen Virtues | exa | 8 × 10¹⁷ I + 64 × 10¹⁷ W + 48 × 10¹⁷ E + 24 × 10¹⁷ S | 1.44 × 10²⁰ + 10 | 1.44 × 10²¹ + 10 |
-| Dominions | Fallen Dominions | zetta | 8 × 10²⁰ I + 64 × 10²⁰ W + 48 × 10²⁰ E + 24 × 10²⁰ S | 1.44 × 10²³ + 10 | 1.44 × 10²⁴ + 10 |
-| Thrones | Fallen Thrones | yotta | 8 × 10²³ I + 64 × 10²³ W + 48 × 10²³ E + 24 × 10²³ S | 1.44 × 10²⁶ + 10 | 1.44 × 10²⁷ + 10 |
-| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁶ I + 64 × 10²⁶ W + 48 × 10²⁶ E + 24 × 10²⁶ S | 1.44 × 10²⁹ + 10 | 1.44 × 10³⁰ + 10 |
-| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁹ I + 64 × 10²⁹ W + 48 × 10²⁹ E + 24 × 10²⁹ S | 1.44 × 10³² + 10 | 1.44 × 10³³ + 10 |
+| Tier | Fallen equivalent | Prefix | Anima, plus the species bonus | All 1s (`M`) | All 10s (`M`) | All 100s (`M`) |
+|---|---|---|---|---|---|---|
+| Angels | Fallen Angels | mega | 8 × 10⁴ I + 64 × 10⁴ W + 48 × 10⁴ E + 24 × 10⁴ S | 1.44 × 10⁶ + 10 | 1.44 × 10⁷ + 10 | 1.44 × 10⁸ + 10 |
+| Archangels | Fallen Archangels | giga | 8 × 10⁷ I + 64 × 10⁷ W + 48 × 10⁷ E + 24 × 10⁷ S | 1.44 × 10⁹ + 10 | 1.44 × 10¹⁰ + 10 | 1.44 × 10¹¹ + 10 |
+| Principalities | Fallen Principalities | tera | 8 × 10¹⁰ I + 64 × 10¹⁰ W + 48 × 10¹⁰ E + 24 × 10¹⁰ S | 1.44 × 10¹² + 10 | 1.44 × 10¹³ + 10 | 1.44 × 10¹⁴ + 10 |
+| Powers | Fallen Powers | peta | 8 × 10¹³ I + 64 × 10¹³ W + 48 × 10¹³ E + 24 × 10¹³ S | 1.44 × 10¹⁵ + 10 | 1.44 × 10¹⁶ + 10 | 1.44 × 10¹⁷ + 10 |
+| Virtues | Fallen Virtues | exa | 8 × 10¹⁶ I + 64 × 10¹⁶ W + 48 × 10¹⁶ E + 24 × 10¹⁶ S | 1.44 × 10¹⁸ + 10 | 1.44 × 10¹⁹ + 10 | 1.44 × 10²⁰ + 10 |
+| Dominions | Fallen Dominions | zetta | 8 × 10¹⁹ I + 64 × 10¹⁹ W + 48 × 10¹⁹ E + 24 × 10¹⁹ S | 1.44 × 10²¹ + 10 | 1.44 × 10²² + 10 | 1.44 × 10²³ + 10 |
+| Thrones | Fallen Thrones | yotta | 8 × 10²² I + 64 × 10²² W + 48 × 10²² E + 24 × 10²² S | 1.44 × 10²⁴ + 10 | 1.44 × 10²⁵ + 10 | 1.44 × 10²⁶ + 10 |
+| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁵ I + 64 × 10²⁵ W + 48 × 10²⁵ E + 24 × 10²⁵ S | 1.44 × 10²⁷ + 10 | 1.44 × 10²⁸ + 10 | 1.44 × 10²⁹ + 10 |
+| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁸ I + 64 × 10²⁸ W + 48 × 10²⁸ E + 24 × 10²⁸ S | 1.44 × 10³⁰ + 10 | 1.44 × 10³¹ + 10 | 1.44 × 10³² + 10 |
 
-With every attribute from 1 to 69 a pool stays in its tier's prefix. At 70 and above it passes into the next prefix: Angels with all 69s have `993,600,010 M`, with all 70s `1,008,000,010 M`, and with all 100s `1,440,000,010 M`, which is giga. Seraphim at 70 and above pass the largest prefix. A Master with all 100s has `1,440,010 M`, far below an Angel with all 1s at `14,400,010 M`.
+With every attribute from 1 to 100, a pool stays in its tier's prefix. A Master with all 100s has `1,440,010 M`, the same as an Angel with all 1s.
 
 [GM examples of beings on each tier](cosmic-examples.md) are a draft.
 
