@@ -69,7 +69,7 @@ Every attack is physical or mental. A physical attack hits the body, such as a p
 
 Rolls are never compared. The attacker rolls against their own target to land the attack. If it lands, the defender rolls against their own target to dodge, parry, or resist. A lucky attack only lands, and can still be dodged or resisted.
 
-With no bonuses, a Strike, Defense, or resist roll succeeds on 11 or higher on a `d20`, which is 50%. Each +1 lowers the roll needed by 1, which is +5%.
+With no bonuses, a Strike, Defense, or resist roll succeeds on 11 or higher on a `d20`, which is 50%. Each +1 lowers the roll needed by 1, which is +5%. Skill and attribute checks use the same base.
 
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
