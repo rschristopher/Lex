@@ -53,3 +53,9 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 **How is the one-sixth per melee rounded for small pools, or does recovery accrue exactly?**
 
 **What powers and rules come with the cosmic tier, mega Anima and above?**
+
+**Do the fallen tiers get their own names?** For now they are Fallen Angels through Fallen Seraphim.
+
+**Review the [cosmic tier examples](cosmic-examples.md).** The mapping of mythic beings, demons, and cosmic horrors to tiers is a draft.
+
+**Should a Master with Willpower and other Anima attributes near 100 reach mega?** All 100s at Master give `1,440,010 M`, though experience and occupations are not meant to reach the cosmic tiers.

@@ -231,7 +231,27 @@ Every mage or psychic occupation has the same Anima ladder, bought with experien
 
 Most characters in a typical setting are Professional, and Expert is rare. A Master is a human trained to compete with superheroes and metahumans without cybernetics or metahuman abilities.
 
-Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans and metahumans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Mega and above is a separate, cosmic category. Experience and occupations cannot reach it, and regular humans never do; it takes a special source, such as being a metahuman or a gift of cosmic power, always at the GM's discretion.
+Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Most metahumans are also up to 30, and some reach 100. Mega and above is a separate, cosmic category. Experience and occupations cannot reach it, and regular humans never do; it takes a special source, such as being a metahuman or a gift of cosmic power, always at the GM's discretion.
+
+#### Cosmic tiers
+
+Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×10, and each later tier multiplies the one before by 1,000:
+
+| Tier | Fallen equivalent | Prefix | Anima, plus the species bonus | All 10s (`M`) | All 100s (`M`) |
+|---|---|---|---|---|---|
+| Angels | Fallen Angels | mega | 8 × 10³ I + 64 × 10³ W + 48 × 10³ E + 24 × 10³ S | 1.44 × 10⁶ + 10 | 1.44 × 10⁷ + 10 |
+| Archangels | Fallen Archangels | giga | 8 × 10⁶ I + 64 × 10⁶ W + 48 × 10⁶ E + 24 × 10⁶ S | 1.44 × 10⁹ + 10 | 1.44 × 10¹⁰ + 10 |
+| Principalities | Fallen Principalities | tera | 8 × 10⁹ I + 64 × 10⁹ W + 48 × 10⁹ E + 24 × 10⁹ S | 1.44 × 10¹² + 10 | 1.44 × 10¹³ + 10 |
+| Powers | Fallen Powers | peta | 8 × 10¹² I + 64 × 10¹² W + 48 × 10¹² E + 24 × 10¹² S | 1.44 × 10¹⁵ + 10 | 1.44 × 10¹⁶ + 10 |
+| Virtues | Fallen Virtues | exa | 8 × 10¹⁵ I + 64 × 10¹⁵ W + 48 × 10¹⁵ E + 24 × 10¹⁵ S | 1.44 × 10¹⁸ + 10 | 1.44 × 10¹⁹ + 10 |
+| Dominions | Fallen Dominions | zetta | 8 × 10¹⁸ I + 64 × 10¹⁸ W + 48 × 10¹⁸ E + 24 × 10¹⁸ S | 1.44 × 10²¹ + 10 | 1.44 × 10²² + 10 |
+| Thrones | Fallen Thrones | yotta | 8 × 10²¹ I + 64 × 10²¹ W + 48 × 10²¹ E + 24 × 10²¹ S | 1.44 × 10²⁴ + 10 | 1.44 × 10²⁵ + 10 |
+| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁴ I + 64 × 10²⁴ W + 48 × 10²⁴ E + 24 × 10²⁴ S | 1.44 × 10²⁷ + 10 | 1.44 × 10²⁸ + 10 |
+| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁷ I + 64 × 10²⁷ W + 48 × 10²⁷ E + 24 × 10²⁷ S | 1.44 × 10³⁰ + 10 | 1.44 × 10³¹ + 10 |
+
+With every attribute at 10 a pool lands in its tier's prefix, and all 100s give about 10 times that, still in the same prefix. With every attribute below 7, it falls below the prefix: all 1s give `144,010 M` at the Angels tier, in kilo. A Master with all 100s has `1,440,010 M`, the same as Angels with all 10s.
+
+[GM examples of beings on each tier](cosmic-examples.md) are a draft.
 
 A pool is written in the prefix that matches the setting's power band. In a high-damage setting where powers deal hecto-scale damage, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new mage with 137 points has `137 hM` (`13,700 M`).
 

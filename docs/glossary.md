@@ -25,6 +25,8 @@ Common prefixes are x10 deka **dA**, x100 hecto **hA**, less common is x1000 kil
 
 **Campaign** -- the container for player characters and adventures. One campaign is open at a time. See [universal-system.md](universal-system.md#server-and-logins).
 
+**Cosmic tiers** -- the nine Anima tiers above Master, one per prefix from mega to quetta: Angels, Archangels, Principalities, Powers, Virtues, Dominions, Thrones, Cherubim, Seraphim. Each has a fallen equivalent, such as Fallen Seraphim. See [universal-system.md](universal-system.md#cosmic-tiers).
+
 **Damage Threshold** -- Damage less than the threshold does nothing, fractions and remainder round to 0. Default 1. In the Lex character UI, knight's armor might be `40 dA` with threshold 10: the bar would show `40 dA` plus HP; blows under 10 do nothing to the armor.
 
 **Data Pack** -- parsed characters, species, occupations, equipment, and adapter data that can be loaded into the Lex engine. The GM sets ability prices and starting experience here, before play.
