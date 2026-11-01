@@ -119,9 +119,10 @@ def test_simplified_view():
     sheet = fold(doc, "u-simplified")
     assert sheet["adapter"] == "u-simplified"
     attrs = {a["id"]: a for a in sheet["attrs"]}
-    assert set(attrs) == {"strength", "dexterity", "constitution", "intelligence", "charisma"}
+    assert set(attrs) == {"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
     assert attrs["dexterity"]["value"] == 13
     assert attrs["dexterity"]["mod"] == 1
+    assert attrs["wisdom"]["value"] == 11
     # Charisma is derived: average of Appearance 10, Willpower 11, Intellect 11, rounded down.
     assert attrs["charisma"]["value"] == 10
     assert attrs["charisma"]["mod"] == 0
