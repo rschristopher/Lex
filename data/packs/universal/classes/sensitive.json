@@ -1,8 +1,0 @@
-{
-  "id": "sensitive",
-  "name": "Sensitive",
-  "kind": "class",
-  "effects": [
-    {"verb": "mod.channel", "target": "initiative", "op": "add", "value": 1}
-  ]
-}

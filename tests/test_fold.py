@@ -1,16 +1,25 @@
-from lex.fold import eval_mod, fold
-from lex.store import load_character, list_adapters
+from lex.fold import eval_mod
+from lex.sheet import list_adapters, sheet as resolve
 
 
-def test_class_adds_channels():
-    _pid, doc = load_character("pc-ilya")
-    sheet = fold(doc, "universal")
+def fold(conn, cid, adapter="universal"):
+    return resolve(conn, cid, adapter)
+
+
+def take_off(conn, cid):
+    with conn:
+        conn.execute("DELETE FROM character_active WHERE character_id=?", (cid,))
+
+
+def test_class_adds_channels(conn):
+    cid = "pc-ilya"
+    sheet = fold(conn, cid, "universal")
     ch = {c["id"]: c["value"] for c in sheet["channels"]}
     assert ch["strike"] == 4
     assert ch["actions"] == 4
     assert ch["defense"] == 2
     assert "block" not in ch
-    assert sheet["class"]["name"] == "Soldier"
+    assert sheet["occupation"]["name"] == "Soldier"
     ids = [a["id"] for a in sheet["attrs"]]
     assert ids == [
         "strength", "agility", "endurance", "speed",
@@ -18,9 +27,9 @@ def test_class_adds_channels():
     ]
 
 
-def test_hecto_weapon_marked_high():
-    _pid, doc = load_character("pc-venn")
-    sheet = fold(doc, "universal")
+def test_hecto_weapon_marked_high(conn):
+    cid = "pc-venn"
+    sheet = fold(conn, cid, "universal")
     assert (sheet["using"]["damage"], sheet["using"]["prefix"]) == ("6d6", "unit")
     plasma = sheet["using"]["bonus"][0]
     assert (plasma["qty"], plasma["unit"], plasma["type"], plasma["high"]) == ("1d6", "hD", "plasma", True)
@@ -28,9 +37,9 @@ def test_hecto_weapon_marked_high():
     assert "block" not in {c["id"] for c in sheet["channels"]}
 
 
-def test_gear_groups():
-    _pid, doc = load_character("pc-ilya")
-    sheet = fold(doc, "universal")
+def test_gear_groups(conn):
+    cid = "pc-ilya"
+    sheet = fold(conn, cid, "universal")
     names = {g["id"]: g for g in sheet["groups"]}
     assert names["armor"]["name"] == "Armor"
     assert names["weapons"]["name"] == "Weapons"
@@ -55,10 +64,10 @@ def test_gear_groups():
     assert gun["unit"] == "D"
 
 
-def test_hecto_units_and_lancer():
-    _pid, doc = load_character("pc-bex")
-    sheet = fold(doc, "universal")
-    assert sheet["class"]["name"] == "Lancer"
+def test_hecto_units_and_lancer(conn):
+    cid = "pc-bex"
+    sheet = fold(conn, cid, "universal")
+    assert sheet["occupation"]["name"] == "Lancer"
     assert sheet["using"]["name"] == "Siege Cannon"
     assert sheet["using"]["damage"] == "4d6"
     assert sheet["using"]["prefix_label"] == "kD"
@@ -81,23 +90,22 @@ def test_hecto_units_and_lancer():
     kick = next(r for g in sheet["groups"] if g["id"] == "weapons" for r in g["rows"] if r["id"] == "kick")
     assert kick["unit"] == "hD"
     assert kick["qty"] == "2d6"
-    off_doc = dict(doc)
-    off_doc["activated"] = []
-    off = fold(off_doc, "universal")
+    take_off(conn, cid)
+    off = fold(conn, cid, "universal")
     off_attrs = {a["id"]: a["value"] for a in off["attrs"]}
     assert off_attrs["strength"] == 30
     assert off_attrs["speed"] == 8
     off_punch = next(r for g in off["groups"] if g["id"] == "weapons" for r in g["rows"] if r["id"] == "punch")
     assert off_punch["unit"] == "D"
-    ryn = fold(load_character("pc-ryn")[1], "universal")
-    assert ryn["class"]["name"] == "Augmented"
+    ryn = fold(conn, "pc-ryn", "universal")
+    assert ryn["occupation"]["name"] == "Augmented"
     assert (ryn["using"]["damage"], ryn["using"]["prefix_label"]) == ("7d6", "D")
     assert [(b["qty"], b["unit"], b["type"]) for b in ryn["using"]["bonus"]] == [("2d6", "hD", "resonance")]
     ch = {c["id"]: c["value"] for c in ryn["channels"]}
     assert ch["actions"] == 8
     assert ch["defense"] == 8  # 6 trained + Agility 20 bonus
     assert next(c["reflex"] for c in ryn["channels"] if c["id"] == "defense") is True
-    simp = fold(doc, "u-simplified")
+    simp = fold(conn, cid, "u-simplified")
     g = {x["id"]: x for x in simp["gauges"]}
     assert list(g) == ["hit_points"]
     assert g["hit_points"]["label"] == "Hit points"
@@ -114,9 +122,9 @@ def test_eval_mod():
     assert eval_mod(18, spec) == 4
 
 
-def test_simplified_view():
-    _pid, doc = load_character("pc-ilya")
-    sheet = fold(doc, "u-simplified")
+def test_simplified_view(conn):
+    cid = "pc-ilya"
+    sheet = fold(conn, cid, "u-simplified")
     assert sheet["adapter"] == "u-simplified"
     attrs = {a["id"]: a for a in sheet["attrs"]}
     assert set(attrs) == {"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
@@ -139,21 +147,20 @@ def test_simplified_view():
     assert ch["actions"] == 4
 
 
-def test_armor_does_not_change_hit_or_miss():
-    _pid, doc = load_character("pc-ilya")
-    on = {c["id"]: c["value"] for c in fold(doc, "universal")["channels"]}
-    off_doc = dict(doc)
-    off_doc["activated"] = []
-    off = {c["id"]: c["value"] for c in fold(off_doc, "universal")["channels"]}
+def test_armor_does_not_change_hit_or_miss(conn):
+    cid = "pc-ilya"
+    on = {c["id"]: c["value"] for c in fold(conn, cid, "universal")["channels"]}
+    simp_on = {c["id"]: c["value"] for c in fold(conn, cid, "u-simplified")["channels"]}
+    take_off(conn, cid)
+    off = {c["id"]: c["value"] for c in fold(conn, cid, "universal")["channels"]}
     assert on == off
-    simp_on = {c["id"]: c["value"] for c in fold(doc, "u-simplified")["channels"]}
-    simp_off = {c["id"]: c["value"] for c in fold(off_doc, "u-simplified")["channels"]}
+    simp_off = {c["id"]: c["value"] for c in fold(conn, cid, "u-simplified")["channels"]}
     assert simp_on == simp_off
 
 
-def test_field_on_top_of_armor():
-    _pid, doc = load_character("pc-calder")
-    sheet = fold(doc, "universal")
+def test_field_on_top_of_armor(conn):
+    cid = "pc-calder"
+    sheet = fold(conn, cid, "universal")
     segs = sheet["defense"]["armor"]["segments"]
     assert [s["id"] for s in segs] == ["magic_shield", "robes", "hit_points"]
     assert segs[0]["name"] == "Magic shield"
@@ -165,7 +172,7 @@ def test_field_on_top_of_armor():
     assert sheet["anima"]["label"] == "Anima"
     assert sheet["anima"]["total"] == 56
     assert all(p["name"] != "Anima" for p in sheet["person"])
-    simp = fold(doc, "u-simplified")
+    simp = fold(conn, cid, "u-simplified")
     assert simp["anima"]["label"] == "Stamina"
     assert all(p["name"] != "Stamina" for p in simp["person"])
     assert all(p["name"] != "Anima" for p in simp["person"])
@@ -176,7 +183,7 @@ def test_field_on_top_of_armor():
     assert next(r for r in magic["rows"] if r["id"] == "flame_bolt")["select"] == "attack"
     armor_ids = {r["id"] for r in next(g for g in sheet["groups"] if g["id"] == "armor")["rows"]}
     assert "magic_shield" not in armor_ids
-    mora = fold(load_character("pc-mora")[1], "universal")
+    mora = fold(conn, "pc-mora", "universal")
     assert [s["id"] for s in mora["defense"]["armor"]["segments"]] == ["tk_field", "hit_points"]
     assert mora["defense"]["armor"]["segments"][0]["name"] == "Telekinetic defense field"
     assert mora["defense"]["armor"]["segments"][0]["threshold"] == 6
@@ -184,7 +191,7 @@ def test_field_on_top_of_armor():
     assert mora["defense"]["armor"]["segments"][0]["style"] == "unit"
     assert mora["defense"]["armor"]["segments"][0]["value"] == 40
     assert mora["defense"]["armor"]["segments"][-1]["value"] == 24
-    kesh = fold(load_character("pc-kesh")[1], "universal")
+    kesh = fold(conn, "pc-kesh", "universal")
     assert all((s.get("threshold") or 1) == 1 for s in kesh["defense"]["armor"]["segments"])
     psi = next(g for g in mora["groups"] if g["id"] == "psionic")
     assert psi["name"] == "Psionics"
@@ -192,19 +199,19 @@ def test_field_on_top_of_armor():
     assert "tk_field" not in {r["id"] for g in mora["groups"] if g["id"] == "armor" for r in g["rows"]}
     rows = next(g for g in mora["groups"] if g["id"] == "armor")["rows"]
     assert next(r for r in rows if r["name"] == "Unarmored")["on"]
-    off = dict(load_character("pc-mora")[1])
-    off["activated"] = []
-    assert [s["id"] for s in fold(off, "universal")["defense"]["armor"]["segments"]] == ["hit_points"]
+    take_off(conn, "pc-mora")
+    assert [s["id"] for s in fold(conn, "pc-mora", "universal")["defense"]["armor"]["segments"]] == ["hit_points"]
 
 
-def test_adapters_listed():
-    ids = {a["id"] for a in list_adapters()}
+def test_adapters_listed(conn):
+    ids = {a["id"] for a in list_adapters(conn)}
     assert ids == {"universal", "u-simplified"}
 
 
-def test_simplified_strength_scale():
-    _pid, doc = load_character("npc-syrn")
+def test_simplified_strength_scale(conn):
+    cid = "npc-syrn"
     for lex, score, mod in [(10, 10, 0), (30, 30, 10), (35, 300, 145), (43, 11943, 5966)]:
-        doc["attrs"]["strength"] = lex
-        row = next(a for a in fold(doc, "u-simplified")["attrs"] if a["id"] == "strength")
+        with conn:
+            conn.execute("UPDATE character_attrs SET value=? WHERE character_id=? AND attr='strength'", (lex, cid))
+        row = next(a for a in fold(conn, cid, "u-simplified")["attrs"] if a["id"] == "strength")
         assert (row["value"], row["mod"]) == (score, mod)

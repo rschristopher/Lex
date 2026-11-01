@@ -334,7 +334,7 @@ function renderPlay(s) {
   whoBox.append(renderPortrait(s.portrait, s.name));
   const ident = el("div");
   ident.append(el("h1", "", s.name || s.id));
-  const bits = [s.ancestry?.name, s.class?.name, s.level != null ? `Level ${s.level}` : ""].filter(Boolean);
+  const bits = [s.species?.name, s.occupation?.name, s.level != null ? `Level ${s.level}` : ""].filter(Boolean);
   ident.append(el("p", "occupation", bits.join(" · ")));
   whoBox.append(ident);
   left.append(whoBox);
@@ -390,7 +390,7 @@ function renderCard(row) {
   b.type = "button";
   const line = el("div", "who-line");
   line.append(el("div", "name", s.name || row.name || row.id));
-  const meta = [s.class?.name || row.class?.name, s.level != null ? `L${s.level}` : ""].filter(Boolean).join(" · ");
+  const meta = [s.occupation?.name || row.occupation?.name, s.level != null ? `L${s.level}` : ""].filter(Boolean).join(" · ");
   if (meta) line.append(el("div", "meta", meta));
   b.append(line, renderPortrait(s.portrait || row.portrait, s.name));
   if (row.sheet) b.append(renderHud(row.sheet, true));

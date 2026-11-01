@@ -9,10 +9,13 @@ The rules and app design are in [docs/universal-system.md](docs/universal-system
 
 ```bash
 uv sync --group dev
+uv run lex import                 # data/packs/* into lex.db (sqlite)
+uv run lex user add tim --gm      # a GM login; players can sign up in the app
+uv run lex user own tim pc-ilya   # give a character to a login
 uv run lex serve
 ```
 
-Open http://127.0.0.1:8000 — roster of sample characters on the **Universal** adapter.
+Open http://127.0.0.1:8000 — roster of sample characters on the **Universal** adapter. `uv run lex export universal out/` writes a pack back out.
 
 ![Demo roster](docs/images/roster.jpg)
 

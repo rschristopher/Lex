@@ -3,8 +3,8 @@
   "name": "Soren",
   "npc": false,
   "level": 5,
-  "ancestry": "human",
-  "class": "sigilist",
+  "species": "human",
+  "occupation": "sigilist",
   "portrait": "pc-soren.jpg",
   "coin": 420,
   "attrs": {
@@ -33,63 +33,38 @@
     "defense": 3,
     "initiative": 2
   },
-  "armor": [
+  "items": [
     {
-      "id": "leathers",
-      "name": "Hardened leathers",
-      "prefix": "unit",
-      "total": 18,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "leathers"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "knife",
-      "name": "Knife",
-      "damage": "1d6",
-      "material": "steel",
-      "durability": "deka"
+      "id": "kick"
+    },
+    {
+      "id": "knife"
     }
   ],
   "abilities": [
     {
       "id": "warding_tattoo",
-      "name": "Warding tattoo",
-      "kind": "tattoo",
-      "slot": "tattoo",
       "prefix": "unit",
       "threshold": 4,
       "total": 28
     },
     {
       "id": "coil_tattoo",
-      "name": "Coil tattoo",
-      "kind": "tattoo",
       "damage": "3d6",
       "prefix": "unit"
     },
     {
       "id": "endure",
-      "name": "Endure",
       "qty": "60%"
     },
     {
       "id": "intimidate",
-      "name": "Intimidate",
       "qty": "45%"
     }
   ],

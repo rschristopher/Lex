@@ -3,8 +3,8 @@
   "name": "Syrn",
   "npc": true,
   "level": 15,
-  "ancestry": "dragon",
-  "class": "beast",
+  "species": "dragon",
+  "occupation": "beast",
   "portrait": "npc-syrn.jpg",
   "coin": 40000,
   "attrs": {
@@ -33,52 +33,38 @@
     "defense": 5,
     "initiative": 5
   },
-  "armor": [
+  "items": [
     {
       "id": "scales",
-      "name": "Scales",
       "prefix": "kilo",
-      "total": 10,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
+      "total": 10
+    },
     {
       "id": "bite",
-      "name": "Bite",
       "damage": "4d6",
-      "material": "dragon tooth",
       "durability": "kilo"
     },
     {
       "id": "claw",
-      "name": "Claw",
       "damage": "3d6",
-      "material": "dragon claw",
       "durability": "kilo"
     },
     {
       "id": "breath",
-      "name": "Breath",
       "damage": "6d6",
       "prefix": "kilo"
     }
   ],
   "abilities": [
     {
-      "id": "flight",
-      "name": "Flight",
-      "qty": ""
+      "id": "flight"
     },
     {
       "id": "keen",
-      "name": "Keen sense",
       "qty": "90%"
     },
     {
-      "id": "terror",
-      "name": "Terror",
-      "qty": ""
+      "id": "terror"
     }
   ],
   "activated": [

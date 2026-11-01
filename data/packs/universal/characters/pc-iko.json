@@ -3,8 +3,8 @@
   "name": "Iko",
   "npc": false,
   "level": 6,
-  "ancestry": "human",
-  "class": "aegis",
+  "species": "human",
+  "occupation": "aegis",
   "portrait": "pc-iko.jpg",
   "coin": 1800,
   "attrs": {
@@ -33,47 +33,31 @@
     "defense": 3,
     "initiative": 3
   },
-  "armor": [],
-  "weapons": [
+  "items": [
     {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "kick"
     }
   ],
   "abilities": [
     {
       "id": "warding_tattoo",
-      "name": "Warding tattoo",
-      "kind": "tattoo",
-      "slot": "tattoo",
       "prefix": "hecto",
       "total": 55
     },
     {
       "id": "coil_tattoo",
-      "name": "Coil tattoo",
-      "kind": "tattoo",
       "damage": "4d6",
       "prefix": "hecto"
     },
     {
       "id": "endure",
-      "name": "Endure",
       "qty": "70%"
     },
     {
       "id": "intimidate",
-      "name": "Intimidate",
       "qty": "55%"
     }
   ],

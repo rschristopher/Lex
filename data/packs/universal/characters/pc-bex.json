@@ -3,8 +3,8 @@
   "name": "Bex",
   "npc": false,
   "level": 3,
-  "ancestry": "human",
-  "class": "lancer",
+  "species": "human",
+  "occupation": "lancer",
   "portrait": "pc-bex.jpg",
   "coin": 3200,
   "attrs": {
@@ -33,78 +33,32 @@
     "defense": 2,
     "initiative": 0
   },
-  "armor": [
+  "items": [
     {
-      "id": "siege_enforcer",
-      "name": "Siege Enforcer",
-      "prefix": "hecto",
-      "total": 800,
-      "slot": "body",
-      "set": {
-        "strength": 38,
-        "speed": 31
-      },
-      "attacks": [
-        {
-          "id": "punch",
-          "name": "Punch",
-          "damage": "1d6",
-          "material": "alloy",
-          "durability": "hecto"
-        },
-        {
-          "id": "kick",
-          "name": "Kick",
-          "damage": "2d6",
-          "material": "alloy",
-          "durability": "hecto"
-        }
-      ]
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "siege_enforcer"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "siege_cannon",
-      "name": "Siege Cannon",
-      "damage": "4d6",
-      "prefix": "kilo"
+      "id": "kick"
     },
     {
-      "id": "laser_rifle",
-      "name": "Laser rifle",
-      "damage": "3d6",
-      "prefix": "hecto"
+      "id": "siege_cannon"
+    },
+    {
+      "id": "laser_rifle"
     }
   ],
   "abilities": [
     {
-      "id": "pilot_armor",
-      "name": "Pilot: power armor",
-      "qty": "70%"
+      "id": "pilot_armor"
     },
     {
-      "id": "gunnery",
-      "name": "Gunnery",
-      "qty": "65%"
+      "id": "gunnery"
     },
     {
-      "id": "sensor",
-      "name": "Sensors",
-      "qty": "50%"
+      "id": "sensor"
     }
   ],
   "activated": [

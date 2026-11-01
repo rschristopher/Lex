@@ -1,0 +1,190 @@
+"""Generic effects/constraints engine. Reads rows; never names a specific ability, item, species, or occupation."""
+
+from __future__ import annotations
+
+import json
+import sqlite3
+from typing import Any, Iterable
+
+OWNER_TABLES = {"species": "species", "occupation": "occupations", "ability": "abilities", "item": "items"}
+
+
+def apply_effects(
+    base: dict[str, float], effects: Iterable[dict[str, Any]], verb: str
+) -> tuple[dict[str, float], set[str]]:
+    """Apply every effect row with this verb: all adds, then replaces (a replace sets the value outright).
+
+    Returns the new values and the targets an effect flagged as reflex.
+    """
+    values = dict(base)
+    flagged: set[str] = set()
+    rows = [e for e in effects if e.get("verb") == verb]
+    for e in rows:
+        if e.get("reflex"):
+            flagged.add(e["target"])
+        if e.get("value") is None:
+            continue
+        if (e.get("op") or "add") == "add":
+            values[e["target"]] = values.get(e["target"], 0) + e["value"]
+    for e in rows:
+        if e.get("value") is not None and e.get("op") == "replace":
+            values[e["target"]] = e["value"]
+    return {k: _num(v) for k, v in values.items()}, flagged
+
+
+def _num(v: float) -> float | int:
+    return int(v) if isinstance(v, float) and v.is_integer() else v
+
+
+def owner_effects(conn: sqlite3.Connection, owner_type: str, pack: str, oid: str) -> list[dict[str, Any]]:
+    out = []
+    for r in conn.execute(
+        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
+        (owner_type, pack, oid),
+    ):
+        e = {"verb": r["verb"], "target": r["target"], "op": r["op"], "value": _num(r["value"]) if r["value"] is not None else None}
+        e.update({k: v for k, v in json.loads(r["data"]).items() if not k.startswith("_")})
+        e["source"] = {"type": owner_type, "pack": pack, "id": oid}
+        out.append(e)
+    return out
+
+
+def owned_abilities(conn: sqlite3.Connection, cid: str) -> set[tuple[str, str]]:
+    return {
+        (r["ability_pack"], r["ability_id"])
+        for r in conn.execute("SELECT ability_pack, ability_id FROM character_abilities WHERE character_id=?", (cid,))
+    }
+
+
+def occupation_progress(conn: sqlite3.Connection, cid: str, owned: set[tuple[str, str]] | None = None) -> list[dict[str, Any]]:
+    """For every occupation with sets: how many ordered sets are met. A later set counts only when every earlier one is met."""
+    owned = owned_abilities(conn, cid) if owned is None else owned
+    sets: dict[tuple[str, str], dict[int, list[tuple[str, str]]]] = {}
+    for r in conn.execute("SELECT * FROM occupation_sets ORDER BY occupation_pack, occupation_id, set_index, position"):
+        key = (r["occupation_pack"], r["occupation_id"])
+        sets.setdefault(key, {}).setdefault(r["set_index"], []).append((r["ability_pack"], r["ability_id"]))
+    out = []
+    for (pack, oid), by_index in sets.items():
+        met = 0
+        for idx in sorted(by_index):
+            if not all(a in owned for a in by_index[idx]):
+                break
+            met = idx
+        name = conn.execute("SELECT name FROM occupations WHERE pack=? AND id=?", (pack, oid)).fetchone()
+        out.append({"pack": pack, "id": oid, "name": name["name"] if name else oid,
+                    "sets_met": met, "sets": len(by_index)})
+    out.sort(key=lambda o: (-o["sets_met"], -o["sets_met"] / max(o["sets"], 1), o["name"]))
+    return out
+
+
+def unmet(
+    conn: sqlite3.Connection,
+    cid: str,
+    owner_type: str,
+    pack: str,
+    oid: str,
+    owned: set[tuple[str, str]] | None = None,
+) -> list[str]:
+    """Constraint rows on this owner that the character does not meet, plus a campaign ban. Empty means allowed."""
+    ch = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
+    if ch is None:
+        raise KeyError(cid)
+    owned = owned_abilities(conn, cid) if owned is None else owned
+    progress = None
+    problems = []
+    for r in conn.execute(
+        "SELECT * FROM requirements WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
+        (owner_type, pack, oid),
+    ):
+        ref = (r["ref_pack"], r["ref_id"])
+        kind = r["kind"]
+        if kind == "species":
+            if (ch["species_pack"], ch["species_id"]) != ref:
+                problems.append(f"needs species {r['ref_pack']}:{r['ref_id']}")
+        elif kind == "ability":
+            if ref not in owned:
+                problems.append(f"needs ability {r['ref_pack']}:{r['ref_id']}")
+        elif kind == "occupation_set":
+            if progress is None:
+                progress = {(o["pack"], o["id"]): o["sets_met"] for o in occupation_progress(conn, cid, owned)}
+            if progress.get(ref, 0) < (r["value"] or 0):
+                problems.append(f"needs set {r['value']} of occupation {r['ref_pack']}:{r['ref_id']}")
+        elif kind == "list":
+            if owner_type == "ability" and not conn.execute(
+                "SELECT 1 FROM character_list WHERE character_id=? AND ability_pack=? AND ability_id=?",
+                (cid, pack, oid),
+            ).fetchone():
+                problems.append("not on this character's list")
+    if owner_type == "ability" and ch["campaign_id"] is not None and conn.execute(
+        "SELECT 1 FROM campaign_forbidden WHERE campaign_id=? AND ability_pack=? AND ability_id=?",
+        (ch["campaign_id"], pack, oid),
+    ).fetchone():
+        problems.append("forbidden by the campaign")
+    return problems
+
+
+def character_effects(conn: sqlite3.Connection, cid: str) -> tuple[list[dict[str, Any]], dict[tuple[str, str], list[str]]]:
+    """Every effect row the character's owned rows contribute.
+
+    Species and occupation always; an owned ability unless it breaks a constraint;
+    an item only while it is switched on (worn). Returns the effects and the abilities that stopped working.
+    """
+    ch = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
+    if ch is None:
+        raise KeyError(cid)
+    effects: list[dict[str, Any]] = []
+    if ch["species_id"]:
+        effects += owner_effects(conn, "species", ch["species_pack"], ch["species_id"])
+    if ch["occupation_id"]:
+        effects += owner_effects(conn, "occupation", ch["occupation_pack"], ch["occupation_id"])
+    owned = owned_abilities(conn, cid)
+    broken: dict[tuple[str, str], list[str]] = {}
+    for r in conn.execute("SELECT * FROM character_abilities WHERE character_id=? ORDER BY position", (cid,)):
+        key = (r["ability_pack"], r["ability_id"])
+        problems = unmet(conn, cid, "ability", *key, owned=owned)
+        if problems:
+            broken[key] = problems
+            continue
+        effects += owner_effects(conn, "ability", *key)
+    active = {r["ref"] for r in conn.execute("SELECT ref FROM character_active WHERE character_id=?", (cid,))}
+    for r in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
+        if r["item_id"] in active:
+            effects += owner_effects(conn, "item", r["item_pack"], r["item_id"])
+    return effects, broken
+
+
+class Refused(Exception):
+    pass
+
+
+def buy_ability(conn: sqlite3.Connection, cid: str, pack: str, aid: str, *, grant: bool = False) -> int:
+    """Buy an ability with unspent experience, inside its constraints. grant=True is the GM adding it outright.
+
+    Returns the unspent experience left.
+    """
+    ab = conn.execute("SELECT * FROM abilities WHERE pack=? AND id=?", (pack, aid)).fetchone()
+    if ab is None:
+        raise KeyError(f"{pack}:{aid}")
+    ch = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
+    if ch is None:
+        raise KeyError(cid)
+    if (pack, aid) in owned_abilities(conn, cid):
+        raise Refused("already owned")
+    left = ch["xp_unspent"] or 0
+    if not grant:
+        problems = unmet(conn, cid, "ability", pack, aid)
+        if problems:
+            raise Refused("; ".join(problems))
+        if ab["price"] is None:
+            raise Refused("the pack sets no price for this ability")
+        if left < ab["price"]:
+            raise Refused(f"needs {ab['price']} experience, {left} unspent")
+        left -= ab["price"]
+    pos = conn.execute(
+        "SELECT COALESCE(MAX(position), -1) + 1 FROM character_abilities WHERE character_id=?", (cid,)
+    ).fetchone()[0]
+    with conn:
+        conn.execute("INSERT INTO character_abilities VALUES (?,?,?,?,'{}')", (cid, pos, pack, aid))
+        if not grant:
+            conn.execute("UPDATE characters SET xp_unspent=? WHERE id=?", (left, cid))
+    return left

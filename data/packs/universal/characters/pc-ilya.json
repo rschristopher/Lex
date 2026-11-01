@@ -3,8 +3,8 @@
   "name": "Ilya",
   "npc": false,
   "level": 4,
-  "ancestry": "human",
-  "class": "soldier",
+  "species": "human",
+  "occupation": "soldier",
   "portrait": "pc-ilya.jpg",
   "coin": 1200,
   "attrs": {
@@ -33,65 +33,35 @@
     "defense": 2,
     "initiative": 1
   },
-  "armor": [
+  "items": [
     {
-      "id": "field_plate",
-      "name": "Field plate",
-      "prefix": "deka",
-      "total": 40,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "field_plate"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "service_rifle",
-      "name": "Service rifle",
-      "damage": "4d6",
-      "prefix": "unit"
+      "id": "kick"
     },
     {
-      "id": "sidearm",
-      "name": "Sidearm",
-      "damage": "2d6",
-      "prefix": "unit"
+      "id": "service_rifle"
     },
     {
-      "id": "knife",
-      "name": "Knife",
-      "damage": "1d6",
-      "material": "steel",
-      "durability": "deka"
+      "id": "sidearm"
+    },
+    {
+      "id": "knife"
     }
   ],
   "abilities": [
     {
-      "id": "drill",
-      "name": "Drill",
-      "qty": "60%"
+      "id": "drill"
     },
     {
-      "id": "first_aid",
-      "name": "First aid",
-      "qty": "45%"
+      "id": "first_aid"
     },
     {
-      "id": "athletics",
-      "name": "Athletics",
-      "qty": "50%"
+      "id": "athletics"
     }
   ],
   "activated": [

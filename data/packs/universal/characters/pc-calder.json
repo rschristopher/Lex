@@ -3,8 +3,8 @@
   "name": "Calder",
   "npc": false,
   "level": 6,
-  "ancestry": "human",
-  "class": "adept",
+  "species": "human",
+  "occupation": "adept",
   "portrait": "pc-calder.jpg",
   "coin": 600,
   "attrs": {
@@ -33,67 +33,36 @@
     "defense": 2,
     "initiative": 1
   },
-  "armor": [
+  "items": [
     {
-      "id": "robes",
-      "name": "Warded robes",
-      "prefix": "unit",
-      "total": 18,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "robes"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "staff",
-      "name": "Staff",
-      "damage": "2d6",
-      "material": "wood",
-      "durability": "unit"
+      "id": "kick"
+    },
+    {
+      "id": "staff"
     }
   ],
   "abilities": [
     {
       "id": "magic_shield",
-      "name": "Magic shield",
-      "kind": "spell",
-      "slot": "spell",
-      "prefix": "unit",
       "total": 30
     },
     {
-      "id": "flame_bolt",
-      "name": "Flame bolt",
-      "kind": "spell",
-      "damage": "4d6",
-      "prefix": "unit"
+      "id": "flame_bolt"
     },
     {
-      "id": "lore",
-      "name": "Lore",
-      "qty": "75%"
+      "id": "lore"
     },
     {
-      "id": "ritual",
-      "name": "Ritual",
-      "qty": "60%"
+      "id": "ritual"
     },
     {
       "id": "languages",
-      "name": "Languages",
       "qty": "70%"
     }
   ],

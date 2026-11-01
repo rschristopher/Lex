@@ -3,8 +3,8 @@
   "name": "Venn",
   "npc": false,
   "level": 7,
-  "ancestry": "mutant",
-  "class": "metahuman",
+  "species": "mutant",
+  "occupation": "metahuman",
   "portrait": "pc-venn.jpg",
   "coin": 200,
   "attrs": {
@@ -33,59 +33,30 @@
     "defense": 3,
     "initiative": 2
   },
-  "armor": [
+  "items": [
     {
-      "id": "carapace",
-      "name": "Carapace",
-      "prefix": "deka",
-      "total": 60,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "carapace"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "plasma_lance",
-      "name": "Plasma lance",
-      "damage": "2d6",
-      "material": "titanium",
-      "durability": "hecto",
-      "bonus": [
-        {
-          "damage": "1d6",
-          "prefix": "hecto",
-          "type": "plasma"
-        }
-      ]
+      "id": "kick"
+    },
+    {
+      "id": "plasma_lance"
     }
   ],
   "abilities": [
     {
       "id": "endure",
-      "name": "Endure",
       "qty": "80%"
     },
     {
-      "id": "leap",
-      "name": "Leap",
-      "qty": "70%"
+      "id": "leap"
     },
     {
       "id": "intimidate",
-      "name": "Intimidate",
       "qty": "55%"
     }
   ],

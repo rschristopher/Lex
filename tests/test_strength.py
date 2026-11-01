@@ -1,5 +1,4 @@
-from lex.fold import fold
-from lex.store import load_character
+from lex.sheet import sheet as resolve
 from lex.strength import melee_damage, strength_dice
 
 TABLE = {
@@ -29,9 +28,9 @@ def test_kilo_sword():
     assert sword(58)[2] is True
 
 
-def test_sheet_weapons_take_strength():
+def test_sheet_weapons_take_strength(conn):
     def row(pid, wid):
-        sheet = fold(load_character(pid)[1], "universal")
+        sheet = resolve(conn, pid, "universal")
         return next(r for g in sheet["groups"] if g["id"] == "weapons" for r in g["rows"] if r["id"] == wid)
     assert (row("pc-ryn", "punch")["qty"], row("pc-ryn", "punch")["unit"]) == ("7d6", "D")
     assert row("pc-kesh", "club")["qty"] == "4d6"
@@ -41,17 +40,20 @@ def test_sheet_weapons_take_strength():
     assert (row("npc-syrn", "bite")["qty"], row("npc-syrn", "bite")["unit"]) == ("4d6", "kD")
 
 
-def test_bonus_damage_keeps_its_own_prefix():
-    _pid, doc = load_character("pc-kesh")
-    doc = dict(doc)
-    doc["attrs"] = dict(doc["attrs"], strength=38)
-    doc["weapons"] = [{
-        "id": "flame_knife", "name": "Flame knife", "damage": "1d6",
-        "material": "steel", "durability": "deka",
-        "bonus": [{"damage": "2d6", "prefix": "unit", "type": "fire"}],
-    }]
-    doc["attack"] = "flame_knife"
-    using = fold(doc, "universal")["using"]
+def test_bonus_damage_keeps_its_own_prefix(conn):
+    # A pack row, not code: a knife with its own fire damage, owned and drawn at Strength 38.
+    with conn:
+        conn.execute(
+            "INSERT INTO items (pack, id, position, name, kind, data) VALUES ('universal', 'flame_knife', 99,"
+            " 'Flame knife', 'weapon', ?)",
+            ('{"id": "flame_knife", "name": "Flame knife", "kind": "weapon", "damage": "1d6", "material": "steel",'
+             ' "durability": "deka", "bonus": [{"damage": "2d6", "prefix": "unit", "type": "fire"}]}',),
+        )
+        conn.execute("DELETE FROM character_items WHERE character_id='pc-kesh'")
+        conn.execute("INSERT INTO character_items VALUES ('pc-kesh', 0, 'universal', 'flame_knife', '{}')")
+        conn.execute("UPDATE character_attrs SET value=38 WHERE character_id='pc-kesh' AND attr='strength'")
+        conn.execute("UPDATE characters SET attack='flame_knife' WHERE id='pc-kesh'")
+    using = resolve(conn, "pc-kesh", "universal")["using"]
     assert (using["damage"], using["prefix"], using["destroyed"]) == ("1d6", "hecto", True)
     assert using["bonus"] == [{"qty": "2d6", "unit": "D", "type": "fire", "prefix": "unit", "high": False}]
 

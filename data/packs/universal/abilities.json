@@ -1,0 +1,185 @@
+[
+  {
+    "id": "flight",
+    "name": "Flight",
+    "qty": ""
+  },
+  {
+    "id": "keen",
+    "name": "Keen sense"
+  },
+  {
+    "id": "terror",
+    "name": "Terror",
+    "qty": ""
+  },
+  {
+    "id": "pilot_armor",
+    "name": "Pilot: power armor",
+    "qty": "70%"
+  },
+  {
+    "id": "gunnery",
+    "name": "Gunnery",
+    "qty": "65%"
+  },
+  {
+    "id": "sensor",
+    "name": "Sensors",
+    "qty": "50%"
+  },
+  {
+    "id": "magic_shield",
+    "name": "Magic shield",
+    "kind": "spell",
+    "slot": "spell",
+    "prefix": "unit"
+  },
+  {
+    "id": "flame_bolt",
+    "name": "Flame bolt",
+    "kind": "spell",
+    "damage": "4d6",
+    "prefix": "unit"
+  },
+  {
+    "id": "lore",
+    "name": "Lore",
+    "qty": "75%"
+  },
+  {
+    "id": "ritual",
+    "name": "Ritual",
+    "qty": "60%"
+  },
+  {
+    "id": "languages",
+    "name": "Languages"
+  },
+  {
+    "id": "warding_tattoo",
+    "name": "Warding tattoo",
+    "kind": "tattoo",
+    "slot": "tattoo"
+  },
+  {
+    "id": "coil_tattoo",
+    "name": "Coil tattoo",
+    "kind": "tattoo"
+  },
+  {
+    "id": "endure",
+    "name": "Endure"
+  },
+  {
+    "id": "intimidate",
+    "name": "Intimidate"
+  },
+  {
+    "id": "drill",
+    "name": "Drill",
+    "qty": "60%"
+  },
+  {
+    "id": "first_aid",
+    "name": "First aid",
+    "qty": "45%"
+  },
+  {
+    "id": "athletics",
+    "name": "Athletics",
+    "qty": "50%"
+  },
+  {
+    "id": "track",
+    "name": "Track",
+    "qty": "55%"
+  },
+  {
+    "id": "hunt",
+    "name": "Hunt",
+    "qty": "50%"
+  },
+  {
+    "id": "survival",
+    "name": "Survival",
+    "qty": "45%"
+  },
+  {
+    "id": "tk_field",
+    "name": "Telekinetic defense field",
+    "kind": "psionic",
+    "slot": "psionic",
+    "prefix": "unit",
+    "threshold": 6,
+    "total": 40
+  },
+  {
+    "id": "mind_lance",
+    "name": "Mind lance",
+    "kind": "psionic",
+    "damage": "3d6",
+    "prefix": "unit"
+  },
+  {
+    "id": "sense",
+    "name": "Sense",
+    "qty": "70%"
+  },
+  {
+    "id": "focus",
+    "name": "Focus",
+    "qty": "65%"
+  },
+  {
+    "id": "calm",
+    "name": "Calm",
+    "qty": "55%"
+  },
+  {
+    "id": "energy_bolt",
+    "name": "Energy bolt",
+    "kind": "spell",
+    "damage": "4d6",
+    "prefix": "unit"
+  },
+  {
+    "id": "arc",
+    "name": "Arc",
+    "kind": "spell",
+    "damage": "1d6",
+    "prefix": "hecto"
+  },
+  {
+    "id": "call_storm",
+    "name": "Call storm",
+    "kind": "spell",
+    "damage": "10d6",
+    "prefix": "hecto"
+  },
+  {
+    "id": "channel",
+    "name": "Channel",
+    "qty": "80%"
+  },
+  {
+    "id": "sense_current",
+    "name": "Sense current",
+    "qty": "70%"
+  },
+  {
+    "id": "sprint",
+    "name": "Sprint",
+    "qty": "80%"
+  },
+  {
+    "id": "acrobatics",
+    "name": "Acrobatics",
+    "qty": "75%"
+  },
+  {
+    "id": "leap",
+    "name": "Leap",
+    "qty": "70%"
+  }
+]

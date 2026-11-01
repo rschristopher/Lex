@@ -3,8 +3,8 @@
   "name": "Thorn",
   "npc": true,
   "level": 10,
-  "ancestry": "dragon",
-  "class": "beast",
+  "species": "dragon",
+  "occupation": "beast",
   "portrait": "npc-thorn.jpg",
   "coin": 8000,
   "attrs": {
@@ -33,46 +33,34 @@
     "defense": 3,
     "initiative": 3
   },
-  "armor": [
+  "items": [
     {
       "id": "scales",
-      "name": "Scales",
       "prefix": "hecto",
-      "total": 80,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
+      "total": 80
+    },
     {
       "id": "bite",
-      "name": "Bite",
       "damage": "3d6",
-      "material": "dragon tooth",
       "durability": "hecto"
     },
     {
       "id": "claw",
-      "name": "Claw",
       "damage": "2d6",
-      "material": "dragon claw",
       "durability": "hecto"
     },
     {
       "id": "breath",
-      "name": "Breath",
       "damage": "4d6",
       "prefix": "hecto"
     }
   ],
   "abilities": [
     {
-      "id": "flight",
-      "name": "Flight",
-      "qty": ""
+      "id": "flight"
     },
     {
       "id": "keen",
-      "name": "Keen sense",
       "qty": "80%"
     }
   ],
