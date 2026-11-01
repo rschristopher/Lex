@@ -33,8 +33,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **How do two unitless scores above 30 compare in a check?**
 
-**When two species meet, whose standard sets Appearance?**
-
 **How is a contest between two characters at 100 settled?**
 
 **How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
