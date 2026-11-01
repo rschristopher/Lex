@@ -1,39 +1,13 @@
 # Plan
 
-What is still open in Lex. Settled rules are in [universal-system.md](universal-system.md); terms are in [glossary.md](glossary.md).
+This is the implementation plan for Lex. The rules and app design are in [universal-system.md](universal-system.md); terms are in [glossary.md](glossary.md).
 
-## Open questions
+The existing code is a mockup built on hardcoded JSON files. Lex is built from the ground up in this order. Each layer is documented and tested with competing systems and data packs.
 
-**How is a check bonus computed?**
-A check compares a score with a difficulty. For a lift, the difficulty is the Strength whose lift equals the mass. Below 30 the same difference in points is a different ratio at different scores: 10 against 20 is ×2, and 25 against 30 is ×1.2.
-One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded. Above 30 it is twice the difference in score. A bonus of +3 is about twice what the task needs at any score. On a `d20` the target is 11 minus the bonus, the same base as combat ([Combat Rules](universal-system.md#combat-rules)). At +10 or more the check always succeeds. At −10 or less it always fails. `3d6`, rolled low, cannot match every chance; the table gives the closest.
-
-| Bonus | Chance | `d20` | `3d6` | `d100` |
-|---|---|---|---|---|
-| −3 | 35% | 14 or higher | 9 or lower (37.5%) | 66 or higher |
-| 0 | 50% | 11 or higher | 10 or lower (50.0%) | 51 or higher |
-| +1 | 55% | 10 or higher | 10 or lower (50.0%) | 46 or higher |
-| +5 | 75% | 6 or higher | 12 or lower (74.1%) | 26 or higher |
-
-* A Strength 21 soldier (126 kg) lifts a 100 kg crate. The difficulty is 17 and the bonus is +1.
-* Strength 15 arm-wrestles Strength 30. The bonus is −3.
-* A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
-* A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
-
-**Does Lex need a knock-out track separate from flesh hit points?**
-
-**How do two unitless scores above 30 compare in a check?**
-
-**How is a contest between two characters at 100 settled?**
-
-**Does an attack's roll use the ability's own bonus alone, or do other bonuses add to it?**
-
-**What is the formula for deriving Charisma from Appearance, Willpower and Intellect?**
-
-**How is the one-sixth per melee rounded for small pools, or does recovery accrue exactly?**
-
-**What powers and rules come with the cosmic tiers, mega Anima and above?** The details still need working out.
-
-**Do the fallen tiers get their own names?** For now they are Fallen Angels through Fallen Seraphim.
-
-**Review the [cosmic tier examples](cosmic-examples.md).** The mapping of mythic beings, demons, and cosmic horrors to tiers is a draft.
+1. **Data layer.** A sqlite schema for the effects and constraints engine, the combat layer, and lore. During play, sqlite on the server is the live record ([Lore, ingest, and packs](universal-system.md#lore-ingest-and-packs)).
+2. **Ingest.** Load the JSON packs in `data/packs/` into sqlite, and export characters back to packs.
+3. **Engine.** The fold that resolves a character sheet from its effects and constraints, and the combat layer ([Combat Rules](universal-system.md#combat-rules), [Fights in the app](universal-system.md#fights-in-the-app)).
+4. **API.** REST HTTP endpoints for character sheets, combat, and lore.
+5. **UI.** The roster and character sheet, with leveling and rule enforcement; the combat screen; and lore, browsing maps and concepts. Every device is a browser on the one local server ([Server and logins](universal-system.md#server-and-logins)).
+6. **Packs.** Ingest other systems locally to prove the universal system. Only original and public domain packs are published.
+7. **Later.** Research and a proof of concept for an adapter that plays by another system's rules, not only converting to and from Lex.

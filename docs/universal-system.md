@@ -514,8 +514,6 @@ Adapters map willpower stats from point-buy and level-based games to Willpower: 
 
 Appearance rates how attractive a character is. It affects no game mechanics in Lex; it is kept for campaigns that wish to use it.
 
-Open questions are in [plan.md](plan.md#open-questions).
-
 ### Anchors
 
 * Untrained adult deadlift, about 61 to 70 kg for men and 34 to 41 kg for women: [exercisemenu.com](https://exercisemenu.com/is-your-deadlift-good-average-weights-by-level-age/), from [Strength Level](https://strengthlevel.com/strength-standards/deadlift/kg) data
