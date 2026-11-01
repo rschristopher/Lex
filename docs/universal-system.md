@@ -631,7 +631,7 @@ For any adventure material, the GM can show it or hide it, for every player or f
 
 Lore is prose the engine does not read when resolving the sheet or a fight.
 
-Lex is the agentic harness for ingest; it is very focused work. A goal is to ingest an entire book and produce a data pack of everything in it: characters, maps, abilities, powers, species, occupations, and so on. The GM drives the LLM. They iterate together on every stat and number, the way a planning session works, and the LLM can recommend stats and numbers based on existing material.
+Lex is the agentic harness for ingest. The LLM reads a source material, such as Greek mythology or a Civil War story, and iterates with the user on building a data pack from it: characters, locations, powers, and everything else in it.
 
 Ingest writes **rows** into `data/packs/` which is ingested into the Lex database; working notes and book links stay in `data/ingest/` (untracked except `data/ingest/README.md`).
 

@@ -8,7 +8,7 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 - The GM runs one local server; the GM and players sign in from browsers on their own devices ([Server and logins](universal-system.md#server-and-logins)).
 - The GM loads packs into a campaign, from many sources at once ([Lore, ingest, and packs](universal-system.md#lore-ingest-and-packs)).
 - The GM sets the campaign's die system and can change it at any time ([Dice](universal-system.md#dice)).
-- The GM and an LLM ingest a book or another game into a pack, with Lex as the harness, iterating on every stat together.
+- With Lex as the harness, the LLM reads a source material and iterates with the user on building a data pack from it: characters, locations, powers, and everything else.
 
 ### Characters
 - A player creates a character and fills the sheet as far as the GM needs to run, spending starting experience then or in play ([Experience, prices, and loot](universal-system.md#experience-prices-and-loot)).
