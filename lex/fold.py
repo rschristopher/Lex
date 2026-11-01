@@ -82,7 +82,17 @@ def _attr_spec(meta: Any, aid: str) -> dict[str, Any]:
         "label": meta.get("label") or aid,
         "from": meta.get("from") or aid,
         "mod": meta.get("mod"),
+        "scale": meta.get("scale"),
     }
+
+
+def scale_attr(value: int, spec: dict[str, Any] | None) -> int:
+    """Equal up to spec["above"]; past it, x10 every spec["per"] points, rounded, uncapped."""
+    import math
+    if not spec or value <= spec["above"]:
+        return value
+    top = float(spec["above"])
+    return int(math.floor(top * 10 ** ((value - top) / float(spec["per"])) + 0.5))
 
 
 def worn_pieces(doc: dict[str, Any]) -> list[dict[str, Any]]:
@@ -173,6 +183,8 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
                 continue
             base = int(raw.get(src, raw.get(aid, 0)))
             val = int(worn.get(src, worn.get(aid, base)))
+        if s.get("scale"):
+            base, val = scale_attr(base, s["scale"]), scale_attr(val, s["scale"])
         row = {"id": aid, "label": s["label"], "value": val}
         if val != base:
             row["boosted"] = True

@@ -200,3 +200,11 @@ def test_field_on_top_of_armor():
 def test_adapters_listed():
     ids = {a["id"] for a in list_adapters()}
     assert ids == {"universal", "u-simplified"}
+
+
+def test_simplified_strength_scale():
+    _pid, doc = load_character("npc-syrn")
+    for lex, score, mod in [(10, 10, 0), (30, 30, 10), (35, 300, 145), (43, 11943, 5966)]:
+        doc["attrs"]["strength"] = lex
+        row = next(a for a in fold(doc, "u-simplified")["attrs"] if a["id"] == "strength")
+        assert (row["value"], row["mod"]) == (score, mod)

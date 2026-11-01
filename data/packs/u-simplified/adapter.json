@@ -3,7 +3,7 @@
   "name": "U-simplified",
   "view": true,
   "attrs": {
-    "strength": {"label": "Strength", "from": "strength", "mod": {"sub": 10, "div": 2, "floor": true}},
+    "strength": {"label": "Strength", "from": "strength", "scale": {"above": 30, "per": 5}, "mod": {"sub": 10, "div": 2, "floor": true}},
     "dexterity": {"label": "Dexterity", "from": "agility", "mod": {"sub": 10, "div": 2, "floor": true}},
     "constitution": {"label": "Constitution", "from": "endurance", "mod": {"sub": 10, "div": 2, "floor": true}},
     "intelligence": {"label": "Intelligence", "from": "intellect", "mod": {"sub": 10, "div": 2, "floor": true}},
