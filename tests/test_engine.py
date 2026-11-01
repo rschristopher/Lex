@@ -240,11 +240,11 @@ def test_skill_levels_bought_in_order(conn):
     except engine.Refused as e:
         assert "levels cannot be skipped" in str(e)
     assert engine.buy_ability(conn, "armitage", "test", "occult_lore") == 14
-    # Only the owned level's effect rows apply.
-    assert channels(conn, "armitage")["initiative"] == 3
+    # Level bonuses stack: level 2 is level 1's +1 plus its own +3.
+    assert channels(conn, "armitage")["initiative"] == 1 + 3
     assert engine.buy_ability(conn, "armitage", "test", "occult_lore") == 5
     ch = channels(conn, "armitage")
-    assert (ch["initiative"], ch["defense"]) == (6, 1)
+    assert (ch["initiative"], ch["defense"]) == (1 + 3 + 6, 1)
     assert level_row()["level"] == "Dreamer of R'lyeh"
     try:
         engine.buy_ability(conn, "armitage", "test", "occult_lore")

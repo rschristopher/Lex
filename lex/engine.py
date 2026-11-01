@@ -196,9 +196,9 @@ def character_effects(conn: sqlite3.Connection, cid: str) -> tuple[list[dict[str
             broken[key] = problems
             continue
         effects += owner_effects(conn, "ability", *key)
-        if r["level"] is not None:
-            # Only the owned level's own effect rows; the docs do not say lower levels add up.
-            effects += owner_effects(conn, "ability", *key, level=r["level"])
+        # Owning level n: the effect rows of levels 1..n stack.
+        for lv in range(1, (r["level"] or 0) + 1):
+            effects += owner_effects(conn, "ability", *key, level=lv)
     active = {r["ref"] for r in conn.execute("SELECT ref FROM character_active WHERE character_id=?", (cid,))}
     for r in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
         if r["item_id"] in active:
