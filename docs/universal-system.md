@@ -248,7 +248,17 @@ An ability can list upgrades, such as reduced cost, free use, or always on. Each
 
 An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
-Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are Novice, Apprentice, Professional, Expert, and Master. A novice fails often, an expert sometimes, and a master never; a target can still resist. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
+Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are Novice, Apprentice, Professional, Expert, and Master. A non-physical ability's casting roll is a `d20` like a Strike roll, and Expert and Master do not roll:
+
+| Level | Succeeds | `d20` |
+|---|---|---|
+| Novice | 50% | 11 or higher |
+| Apprentice | 70% | 7 or higher |
+| Professional | 80% | 5 or higher |
+| Expert | always | no roll |
+| Master | always | no roll |
+
+A target can still resist. Skill level and the Anima ladder level are separate. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
 
 
 

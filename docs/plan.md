@@ -42,8 +42,6 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Does an attack's target number come from the ability's own bonus alone, and what is the base target for Strike, Defense, and resist rolls?**
 
-**What bonus does each skill level give?**
-
 **How is a bought upgrade's experience price set?**
 
 **How much does a reduced-cost option reduce the cost?**
