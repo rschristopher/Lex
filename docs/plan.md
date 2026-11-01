@@ -58,4 +58,4 @@ One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded
 
 **Review the [cosmic tier examples](cosmic-examples.md).** The mapping of mythic beings, demons, and cosmic horrors to tiers is a draft.
 
-**Should a Master with Willpower and other Anima attributes near 100 reach mega?** All 100s at Master give `1,440,010 M`, though experience and occupations are not meant to reach the cosmic tiers.
+**What happens when a cosmic being's attributes spill into the next prefix?** With uniform attributes of 70 or more, a tier's pool passes into the next prefix, and Seraphim pass the largest one.

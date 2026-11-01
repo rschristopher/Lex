@@ -235,21 +235,21 @@ Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and 
 
 #### Cosmic tiers
 
-Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×10, and each later tier multiplies the one before by 1,000:
+Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×1,000, and each later tier multiplies the one before by 1,000:
 
 | Tier | Fallen equivalent | Prefix | Anima, plus the species bonus | All 10s (`M`) | All 100s (`M`) |
 |---|---|---|---|---|---|
-| Angels | Fallen Angels | mega | 8 × 10³ I + 64 × 10³ W + 48 × 10³ E + 24 × 10³ S | 1.44 × 10⁶ + 10 | 1.44 × 10⁷ + 10 |
-| Archangels | Fallen Archangels | giga | 8 × 10⁶ I + 64 × 10⁶ W + 48 × 10⁶ E + 24 × 10⁶ S | 1.44 × 10⁹ + 10 | 1.44 × 10¹⁰ + 10 |
-| Principalities | Fallen Principalities | tera | 8 × 10⁹ I + 64 × 10⁹ W + 48 × 10⁹ E + 24 × 10⁹ S | 1.44 × 10¹² + 10 | 1.44 × 10¹³ + 10 |
-| Powers | Fallen Powers | peta | 8 × 10¹² I + 64 × 10¹² W + 48 × 10¹² E + 24 × 10¹² S | 1.44 × 10¹⁵ + 10 | 1.44 × 10¹⁶ + 10 |
-| Virtues | Fallen Virtues | exa | 8 × 10¹⁵ I + 64 × 10¹⁵ W + 48 × 10¹⁵ E + 24 × 10¹⁵ S | 1.44 × 10¹⁸ + 10 | 1.44 × 10¹⁹ + 10 |
-| Dominions | Fallen Dominions | zetta | 8 × 10¹⁸ I + 64 × 10¹⁸ W + 48 × 10¹⁸ E + 24 × 10¹⁸ S | 1.44 × 10²¹ + 10 | 1.44 × 10²² + 10 |
-| Thrones | Fallen Thrones | yotta | 8 × 10²¹ I + 64 × 10²¹ W + 48 × 10²¹ E + 24 × 10²¹ S | 1.44 × 10²⁴ + 10 | 1.44 × 10²⁵ + 10 |
-| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁴ I + 64 × 10²⁴ W + 48 × 10²⁴ E + 24 × 10²⁴ S | 1.44 × 10²⁷ + 10 | 1.44 × 10²⁸ + 10 |
-| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁷ I + 64 × 10²⁷ W + 48 × 10²⁷ E + 24 × 10²⁷ S | 1.44 × 10³⁰ + 10 | 1.44 × 10³¹ + 10 |
+| Angels | Fallen Angels | mega | 8 × 10⁵ I + 64 × 10⁵ W + 48 × 10⁵ E + 24 × 10⁵ S | 1.44 × 10⁸ + 10 | 1.44 × 10⁹ + 10 |
+| Archangels | Fallen Archangels | giga | 8 × 10⁸ I + 64 × 10⁸ W + 48 × 10⁸ E + 24 × 10⁸ S | 1.44 × 10¹¹ + 10 | 1.44 × 10¹² + 10 |
+| Principalities | Fallen Principalities | tera | 8 × 10¹¹ I + 64 × 10¹¹ W + 48 × 10¹¹ E + 24 × 10¹¹ S | 1.44 × 10¹⁴ + 10 | 1.44 × 10¹⁵ + 10 |
+| Powers | Fallen Powers | peta | 8 × 10¹⁴ I + 64 × 10¹⁴ W + 48 × 10¹⁴ E + 24 × 10¹⁴ S | 1.44 × 10¹⁷ + 10 | 1.44 × 10¹⁸ + 10 |
+| Virtues | Fallen Virtues | exa | 8 × 10¹⁷ I + 64 × 10¹⁷ W + 48 × 10¹⁷ E + 24 × 10¹⁷ S | 1.44 × 10²⁰ + 10 | 1.44 × 10²¹ + 10 |
+| Dominions | Fallen Dominions | zetta | 8 × 10²⁰ I + 64 × 10²⁰ W + 48 × 10²⁰ E + 24 × 10²⁰ S | 1.44 × 10²³ + 10 | 1.44 × 10²⁴ + 10 |
+| Thrones | Fallen Thrones | yotta | 8 × 10²³ I + 64 × 10²³ W + 48 × 10²³ E + 24 × 10²³ S | 1.44 × 10²⁶ + 10 | 1.44 × 10²⁷ + 10 |
+| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁶ I + 64 × 10²⁶ W + 48 × 10²⁶ E + 24 × 10²⁶ S | 1.44 × 10²⁹ + 10 | 1.44 × 10³⁰ + 10 |
+| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁹ I + 64 × 10²⁹ W + 48 × 10²⁹ E + 24 × 10²⁹ S | 1.44 × 10³² + 10 | 1.44 × 10³³ + 10 |
 
-With every attribute at 10 a pool lands in its tier's prefix, and all 100s give about 10 times that, still in the same prefix. With every attribute below 7, it falls below the prefix: all 1s give `144,010 M` at the Angels tier, in kilo. A Master with all 100s has `1,440,010 M`, the same as Angels with all 10s.
+With every attribute from 1 to 69 a pool stays in its tier's prefix. At 70 and above it passes into the next prefix: Angels with all 69s have `993,600,010 M`, with all 70s `1,008,000,010 M`, and with all 100s `1,440,000,010 M`, which is giga. Seraphim at 70 and above pass the largest prefix. A Master with all 100s has `1,440,010 M`, far below an Angel with all 1s at `14,400,010 M`.
 
 [GM examples of beings on each tier](cosmic-examples.md) are a draft.
 
