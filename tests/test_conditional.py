@@ -176,3 +176,12 @@ def test_library_shows_categories_and_conditions(lib):
             ("+2 Defense when using a spear or a knife and while wearing a shield", "Shield wall", None)]
         rows = client.get("/library/rows", params={"category": "abilities.skill", "q": "giant"}).json()["rows"]
         assert rows[0]["summary"].startswith("Fighting from inside")
+
+
+def test_condition_words_keep_proper_names():
+    from lex import library
+
+    assert library._lower("Knife") == "knife"
+    assert library._lower("Bronze Giant armor") == "Bronze Giant armor"
+    assert library._article(library._lower("Bronze Giant armor")) == "Bronze Giant armor"
+    assert library._article(library._lower("Spear")) == "a spear"

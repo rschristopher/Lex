@@ -162,7 +162,11 @@ def value_text(v: Any) -> str:
 
 
 def _lower(name: str) -> str:
-    return name[:1].lower() + name[1:] if name[1:2].islower() else name
+    """ "Knife" -> "knife" inside a sentence; a name with another capitalised word ("Bronze Giant armor") stays."""
+    words = name.split()
+    if not name[1:2].islower() or any(w[:1].isupper() for w in words[1:]):
+        return name
+    return name[:1].lower() + name[1:]
 
 
 def _article(name: str) -> str:
