@@ -1,0 +1,142 @@
+{
+ "id": "frankenstein",
+ "title": "Frankenstein (Shelley)",
+ "source": {
+  "work": "Mary Shelley, Frankenstein (1818; 1831 text)",
+  "text": "frankenstein.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Victor Frankenstein",
+   "beats": [
+    "b-animation"
+   ]
+  },
+  {
+   "id": "flesh-creature",
+   "kind": "species",
+   "text": "a giant man made from dead matter and brought to life",
+   "beats": [
+    "b-stature",
+    "b-nature"
+   ]
+  },
+  {
+   "id": "scientist",
+   "kind": "occupation",
+   "text": "Victor, a student of natural philosophy",
+   "beats": [
+    "b-animation"
+   ]
+  },
+  {
+   "id": "create-life",
+   "kind": "ability",
+   "text": "bestows animation upon lifeless matter",
+   "beats": [
+    "b-animation"
+   ]
+  },
+  {
+   "id": "languages",
+   "kind": "ability",
+   "text": "learns a language by listening to cottagers",
+   "beats": [
+    "b-language"
+   ]
+  },
+  {
+   "id": "endure-elements",
+   "kind": "ability",
+   "text": "bears heat and cold with little harm",
+   "beats": [
+    "b-nature"
+   ]
+  },
+  {
+   "id": "athletics",
+   "kind": "ability",
+   "text": "bounds over crevices in the ice",
+   "beats": [
+    "b-speed"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "victor",
+   "name": "Victor Frankenstein",
+   "species": "human",
+   "occupation": "scientist",
+   "abilities": [
+    "create-life"
+   ]
+  },
+  {
+   "id": "creature",
+   "name": "The creature",
+   "species": "flesh-creature",
+   "abilities": [
+    "languages",
+    "endure-elements",
+    "athletics"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-animation",
+   "quote": "Although I possessed the capacity of bestowing animation",
+   "checks": [
+    {
+     "character": "victor",
+     "kind": "has",
+     "need": "create-life",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-stature",
+   "quote": "to make the being of a gigantic stature, that is to say, about eight feet in height, and proportionably large."
+  },
+  {
+   "id": "b-speed",
+   "quote": "advancing towards me with superhuman speed. He bounded over the crevices in the ice",
+   "checks": [
+    {
+     "character": "creature",
+     "kind": "has",
+     "need": "athletics",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-language",
+   "quote": "I pronounced such words as I understood with tolerable ease.",
+   "checks": [
+    {
+     "character": "creature",
+     "kind": "has",
+     "need": "languages",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-nature",
+   "quote": "I was more agile than they and could subsist upon coarser diet; I bore the extremes of heat and cold with less injury to my frame",
+   "checks": [
+    {
+     "character": "creature",
+     "kind": "has",
+     "need": "endure-elements",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

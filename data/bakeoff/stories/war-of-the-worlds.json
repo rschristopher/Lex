@@ -1,0 +1,199 @@
+{
+ "id": "war-of-the-worlds",
+ "title": "The War of the Worlds (Wells)",
+ "source": {
+  "work": "H. G. Wells, The War of the Worlds (1898)",
+  "text": "war-of-the-worlds.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "the narrator, the artilleryman",
+   "beats": [
+    "b-artillery"
+   ]
+  },
+  {
+   "id": "alien",
+   "kind": "species",
+   "text": "the Martians",
+   "beats": [
+    "b-telepathy",
+    "b-bacteria"
+   ]
+  },
+  {
+   "id": "war-machine",
+   "kind": "species",
+   "text": "a walking tripod engine, higher than houses",
+   "beats": [
+    "b-tripod"
+   ]
+  },
+  {
+   "id": "soldier",
+   "kind": "occupation",
+   "text": "the artilleryman",
+   "beats": [
+    "b-artillery"
+   ]
+  },
+  {
+   "id": "heat-ray",
+   "kind": "ability",
+   "text": "a ray that sets everything it touches burning",
+   "beats": [
+    "b-heat-ray"
+   ]
+  },
+  {
+   "id": "poison-gas",
+   "kind": "ability",
+   "text": "black poisonous vapour fired by rockets",
+   "beats": [
+    "b-smoke"
+   ]
+  },
+  {
+   "id": "telepathy",
+   "kind": "ability",
+   "text": "the Martians exchange thoughts without speech",
+   "beats": [
+    "b-telepathy"
+   ]
+  },
+  {
+   "id": "disease-weakness",
+   "kind": "ability",
+   "text": "no resistance to Earth's germs",
+   "beats": [
+    "b-bacteria"
+   ]
+  },
+  {
+   "id": "artillery",
+   "kind": "ability",
+   "text": "a gun crew firing on the machines",
+   "beats": [
+    "b-artillery"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "martian",
+   "name": "A Martian",
+   "species": "alien",
+   "abilities": [
+    "heat-ray",
+    "poison-gas",
+    "telepathy",
+    "disease-weakness"
+   ],
+   "attrs": {
+    "endurance": {
+     "value": 4,
+     "beats": [
+      "b-bacteria"
+     ],
+     "estimate": true,
+     "note": "every Martian dies of Earth's germs"
+    }
+   }
+  },
+  {
+   "id": "tripod",
+   "name": "A fighting-machine",
+   "species": "war-machine"
+  },
+  {
+   "id": "artilleryman",
+   "name": "The artilleryman",
+   "species": "human",
+   "occupation": "soldier",
+   "abilities": [
+    "artillery"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-tripod",
+   "quote": "A monstrous tripod, higher than many houses, striding over the young pine trees"
+  },
+  {
+   "id": "b-heat-ray",
+   "quote": "then in a moment the Heat-Ray was brought to bear, and the town became a heap of fiery ruins.",
+   "checks": [
+    {
+     "character": "martian",
+     "kind": "has",
+     "need": "heat-ray",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-artillery",
+   "quote": "The gun he drove had been unlimbered",
+   "checks": [
+    {
+     "character": "artilleryman",
+     "kind": "has",
+     "need": "artillery",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-smoke",
+   "quote": "The Martians are able to discharge enormous clouds of a black and poisonous vapour by means of rockets.",
+   "checks": [
+    {
+     "character": "martian",
+     "kind": "has",
+     "need": "poison-gas",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-telepathy",
+   "quote": "the Martians interchanged thoughts without any physical intermediation.",
+   "checks": [
+    {
+     "character": "martian",
+     "kind": "has",
+     "need": "telepathy",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bacteria",
+   "quote": "slain by the putrefactive and disease bacteria against which their systems were unprepared",
+   "checks": [
+    {
+     "character": "martian",
+     "kind": "has",
+     "need": "disease-weakness",
+     "outcome": "success"
+    },
+    {
+     "character": "martian",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "endurance"
+      },
+      {
+       "channel": "endurance_resist"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  }
+ ]
+}

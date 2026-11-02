@@ -1,0 +1,148 @@
+{
+ "id": "aladdin",
+ "title": "Aladdin and the Wonderful Lamp (Arabian Nights, Lang)",
+ "source": {
+  "work": "Aladdin and the Wonderful Lamp, The Arabian Nights Entertainments, ed. Andrew Lang (1898)",
+  "text": "aladdin.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Aladdin, his mother, the magician",
+   "beats": [
+    "b-magic-words"
+   ]
+  },
+  {
+   "id": "genie",
+   "kind": "species",
+   "text": "the slaves of the ring and the lamp",
+   "beats": [
+    "b-ring",
+    "b-lamp"
+   ]
+  },
+  {
+   "id": "sorcerer",
+   "kind": "occupation",
+   "text": "the African magician",
+   "beats": [
+    "b-magic-words"
+   ]
+  },
+  {
+   "id": "ritual-magic",
+   "kind": "ability",
+   "text": "opens the earth with a powder and magical words",
+   "beats": [
+    "b-magic-words"
+   ]
+  },
+  {
+   "id": "bound-servant",
+   "kind": "ability",
+   "text": "the genie must obey whoever holds the ring or lamp",
+   "beats": [
+    "b-ring"
+   ]
+  },
+  {
+   "id": "teleport",
+   "kind": "ability",
+   "text": "the genie moves a bed, a palace, a person",
+   "beats": [
+    "b-ring",
+    "b-bed"
+   ]
+  },
+  {
+   "id": "conjure",
+   "kind": "ability",
+   "text": "the genie builds a palace overnight",
+   "beats": [
+    "b-palace"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "magician",
+   "name": "The African magician",
+   "species": "human",
+   "occupation": "sorcerer",
+   "abilities": [
+    "ritual-magic"
+   ]
+  },
+  {
+   "id": "genie",
+   "name": "The genie of the lamp",
+   "species": "genie",
+   "abilities": [
+    "bound-servant",
+    "teleport",
+    "conjure"
+   ]
+  },
+  {
+   "id": "aladdin",
+   "name": "Aladdin",
+   "species": "human"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-magic-words",
+   "quote": "the magician threw on it a powder he had about him, at the same time saying some magical words.",
+   "checks": [
+    {
+     "character": "magician",
+     "kind": "has",
+     "need": "ritual-magic",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-ring",
+   "quote": "I am the Slave of the Ring, and will obey thee in all things.",
+   "checks": [
+    {
+     "character": "genie",
+     "kind": "has",
+     "need": "bound-servant",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-lamp",
+   "quote": "Instantly a hideous genie appeared, and asked what she would have."
+  },
+  {
+   "id": "b-bed",
+   "quote": "genie transported the bed containing the vizir's son and the princess.",
+   "checks": [
+    {
+     "character": "genie",
+     "kind": "has",
+     "need": "teleport",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-palace",
+   "quote": "The palace was finished by next day",
+   "checks": [
+    {
+     "character": "genie",
+     "kind": "has",
+     "need": "conjure",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

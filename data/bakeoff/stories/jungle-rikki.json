@@ -1,0 +1,176 @@
+{
+ "id": "jungle-rikki",
+ "title": "Rikki-Tikki-Tavi (Kipling)",
+ "source": {
+  "work": "Rudyard Kipling, The Jungle Book (1894)",
+  "text": "jungle-rikki.txt"
+ },
+ "needs": [
+  {
+   "id": "small-animal",
+   "kind": "species",
+   "text": "a mongoose",
+   "beats": [
+    "b-mongoose"
+   ]
+  },
+  {
+   "id": "snake",
+   "kind": "species",
+   "text": "cobras and a karait",
+   "beats": [
+    "b-nag",
+    "b-karait"
+   ]
+  },
+  {
+   "id": "venom",
+   "kind": "ability",
+   "text": "the snakes' deadly bite",
+   "beats": [
+    "b-karait"
+   ]
+  },
+  {
+   "id": "natural-weapon",
+   "kind": "ability",
+   "text": "the mongoose's bite",
+   "beats": [
+    "b-karait-kill",
+    "b-head"
+   ]
+  },
+  {
+   "id": "dodge",
+   "kind": "ability",
+   "text": "quickness of eye and foot against the strike",
+   "beats": [
+    "b-quick"
+   ]
+  },
+  {
+   "id": "grapple",
+   "kind": "ability",
+   "text": "holds the cobra's head and will not let go",
+   "beats": [
+    "b-head"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "rikki",
+   "name": "Rikki-tikki",
+   "species": "small-animal",
+   "abilities": [
+    "natural-weapon",
+    "dodge",
+    "grapple"
+   ],
+   "attrs": {
+    "agility": {
+     "value": 20,
+     "beats": [
+      "b-quick"
+     ],
+     "estimate": true,
+     "note": "'no eye can follow' the fight; quick as the snake"
+    }
+   }
+  },
+  {
+   "id": "nag",
+   "name": "Nag",
+   "species": "snake",
+   "abilities": [
+    "venom"
+   ]
+  },
+  {
+   "id": "karait",
+   "name": "Karait",
+   "species": "snake",
+   "abilities": [
+    "venom"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-mongoose",
+   "quote": "He was a mongoose, rather like a little cat in his fur and his tail"
+  },
+  {
+   "id": "b-nag",
+   "quote": "the big black cobra, and he was five feet long from tongue to tail."
+  },
+  {
+   "id": "b-quick",
+   "quote": "The victory is only a matter of quickness of eye and quickness of foot",
+   "checks": [
+    {
+     "character": "rikki",
+     "kind": "has",
+     "need": "dodge",
+     "outcome": "success"
+    },
+    {
+     "character": "rikki",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "defense"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-karait",
+   "quote": "his bite is as dangerous as the cobra’s.",
+   "checks": [
+    {
+     "character": "karait",
+     "kind": "has",
+     "need": "venom",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-karait-kill",
+   "quote": "That bite paralyzed Karait",
+   "checks": [
+    {
+     "character": "rikki",
+     "kind": "has",
+     "need": "natural-weapon",
+     "outcome": "success"
+    },
+    {
+     "character": "rikki",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-head",
+   "quote": "as his teeth met, Rikki braced his back against the bulge of the red earthenware to hold down the head.",
+   "checks": [
+    {
+     "character": "rikki",
+     "kind": "has",
+     "need": "grapple",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

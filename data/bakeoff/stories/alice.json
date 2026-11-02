@@ -1,0 +1,110 @@
+{
+ "id": "alice",
+ "title": "Alice's Adventures in Wonderland (Carroll), chapters I-VI",
+ "source": {
+  "work": "Lewis Carroll, Alice's Adventures in Wonderland (1865)",
+  "text": "alice.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Alice",
+   "beats": [
+    "b-small"
+   ]
+  },
+  {
+   "id": "small-animal",
+   "kind": "species",
+   "text": "the Cheshire cat",
+   "beats": [
+    "b-vanish"
+   ]
+  },
+  {
+   "id": "size-change",
+   "kind": "ability",
+   "text": "shrinks and grows by drinking and eating",
+   "beats": [
+    "b-small",
+    "b-tall"
+   ]
+  },
+  {
+   "id": "invisibility",
+   "kind": "ability",
+   "text": "the cat vanishes, all but its grin",
+   "beats": [
+    "b-vanish"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "alice",
+   "name": "Alice",
+   "species": "human"
+  },
+  {
+   "id": "cat",
+   "name": "The Cheshire cat",
+   "species": "small-animal",
+   "abilities": [
+    "invisibility"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-small",
+   "quote": "she was now only ten inches high",
+   "grants": [
+    {
+     "character": "alice",
+     "need": "size-change",
+     "from": "the DRINK ME bottle"
+    }
+   ],
+   "checks": [
+    {
+     "character": "alice",
+     "kind": "has",
+     "need": "size-change",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-tall",
+   "quote": "now more than nine feet high",
+   "grants": [
+    {
+     "character": "alice",
+     "need": "size-change",
+     "from": "the EAT ME cake"
+    }
+   ],
+   "checks": [
+    {
+     "character": "alice",
+     "kind": "has",
+     "need": "size-change",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-vanish",
+   "quote": "this time it vanished quite slowly",
+   "checks": [
+    {
+     "character": "cat",
+     "kind": "has",
+     "need": "invisibility",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}
