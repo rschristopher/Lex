@@ -42,6 +42,7 @@ from typing import Any
 
 from lex import db, dice, engine, packs
 from lex.agility import AGILITY_CHANNELS, agility_bonus
+from lex.endurance import endurance_resist_bonus
 from lex.fold import _apply_channels, _worn_attr_values
 from lex.intellect import intellect_bonus
 from lex.sheet import resolved_doc
@@ -56,9 +57,9 @@ FITS = ("exact", "partial", "none")
 OUTCOMES = ("success", "failure")
 CHECK_KINDS = ("roll", "lift", "move", "has")
 # d20-scale bonuses from an attribute that the docs define. Anything else is a stub (see STUBS).
-ATTR_BONUS = {"agility": agility_bonus, "intellect": intellect_bonus, "willpower": willpower_resist_bonus}
+ATTR_BONUS = {"agility": agility_bonus, "intellect": intellect_bonus, "willpower": willpower_resist_bonus,
+              "endurance": endurance_resist_bonus}
 STUBS = {
-    "attr_bonus:endurance": "Endurance is a bonus on resistance rolls, but the docs give it no formula",
     "attr_bonus:strength": "Strength has no d20 bonus in the docs; use a lift check",
     "attr_bonus:speed": "Speed gives no roll bonus in the docs; use a move check",
     "attr_bonus:appearance": "Appearance affects no game mechanics",

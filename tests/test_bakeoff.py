@@ -102,7 +102,8 @@ def test_beats_run_through_the_engine(bk):
     assert by["b-mountain"]["p"] == 1.0
     assert by["b-rams"]["bonus"] == 4 and by["b-rams"]["p"] == 0.7  # the hide row's stealth effect
     assert by["b-bore"]["bonus"] == 2  # the warrior row's strike, Agility 14 adds nothing
-    assert by["b-drunk"]["stub"] == "attr_bonus:endurance"
+    # Endurance 20 resists on the Willpower scale, +2: 60%; he passed out, so the beat's odds are 40%.
+    assert by["b-drunk"]["bonus"] == 2 and by["b-drunk"]["likelihood"] == 0.4
     assert by["b-noman"]["p"] == 1.0
     uni = bakeoff.simulate(bk.candidates["universal"], story, bk.mappings[("universal", STORY)][0])
     assert {c["beat"]: c for c in uni["checks"]}["b-noman"]["p"] == 0.0
@@ -130,7 +131,7 @@ def test_leave_one_out_scores(bk):
     assert rep["foundations"]["toy-epic"]["mapping_consistency"] == pytest.approx(7 / 8)
     assert rep["foundations"]["K"]["believability"] is None
     assert rep["summary"][0]["candidate"] == "toy-epic"
-    assert rep["stubs"] == ["attr_bonus:endurance"]
+    assert rep["stubs"] == []
 
 
 def test_a_missing_crosswalk_is_reported(run_dir):
@@ -161,3 +162,11 @@ def test_cli(capsys, tmp_path, monkeypatch):
     assert ex.value.code == 0
     assert "Summary" in capsys.readouterr().out
     assert (tmp_path / "report.json").is_file()
+
+
+def test_endurance_resists_on_the_willpower_scale():
+    from lex.endurance import endurance_resist_bonus
+    from lex.willpower import willpower_resist_bonus
+
+    assert [endurance_resist_bonus(s) for s in (10, 20, 60, 64, 100)] == [0, 2, 10, 11, 20]
+    assert all(endurance_resist_bonus(s) == willpower_resist_bonus(s) for s in range(1, 101))
