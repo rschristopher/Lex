@@ -123,5 +123,100 @@
         "value": 2
       }
     ]
+  },
+  {
+    "id": "knife_fighting",
+    "name": "Knife fighting",
+    "kind": "skill",
+    "text": "Close work with a short blade.",
+    "levels": [
+      {
+        "name": "Novice",
+        "price": 100,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1,
+            "when": {
+              "using": "knife"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Veteran",
+        "price": 300,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1,
+            "when": {
+              "using": "knife"
+            }
+          },
+          {
+            "verb": "mod.channel",
+            "target": "defense",
+            "value": 1,
+            "when": {
+              "using": "knife"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "giant_walking",
+    "name": "Giant walking",
+    "kind": "skill",
+    "price": 400,
+    "text": "Fighting from inside a bronze giant: its fists and its stride become yours.",
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "actions",
+        "value": 1,
+        "when": {
+          "wearing": "robot-armor"
+        }
+      },
+      {
+        "verb": "mod.channel",
+        "target": "strike",
+        "value": 2,
+        "when": {
+          "wearing": "robot-armor"
+        }
+      }
+    ]
+  },
+  {
+    "id": "shield_wall",
+    "name": "Shield wall",
+    "kind": "skill",
+    "price": 200,
+    "text": "Shoulder to shoulder, shield up, short weapon ready.",
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "defense",
+        "value": 2,
+        "when": {
+          "using": [
+            "spear",
+            "knife"
+          ],
+          "wearing": "shield"
+        }
+      },
+      {
+        "verb": "mod.channel",
+        "target": "initiative",
+        "value": 1
+      }
+    ]
   }
 ]

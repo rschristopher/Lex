@@ -1,0 +1,64 @@
+{
+  "id": "myth-odysseus",
+  "name": "Odysseus",
+  "npc": false,
+  "level": 3,
+  "species": "human",
+  "occupation": "hero",
+  "attrs": {
+    "strength": 14,
+    "agility": 15,
+    "endurance": 13,
+    "speed": 12,
+    "intellect": 17,
+    "willpower": 15,
+    "appearance": 12
+  },
+  "gauges": [
+    {
+      "id": "hit_points",
+      "prefix": "unit",
+      "total": 30
+    }
+  ],
+  "channels": {
+    "actions": 2,
+    "strike": 1,
+    "defense": 1,
+    "initiative": 0
+  },
+  "items": [
+    {
+      "id": "bronze_spear"
+    },
+    {
+      "id": "bronze_knife"
+    },
+    {
+      "id": "bow"
+    },
+    {
+      "id": "shield"
+    },
+    {
+      "id": "bronze_giant"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "knife_fighting",
+      "level": 2
+    },
+    {
+      "id": "giant_walking"
+    },
+    {
+      "id": "shield_wall"
+    },
+    {
+      "id": "cunning"
+    }
+  ],
+  "activated": [],
+  "attack": "bronze_spear"
+}

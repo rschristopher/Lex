@@ -148,3 +148,10 @@ body.library { --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times 
   .facts { grid-template-columns: 1fr; gap: 0.1rem; }
   .facts dd { margin-bottom: 0.55rem; }
 }
+
+.effect.cond em { font-style: normal; color: var(--accent); font-size: 0.85rem; }
+.row-cats { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.45rem; }
+.tagchip { background: #3d7eff14; border-color: #3d7eff50; }
+.tagb { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.tagb li { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;
+  padding: 0.5rem 0.75rem; background: var(--card); border: 1px solid var(--line); border-radius: 0.6rem; }

@@ -360,11 +360,35 @@ function renderPlay(s) {
     }
     left.append(person);
   }
+  if (s.bonuses) left.append(renderBonuses(s.bonuses));
   const colA = el("div", "pane");
   const colW = el("div", "pane");
   renderGroups(s, colA, colW);
   root.replaceChildren();
   root.append(renderHud(s), left, colA, colW);
+}
+
+// Always-on bonuses, then conditional ones; a conditional bonus that applies right now is lit.
+function renderBonuses(b) {
+  const box = el("section", "bonuses");
+  const rowsOf = (list) => {
+    const ul = el("ul");
+    for (const r of list) {
+      const li = el("li", r.met === false ? "off" : r.met ? "on" : "");
+      li.append(el("span", "", r.text), el("small", "", r.from?.name || ""));
+      ul.append(li);
+    }
+    return ul;
+  };
+  if ((b.always || []).length) box.append(el("h3", "", "Bonuses"), rowsOf(b.always));
+  if ((b.conditional || []).length) {
+    const now = [b.using?.length ? `Using: ${b.using.join(", ")}` : "", b.wearing?.length ? `Wearing: ${b.wearing.join(", ")}` : ""]
+      .filter(Boolean).join(" · ");
+    box.append(el("h3", "", "Conditional bonuses"));
+    if (now) box.append(el("p", "now", now));
+    box.append(rowsOf(b.conditional));
+  }
+  return box;
 }
 
 async function persist(patch) {

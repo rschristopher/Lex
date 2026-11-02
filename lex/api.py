@@ -180,10 +180,11 @@ def library_menu(pack: str | None = Query(default=None), adapter: str | None = Q
 def library_rows(q: str = Query(default=""), category: str | None = Query(default=None),
                  pack: str | None = Query(default=None), limit: int = Query(default=50, ge=1, le=500),
                  offset: int = Query(default=0, ge=0), adapter: str | None = Query(default=None),
-                 conn: sqlite3.Connection = Depends(get_conn)):
-    """List or search rows: every word of q must be in the name or the row's text. Filter by category and pack."""
+                 tag: str | None = Query(default=None), conn: sqlite3.Connection = Depends(get_conn)):
+    """List or search rows: every word of q must be in the name or the row's text. Filter by category, pack, and
+    item category (tag); with a tag, also every bonus whose "when" names it."""
     try:
-        return library.search(conn, q, category or None, pack or None, limit, offset, adapter)
+        return library.search(conn, q, category or None, pack or None, limit, offset, adapter, tag or None)
     except KeyError:
         raise HTTPException(404, f"no category {category!r}")
 

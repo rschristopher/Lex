@@ -88,7 +88,7 @@ def test_menu_comes_from_the_data(lib):
         assert [s["label"] for s in menu["sections"]] == ["People", "Abilities", "Equipment", "World"]
         assert {p["id"] for p in client.get("/packs").json()} == {"universal", "myth-sample"}
         only = _cats(client.get("/library", params={"pack": "myth-sample"}).json())
-        assert only["items.weapon"]["count"] == 2 and only["species"]["count"] == 3
+        assert only["items.weapon"]["count"] == 3 and only["species"]["count"] == 3
 
 
 def test_any_imported_pack_shows_up(lib):
@@ -105,7 +105,7 @@ def test_any_imported_pack_shows_up(lib):
 def test_list_search_filter_and_page(lib):
     with TestClient(app) as client:
         r = client.get("/library/rows", params={"category": "items.weapon"}).json()
-        assert r["category_label"] == "Weapons" and r["total"] == len(r["rows"]) == 17
+        assert r["category_label"] == "Weapons" and r["total"] == len(r["rows"]) == 18
         assert [x["name"] for x in r["rows"]] == sorted((x["name"] for x in r["rows"]), key=str.lower)
         # Every word must match, in the name or the text; name matches come first.
         r = client.get("/library/rows", params={"q": "stone door"}).json()

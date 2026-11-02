@@ -7,7 +7,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-from lex.engine import PHYSICAL_ATTRIBUTES, VEHICLE
+from lex.engine import PHYSICAL_ATTRIBUTES, VEHICLE, check_when
 
 CHAR_KEYS = [
     "id", "name", "npc", "level", "species", "occupation", "pinned", "unspent_experience",
@@ -198,6 +198,11 @@ def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors, le
         if value is not None and not isinstance(value, (int, float)):
             errors.append(f"{w}: value must be a number")
             continue
+        if "when" in ef:
+            bad = check_when(ef["when"])
+            if bad:
+                errors.append(f"{w}.{bad}")
+                continue
         extra = {k: v for k, v in ef.items() if k not in ("verb", "target", "value")}
         conn.execute(
             "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value, data, level)"
@@ -259,6 +264,11 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
         if not isinstance(meta, dict):
             errors.append("pack.json: must be an object")
             meta = {}
+        decl = meta.get("categories")
+        if decl is not None and not (isinstance(decl, list) and all(
+                isinstance(c, dict) and isinstance(c.get("id"), str) and c["id"] and isinstance(c.get("name"), str)
+                for c in decl)):
+            errors.append("pack.json.categories: must be a list of {id, name}")
         conn.execute("INSERT INTO packs (id, name) VALUES (?, ?)", (pid, doc.get("name") or pid))
         if meta:
             conn.execute("INSERT INTO pack_meta (pack, data) VALUES (?, ?)", (pid, _dumps(meta)))
@@ -325,8 +335,15 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 errors.append(f"{w}.attrs: a vehicle has only physical attributes ({', '.join(PHYSICAL_ATTRIBUTES)}),"
                               " as numbers, 0 or more")
                 continue
+            cats = row.get("categories")
+            if cats is not None and (not isinstance(cats, list) or not all(isinstance(c, str) and c for c in cats)
+                                     or len(set(cats)) != len(cats)):
+                errors.append(f"{w}.categories: must be a list of different category names")
+                continue
             conn.execute("INSERT INTO items (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
                          (pid, row["id"], i, row["name"], row["kind"], _catalog_data(row)))
+            for ci, cat in enumerate(cats or []):
+                conn.execute("INSERT INTO item_categories VALUES (?,?,?,?)", (pid, row["id"], ci, cat))
             for ai, (k, v) in enumerate((attrs or {}).items()):
                 conn.execute("INSERT INTO item_attrs VALUES (?,?,?,?,?)", (pid, row["id"], ai, k, v))
         for row in doc["occupations"]:

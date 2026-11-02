@@ -11,6 +11,7 @@ import re
 import sqlite3
 from typing import Any
 
+from lex import engine
 from lex.sheet import load_adapter
 
 # Every browsable table, in menu order: (table, owner_type for effects and requirements, section label).
@@ -22,12 +23,13 @@ TABLES: list[tuple[str, str | None, str]] = [
     ("entries", None, "World"),
 ]
 OWNER_TYPE = {t: o for t, o, _ in TABLES}
+OWNER_TABLE = {o: t for t, o, _ in TABLES if o}
 KINDED = {"abilities", "items", "entries"}
 TABLE_LABEL = {"species": "Species", "occupations": "Occupations", "abilities": "Abilities",
                "items": "Items", "entries": "Entries"}
 # Free-text fields shown as the row's prose, and fields shown on their own.
 TEXT_KEYS = ("text", "description", "summary")
-SKIP_KEYS = {"id", "name", "kind", "source", "links", *TEXT_KEYS}
+SKIP_KEYS = {"id", "name", "kind", "source", "links", "categories", *TEXT_KEYS}
 # Words that are already plural (or uncountable) in a menu.
 UNCOUNTED = {"armor", "armour", "gear", "equipment", "clothing", "ammunition", "magic", "lore", "treasure",
              "cybernetics", "psionics", "species", "bionics", "food", "money"}
@@ -77,6 +79,7 @@ class Labels:
     def __init__(self, conn: sqlite3.Connection, adapter_id: str | None = None):
         self.packs: dict[str, str] = {}
         self.pack_labels: dict[str, str] = {}
+        self.tags: dict[str, str] = {}
         for r in conn.execute("SELECT packs.id, packs.name, pack_meta.data FROM packs"
                               " LEFT JOIN pack_meta ON pack_meta.pack = packs.id ORDER BY packs.id"):
             self.packs[r["id"]] = r["name"]
@@ -84,6 +87,9 @@ class Labels:
             for k, v in (meta.get("labels") or {}).items():
                 if isinstance(v, str):
                     self.pack_labels.setdefault(k, v)
+            for c in meta.get("categories") or []:
+                if isinstance(c, dict) and c.get("id") and c.get("name"):
+                    self.tags.setdefault(c["id"], c["name"])
         self.adapter = load_adapter(conn, adapter_id)
         # The chosen adapter's group names first, then any other adapter's.
         self.groups: dict[str, str] = {k: v for k, v in (self.adapter.get("groups") or {}).items() if isinstance(v, str)}
@@ -113,6 +119,10 @@ class Labels:
                 if isinstance(v, dict) and (v.get("from") == target or (k == target and "from" not in v)):
                     return v.get("label") or humanize(k)
         return humanize(target)
+
+    def tag(self, category: str) -> str:
+        """An item category's name, as the pack declares it in pack.json "categories", else in words."""
+        return self.tags.get(category) or humanize(category)
 
     def prefix(self, pid: str) -> str | None:
         p = (self.adapter.get("prefixes") or {}).get(pid)
@@ -151,7 +161,42 @@ def value_text(v: Any) -> str:
     return str(v)
 
 
-def effect_text(labels: Labels, verb: str, target: str, value: Any, extra: dict[str, Any]) -> str:
+def _lower(name: str) -> str:
+    return name[:1].lower() + name[1:] if name[1:2].islower() else name
+
+
+def _article(name: str) -> str:
+    """ "a knife", "an axe"; none for a plural or uncountable last word ("robot armor", "throwing knives")."""
+    last = name.split()[-1].lower() if name.split() else ""
+    if not name[:1].islower() or last in UNCOUNTED or last.endswith("s"):
+        return name
+    return ("an " if name[:1] in "aeiou" else "a ") + name
+
+
+def when_text(labels: Labels, when: dict[str, Any] | None) -> str:
+    """ "when using a knife or a sword", "while wearing robot armor"; both parts joined with "and". """
+    if not when:
+        return ""
+    parts = []
+    for key, value in when.items():
+        names = [_article(_lower(labels.tag(c))) for c in engine.when_categories(value)]
+        if key == "using":
+            parts.append("when using " + " or ".join(names))
+        elif key == "wearing":
+            parts.append("while wearing " + " or ".join(names))
+    return " and ".join(parts)
+
+
+def effect_text(labels: Labels, verb: str, target: str, value: Any, extra: dict[str, Any],
+                when: dict[str, Any] | None = None) -> str:
+    if when is None and isinstance(extra.get("when"), dict):
+        extra = dict(extra)
+        when = extra.pop("when")
+    cond = when_text(labels, when)
+    return _effect_words(labels, verb, target, value, extra) + (f" {cond}" if cond else "")
+
+
+def _effect_words(labels: Labels, verb: str, target: str, value: Any, extra: dict[str, Any]) -> str:
     name = labels.target(verb, target)
     if verb.startswith("mod.") and value is not None:
         text = f"{_signed(value)} {name}"
@@ -201,9 +246,14 @@ def menu(conn: sqlite3.Connection, pack: str | None = None, adapter: str | None 
         if n:
             out_packs.append({"id": p["id"], "name": p["name"], "count": n})
     seen = list(dict.fromkeys(s for _, _, s in TABLES))
+    tags = [{"id": r["category"], "label": labels.tag(r["category"]), "count": r["n"]}
+            for r in conn.execute("SELECT category, COUNT(*) AS n FROM item_categories"
+                                  + (" WHERE item_pack=?" if pack else "") + " GROUP BY category", [pack] if pack else [])]
+    tags.sort(key=lambda t: t["label"].lower())
     return {
         "packs": out_packs,
         "sections": [{"label": s, "categories": sections[s]} for s in seen if s in sections],
+        "tags": tags,
     }
 
 
@@ -219,10 +269,11 @@ def _summary(conn, labels: Labels, tbl: str, pack: str, rid: str, data: dict[str
     owner = OWNER_TYPE.get(tbl)
     if owner:
         for e in conn.execute(
-            "SELECT verb, target, value FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS NULL"
-            " ORDER BY position LIMIT 4", (owner, pack, rid),
+            "SELECT verb, target, value, data FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=?"
+            " AND level IS NULL ORDER BY position LIMIT 4", (owner, pack, rid),
         ):
-            bits.append(effect_text(labels, e["verb"], e["target"], e["value"], {}))
+            when = json.loads(e["data"] or "{}").get("when")
+            bits.append(effect_text(labels, e["verb"], e["target"], e["value"], {}, when))
     for k, v in data.items():
         if k in SKIP_KEYS or isinstance(v, (list, dict)) or v in ("", None) or len(bits) >= 4:
             continue
@@ -244,7 +295,7 @@ def _like(s: str) -> str:
 
 
 def search(conn: sqlite3.Connection, q: str = "", category: str | None = None, pack: str | None = None,
-           limit: int = 50, offset: int = 0, adapter: str | None = None) -> dict[str, Any]:
+           limit: int = 50, offset: int = 0, adapter: str | None = None, tag: str | None = None) -> dict[str, Any]:
     """Rows matching every word of q in the name or any text, optionally in one category and pack.
     Name matches come first. `facets` counts the matches per category before the category filter."""
     labels = Labels(conn, adapter)
@@ -257,6 +308,10 @@ def search(conn: sqlite3.Connection, q: str = "", category: str | None = None, p
     if pack:
         where.append("pack = ?")
         args.append(pack)
+    if tag:
+        where.append("tbl = 'items' AND EXISTS (SELECT 1 FROM item_categories ic WHERE ic.item_pack = pack"
+                     " AND ic.item_id = id AND ic.category = ?)")
+        args.append(tag)
     base = f"SELECT * FROM ({_rows_sql()})" + (" WHERE " + " AND ".join(where) if where else "")
     facets = [
         {"id": category_id(r["tbl"], r["kind"]), "label": labels.category(r["tbl"], r["kind"]), "count": r["n"]}
@@ -285,10 +340,14 @@ def search(conn: sqlite3.Connection, q: str = "", category: str | None = None, p
             "table": r["tbl"], "pack": r["pack"], "pack_name": labels.packs.get(r["pack"], r["pack"]),
             "id": r["id"], "name": r["name"], "kind": r["kind"],
             "summary": _summary(conn, labels, r["tbl"], r["pack"], r["id"], data),
+            "categories": _tag_links(labels, data.get("categories")),
         })
     label = labels.category(*split_category(category)) if category else None
-    return {"total": total, "offset": offset, "category": category, "category_label": label,
-            "facets": facets, "rows": out}
+    result = {"total": total, "offset": offset, "category": category, "category_label": label,
+              "facets": facets, "rows": out}
+    if tag:
+        result.update(tag=tag, tag_label=labels.tag(tag), bonuses=tag_bonuses(conn, labels, tag))
+    return result
 
 
 # ---------------------------------------------------------------- one row
@@ -327,14 +386,43 @@ def _requirement_text(conn, labels: Labels, rq: sqlite3.Row) -> dict[str, Any]:
 
 
 def _effects(conn, labels: Labels, owner: str, pack: str, rid: str, level: int | None) -> list[dict[str, Any]]:
-    return [
-        {"text": effect_text(labels, e["verb"], e["target"], e["value"], json.loads(e["data"] or "{}")),
-         "verb": e["verb"], "target": e["target"], "value": _num(e["value"])}
-        for e in conn.execute(
-            "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS ? ORDER BY position",
-            (owner, pack, rid, level),
-        )
-    ]
+    out = []
+    for e in conn.execute(
+        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS ? ORDER BY position",
+        (owner, pack, rid, level),
+    ):
+        extra = json.loads(e["data"] or "{}")
+        when = extra.pop("when", None)
+        row = {"text": effect_text(labels, e["verb"], e["target"], e["value"], extra, when),
+               "verb": e["verb"], "target": e["target"], "value": _num(e["value"])}
+        if when:
+            row["when"] = when
+            row["condition"] = when_text(labels, when)
+        out.append(row)
+    return out
+
+
+def _tag_links(labels: Labels, cats: Any) -> list[dict[str, Any]]:
+    return [{"id": c, "label": labels.tag(c)} for c in engine.when_categories(cats)]
+
+
+def tag_bonuses(conn, labels: Labels, tag: str) -> list[dict[str, Any]]:
+    """Every effect row whose when names this category, with the row it belongs to."""
+    out = []
+    for e in conn.execute("SELECT * FROM effects WHERE data LIKE ? ESCAPE '\\' ORDER BY owner_type, owner_id, level, position",
+                          (_like(json.dumps(tag, ensure_ascii=False)),)):
+        extra = json.loads(e["data"] or "{}")
+        when = extra.pop("when", None)
+        if not when or not any(tag in engine.when_categories(v) for v in when.values()):
+            continue
+        table = OWNER_TABLE[e["owner_type"]]
+        link = _link(conn, labels, table, e["owner_pack"], e["owner_id"])
+        if e["level"] is not None:
+            lv = conn.execute("SELECT name FROM ability_levels WHERE ability_pack=? AND ability_id=? AND level=?",
+                              (e["owner_pack"], e["owner_id"], e["level"])).fetchone()
+            link["note"] = lv["name"] if lv else f"level {e['level']}"
+        out.append({"text": effect_text(labels, e["verb"], e["target"], e["value"], extra, when), "from": link})
+    return out
 
 
 def _facts(labels: Labels, data: dict[str, Any]) -> list[dict[str, Any]]:
@@ -368,6 +456,7 @@ def detail(conn: sqlite3.Connection, table: str, pack: str, rid: str, adapter: s
         "kind": r["kind"], "category": category_id(table, r["kind"]), "category_label": labels.category(table, r["kind"]),
         "text": text, "source": source_text(data.get("source")), "facts": _facts(labels, data),
         "effects": [], "requires": [], "levels": [], "related": [],
+        "categories": _tag_links(labels, data.get("categories")),
     }
     if table == "items":
         attrs = conn.execute("SELECT attr, value FROM item_attrs WHERE item_pack=? AND item_id=? ORDER BY position",

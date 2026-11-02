@@ -7,7 +7,31 @@
     "prefix": "unit",
     "thrown": true,
     "material": "bronze and ash wood",
-    "text": "Ash shaft, bronze head. Thrown or thrust."
+    "text": "Ash shaft, bronze head. Thrown or thrust.",
+    "categories": [
+      "spear",
+      "melee"
+    ]
+  },
+  {
+    "id": "bronze_knife",
+    "name": "Bronze knife",
+    "kind": "weapon",
+    "damage": "1d6",
+    "prefix": "unit",
+    "durability": "unit",
+    "categories": [
+      "knife",
+      "melee"
+    ],
+    "text": "A short bronze blade, balanced for the hand.",
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "initiative",
+        "value": 1
+      }
+    ]
   },
   {
     "id": "bow",
@@ -20,6 +44,9 @@
       "book": "Homer, Odyssey",
       "section": "Book XXI"
     },
+    "categories": [
+      "bow"
+    ],
     "requires": [
       {
         "kind": "ability",
@@ -35,7 +62,17 @@
     "prefix": "unit",
     "total": 30,
     "text": "Seven layers of oxhide faced with bronze.",
-    "source": "Homer, Iliad, Book VII"
+    "source": "Homer, Iliad, Book VII",
+    "categories": [
+      "shield"
+    ],
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "defense",
+        "value": 1
+      }
+    ]
   },
   {
     "id": "cuirass",
@@ -79,6 +116,31 @@
     "crew": 2,
     "attrs": {
       "speed": 30
+    }
+  },
+  {
+    "id": "bronze_giant",
+    "name": "Bronze giant shell",
+    "kind": "vehicle",
+    "slot": "body",
+    "prefix": "deka",
+    "total": 200,
+    "categories": [
+      "robot-armor"
+    ],
+    "text": "A hollow bronze giant a hero can climb inside and walk like a god.",
+    "attacks": [
+      {
+        "id": "giant_fist",
+        "name": "Bronze fist",
+        "damage": "2d6",
+        "prefix": "deka",
+        "durability": "deka"
+      }
+    ],
+    "attrs": {
+      "strength": 40,
+      "speed": 20
     }
   }
 ]

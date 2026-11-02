@@ -396,7 +396,7 @@ def act(conn, fid: int, actor: str, use: str | None = None, target: str | None =
                          (LEFT, fid, actor))
             _advance(conn, fid)
             return
-        doc = resolved_doc(conn, actor)
+        doc = resolved_doc(conn, actor, use)
         opt = next((o for o in options(conn, actor) if o["id"] == use), None)
         if opt is None:
             raise CombatError(f"{actor} cannot use {use!r} now")
@@ -420,7 +420,7 @@ def act(conn, fid: int, actor: str, use: str | None = None, target: str | None =
             raise CombatError("pick another character who is still fighting")
         weapon = next(w for w in _attack_options(doc) if w.get("id") == use)
         _spend_anima(conn, actor, int(weapon.get("cost") or 0))
-        sh = _sheet(conn, actor)
+        sh = sheet(conn, actor, SHEET, attack=use)  # bonuses for the attack picked, e.g. "when using a knife"
         mental = bool(weapon.get("mental"))
         bonus = int(weapon.get("bonus_roll") or 0) if mental else _channel(sh, "strike")
         comps = [{"dice": weapon["damage"], "prefix": weapon.get("prefix") or "unit"}]

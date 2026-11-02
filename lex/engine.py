@@ -173,11 +173,15 @@ def unmet(
     return problems
 
 
-def character_effects(conn: sqlite3.Connection, cid: str) -> tuple[list[dict[str, Any]], dict[tuple[str, str], list[str]]]:
+def character_effects(
+    conn: sqlite3.Connection, cid: str, used: tuple[str, str] | None = None
+) -> tuple[list[dict[str, Any]], dict[tuple[str, str], list[str]]]:
     """Every effect row the character's owned rows contribute.
 
     Species and occupation always; an owned ability unless it breaks a constraint;
-    an item only while it is switched on (worn). Returns the effects and the abilities that stopped working.
+    an item only while it is switched on (worn), or while it is `used` (the item picked for the attack).
+    Conditional rows ("when") are all returned; `situational_effects` decides which apply.
+    Returns the effects and the abilities that stopped working.
     """
     ch = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
     if ch is None:
@@ -201,9 +205,65 @@ def character_effects(conn: sqlite3.Connection, cid: str) -> tuple[list[dict[str
             effects += owner_effects(conn, "ability", *key, level=lv)
     active = {r["ref"] for r in conn.execute("SELECT ref FROM character_active WHERE character_id=?", (cid,))}
     for r in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
-        if r["item_id"] in active:
+        if r["item_id"] in active or (r["item_pack"], r["item_id"]) == used:
             effects += owner_effects(conn, "item", r["item_pack"], r["item_id"])
     return effects, broken
+
+
+# ---------------------------------------------------------------- conditional effects
+# An effect row may carry "when": {"using": category or [any of]} and/or {"wearing": category or [any of]}.
+# using: the item (or attack row) picked for the attack has one of those categories.
+# wearing: some worn or switched-on item or vehicle has one of them. Both keys present: both must hold.
+# An effect with no "when" always applies. Categories are data on the rows ("categories": [...]).
+
+WHEN_KEYS = ("using", "wearing")
+
+
+def when_categories(value: Any) -> list[str]:
+    """A when value as a list: one category name, or a list meaning any of them."""
+    if isinstance(value, str):
+        return [value]
+    return [v for v in value or [] if isinstance(v, str)]
+
+
+def check_when(when: Any) -> str | None:
+    """Why a "when" is malformed, or None when it is fine."""
+    if not isinstance(when, dict) or not when:
+        return "when must be an object with using and/or wearing"
+    for k, v in when.items():
+        if k not in WHEN_KEYS:
+            return f"when.{k}: only using and wearing are known"
+        if isinstance(v, str) and v:
+            continue
+        if not isinstance(v, list) or not v or not all(isinstance(x, str) and x for x in v):
+            return f"when.{k}: must be a category name or a non-empty list of them (any of)"
+    return None
+
+
+def when_met(when: dict[str, Any] | None, using: set[str], wearing: set[str]) -> bool:
+    if not when:
+        return True
+    have = {"using": using, "wearing": wearing}
+    return all(set(when_categories(v)) & have[k] for k, v in when.items() if k in have)
+
+
+def row_categories(row: dict[str, Any] | None) -> set[str]:
+    return set(when_categories((row or {}).get("categories")))
+
+
+def situational_effects(
+    effects: Iterable[dict[str, Any]], using: set[str], wearing: set[str]
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Split effects into those that apply now and every conditional one (each marked met or not)."""
+    applied, conditional = [], []
+    for e in effects:
+        when = e.get("when")
+        ok = when_met(when, using, wearing)
+        if when:
+            conditional.append({**e, "met": ok})
+        if ok:
+            applied.append(e)
+    return applied, conditional
 
 
 class Refused(Exception):

@@ -16,12 +16,12 @@ function el(tag, cls, text) {
 
 function state() {
   const p = new URLSearchParams(location.search);
-  return { q: p.get("q") || "", c: p.get("c") || "", pack: p.get("pack") || "", r: p.get("r") || "" };
+  return { q: p.get("q") || "", c: p.get("c") || "", pack: p.get("pack") || "", r: p.get("r") || "", tag: p.get("tag") || "" };
 }
 
 function href(s) {
   const p = new URLSearchParams();
-  for (const k of ["r", "c", "q", "pack"]) if (s[k]) p.set(k, s[k]);
+  for (const k of ["r", "c", "tag", "q", "pack"]) if (s[k]) p.set(k, s[k]);
   const qs = p.toString();
   return "/browse" + (qs ? `?${qs}` : "");
 }
@@ -65,6 +65,10 @@ async function api(path, params = {}) {
   return r.json();
 }
 
+function tagLabel(id) {
+  return (menu.tags || []).find((t) => t.id === id)?.label || id;
+}
+
 function catLabel(id) {
   for (const s of menu.sections) for (const c of s.categories) if (c.id === id) return c.label;
   return id;
@@ -95,6 +99,22 @@ function renderSide(s) {
     }
     side.append(box);
   }
+  if ((menu.tags || []).length) {
+    const box = el("section", "side-sec");
+    box.append(el("h3", "", "Item categories"));
+    for (const t of menu.tags) {
+      const a = link({ tag: t.id, pack: s.pack }, "side-cat" + (s.tag === t.id ? " on" : ""));
+      a.append(el("span", "", t.label), el("span", "n", String(t.count)));
+      box.append(a);
+    }
+    side.append(box);
+  }
+}
+
+function tagChips(cats) {
+  const box = el("div", "links");
+  for (const c of cats) box.append(link({ tag: c.id }, "chip tagchip", c.label));
+  return box;
 }
 
 function chipsBar(s) {
@@ -133,6 +153,14 @@ function renderHome(s) {
     box.append(grid);
     view.append(box);
   }
+  if ((menu.tags || []).length) {
+    const box = el("section", "chapter");
+    box.append(el("h2", "", "Item categories"));
+    const chips = el("div", "links");
+    for (const t of menu.tags) chips.append(link({ tag: t.id, pack: s.pack }, "chip tagchip", `${t.label} · ${t.count}`));
+    box.append(chips);
+    view.append(box);
+  }
 }
 
 function rowCard(row, showCat) {
@@ -145,6 +173,11 @@ function rowCard(row, showCat) {
   top.append(tags);
   a.append(top);
   if (row.summary) a.append(el("p", "row-sum", row.summary));
+  if ((row.categories || []).length) {
+    const t = el("div", "row-cats");
+    for (const c of row.categories) t.append(el("span", "tag", c.label));
+    a.append(t);
+  }
   return a;
 }
 
@@ -154,7 +187,7 @@ async function renderList(s) {
   crumbs.append(link({ pack: s.pack }, "", "Library"));
   if (s.c && s.q) crumbs.append(el("span", "sep", "›"), link({ c: s.c, pack: s.pack }, "", catLabel(s.c)));
   head.append(crumbs);
-  const h1 = el("h1", "", s.q ? `“${s.q}”` : catLabel(s.c));
+  const h1 = el("h1", "", s.q ? `“${s.q}”` : s.tag ? tagLabel(s.tag) : catLabel(s.c));
   const count = el("p", "muted", "Loading…");
   head.append(h1, count);
   const tools = el("div", "tools");
@@ -175,17 +208,31 @@ async function renderList(s) {
   tools.append(filter, packSelect(s));
   head.append(tools);
   const facets = el("div", "facets");
+  const tagBonuses = el("section", "block");
+  tagBonuses.hidden = true;
   const list = el("div", "rows");
   const more = el("button", "more", "Show more");
   more.type = "button";
   more.hidden = true;
-  view.replaceChildren(chipsBar(s), head, facets, list, more);
+  view.replaceChildren(chipsBar(s), head, facets, tagBonuses, list, more);
 
   let offset = 0;
   let cur = s;
   async function page(reset) {
     if (reset) offset = 0;
-    const data = await api("/library/rows", { q: cur.q, category: cur.c, pack: cur.pack, limit: PAGE, offset });
+    const data = await api("/library/rows", { q: cur.q, category: cur.c, tag: cur.tag, pack: cur.pack, limit: PAGE, offset });
+    if (reset && data.bonuses) {
+      tagBonuses.replaceChildren(el("h2", "", `Bonuses with ${data.tag_label}`));
+      const ul = el("ul", "tagb");
+      for (const b of data.bonuses) {
+        const li = el("li");
+        li.append(el("span", "", b.text), rowHref(b.from));
+        ul.append(li);
+      }
+      if (!data.bonuses.length) ul.append(el("li", "muted", "No bonus names this category yet."));
+      tagBonuses.append(ul);
+      tagBonuses.hidden = false;
+    }
     if (reset) list.replaceChildren();
     for (const row of data.rows) list.append(rowCard(row, !cur.c));
     offset += data.rows.length;
@@ -201,7 +248,7 @@ async function renderList(s) {
   }
   async function refresh(next) {
     cur = next;
-    h1.textContent = cur.q ? `“${cur.q}”` : catLabel(cur.c) || "Everything";
+    h1.textContent = cur.q ? `“${cur.q}”` : cur.tag ? tagLabel(cur.tag) : catLabel(cur.c) || "Everything";
     await page(true);
   }
   more.addEventListener("click", () => page(false));
@@ -219,8 +266,13 @@ function effectList(effects) {
   for (const e of effects) {
     const li = el("li", "effect");
     const m = /^([+-]\d[\d.]*)\s+(.*)$/.exec(e.text);
-    if (m) li.append(el("b", Number(m[1]) < 0 ? "neg" : "", m[1]), el("span", "", m[2]));
-    else li.append(el("span", "", e.text));
+    const words = e.condition ? (m ? m[2] : e.text).replace(` ${e.condition}`, "") : (m ? m[2] : e.text);
+    if (m) li.append(el("b", Number(m[1]) < 0 ? "neg" : "", m[1]));
+    li.append(el("span", "", words));
+    if (e.condition) {
+      li.classList.add("cond");
+      li.append(el("em", "", e.condition));
+    }
     ul.append(li);
   }
   return ul;
@@ -263,7 +315,9 @@ async function renderDetail(s) {
   tags.append(el("span", "tag cat", d.category_label), el("span", "tag", d.pack_name));
   head.append(tags);
   art.append(head);
+  if ((d.categories || []).length) art.append(section("Categories", tagChips(d.categories)));
   if (d.text) for (const para of d.text.split(/\n\s*\n/)) art.append(el("p", "prose", para));
+  if ((d.categories || []).length) art.append(section("Categories", tagChips(d.categories)));
   if (d.effects.length) art.append(section("Effects", effectList(d.effects)));
   if (d.requires.length) {
     const ul = el("ul", "reqs");
@@ -304,13 +358,13 @@ async function renderDetail(s) {
 async function render() {
   const s = state();
   if (search && document.activeElement !== search) search.value = s.q;
-  document.body.dataset.view = s.r ? "detail" : s.c || s.q ? "list" : "home";
+  document.body.dataset.view = s.r ? "detail" : s.c || s.q || s.tag ? "list" : "home";
   document.title = "Lex · Library";
   try {
     menu = await api("/library", { pack: s.pack });
     renderSide(s);
     if (s.r) await renderDetail(s);
-    else if (s.c || s.q) await renderList(s);
+    else if (s.c || s.q || s.tag) await renderList(s);
     else renderHome(s);
   } catch (e) {
     view.replaceChildren(el("p", "empty", `Could not load the library (${e.message}).`));

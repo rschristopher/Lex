@@ -368,6 +368,19 @@ MIGRATIONS: list[str] = [
     );
     CREATE INDEX entry_links_ref ON entry_links(ref_table, ref_pack, ref_id);
     """,
+    # 7: item categories ("categories": ["knife", "melee"] on an item row) as an index, so the library can list
+    # items by category. An effect's "when" ({"using": ...} or {"wearing": ...}) names these categories.
+    """
+    CREATE TABLE item_categories (
+        item_pack TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        category TEXT NOT NULL,
+        PRIMARY KEY (item_pack, item_id, category),
+        FOREIGN KEY (item_pack, item_id) REFERENCES items(pack, id) ON DELETE CASCADE
+    );
+    CREATE INDEX item_categories_category ON item_categories(category);
+    """,
 ]
 
 
