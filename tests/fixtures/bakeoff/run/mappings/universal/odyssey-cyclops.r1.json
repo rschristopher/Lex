@@ -1,0 +1,67 @@
+{
+  "story": "odyssey-cyclops",
+  "candidate": "universal",
+  "run": "r1",
+  "map": {
+    "human": {
+      "fit": "exact",
+      "rows": [
+        "species/human"
+      ]
+    },
+    "cyclops": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "species",
+        "name": "Giant"
+      }
+    },
+    "shepherd": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "occupation",
+        "name": "Herder"
+      }
+    },
+    "warrior": {
+      "fit": "partial",
+      "rows": [
+        "occupation/soldier"
+      ]
+    },
+    "craft-weapon": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "ability",
+        "name": "Craft"
+      }
+    },
+    "deceive": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "ability",
+        "name": "Deceive"
+      }
+    },
+    "hide": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "ability",
+        "name": "Hide"
+      }
+    },
+    "divine-courage": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "ability",
+        "name": "Divine courage"
+      }
+    }
+  }
+}

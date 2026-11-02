@@ -1,0 +1,285 @@
+{
+  "id": "odyssey-cyclops",
+  "title": "The Cyclops (Odyssey, Book IX)",
+  "source": {
+    "work": "Homer, Odyssey IX, Butler translation (1900)",
+    "text": "odyssey-cyclops.txt"
+  },
+  "needs": [
+    {
+      "id": "human",
+      "kind": "species",
+      "text": "Ulysses and his crew are men",
+      "beats": [
+        "b-warrior"
+      ]
+    },
+    {
+      "id": "cyclops",
+      "kind": "species",
+      "text": "a one-eyed giant who eats men",
+      "beats": [
+        "b-stone",
+        "b-eats"
+      ]
+    },
+    {
+      "id": "shepherd",
+      "kind": "occupation",
+      "text": "keeps and milks flocks",
+      "beats": [
+        "b-shepherd"
+      ]
+    },
+    {
+      "id": "warrior",
+      "kind": "occupation",
+      "text": "a valiant warrior",
+      "beats": [
+        "b-warrior"
+      ]
+    },
+    {
+      "id": "craft-weapon",
+      "kind": "ability",
+      "text": "shapes and fire-hardens a stake",
+      "beats": [
+        "b-beam"
+      ]
+    },
+    {
+      "id": "deceive",
+      "kind": "ability",
+      "text": "lies about his name",
+      "beats": [
+        "b-noman"
+      ]
+    },
+    {
+      "id": "hide",
+      "kind": "ability",
+      "text": "hides under a ram past a searching hand",
+      "beats": [
+        "b-rams"
+      ]
+    },
+    {
+      "id": "divine-courage",
+      "kind": "ability",
+      "text": "heaven fills the men with courage, for the moment",
+      "beats": [
+        "b-courage"
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "ulysses",
+      "name": "Ulysses",
+      "species": "human",
+      "occupation": "warrior",
+      "abilities": [
+        "craft-weapon",
+        "deceive",
+        "hide"
+      ],
+      "attrs": {
+        "agility": {
+          "value": 14,
+          "beats": [
+            "b-rams"
+          ]
+        },
+        "intellect": {
+          "value": 18,
+          "beats": [
+            "b-noman",
+            "b-beam"
+          ]
+        }
+      }
+    },
+    {
+      "id": "polyphemus",
+      "name": "Polyphemus",
+      "species": "cyclops",
+      "occupation": "shepherd",
+      "attrs": {
+        "strength": {
+          "derive": "lift",
+          "beats": [
+            "b-stone",
+            "b-mountain"
+          ]
+        },
+        "endurance": {
+          "value": 20,
+          "beats": [
+            "b-drunk"
+          ]
+        }
+      }
+    },
+    {
+      "id": "crewman",
+      "name": "One of the crew",
+      "species": "human",
+      "attrs": {
+        "willpower": {
+          "value": 10,
+          "beats": [
+            "b-courage"
+          ]
+        }
+      }
+    }
+  ],
+  "beats": [
+    {
+      "id": "b-stone",
+      "quote": "Then he rolled a huge stone to the mouth of the cave—so huge that two and twenty strong four-wheeled waggons would not be enough to draw it from its place against the doorway.",
+      "summary": "Twenty-two waggons cannot move the door stone; read as about 20 t.",
+      "checks": [
+        {
+          "character": "polyphemus",
+          "kind": "lift",
+          "mass_kg": 20000,
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-shepherd",
+      "quote": "he sat down and milked his ewes and goats, all in due course"
+    },
+    {
+      "id": "b-eats",
+      "quote": "with a sudden clutch he gripped up two of my men at once and dashed them down upon the ground as though they had been puppies.",
+      "checks": [
+        {
+          "character": "polyphemus",
+          "kind": "roll",
+          "terms": [
+            {
+              "channel": "strike"
+            }
+          ],
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-beam",
+      "quote": "lastly I brought it to a point myself, charring the end in the fire to make it harder.",
+      "checks": [
+        {
+          "character": "ulysses",
+          "kind": "has",
+          "need": "craft-weapon",
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-noman",
+      "quote": "my name is Noman; this is what my father and mother and my friends have always called me.",
+      "checks": [
+        {
+          "character": "ulysses",
+          "kind": "has",
+          "need": "deceive",
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-drunk",
+      "quote": "As he spoke he reeled, and fell sprawling face upwards on the ground.",
+      "checks": [
+        {
+          "character": "polyphemus",
+          "kind": "roll",
+          "terms": [
+            {
+              "attr_bonus": "endurance"
+            }
+          ],
+          "outcome": "failure"
+        }
+      ]
+    },
+    {
+      "id": "b-courage",
+      "quote": "my men gathered round me, for heaven had filled their hearts with courage.",
+      "grants": [
+        {
+          "character": "crewman",
+          "need": "divine-courage",
+          "from": "heaven"
+        }
+      ],
+      "checks": [
+        {
+          "character": "crewman",
+          "kind": "roll",
+          "terms": [
+            {
+              "attr_bonus": "willpower"
+            }
+          ],
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-bore",
+      "quote": "We drove the sharp end of the beam into the monster's eye",
+      "summary": "He is asleep, so the blow is not perceived and gets no defense roll.",
+      "checks": [
+        {
+          "character": "ulysses",
+          "kind": "roll",
+          "terms": [
+            {
+              "channel": "strike"
+            }
+          ],
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-rams",
+      "quote": "I caught hold of him by the back, esconced myself in the thick wool under his belly",
+      "checks": [
+        {
+          "character": "ulysses",
+          "kind": "roll",
+          "terms": [
+            {
+              "channel": "stealth"
+            }
+          ],
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-mountain",
+      "quote": "he tore the top from off a high mountain, and flung it just in front of my ship",
+      "summary": "A mountain top; read as about 1,000 t.",
+      "checks": [
+        {
+          "character": "polyphemus",
+          "kind": "lift",
+          "mass_kg": 1000000,
+          "outcome": "success"
+        }
+      ]
+    },
+    {
+      "id": "b-warrior",
+      "quote": "say it was the valiant warrior Ulysses, son of Laertes, who lives in Ithaca."
+    }
+  ]
+}

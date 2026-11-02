@@ -1,4 +1,4 @@
-"""Console entry: `lex serve`, `lex import`, `lex export`, `lex user`, `lex test`."""
+"""Console entry: `lex serve`, `lex import`, `lex export`, `lex user`, `lex bakeoff`, `lex test`."""
 
 from __future__ import annotations
 
@@ -94,6 +94,38 @@ def do_user(args: argparse.Namespace) -> int:
     return 0
 
 
+def do_bakeoff(args: argparse.Namespace) -> int:
+    import json
+
+    from lex import bakeoff
+
+    try:
+        cands = bakeoff.load_candidates(args.pack, args.key)
+        if args.action == "rows":
+            for c in cands:
+                for rid, name in sorted(c.rows.items()):
+                    print(f"{c.id}\t{rid}\t{name}")
+            return 0
+        if not args.dir:
+            print("give the bake-off directory (stories/, mappings/, crosswalks/)", file=sys.stderr)
+            return 2
+        bk = bakeoff.Bakeoff(args.dir, cands)
+        if args.action == "check":
+            bk.check()
+            print(f"ok: {len(bk.stories)} stories, {sum(len(v) for v in bk.mappings.values())} mappings,"
+                  f" {sum(len(v) for v in bk.crosswalks.values())} crosswalks, {len(cands)} candidates")
+            return 0
+        rep = bakeoff.run(bk, args.die)
+    except bakeoff.BakeoffError as e:
+        for err in e.errors:
+            print(err, file=sys.stderr)
+        return 1
+    out = bakeoff.write_report(rep, args.out or Path(args.dir) / "report")
+    print(bakeoff.text_report(rep), end="")
+    print(f"report: {out / 'report.json'}, {out / 'report.txt'}")
+    return 0
+
+
 def main() -> None:
     p = argparse.ArgumentParser(prog="lex")
     sub = p.add_subparsers(dest="cmd")
@@ -111,6 +143,14 @@ def main() -> None:
     u.add_argument("character", nargs="?")
     u.add_argument("--password", default="")
     u.add_argument("--gm", action="store_true")
+    b = sub.add_parser("bakeoff", help="foundation bake-off: rows, check DIR, run DIR")
+    b.add_argument("action", choices=["rows", "check", "run"])
+    b.add_argument("dir", nargs="?", help="bake-off directory: stories/, mappings/, crosswalks/")
+    b.add_argument("--pack", action="append", default=[], help="a candidate Lex pack directory (repeat)")
+    b.add_argument("--key", action="append", default=[],
+                   help="a private answer key, LABEL=PATH (repeat); default from LEX_BAKEOFF_KEYS")
+    b.add_argument("--die", default="d20", help="campaign die for beat odds (default d20)")
+    b.add_argument("--out", help="report directory (default DIR/report)")
     sub.add_parser("test", help="pytest")
     args = p.parse_args()
     if args.cmd == "test":
@@ -121,6 +161,8 @@ def main() -> None:
         sys.exit(do_import(args.packs))
     elif args.cmd == "export":
         sys.exit(do_export(args.pack, args.dest))
+    elif args.cmd == "bakeoff":
+        sys.exit(do_bakeoff(args))
     elif args.cmd == "user":
         sys.exit(do_user(args))
     else:

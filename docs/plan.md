@@ -45,5 +45,6 @@ This is the implementation plan for Lex: the use cases Lex supports, which drive
 - `lex/combat.py`, `lex/dice.py`: fights (groups, initiative, the action walk, Strike/Defense/resist rolls on the campaign die, damage through layers to flesh, Anima, timed effects, undo, automatic end); the `/fights` endpoints in `lex/api.py`; `tests/test_combat.py`.
 - `lex/index.html`, `lex/static/`: the roster and sheet UI.
 - `lex/fight.html`, `lex/static/fight.js`: the combat screen and roll modal.
-- `lex/cli.py`: `lex import`, `lex export`, `lex user`, `lex serve`, `lex test`.
+- `lex/bakeoff.py`: the foundation bake-off. Story beats, need mappings, and crosswalks are LLM-made JSON it validates; it rotates the held-out answer key, builds the story's characters through the engine, scores each beat from the dice math, and writes the report; `tests/test_bakeoff.py` and `tests/fixtures/bakeoff/`. Answer keys load from a path at run time (`--key LABEL=PATH` or `LEX_BAKEOFF_KEYS`) and never enter the repo.
+- `lex/cli.py`: `lex import`, `lex export`, `lex user`, `lex serve`, `lex bakeoff`, `lex test`.
 - Lore is stored in sqlite (`lore` table) and searched by meaning with vector search; the search is not built yet.

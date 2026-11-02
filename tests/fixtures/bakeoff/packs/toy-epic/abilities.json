@@ -1,0 +1,35 @@
+[
+  {
+    "id": "craft",
+    "name": "Craft",
+    "price": 2
+  },
+  {
+    "id": "deceive",
+    "name": "Deceive",
+    "price": 2
+  },
+  {
+    "id": "hide",
+    "name": "Hide",
+    "price": 2,
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "stealth",
+        "value": 4
+      }
+    ]
+  },
+  {
+    "id": "divine_courage",
+    "name": "Divine courage",
+    "effects": [
+      {
+        "verb": "mod.attr",
+        "target": "willpower",
+        "value": 40
+      }
+    ]
+  }
+]

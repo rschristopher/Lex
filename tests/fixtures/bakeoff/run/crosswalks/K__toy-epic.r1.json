@@ -1,0 +1,28 @@
+{
+  "from": "K",
+  "to": "toy-epic",
+  "run": "r1",
+  "map": {
+    "kinds/human": [
+      "species/human"
+    ],
+    "kinds/giant": [
+      "species/giant"
+    ],
+    "callings/herdsman": [
+      "occupation/herder"
+    ],
+    "callings/fighter": [
+      "occupation/warrior"
+    ],
+    "talents/woodworking": [
+      "ability/craft"
+    ],
+    "talents/lying": [
+      "ability/deceive"
+    ],
+    "talents/sneaking": [
+      "ability/hide"
+    ]
+  }
+}
