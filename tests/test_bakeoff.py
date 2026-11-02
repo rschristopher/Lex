@@ -170,3 +170,34 @@ def test_endurance_resists_on_the_willpower_scale():
 
     assert [endurance_resist_bonus(s) for s in (10, 20, 60, 64, 100)] == [0, 2, 10, 11, 20]
     assert all(endurance_resist_bonus(s) == willpower_resist_bonus(s) for s in range(1, 101))
+
+
+def test_a_story_item_is_data_switched_on_for_its_beat(bk):
+    story = copy.deepcopy(bk.stories[STORY])
+    story["items"] = [{"id": "strong_wine", "name": "Strong wine", "kind": "drink",
+                       "effects": [{"verb": "mod.channel", "target": "endurance_resist", "value": -10}]}]
+    drunk = next(b for b in story["beats"] if b["id"] == "b-drunk")
+    drunk["grants"] = [{"character": "polyphemus", "item": "strong_wine"}]
+    drunk["checks"][0]["terms"].append({"channel": "endurance_resist"})
+    story["beats"].append({"id": "b-sober", "quote": "x", "checks": [dict(drunk["checks"][0])]})
+    assert bakeoff.validate_story(story) == []
+    out = bakeoff.simulate(bk.candidates["toy-epic"], story, bk.mappings[("toy-epic", STORY)][0])
+    by = {c["beat"]: c for c in out["checks"]}
+    assert by["b-drunk"]["bonus"] == -8 and by["b-drunk"]["likelihood"] == 0.9  # Endurance 20 is +2, wine -10
+    assert by["b-sober"]["bonus"] == 2
+    story["beats"][-1]["grants"] = [{"character": "polyphemus", "item": "no_such_wine"}]
+    assert any("unknown item" in e for e in bakeoff.validate_story(story))
+    story["beats"][-1]["grants"] = [{"character": "polyphemus", "item": "strong_wine"}]
+    story["items"][0]["estimate"] = True  # an estimated number must cite the beats it rests on
+    assert any("items/strong_wine: must cite" in e for e in bakeoff.validate_story(story))
+    story["items"][0]["beats"] = ["b-drunk"]
+    assert bakeoff.validate_story(story) == []
+
+
+def test_the_real_story_files_check_against_their_texts():
+    root = Path(__file__).resolve().parents[1] / "data" / "bakeoff" / "stories"
+    files = sorted(root.glob("*.json"))
+    assert files
+    for f in files:
+        doc = json.loads(f.read_text())
+        assert bakeoff.validate_story(doc, (root / doc["source"]["text"]).read_text()) == [], f.name

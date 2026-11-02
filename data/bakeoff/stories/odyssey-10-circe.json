@@ -1,0 +1,332 @@
+{
+ "id": "odyssey-10-circe",
+ "title": "Aeolus, the Laestrygonians, and Circe (Odyssey X)",
+ "source": {
+  "work": "Homer, Odyssey X, Butler translation (1900)",
+  "text": "odyssey-10.txt"
+ },
+ "items": [
+  {
+   "id": "moly",
+   "name": "Moly",
+   "kind": "charm",
+   "effects": [
+    {
+     "verb": "mod.channel",
+     "target": "magic_resist",
+     "value": 20
+    }
+   ],
+   "estimate": true,
+   "beats": [
+    "b-moly"
+   ],
+   "note": "Mercury says the herb 'will prevent her spells from working' (b-moly). +20 is the docs' immunity level for a resist roll (Willpower 100). Estimate."
+  }
+ ],
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Ulysses and his men",
+   "beats": [
+    "b-pigs"
+   ]
+  },
+  {
+   "id": "deity",
+   "kind": "species",
+   "text": "Circe is a goddess; Aeolus and Mercury are gods",
+   "beats": [
+    "b-circe",
+    "b-moly"
+   ]
+  },
+  {
+   "id": "giant",
+   "kind": "species",
+   "text": "the Laestrygonians, ogres as huge as a mountain",
+   "beats": [
+    "b-giantess",
+    "b-rocks"
+   ]
+  },
+  {
+   "id": "captain",
+   "kind": "occupation",
+   "text": "Ulysses steers his own ship through the voyage",
+   "beats": [
+    "b-rudder"
+   ]
+  },
+  {
+   "id": "sorcerer",
+   "kind": "occupation",
+   "text": "Circe, enchantress with wand and drugs",
+   "beats": [
+    "b-pigs",
+    "b-tamed"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "Aeolus, captain over the winds; Antiphates, a king",
+   "beats": [
+    "b-winds"
+   ]
+  },
+  {
+   "id": "weather-control",
+   "kind": "ability",
+   "text": "Aeolus can stir or still each wind",
+   "beats": [
+    "b-winds"
+   ]
+  },
+  {
+   "id": "transform-other",
+   "kind": "ability",
+   "text": "turns men into pigs with a stroke of a wand",
+   "beats": [
+    "b-pigs"
+   ]
+  },
+  {
+   "id": "poison",
+   "kind": "ability",
+   "text": "drugs the meal so men forget their homes",
+   "beats": [
+    "b-pigs"
+   ]
+  },
+  {
+   "id": "command-animals",
+   "kind": "ability",
+   "text": "wolves and lions tamed by enchantment",
+   "beats": [
+    "b-tamed"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "rushes her with a drawn sword",
+   "beats": [
+    "b-sword"
+   ]
+  },
+  {
+   "id": "sailing",
+   "kind": "ability",
+   "text": "steers the ship nine days and nights",
+   "beats": [
+    "b-rudder"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "ulysses",
+   "name": "Ulysses",
+   "species": "human",
+   "occupation": "captain",
+   "abilities": [
+    "melee-weapon",
+    "sailing"
+   ],
+   "attrs": {
+    "willpower": {
+     "value": 14,
+     "beats": [
+      "b-drink"
+     ],
+     "estimate": true,
+     "note": "resolute, but he still needs the herb"
+    }
+   }
+  },
+  {
+   "id": "crewman",
+   "name": "One of the crew",
+   "species": "human",
+   "attrs": {
+    "willpower": {
+     "value": 10,
+     "beats": [
+      "b-pigs"
+     ],
+     "estimate": true,
+     "note": "ordinary men"
+    }
+   }
+  },
+  {
+   "id": "circe",
+   "name": "Circe",
+   "species": "deity",
+   "occupation": "sorcerer",
+   "abilities": [
+    "transform-other",
+    "poison",
+    "command-animals"
+   ]
+  },
+  {
+   "id": "aeolus",
+   "name": "Aeolus",
+   "species": "deity",
+   "occupation": "ruler",
+   "abilities": [
+    "weather-control"
+   ]
+  },
+  {
+   "id": "antiphates",
+   "name": "Antiphates",
+   "species": "giant",
+   "occupation": "ruler",
+   "attrs": {
+    "strength": {
+     "derive": "lift",
+     "beats": [
+      "b-rocks"
+     ]
+    }
+   }
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-winds",
+   "quote": "for Jove had made him captain over the winds, and he could stir or still each one of them according to his own pleasure.",
+   "checks": [
+    {
+     "character": "aeolus",
+     "kind": "has",
+     "need": "weather-control",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-rudder",
+   "quote": "for I had never let the rudder out of my own hands, that we might get home the faster.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "sailing",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-giantess",
+   "quote": "his wife to be a giantess as huge as a mountain, and they were horrified at the sight of her."
+  },
+  {
+   "id": "b-rocks",
+   "quote": "They threw vast rocks at us from the cliffs as though they had been mere stones",
+   "checks": [
+    {
+     "character": "antiphates",
+     "kind": "lift",
+     "mass_kg": 1000,
+     "outcome": "success",
+     "estimate": true,
+     "note": "A 'vast rock' thrown like a stone; read as about 1 t."
+    }
+   ]
+  },
+  {
+   "id": "b-circe",
+   "quote": "a great and cunning goddess who is own sister to the magician Aeetes"
+  },
+  {
+   "id": "b-tamed",
+   "quote": "bewitched creatures whom she had tamed by her enchantments and drugged into subjection.",
+   "checks": [
+    {
+     "character": "circe",
+     "kind": "has",
+     "need": "command-animals",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-pigs",
+   "quote": "but she drugged it with wicked poisons to make them forget their homes, and when they had drunk she turned them into pigs by a stroke of her wand",
+   "checks": [
+    {
+     "character": "circe",
+     "kind": "has",
+     "need": "transform-other",
+     "outcome": "success"
+    },
+    {
+     "character": "circe",
+     "kind": "has",
+     "need": "poison",
+     "outcome": "success"
+    },
+    {
+     "character": "crewman",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      },
+      {
+       "channel": "magic_resist"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  },
+  {
+   "id": "b-moly",
+   "quote": "she will not be able to charm you, for the virtue of the herb that I shall give you will prevent her spells from working."
+  },
+  {
+   "id": "b-drink",
+   "quote": "When she had given it me, and I had drunk it without its charming me, she struck me with her wand.",
+   "grants": [
+    {
+     "character": "ulysses",
+     "item": "moly",
+     "from": "Mercury"
+    }
+   ],
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      },
+      {
+       "channel": "magic_resist"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-sword",
+   "quote": "But I rushed at her with my sword drawn as though I would kill her",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,274 @@
+{
+ "id": "dracula-count",
+ "title": "The Count (Dracula, chapters III and XVIII)",
+ "source": {
+  "work": "Bram Stoker, Dracula (1897), chapters III and XVIII",
+  "text": "dracula.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Jonathan Harker, Van Helsing",
+   "beats": [
+    "b-wall"
+   ]
+  },
+  {
+   "id": "vampire",
+   "kind": "species",
+   "text": "the Count, a vampire",
+   "beats": [
+    "b-twenty"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "a Count, master of his castle",
+   "beats": [
+    "b-wall"
+   ]
+  },
+  {
+   "id": "scholar",
+   "kind": "occupation",
+   "text": "Van Helsing, who reasons out the vampire's nature",
+   "beats": [
+    "b-twenty"
+   ]
+  },
+  {
+   "id": "wall-crawl",
+   "kind": "ability",
+   "text": "crawls face down along a wall like a lizard",
+   "beats": [
+    "b-wall"
+   ]
+  },
+  {
+   "id": "necromancy",
+   "kind": "ability",
+   "text": "commands the dead",
+   "beats": [
+    "b-twenty"
+   ]
+  },
+  {
+   "id": "weather-control",
+   "kind": "ability",
+   "text": "directs the storm, the fog, the thunder",
+   "beats": [
+    "b-elements"
+   ]
+  },
+  {
+   "id": "command-animals",
+   "kind": "ability",
+   "text": "commands the rat, the owl, the bat, the wolf",
+   "beats": [
+    "b-elements"
+   ]
+  },
+  {
+   "id": "size-change",
+   "kind": "ability",
+   "text": "grows and becomes small",
+   "beats": [
+    "b-elements"
+   ]
+  },
+  {
+   "id": "shapeshift",
+   "kind": "ability",
+   "text": "becomes wolf, bat, or mist",
+   "beats": [
+    "b-forms"
+   ]
+  },
+  {
+   "id": "dark-vision",
+   "kind": "ability",
+   "text": "sees in the dark",
+   "beats": [
+    "b-dark"
+   ]
+  },
+  {
+   "id": "no-reflection",
+   "kind": "ability",
+   "text": "throws no shadow, no reflection",
+   "beats": [
+    "b-mirror"
+   ]
+  },
+  {
+   "id": "invitation-limit",
+   "kind": "ability",
+   "text": "may not enter until bidden",
+   "beats": [
+    "b-bidden"
+   ]
+  },
+  {
+   "id": "holy-aversion",
+   "kind": "ability",
+   "text": "garlic and sacred things take his power",
+   "beats": [
+    "b-garlic"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "count",
+   "name": "The Count",
+   "species": "vampire",
+   "occupation": "ruler",
+   "abilities": [
+    "wall-crawl",
+    "necromancy",
+    "weather-control",
+    "command-animals",
+    "size-change",
+    "shapeshift",
+    "dark-vision",
+    "no-reflection",
+    "invitation-limit",
+    "holy-aversion"
+   ],
+   "attrs": {
+    "strength": {
+     "derive": "lift",
+     "beats": [
+      "b-twenty"
+     ]
+    }
+   }
+  },
+  {
+   "id": "van-helsing",
+   "name": "Van Helsing",
+   "species": "human",
+   "occupation": "scholar"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-wall",
+   "quote": "begin to crawl down the castle wall over that dreadful abyss, _face down_ with his cloak spreading out around him like great wings.",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "wall-crawl",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-twenty",
+   "quote": "This vampire which is amongst us is of himself so strong in person as twenty men",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "lift",
+     "mass_kg": 1200,
+     "outcome": "success",
+     "estimate": true,
+     "note": "Twenty men; Lex Strength 10 lifts 60 kg, so about 1.2 t."
+    },
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "necromancy",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-elements",
+   "quote": "he can, within his range, direct the elements; the storm, the fog, the thunder; he can command all the meaner things: the rat, and the owl, and the bat--the moth, and the fox, and the wolf; he can grow and become small",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "weather-control",
+     "outcome": "success"
+    },
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "command-animals",
+     "outcome": "success"
+    },
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "size-change",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-forms",
+   "quote": "He can transform himself to wolf",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "shapeshift",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-dark",
+   "quote": "He can see in the dark--no small power this",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "dark-vision",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-mirror",
+   "quote": "He throws no shadow; he make in the mirror no reflect",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "no-reflection",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bidden",
+   "quote": "He may not enter anywhere at the first, unless there be some one of the household who bid him to come",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "invitation-limit",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-garlic",
+   "quote": "Then there are things which so afflict him that he has no power, as the garlic that we know of",
+   "checks": [
+    {
+     "character": "count",
+     "kind": "has",
+     "need": "holy-aversion",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

@@ -9,11 +9,13 @@ Only three steps need an LLM, and each one saves a JSON artifact that `validate_
 stories/<story>.json  reading a story into needs, characters, and beats
   {"id", "title", "source": {"work", "text"?: file next to it, for quote checks},
    "needs": [{"id", "kind": "species"|"occupation"|"ability", "text", "beats": [beat ids]}],
+   "items": [Lex item rows, e.g. {"id", "name", "kind", "effects": [{"verb", "target", "value"}]}],
    "characters": [{"id", "name", "species"?: need, "occupation"?: need, "abilities": [needs],
                    "attrs": {attr: {"value": n, "beats": [...]} | {"derive": "lift"|"move", "beats": [...]}}}],
    "beats": [{"id", "quote", "summary"?,
-              "grants": [{"character", "need", "from"?}],          temporary, this beat only
+              "grants": [{"character", "need" | "item", "from"?}],  temporary, this beat only
               "checks": [{"character", "outcome": "success"|"failure", "kind": ...}]}]}
+  An item that is an estimate cites the beats its number rests on ("beats"). Any object may carry "estimate": true and a "note" saying how a number was read from the text.
   check kinds: "roll" with "terms": [{"channel": c} | {"attr_bonus": a} | {"const": n}];
                "lift" with "mass_kg"; "move" with "distance_m" and "seconds"; "has" with "need".
 mappings/<candidate>/<story>.<run>.json  a story's needs onto one candidate's rows
@@ -31,6 +33,7 @@ engine, beat odds from the dice math (no random rolls), the metrics, and the rep
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import itertools
 import json
@@ -183,6 +186,15 @@ def validate_story(doc: Any, source_text: str | None = None) -> list[str]:
     needs = _ids(doc.get("needs"), "needs", e)
     chars = _ids(doc.get("characters"), "characters", e)
     need_kind = {n["id"]: n.get("kind") for n in doc.get("needs") or [] if isinstance(n, dict)}
+    items = _ids(doc.get("items") or [], "items", e)
+    for it in doc.get("items") or []:
+        if not isinstance(it, dict):
+            continue
+        if not isinstance(it.get("name"), str) or not isinstance(it.get("kind"), str):
+            e.append(f"items/{it.get('id')}: needs a name and kind")
+        for k, ef in enumerate(it.get("effects") or []):
+            if not (isinstance(ef, dict) and ef.get("verb") and ef.get("target") and _number(ef.get("value"))):
+                e.append(f"items/{it.get('id')}.effects[{k}]: needs verb, target, and a number value")
     src = _norm(source_text) if source_text is not None else None
 
     def cited(where: str, refs: Any) -> None:
@@ -192,6 +204,10 @@ def validate_story(doc: Any, source_text: str | None = None) -> list[str]:
         for b in refs:
             if b not in beats:
                 e.append(f"{where}: unknown beat {b!r}")
+
+    for it in doc.get("items") or []:
+        if isinstance(it, dict) and (it.get("estimate") or "beats" in it):
+            cited(f"items/{it.get('id')}", it.get("beats"))
 
     for n in doc.get("needs") or []:
         if not isinstance(n, dict):
@@ -253,7 +269,11 @@ def validate_story(doc: Any, source_text: str | None = None) -> list[str]:
             if not isinstance(g, dict) or g.get("character") not in chars:
                 e.append(f"{gw}: unknown character")
                 continue
-            need_ref(gw, g.get("need"), "ability")
+            if "item" in g:
+                if g["item"] not in items:
+                    e.append(f"{gw}: unknown item {g['item']!r}")
+            else:
+                need_ref(gw, g.get("need"), "ability")
         for i, ch in enumerate(b.get("checks") or []):
             cw = f"{w}.checks[{i}]"
             if not isinstance(ch, dict):
@@ -281,12 +301,17 @@ def validate_story(doc: Any, source_text: str | None = None) -> list[str]:
                 e.append(f"{cw}: move needs distance_m and seconds")
             elif kind == "has":
                 need_ref(cw, ch.get("need"), "ability")
-    used = {r for n in doc.get("needs") or [] if isinstance(n, dict) for r in (n.get("beats") or [])}
+    used = {r for x in (doc.get("needs") or []) + (doc.get("items") or []) if isinstance(x, dict)
+            for r in (x.get("beats") or [])}
     for b in beats:
         bd = next(x for x in doc["beats"] if isinstance(x, dict) and x.get("id") == b)
         if b not in used and not bd.get("checks") and not bd.get("grants"):
             e.append(f"beats/{b}: no need, check, or grant uses it")
     return e
+
+
+def _number(v: Any) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
 
 
 def _positive(v: Any) -> bool:
@@ -514,13 +539,24 @@ def simulate(cand: Candidate, story: dict[str, Any], mapping: dict[str, Any], di
                 "attrs": derive_attrs(story, c), "abilities": [f"{pid}:{a}" for a in ab],
             })
         sdoc = {"id": "bakeoff-story", "name": story["id"], "adapter": None, "species": [], "occupations": [],
-                "abilities": [], "items": [], "characters": chars, "portraits": {}, "lore": []}
+                "abilities": [], "items": copy.deepcopy(story.get("items") or []), "characters": chars,
+                "portraits": {}, "lore": []}
         packs.import_pack(conn, sdoc)
         checks = []
         for b in story["beats"]:
             granted: list[tuple[str, str]] = []
+            worn: list[tuple[str, str]] = []
             for g in b.get("grants") or []:
                 cid = f"bk-{g['character']}"
+                if "item" in g:
+                    with conn:
+                        pos = conn.execute("SELECT COUNT(*) FROM character_items WHERE character_id=?", (cid,)).fetchone()[0]
+                        conn.execute("INSERT INTO character_items (character_id, position, item_pack, item_id, data)"
+                                     " VALUES (?,?,?,?,'{}')", (cid, pos, "bakeoff-story", g["item"]))
+                        conn.execute("INSERT INTO character_active (character_id, position, ref) VALUES (?,?,?)",
+                                     (cid, pos, g["item"]))
+                    worn.append((cid, g["item"]))
+                    continue
                 for a in _mapped(mapping, g["need"], "ability"):
                     if (pid, a) not in engine.owned_abilities(conn, cid):
                         engine.buy_ability(conn, cid, pid, a, grant=True)
@@ -528,11 +564,15 @@ def simulate(cand: Candidate, story: dict[str, Any], mapping: dict[str, Any], di
             for i, ch in enumerate(b.get("checks") or []):
                 r = _check_odds(conn, f"bk-{ch['character']}", ch, mapping, pid, die)
                 row = {"beat": b["id"], "check": i, "character": ch["character"], "kind": ch["kind"],
-                       "outcome": ch["outcome"], "granted": bool(granted), **r}
+                       "outcome": ch["outcome"], "granted": bool(granted or worn), **r}
                 if "p" in r:
                     row["likelihood"] = r["p"] if ch["outcome"] == "success" else round(1.0 - r["p"], 6)
                 checks.append(row)
             with conn:
+                for cid, it in worn:
+                    conn.execute("DELETE FROM character_active WHERE character_id=? AND ref=?", (cid, it))
+                    conn.execute("DELETE FROM character_items WHERE character_id=? AND item_pack='bakeoff-story' AND item_id=?",
+                                 (cid, it))
                 for cid, a in granted:
                     conn.execute("DELETE FROM character_abilities WHERE character_id=? AND ability_pack=? AND ability_id=?",
                                  (cid, pid, a))

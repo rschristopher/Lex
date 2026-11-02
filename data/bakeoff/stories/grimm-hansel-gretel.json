@@ -1,0 +1,181 @@
+{
+ "id": "grimm-hansel-gretel",
+ "title": "Hansel and Gretel (Grimm)",
+ "source": {
+  "work": "Grimm, Hansel and Gretel, Taylor and Edwardes translation",
+  "text": "grimm-hansel-gretel.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "two children",
+   "beats": [
+    "b-pebbles"
+   ]
+  },
+  {
+   "id": "witch",
+   "kind": "occupation",
+   "text": "a wicked witch who lures and eats children",
+   "beats": [
+    "b-witch"
+   ]
+  },
+  {
+   "id": "navigation",
+   "kind": "ability",
+   "text": "finds the way home by the shining pebbles",
+   "beats": [
+    "b-pebbles"
+   ]
+  },
+  {
+   "id": "keen-scent",
+   "kind": "ability",
+   "text": "smells humans coming like a beast",
+   "beats": [
+    "b-witch"
+   ]
+  },
+  {
+   "id": "poor-sight",
+   "kind": "ability",
+   "text": "red eyes that cannot see far",
+   "beats": [
+    "b-witch",
+    "b-bone"
+   ]
+  },
+  {
+   "id": "deceive",
+   "kind": "ability",
+   "text": "a bone for a finger; a feigned question at the oven",
+   "beats": [
+    "b-bone",
+    "b-oven"
+   ]
+  },
+  {
+   "id": "lure",
+   "kind": "ability",
+   "text": "a house of bread to entice children",
+   "beats": [
+    "b-witch"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "hansel",
+   "name": "Hansel",
+   "species": "human",
+   "abilities": [
+    "navigation",
+    "deceive"
+   ]
+  },
+  {
+   "id": "gretel",
+   "name": "Gretel",
+   "species": "human",
+   "abilities": [
+    "deceive"
+   ],
+   "attrs": {
+    "strength": {
+     "value": 6,
+     "beats": [
+      "b-oven"
+     ],
+     "estimate": true,
+     "note": "a child"
+    }
+   }
+  },
+  {
+   "id": "witch",
+   "name": "The witch",
+   "species": "human",
+   "occupation": "witch",
+   "abilities": [
+    "keen-scent",
+    "poor-sight",
+    "lure"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-pebbles",
+   "quote": "followed the pebbles which shone like newly-coined silver pieces, and showed them the way.",
+   "checks": [
+    {
+     "character": "hansel",
+     "kind": "has",
+     "need": "navigation",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-witch",
+   "quote": "Witches have red eyes, and cannot see far, but they have a keen scent like the beasts, and are aware when human beings draw near.",
+   "checks": [
+    {
+     "character": "witch",
+     "kind": "has",
+     "need": "keen-scent",
+     "outcome": "success"
+    },
+    {
+     "character": "witch",
+     "kind": "has",
+     "need": "poor-sight",
+     "outcome": "success"
+    },
+    {
+     "character": "witch",
+     "kind": "has",
+     "need": "lure",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bone",
+   "quote": "Hansel, however, stretched out a little bone to her, and the old woman, who had dim eyes, could not see it",
+   "checks": [
+    {
+     "character": "hansel",
+     "kind": "has",
+     "need": "deceive",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-oven",
+   "quote": "Then Gretel gave her a push that drove her far into it, and shut the iron door, and fastened the bolt.",
+   "checks": [
+    {
+     "character": "gretel",
+     "kind": "has",
+     "need": "deceive",
+     "outcome": "success"
+    },
+    {
+     "character": "gretel",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success",
+     "note": "An old woman leaning into the oven does not see the push coming."
+    }
+   ]
+  }
+ ]
+}

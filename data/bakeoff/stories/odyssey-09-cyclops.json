@@ -1,0 +1,340 @@
+{
+ "id": "odyssey-09-cyclops",
+ "title": "The Cyclops (Odyssey IX)",
+ "source": {
+  "work": "Homer, Odyssey IX, Butler translation (1900)",
+  "text": "odyssey-09.txt"
+ },
+ "items": [
+  {
+   "id": "maron_wine",
+   "name": "Maron's wine, drunk neat",
+   "kind": "drink",
+   "effects": [
+    {
+     "verb": "mod.channel",
+     "target": "endurance_resist",
+     "value": -10
+    }
+   ],
+   "estimate": true,
+   "beats": [
+    "b-wine",
+    "b-three-bowls"
+   ],
+   "note": "Maron himself mixed twenty parts of water to one of this wine (b-wine); Polyphemus drains three bowls of it unmixed (b-three-bowls). Each bowl is about twenty servings of the drink Maron served. Estimate: -10 on the Endurance resist roll (-50%), enough that even a strong drinker is likely to pass out. The docs have no drink rule; the number is an estimate."
+  }
+ ],
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Ulysses and his crew are men",
+   "beats": [
+    "b-warrior"
+   ]
+  },
+  {
+   "id": "giant",
+   "kind": "species",
+   "text": "a one-eyed giant who eats men",
+   "beats": [
+    "b-stone",
+    "b-eats"
+   ]
+  },
+  {
+   "id": "shepherd",
+   "kind": "occupation",
+   "text": "keeps and milks flocks",
+   "beats": [
+    "b-shepherd"
+   ]
+  },
+  {
+   "id": "warrior",
+   "kind": "occupation",
+   "text": "a valiant warrior",
+   "beats": [
+    "b-warrior"
+   ]
+  },
+  {
+   "id": "craft",
+   "kind": "ability",
+   "text": "shapes and fire-hardens a stake",
+   "beats": [
+    "b-beam"
+   ]
+  },
+  {
+   "id": "deceive",
+   "kind": "ability",
+   "text": "lies about his name",
+   "beats": [
+    "b-noman"
+   ]
+  },
+  {
+   "id": "stealth",
+   "kind": "ability",
+   "text": "hides under a ram past a searching hand",
+   "beats": [
+    "b-rams"
+   ]
+  },
+  {
+   "id": "divine-courage",
+   "kind": "ability",
+   "text": "heaven fills the men with courage, for the moment",
+   "beats": [
+    "b-courage"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "ulysses",
+   "name": "Ulysses",
+   "species": "human",
+   "occupation": "warrior",
+   "abilities": [
+    "craft",
+    "deceive",
+    "stealth"
+   ],
+   "attrs": {
+    "agility": {
+     "value": 14,
+     "beats": [
+      "b-rams"
+     ],
+     "estimate": true,
+     "note": "clings unseen beneath a ram"
+    },
+    "intellect": {
+     "value": 18,
+     "beats": [
+      "b-noman",
+      "b-beam"
+     ],
+     "estimate": true,
+     "note": "the schemer of the story"
+    }
+   }
+  },
+  {
+   "id": "polyphemus",
+   "name": "Polyphemus",
+   "species": "giant",
+   "occupation": "shepherd",
+   "attrs": {
+    "strength": {
+     "derive": "lift",
+     "beats": [
+      "b-stone",
+      "b-mountain"
+     ]
+    },
+    "endurance": {
+     "value": 20,
+     "beats": [
+      "b-three-bowls"
+     ],
+     "estimate": true,
+     "note": "a giant's body; still passes out"
+    }
+   }
+  },
+  {
+   "id": "crewman",
+   "name": "One of the crew",
+   "species": "human",
+   "attrs": {
+    "willpower": {
+     "value": 10,
+     "beats": [
+      "b-courage"
+     ],
+     "estimate": true,
+     "note": "ordinary men about to turn faint-hearted"
+    }
+   }
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-wine",
+   "quote": "when he drank it he mixed twenty parts of water to one of wine, and yet the fragrance from the mixing-bowl was so exquisite that it was impossible to refrain from drinking.",
+   "summary": "Why the wine is so strong."
+  },
+  {
+   "id": "b-stone",
+   "quote": "Then he rolled a huge stone to the mouth of the cave—so huge that two and twenty strong four-wheeled waggons would not be enough to draw it from its place against the doorway.",
+   "checks": [
+    {
+     "character": "polyphemus",
+     "kind": "lift",
+     "mass_kg": 20000,
+     "outcome": "success",
+     "estimate": true,
+     "note": "Twenty-two waggons cannot move it; read as about 20 t."
+    }
+   ]
+  },
+  {
+   "id": "b-shepherd",
+   "quote": "he sat down and milked his ewes and goats, all in due course"
+  },
+  {
+   "id": "b-eats",
+   "quote": "with a sudden clutch he gripped up two of my men at once and dashed them down upon the ground as though they had been puppies.",
+   "checks": [
+    {
+     "character": "polyphemus",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-beam",
+   "quote": "lastly I brought it to a point myself, charring the end in the fire to make it harder.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "craft",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-noman",
+   "quote": "my name is Noman; this is what my father and mother and my friends have always called me.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "deceive",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-three-bowls",
+   "quote": "three times did I fill the bowl for him, and three times did he drain it without thought or heed",
+   "grants": [
+    {
+     "character": "polyphemus",
+     "item": "maron_wine",
+     "from": "Maron's gift"
+    }
+   ]
+  },
+  {
+   "id": "b-drunk",
+   "quote": "As he spoke he reeled, and fell sprawling face upwards on the ground.",
+   "grants": [
+    {
+     "character": "polyphemus",
+     "item": "maron_wine"
+    }
+   ],
+   "checks": [
+    {
+     "character": "polyphemus",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "endurance"
+      },
+      {
+       "channel": "endurance_resist"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  },
+  {
+   "id": "b-courage",
+   "quote": "my men gathered round me, for heaven had filled their hearts with courage.",
+   "grants": [
+    {
+     "character": "crewman",
+     "need": "divine-courage",
+     "from": "heaven"
+    }
+   ],
+   "checks": [
+    {
+     "character": "crewman",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bore",
+   "quote": "We drove the sharp end of the beam into the monster's eye",
+   "summary": "He is asleep: no defense roll.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-rams",
+   "quote": "I caught hold of him by the back, esconced myself in the thick wool under his belly",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "stealth"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-mountain",
+   "quote": "he tore the top from off a high mountain, and flung it just in front of my ship",
+   "checks": [
+    {
+     "character": "polyphemus",
+     "kind": "lift",
+     "mass_kg": 1000000,
+     "outcome": "success",
+     "estimate": true,
+     "note": "A mountain top; read as about 1,000 t."
+    }
+   ]
+  },
+  {
+   "id": "b-warrior",
+   "quote": "say it was the valiant warrior Ulysses, son of Laertes, who lives in Ithaca."
+  }
+ ]
+}
