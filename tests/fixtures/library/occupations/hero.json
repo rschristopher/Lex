@@ -1,0 +1,27 @@
+{
+  "id": "hero",
+  "name": "Hero",
+  "text": "Leader of men, favored by a god, far from home.",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 1
+    },
+    {
+      "verb": "mod.channel",
+      "target": "actions",
+      "value": 1
+    }
+  ],
+  "sets": [
+    [
+      "spear",
+      "sailing"
+    ],
+    [
+      "command",
+      "cunning"
+    ]
+  ]
+}

@@ -9,7 +9,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from lex import combat, db, engine
+from lex import combat, db, engine, library
 from lex.paths import PKG
 from lex.sheet import list_adapters, list_sheets, sheet
 
@@ -158,6 +158,44 @@ def species(conn: sqlite3.Connection = Depends(get_conn)):
 def abilities(conn: sqlite3.Connection = Depends(get_conn)):
     return [{"id": r["id"], "pack": r["pack"], "name": r["name"], "kind": r["kind"], "price": r["price"]}
             for r in conn.execute("SELECT * FROM abilities ORDER BY name, pack")]
+
+
+# ------------------------------------------------------------ library
+
+
+@app.get("/packs")
+def list_packs(conn: sqlite3.Connection = Depends(get_conn)):
+    """Every imported pack and how many library rows it has."""
+    return library.menu(conn)["packs"]
+
+
+@app.get("/library")
+def library_menu(pack: str | None = Query(default=None), adapter: str | None = Query(default=None),
+                 conn: sqlite3.Connection = Depends(get_conn)):
+    """The library menu: sections of categories with counts, built from whatever packs are imported."""
+    return library.menu(conn, pack or None, adapter)
+
+
+@app.get("/library/rows")
+def library_rows(q: str = Query(default=""), category: str | None = Query(default=None),
+                 pack: str | None = Query(default=None), limit: int = Query(default=50, ge=1, le=500),
+                 offset: int = Query(default=0, ge=0), adapter: str | None = Query(default=None),
+                 conn: sqlite3.Connection = Depends(get_conn)):
+    """List or search rows: every word of q must be in the name or the row's text. Filter by category and pack."""
+    try:
+        return library.search(conn, q, category or None, pack or None, limit, offset, adapter)
+    except KeyError:
+        raise HTTPException(404, f"no category {category!r}")
+
+
+@app.get("/library/{table}/{pack_id}/{rid}")
+def library_row(table: str, pack_id: str, rid: str, adapter: str | None = Query(default=None),
+                conn: sqlite3.Connection = Depends(get_conn)):
+    """One row in plain words: its effects, requirements, levels, details, source, and related rows."""
+    try:
+        return library.detail(conn, table, pack_id, rid, adapter)
+    except KeyError:
+        raise HTTPException(404, "not found")
 
 
 # ------------------------------------------------------------ characters
@@ -419,6 +457,11 @@ def portrait(pack_id: str, name: str, conn: sqlite3.Connection = Depends(get_con
 @app.get("/")
 def index():
     return FileResponse(PKG / "index.html")
+
+
+@app.get("/browse")
+def library_screen():
+    return FileResponse(PKG / "library.html")
 
 
 @app.get("/fight")

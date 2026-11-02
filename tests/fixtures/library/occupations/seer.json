@@ -1,0 +1,10 @@
+{
+  "id": "seer",
+  "name": "Seer",
+  "text": "One who sees what the gods intend, and is seldom believed.",
+  "sets": [
+    [
+      "prophecy"
+    ]
+  ]
+}

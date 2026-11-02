@@ -1,0 +1,50 @@
+[
+  {
+    "id": "human",
+    "name": "Human",
+    "text": "Mortal folk of the islands and the mainland. Short-lived, stubborn, and clever.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book I"
+    }
+  },
+  {
+    "id": "centaur",
+    "name": "Centaur",
+    "text": "Horse below, human above. Fast across open ground and quick to anger.",
+    "source": "Ovid, Metamorphoses, Book XII",
+    "effects": [
+      {
+        "verb": "mod.attr",
+        "target": "speed",
+        "value": 6
+      },
+      {
+        "verb": "mod.attr",
+        "target": "strength",
+        "value": 2
+      }
+    ]
+  },
+  {
+    "id": "cyclops",
+    "name": "Cyclops",
+    "text": "One-eyed giants who keep sheep and no laws.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book IX"
+    },
+    "effects": [
+      {
+        "verb": "mod.attr",
+        "target": "strength",
+        "value": 12
+      },
+      {
+        "verb": "mod.attr",
+        "target": "intellect",
+        "value": -3
+      }
+    ]
+  }
+]

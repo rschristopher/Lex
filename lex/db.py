@@ -339,6 +339,35 @@ MIGRATIONS: list[str] = [
         melees_left INTEGER NOT NULL
     );
     """,
+    # 6: the library. Entries are any other pack rows a book describes (locations, adventures, creatures, ...):
+    # a kind from the pack, a name, prose, and links to other rows. Pack metadata (labels, source) is kept too.
+    """
+    CREATE TABLE pack_meta (
+        pack TEXT PRIMARY KEY REFERENCES packs(id) ON DELETE CASCADE,
+        data TEXT NOT NULL DEFAULT '{}'   -- the rest of pack.json: labels, source, ...
+    );
+    CREATE TABLE entries (
+        pack TEXT NOT NULL REFERENCES packs(id) ON DELETE CASCADE,
+        id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        kind TEXT NOT NULL,
+        data TEXT NOT NULL DEFAULT '{}',
+        PRIMARY KEY (pack, id)
+    );
+    -- An entry links to any other row (species, occupations, abilities, items, entries), resolved at import.
+    CREATE TABLE entry_links (
+        entry_pack TEXT NOT NULL,
+        entry_id TEXT NOT NULL,
+        position INTEGER NOT NULL,
+        ref_table TEXT NOT NULL CHECK (ref_table IN ('species', 'occupations', 'abilities', 'items', 'entries')),
+        ref_pack TEXT NOT NULL,
+        ref_id TEXT NOT NULL,
+        PRIMARY KEY (entry_pack, entry_id, position),
+        FOREIGN KEY (entry_pack, entry_id) REFERENCES entries(pack, id) ON DELETE CASCADE
+    );
+    CREATE INDEX entry_links_ref ON entry_links(ref_table, ref_pack, ref_id);
+    """,
 ]
 
 

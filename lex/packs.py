@@ -61,6 +61,8 @@ def read_pack(src: Path) -> dict[str, Any]:
         "occupations": [_read(p) for p in sorted((src / "occupations").glob("*.json"))],
         "abilities": _read(src / "abilities.json") if (src / "abilities.json").is_file() else [],
         "items": _read(src / "items.json") if (src / "items.json").is_file() else [],
+        "entries": _read(src / "entries.json") if (src / "entries.json").is_file() else [],
+        "meta": {k: v for k, v in meta.items() if k not in ("id", "name")},
         "characters": [],
         "portraits": {},
         "lore": [],
@@ -92,6 +94,7 @@ class _Refs:
             "occupations": {r["id"] for r in doc["occupations"]},
             "abilities": {r["id"] for r in doc["abilities"]},
             "items": {r["id"] for r in doc["items"]},
+            "entries": {r["id"] for r in doc.get("entries") or [] if isinstance(r, dict)},
         }
 
     def resolve(self, table: str, ref: Any, where: str, errors: list[str]) -> tuple[str, str] | None:
@@ -118,6 +121,35 @@ class _Refs:
         else:
             errors.append(f"{where}: {ref!r} is in several packs; write it as pack:id")
         return None
+
+    def resolve_any(self, ref: Any, where: str, errors: list[str]) -> tuple[str, str, str] | None:
+        """A link to a row in any table: "id" or "pack:id", or "table/id" when an id is in several tables.
+        Rows in this pack win over rows in other packs."""
+        if not isinstance(ref, str) or not ref:
+            errors.append(f"{where}: link must be a non-empty string")
+            return None
+        tables: tuple[str, ...] = LINK_TABLES
+        if "/" in ref and ref.split("/", 1)[0] in LINK_TABLES:
+            t, ref = ref.split("/", 1)
+            tables = (t,)
+        hits: list[tuple[str, str, str]] = []
+        for t in tables:
+            found = self.resolve(t, ref, where, [])
+            if found:
+                hits.append((t, *found))
+        local = [h for h in hits if h[1] == self.pack]
+        if local:
+            hits = local
+        if len(hits) == 1:
+            return hits[0]
+        if not hits:
+            errors.append(f"{where}: unknown row {ref!r}")
+        else:
+            errors.append(f"{where}: {ref!r} names rows in {', '.join(h[0] for h in hits)}; write it as table/id")
+        return None
+
+
+LINK_TABLES = ("species", "occupations", "abilities", "items", "entries")
 
 
 def _check_row(row: Any, where: str, errors: list[str], need: tuple[str, ...] = ("id", "name")) -> bool:
@@ -223,7 +255,13 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
         conn.execute("DELETE FROM requirements WHERE owner_pack=?", (pid,))
         conn.execute("DELETE FROM occupation_sets WHERE occupation_pack=?", (pid,))
         conn.execute("DELETE FROM packs WHERE id=?", (pid,))
+        meta = doc.get("meta") or {}
+        if not isinstance(meta, dict):
+            errors.append("pack.json: must be an object")
+            meta = {}
         conn.execute("INSERT INTO packs (id, name) VALUES (?, ?)", (pid, doc.get("name") or pid))
+        if meta:
+            conn.execute("INSERT INTO pack_meta (pack, data) VALUES (?, ?)", (pid, _dumps(meta)))
         if doc.get("adapter") is not None:
             if not isinstance(doc["adapter"], dict):
                 errors.append("adapter.json: must be an object")
@@ -298,6 +336,22 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
             conn.execute("INSERT INTO occupations (pack, id, name, data) VALUES (?,?,?,?)",
                          (pid, row["id"], row["name"], _catalog_data(row)))
 
+        entries = doc.get("entries") or []
+        if not isinstance(entries, list):
+            errors.append("entries.json: must be a list")
+            entries = []
+        for i, row in enumerate(entries):
+            w = f"entries[{i}]"
+            if not _check_row(row, w, errors, ("id", "name", "kind")):
+                continue
+            if "effects" in row or "requires" in row:
+                errors.append(f"{w}: an entry has no effects or requirements; put them on a species, occupation,"
+                              " ability, or item and link to it")
+                continue
+            conn.execute("INSERT INTO entries (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
+                         (pid, row["id"], i, row["name"], row["kind"],
+                          _dumps({k: v for k, v in row.items() if k != "links"})))
+
         # Effects, requirements, and sets after every catalog row exists, so references resolve.
         for table, owner_type in (("species", "species"), ("abilities", "ability"),
                                   ("items", "item"), ("occupations", "occupation")):
@@ -325,6 +379,19 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                             (pid, row["id"], si, pos, r[0], r[1]),
                         )
 
+        for row in entries:
+            if not isinstance(row, dict) or not row.get("id") or row.get("links") is None:
+                continue
+            links = row["links"]
+            w = f"entries/{row['id']}.links"
+            if not isinstance(links, list):
+                errors.append(f"{w}: must be a list")
+                continue
+            for li, ref in enumerate(links):
+                r = refs.resolve_any(ref, f"{w}[{li}]", errors)
+                if r:
+                    conn.execute("INSERT INTO entry_links VALUES (?,?,?,?,?,?)", (pid, row["id"], li, *r))
+
         for name, data in doc["portraits"].items():
             conn.execute("INSERT INTO portraits (pack, name, data) VALUES (?,?,?)", (pid, name, data))
         for i, lo in enumerate(doc["lore"]):
@@ -344,7 +411,7 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
     return {
         "species": len(doc["species"]), "occupations": len(doc["occupations"]),
         "abilities": len(doc["abilities"]), "items": len(doc["items"]),
-        "characters": len(doc["characters"]),
+        "entries": len(entries), "characters": len(doc["characters"]),
     }
 
 
@@ -565,13 +632,22 @@ def character_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
     return doc
 
 
+def _link_ambiguous(conn, pack_id: str, x: sqlite3.Row) -> bool:
+    """True when the link written without its table would match rows in more than one table."""
+    n = sum(conn.execute(f"SELECT COUNT(*) FROM {t} WHERE pack=? AND id=?", (x["ref_pack"], x["ref_id"])).fetchone()[0]
+            for t in LINK_TABLES)
+    return n > 1
+
+
 def export_pack(conn: sqlite3.Connection, pack_id: str, dest: str | Path) -> Path:
     if not conn.execute("SELECT 1 FROM packs WHERE id=?", (pack_id,)).fetchone():
         raise PackError([f"no pack {pack_id!r} in the database"])
     dest = Path(dest)
     dest.mkdir(parents=True, exist_ok=True)
     name = conn.execute("SELECT name FROM packs WHERE id=?", (pack_id,)).fetchone()["name"]
-    _write(dest / "pack.json", {"id": pack_id, "name": name})
+    m = conn.execute("SELECT data FROM pack_meta WHERE pack=?", (pack_id,)).fetchone()
+    meta = json.loads(m["data"]) if m else {}
+    _write(dest / "pack.json", {"id": pack_id, "name": name, **meta})
     ad = conn.execute("SELECT data FROM adapters WHERE pack=?", (pack_id,)).fetchone()
     if ad:
         (dest / "adapter.json").write_text(ad["data"], encoding="utf-8")
@@ -581,6 +657,19 @@ def export_pack(conn: sqlite3.Connection, pack_id: str, dest: str | Path) -> Pat
         rows = conn.execute(f"SELECT * FROM {table} WHERE pack=? ORDER BY position", (pack_id,)).fetchall()
         if rows:
             _write(dest / fname, [_row_out(conn, owner_type, pack_id, r) for r in rows])
+    entries = []
+    for r in conn.execute("SELECT * FROM entries WHERE pack=? ORDER BY position", (pack_id,)).fetchall():
+        row = json.loads(r["data"])
+        links = [
+            (f"{x['ref_table']}/" if _link_ambiguous(conn, pack_id, x) else "") + _ref_out(pack_id, x["ref_pack"], x["ref_id"])
+            for x in conn.execute("SELECT * FROM entry_links WHERE entry_pack=? AND entry_id=? ORDER BY position",
+                                  (pack_id, r["id"]))
+        ]
+        if links:
+            row["links"] = links
+        entries.append(row)
+    if entries:
+        _write(dest / "entries.json", entries)
     for r in conn.execute("SELECT * FROM occupations WHERE pack=? ORDER BY id", (pack_id,)).fetchall():
         row = _row_out(conn, "occupation", pack_id, r)
         sets: dict[int, list[str]] = {}

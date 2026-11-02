@@ -1,0 +1,127 @@
+[
+  {
+    "id": "spear",
+    "name": "Spear fighting",
+    "kind": "skill",
+    "text": "Thrusting and throwing the long spear, alone or in a line.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book XXII"
+    },
+    "levels": [
+      {
+        "name": "Novice",
+        "price": 100,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Veteran",
+        "price": 300,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          },
+          {
+            "verb": "mod.channel",
+            "target": "defense",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Master",
+        "price": 900,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sailing",
+    "name": "Sailing",
+    "kind": "skill",
+    "price": 150,
+    "text": "Reading wind, stars, and current to bring a ship home.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book V"
+    }
+  },
+  {
+    "id": "command",
+    "name": "Command",
+    "kind": "skill",
+    "price": 400,
+    "text": "Keeping a crew together through fear, hunger, and temptation.",
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "initiative",
+        "value": 2
+      }
+    ],
+    "requires": [
+      {
+        "kind": "occupation_set",
+        "id": "hero",
+        "set": 1
+      }
+    ]
+  },
+  {
+    "id": "prophecy",
+    "name": "Prophecy",
+    "kind": "power",
+    "price": 600,
+    "text": "Visions of what the gods intend, given in riddles.",
+    "cost": 5,
+    "mental": true,
+    "source": "Herodotus, Histories, Book I",
+    "requires": [
+      {
+        "kind": "species",
+        "id": "human"
+      }
+    ]
+  },
+  {
+    "id": "bull_strength",
+    "name": "Strength of the bull",
+    "kind": "power",
+    "price": 500,
+    "text": "A gift of the gods: the strength to wrestle a bull to the ground.",
+    "effects": [
+      {
+        "verb": "mod.attr",
+        "target": "strength",
+        "value": 4
+      }
+    ]
+  },
+  {
+    "id": "cunning",
+    "name": "Cunning",
+    "text": "The many-turning mind: disguise, lies, and the clever way out.",
+    "price": 200,
+    "effects": [
+      {
+        "verb": "mod.attr",
+        "target": "intellect",
+        "value": 2
+      }
+    ]
+  }
+]

@@ -4,12 +4,13 @@ Each directory is one pack of rows. `lex import` loads it into sqlite (the live 
 
 | File | Rows |
 |---|---|
-| `pack.json` | `id`, `name` |
+| `pack.json` | `id`, `name`; optional `labels` (menu names for a kind, e.g. `{"gear": "Gear and equipment"}`) and anything else about the pack, such as `source` |
 | `adapter.json` | a sheet language: labels, attribute conversions, dice |
 | `species.json` | species, with `effects` and `requires` |
 | `occupations/<id>.json` | an occupation, with `effects` and ordered `sets` of ability ids |
 | `abilities.json` | abilities, with `price`, `effects`, and `requires` |
 | `items.json` | armor, weapons, and other gear (`kind`), with `effects` while worn |
+| `entries.json` | anything else the book describes (locations, adventures, creatures, ...), with `kind`, `text`, optional `source`, and `links` to other rows (`id`, `pack:id`, or `table/id`) |
 | `characters/<id>.json` | a character: attributes, gauges, and the ids it owns, with its own values |
 | `portraits/`, `lore/*.md` | images and lore prose |
 
@@ -19,5 +20,6 @@ Any ability or skill can have ordered `levels`, each `{"name", "price", "effects
 In a fight (`lex/combat.py`) an ability or item with `damage` (dice), `prefix`, and optional `bonus` damage rows is an attack. Optional fields: `cost` (Anima spent, in M), `mental` (the target resists with Willpower instead of Defense; `bonus_roll` is the attack's own bonus), `area` (no dodge or parry), `thrown` (can be parried, like a weapon with a `durability`), `melees` (switched on, it switches off after that many melees), and `total` (hits while switched on).
 A requirement is `{"kind": "species" | "ability" | "occupation_set" | "list", "id", "set"}`.
 A reference to another pack is `pack:id`.
+Any row can have `text` and `source` (a string or `{"book", "section", "page"}`); the library (`/browse`) shows them. Library categories are the tables plus each row's `kind`, so an imported pack shows up there with no code change.
 
 `universal/` is the native pack; `u-simplified/` is an adapter. Any other pack needs an explicit git exception to be public. Raw books and mapping notes belong in `data/ingest/`, not here.

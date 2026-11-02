@@ -1,0 +1,67 @@
+[
+  {
+    "id": "ithaca",
+    "name": "Ithaca",
+    "kind": "location",
+    "text": "A rocky island kingdom, good for goats, poor for horses. Home.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book XIII"
+    }
+  },
+  {
+    "id": "cave",
+    "name": "The Cyclops' cave",
+    "kind": "location",
+    "text": "A great cave above the shore, pens of lambs and kids, cheeses drying on racks, and a stone door no mortal can move.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book IX"
+    },
+    "links": [
+      "cyclops"
+    ]
+  },
+  {
+    "id": "delphi",
+    "name": "Delphi",
+    "kind": "location",
+    "text": "The oracle on the mountainside, where a priestess speaks for the god.",
+    "links": [
+      "prophecy"
+    ]
+  },
+  {
+    "id": "escape",
+    "name": "Escape from the cave",
+    "kind": "adventure",
+    "text": "Trapped in a giant's cave with the crew, the heroes must get past the stone door. Wine, a sharpened stake, and a false name are all they have.",
+    "players": "3 to 6",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book IX"
+    },
+    "links": [
+      "cave",
+      "cyclops",
+      "wineskin",
+      "cunning",
+      "hero"
+    ]
+  },
+  {
+    "id": "homecoming",
+    "name": "The homecoming",
+    "kind": "adventure",
+    "text": "Back on Ithaca in disguise, the hero must string the great bow and win back the hall.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Books XIII to XXIII"
+    },
+    "links": [
+      "ithaca",
+      "bow",
+      "bronze_spear"
+    ]
+  }
+]
