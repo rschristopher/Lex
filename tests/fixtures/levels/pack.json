@@ -1,0 +1,12 @@
+{
+  "id": "levels-sample",
+  "name": "Levels sample",
+  "source": "A small test pack for occupation levels",
+  "level_from": "occupation",
+  "categories": [
+    {
+      "id": "giant",
+      "name": "Bronze giant"
+    }
+  ]
+}

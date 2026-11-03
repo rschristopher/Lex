@@ -29,7 +29,7 @@ TABLE_LABEL = {"species": "Species", "occupations": "Occupations", "abilities": 
                "items": "Items", "entries": "Entries"}
 # Free-text fields shown as the row's prose, and fields shown on their own.
 TEXT_KEYS = ("text", "description", "summary")
-SKIP_KEYS = {"id", "name", "kind", "source", "links", "categories", *TEXT_KEYS}
+SKIP_KEYS = {"id", "name", "kind", "source", "links", "categories", "level_from", "levels_mode", *TEXT_KEYS}
 # Words that are already plural (or uncountable) in a menu.
 UNCOUNTED = {"armor", "armour", "gear", "equipment", "clothing", "ammunition", "magic", "lore", "treasure",
              "cybernetics", "psionics", "species", "bionics", "food", "money"}
@@ -478,6 +478,12 @@ def detail(conn: sqlite3.Connection, table: str, pack: str, rid: str, adapter: s
                 "effects": _effects(conn, labels, "ability", pack, rid, lv["level"]),
                 "facts": _facts(labels, json.loads(lv["data"] or "{}")),
             })
+        if out["levels"]:
+            level_from, mode = engine.level_rules(conn, pack, rid)
+            out["levels_rule"] = " ".join([
+                "The level follows the character's occupation level." if level_from == "occupation"
+                else "Levels are bought one at a time.",
+                "Each level replaces the one before." if mode == "replace" else "Each level adds to the ones before."])
     out["related"] = _related(conn, labels, table, owner, pack, rid)
     return out
 

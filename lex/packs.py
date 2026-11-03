@@ -7,10 +7,16 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-from lex.engine import PHYSICAL_ATTRIBUTES, VEHICLE, check_when
+from lex.engine import (
+    LEVEL_FROM,
+    LEVELS_MODES,
+    PHYSICAL_ATTRIBUTES,
+    VEHICLE,
+    check_when,
+)
 
 CHAR_KEYS = [
-    "id", "name", "npc", "level", "species", "occupation", "pinned", "unspent_experience",
+    "id", "name", "npc", "level", "species", "occupation", "occupations", "pinned", "unspent_experience",
     "portrait", "coin", "attrs", "gauges", "channels", "items", "abilities", "list", "activated", "attack",
 ]
 CHAR_COLUMNS = {
@@ -269,6 +275,8 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 isinstance(c, dict) and isinstance(c.get("id"), str) and c["id"] and isinstance(c.get("name"), str)
                 for c in decl)):
             errors.append("pack.json.categories: must be a list of {id, name}")
+        if meta.get("level_from") is not None and meta["level_from"] not in LEVEL_FROM:
+            errors.append("pack.json.level_from: must be experience or occupation")
         conn.execute("INSERT INTO packs (id, name) VALUES (?, ?)", (pid, doc.get("name") or pid))
         if meta:
             conn.execute("INSERT INTO pack_meta (pack, data) VALUES (?, ?)", (pid, _dumps(meta)))
@@ -295,6 +303,10 @@ def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> d
                 errors.append(f"{w}: price must be a whole number of experience")
                 continue
             levels = row.get("levels")
+            if row.get("level_from") is not None and row["level_from"] not in LEVEL_FROM:
+                errors.append(f"{w}.level_from: must be experience or occupation")
+            if row.get("levels_mode") is not None and row["levels_mode"] not in LEVELS_MODES:
+                errors.append(f"{w}.levels_mode: must be stack or replace")
             if levels is not None:
                 if not isinstance(levels, list) or not levels:
                     errors.append(f"{w}.levels: must be a non-empty list")
@@ -456,10 +468,34 @@ def _import_character(conn, refs: _Refs, pid: str, ci: int, c: Any, errors: list
             r = refs.resolve(table, c[key], f"{w}.{key}", errors)
             if r:
                 cols[f"{col}_pack"], cols[f"{col}_id"] = r
+    # occupations: one "occupation" (at the character's "level"), or "occupations": [{"id", "level"}, ...]
+    held: list[tuple[str, str, int | None]] = []
+    if c.get("occupations") is not None:
+        if c.get("occupation") is not None:
+            errors.append(f"{w}: give occupation or occupations, not both")
+        elif not isinstance(c["occupations"], list) or not c["occupations"]:
+            errors.append(f"{w}.occupations: must be a non-empty list of {{id, level}}")
+        else:
+            for i, o in enumerate(c["occupations"]):
+                ow = f"{w}.occupations[{i}]"
+                if not isinstance(o, dict) or not isinstance(o.get("level"), int) or o["level"] < 1:
+                    errors.append(f"{ow}: needs id and a level of 1 or more")
+                    continue
+                r = refs.resolve("occupations", o.get("id"), ow, errors)
+                if r and r not in [(h[0], h[1]) for h in held]:
+                    held.append((r[0], r[1], o["level"]))
+                elif r:
+                    errors.append(f"{ow}: occupation listed twice")
+            if held:
+                cols["occupation_pack"], cols["occupation_id"] = held[0][0], held[0][1]
+    elif cols.get("occupation_id"):
+        held.append((cols["occupation_pack"], cols["occupation_id"], None))
     cols["data"] = _dumps({k: v for k, v in c.items() if k not in CHAR_KEYS})
     names = ", ".join(cols)
     conn.execute(f"INSERT INTO characters ({names}) VALUES ({', '.join('?' * len(cols))})", list(cols.values()))
     cid = c["id"]
+    for i, (opack, oid, olevel) in enumerate(held):
+        conn.execute("INSERT INTO character_occupations VALUES (?,?,?,?,?)", (cid, i, opack, oid, olevel))
 
     attrs = c.get("attrs") or {}
     if not isinstance(attrs, dict):
@@ -599,7 +635,13 @@ def character_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
         doc["npc"] = bool(r["npc"])
     if r["level"] is not None:
         doc["level"] = r["level"]
+    held = conn.execute("SELECT * FROM character_occupations WHERE character_id=? ORDER BY position", (cid,)).fetchall()
+    listed = any(o["level"] is not None for o in held)
     for key, col in REF_COLUMNS.items():
+        if key == "occupation" and listed:
+            doc["occupations"] = [{"id": _ref_out(pack, o["occupation_pack"], o["occupation_id"]), "level": o["level"]}
+                                  for o in held]
+            continue
         ref = _ref_out(pack, r[f"{col}_pack"], r[f"{col}_id"])
         if ref is not None:
             doc[key] = ref

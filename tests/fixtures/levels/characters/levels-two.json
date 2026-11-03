@@ -1,0 +1,59 @@
+{
+  "id": "levels-two",
+  "name": "Two occupations",
+  "occupations": [
+    {
+      "id": "warrior",
+      "level": 7
+    },
+    {
+      "id": "scribe",
+      "level": 3
+    }
+  ],
+  "attrs": {
+    "strength": 12,
+    "agility": 10,
+    "endurance": 10,
+    "speed": 10,
+    "intellect": 10,
+    "willpower": 10,
+    "appearance": 10
+  },
+  "channels": {
+    "actions": 2,
+    "strike": 0,
+    "defense": 0,
+    "initiative": 0
+  },
+  "items": [
+    {
+      "id": "bronze_giant"
+    }
+  ],
+  "abilities": [
+    {
+      "id": "sword_drill"
+    },
+    {
+      "id": "letters"
+    },
+    {
+      "id": "swimming"
+    },
+    {
+      "id": "tally",
+      "level": 2
+    },
+    {
+      "id": "giant_piloting",
+      "level": 1
+    },
+    {
+      "id": "oath_of_the_order"
+    }
+  ],
+  "activated": [
+    "bronze_giant"
+  ]
+}

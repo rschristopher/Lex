@@ -99,6 +99,75 @@ def owner_effects(
     return out
 
 
+# ---------------------------------------------------------------- occupations and levels
+# A character holds one or more occupations, each at its own level. An ability row with levels says where its
+# level comes from ("level_from", or the pack's "level_from" in pack.json; default "experience"):
+#   experience: the character owns one level, bought one at a time (the stored level);
+#   occupation: the level is the highest level among the character's occupations whose sets list the row,
+#               else the character's highest occupation level (capped at the row's last level).
+# And how its levels combine ("levels_mode", default "stack"):
+#   stack: owning level n gives the effect rows of levels 1..n;  replace: only those of level n.
+LEVEL_FROM = ("experience", "occupation")
+LEVELS_MODES = ("stack", "replace")
+
+
+def character_occupations(conn: sqlite3.Connection, cid: str) -> list[dict[str, Any]]:
+    """The occupations a character holds, each with its level (a NULL level is the character's level)."""
+    ch = conn.execute("SELECT level FROM characters WHERE id=?", (cid,)).fetchone()
+    base = (ch["level"] if ch else None) or 1
+    out = []
+    for r in conn.execute("SELECT * FROM character_occupations WHERE character_id=? ORDER BY position", (cid,)):
+        name = conn.execute("SELECT name FROM occupations WHERE pack=? AND id=?", (r["occupation_pack"], r["occupation_id"])).fetchone()
+        out.append({"pack": r["occupation_pack"], "id": r["occupation_id"], "name": name["name"] if name else r["occupation_id"],
+                    "level": r["level"] if r["level"] is not None else base})
+    return out
+
+
+def level_rules(conn: sqlite3.Connection, pack: str, aid: str) -> tuple[str, str]:
+    """(level_from, levels_mode) for an ability row: the row's own keys, else the pack's, else the defaults."""
+    row = conn.execute("SELECT data FROM abilities WHERE pack=? AND id=?", (pack, aid)).fetchone()
+    data = json.loads(row["data"]) if row else {}
+    meta = conn.execute("SELECT data FROM pack_meta WHERE pack=?", (pack,)).fetchone()
+    pack_from = (json.loads(meta["data"]) if meta else {}).get("level_from")
+    level_from = data.get("level_from") or pack_from or LEVEL_FROM[0]
+    return level_from, data.get("levels_mode") or LEVELS_MODES[0]
+
+
+def occupation_level(conn: sqlite3.Connection, cid: str, pack: str, aid: str,
+                     occupations: list[dict[str, Any]] | None = None) -> int:
+    """The highest level among the character's occupations whose sets list this row, else the highest one."""
+    occupations = character_occupations(conn, cid) if occupations is None else occupations
+    listing = [o["level"] for o in occupations if conn.execute(
+        "SELECT 1 FROM occupation_sets WHERE occupation_pack=? AND occupation_id=? AND ability_pack=? AND ability_id=?",
+        (o["pack"], o["id"], pack, aid)).fetchone()]
+    if listing:
+        return max(listing)
+    if occupations:
+        return max(o["level"] for o in occupations)
+    ch = conn.execute("SELECT level FROM characters WHERE id=?", (cid,)).fetchone()
+    return (ch["level"] if ch else None) or 1
+
+
+def effective_level(conn: sqlite3.Connection, cid: str, pack: str, aid: str, owned_level: int | None,
+                    occupations: list[dict[str, Any]] | None = None) -> int | None:
+    """The level of an owned row that counts: the stored one, or for occupation-driven rows the occupation level."""
+    n = conn.execute("SELECT COUNT(*) FROM ability_levels WHERE ability_pack=? AND ability_id=?", (pack, aid)).fetchone()[0]
+    if not n:
+        return owned_level
+    if level_rules(conn, pack, aid)[0] == "occupation":
+        return min(occupation_level(conn, cid, pack, aid, occupations), n)
+    return owned_level
+
+
+def level_effects(conn: sqlite3.Connection, pack: str, aid: str, level: int | None) -> list[dict[str, Any]]:
+    """Effect rows of an owned level: levels 1..n when they stack, only level n when each replaces the one before."""
+    if not level:
+        return []
+    mode = level_rules(conn, pack, aid)[1]
+    levels = [level] if mode == "replace" else range(1, level + 1)
+    return [e for lv in levels for e in owner_effects(conn, "ability", pack, aid, level=lv)]
+
+
 def owned_abilities(conn: sqlite3.Connection, cid: str) -> set[tuple[str, str]]:
     return {
         (r["ability_pack"], r["ability_id"])
@@ -157,6 +226,9 @@ def unmet(
         elif kind == "occupation_set":
             if progress is None:
                 progress = {(o["pack"], o["id"]): o["sets_met"] for o in occupation_progress(conn, cid, owned)}
+                # an occupation the character holds meets all of its sets
+                for o in character_occupations(conn, cid):
+                    progress[(o["pack"], o["id"])] = 10**9
             if progress.get(ref, 0) < (r["value"] or 0):
                 problems.append(f"needs set {r['value']} of occupation {r['ref_pack']}:{r['ref_id']}")
         elif kind == "list":
@@ -178,7 +250,8 @@ def character_effects(
 ) -> tuple[list[dict[str, Any]], dict[tuple[str, str], list[str]]]:
     """Every effect row the character's owned rows contribute.
 
-    Species and occupation always; an owned ability unless it breaks a constraint;
+    Species and every occupation held always; an owned ability unless it breaks a constraint (its levels by
+    `effective_level` and `level_effects`);
     an item only while it is switched on (worn), or while it is `used` (the item picked for the attack).
     Conditional rows ("when") are all returned; `situational_effects` decides which apply.
     Returns the effects and the abilities that stopped working.
@@ -189,8 +262,9 @@ def character_effects(
     effects: list[dict[str, Any]] = []
     if ch["species_id"]:
         effects += owner_effects(conn, "species", ch["species_pack"], ch["species_id"])
-    if ch["occupation_id"]:
-        effects += owner_effects(conn, "occupation", ch["occupation_pack"], ch["occupation_id"])
+    occupations = character_occupations(conn, cid)
+    for o in occupations:
+        effects += owner_effects(conn, "occupation", o["pack"], o["id"])
     owned = owned_abilities(conn, cid)
     broken: dict[tuple[str, str], list[str]] = {}
     for r in conn.execute("SELECT * FROM character_abilities WHERE character_id=? ORDER BY position", (cid,)):
@@ -200,9 +274,7 @@ def character_effects(
             broken[key] = problems
             continue
         effects += owner_effects(conn, "ability", *key)
-        # Owning level n: the effect rows of levels 1..n stack.
-        for lv in range(1, (r["level"] or 0) + 1):
-            effects += owner_effects(conn, "ability", *key, level=lv)
+        effects += level_effects(conn, *key, effective_level(conn, cid, *key, r["level"], occupations))
     active = {r["ref"] for r in conn.execute("SELECT ref FROM character_active WHERE character_id=?", (cid,))}
     for r in conn.execute("SELECT * FROM character_items WHERE character_id=? ORDER BY position", (cid,)):
         if r["item_id"] in active or (r["item_pack"], r["item_id"]) == used:
@@ -295,7 +367,14 @@ def buy_ability(
         "SELECT * FROM character_abilities WHERE character_id=? AND ability_pack=? AND ability_id=?", (cid, pack, aid)
     ).fetchone()
     levels = ability_levels(conn, pack, aid)
-    if levels:
+    if levels and level_rules(conn, pack, aid)[0] == "occupation":
+        # owned once; its level follows the character's occupation level
+        if owned:
+            raise Refused("already owned; its level follows the occupation level")
+        if level is not None:
+            raise Refused("its level follows the occupation level, it is not bought")
+        nxt, price = None, levels[0]["price"]
+    elif levels:
         nxt = (owned["level"] or 0) + 1 if owned else 1
         if nxt > len(levels):
             raise Refused("already at the top level")
@@ -314,7 +393,7 @@ def buy_ability(
         if problems:
             raise Refused("; ".join(problems))
         if price is None:
-            raise Refused("the pack sets no price for this " + ("level" if levels else "ability"))
+            raise Refused("the pack sets no price for this " + ("level" if nxt else "ability"))
         if left < price:
             raise Refused(f"needs {price} experience, {left} unspent")
         left -= price

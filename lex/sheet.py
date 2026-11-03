@@ -67,15 +67,18 @@ def resolved_doc(conn: sqlite3.Connection, cid: str, attack: str | None = None) 
         else:
             (armor if kind == "armor" else weapons if kind == "weapon" else gear).append(row)
     effects, broken = engine.character_effects(conn, cid)
+    held = engine.character_occupations(conn, cid)
+    doc["_occupations"] = held
     abilities = []
     for o in conn.execute("SELECT * FROM character_abilities WHERE character_id=? ORDER BY position", (cid,)):
         cat = conn.execute("SELECT * FROM abilities WHERE pack=? AND id=?", (o["ability_pack"], o["ability_id"])).fetchone()
         row = _merged(o, cat, o["ability_pack"], o["ability_id"])
-        if o["level"] is not None:
+        level = engine.effective_level(conn, cid, o["ability_pack"], o["ability_id"], o["level"], held)
+        if level is not None:
             lv = conn.execute("SELECT name FROM ability_levels WHERE ability_pack=? AND ability_id=? AND level=?",
-                              (o["ability_pack"], o["ability_id"], o["level"])).fetchone()
-            row["level"] = o["level"]
-            row["level_name"] = lv["name"] if lv else str(o["level"])
+                              (o["ability_pack"], o["ability_id"], level)).fetchone()
+            row["level"] = level
+            row["level_name"] = lv["name"] if lv else str(level)
         problems = broken.get((o["ability_pack"], o["ability_id"]))
         if problems:
             row["inactive"] = problems
@@ -190,6 +193,10 @@ def sheet(conn: sqlite3.Connection, cid: str, adapter_id: str | None = None, att
         portrait=portrait,
     )
     out["occupations"] = engine.occupation_progress(conn, cid)[:3]
+    out["occupation_levels"] = [{"id": o["id"], "pack": o["pack"], "name": o["name"], "level": o["level"]}
+                                for o in doc["_occupations"]]
+    if ch["level"] is None and doc["_occupations"]:
+        out["level"] = max(o["level"] for o in doc["_occupations"])
     out["vehicles"] = [{"id": v["id"], "name": v.get("name"), "attrs": v["attrs"]} for v in doc["vehicles"]]
     out["pinned"] = _named(conn, "occupations", ch["pinned_pack"], ch["pinned_id"])
     out["unspent_experience"] = ch["xp_unspent"]

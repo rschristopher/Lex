@@ -381,6 +381,20 @@ MIGRATIONS: list[str] = [
     );
     CREATE INDEX item_categories_category ON item_categories(category);
     """,
+    # 8: a character can hold more than one occupation, each at its own level. level NULL: the character's
+    # own level (a document with one "occupation" and a top-level "level"). characters.occupation_* stays the first.
+    """
+    CREATE TABLE character_occupations (
+        character_id TEXT NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
+        position INTEGER NOT NULL,
+        occupation_pack TEXT NOT NULL,
+        occupation_id TEXT NOT NULL,
+        level INTEGER,
+        PRIMARY KEY (character_id, occupation_pack, occupation_id)
+    );
+    INSERT INTO character_occupations (character_id, position, occupation_pack, occupation_id, level)
+        SELECT id, 0, occupation_pack, occupation_id, NULL FROM characters WHERE occupation_id IS NOT NULL;
+    """,
 ]
 
 

@@ -332,6 +332,7 @@ async function renderDetail(s) {
     art.append(section("Requirements", ul));
   }
   if (d.levels.length) {
+    if (d.levels_rule) art.append(el("p", "levels-rule", d.levels_rule));
     const ol = el("ol", "levels");
     for (const lv of d.levels) {
       const li = el("li", "level");
