@@ -1,0 +1,323 @@
+{
+ "id": "beowulf",
+ "title": "Beowulf: Grendel, his mother, and the dragon",
+ "source": {
+  "work": "Beowulf, translated by John Lesslie Hall (1892)",
+  "text": "beowulf.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Beowulf and the Danes",
+   "beats": [
+    "b-thirty"
+   ]
+  },
+  {
+   "id": "fen-monster",
+   "kind": "species",
+   "text": "Grendel and his mother, man-eating monsters of the fen and mere",
+   "beats": [
+    "b-grendel",
+    "b-mother"
+   ]
+  },
+  {
+   "id": "sea-monster",
+   "kind": "species",
+   "text": "nickers and mere-dragons",
+   "beats": [
+    "b-nickers",
+    "b-mere"
+   ]
+  },
+  {
+   "id": "dragon",
+   "kind": "species",
+   "text": "a fire-spewing dragon guarding a hoard",
+   "beats": [
+    "b-dragon"
+   ]
+  },
+  {
+   "id": "warrior",
+   "kind": "occupation",
+   "text": "Beowulf, hero-in-battle",
+   "beats": [
+    "b-thirty"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "Beowulf later rules the Geats fifty years",
+   "beats": [
+    "b-king"
+   ]
+  },
+  {
+   "id": "grapple",
+   "kind": "ability",
+   "text": "fights bare-handed, trusting to hand-grip",
+   "beats": [
+    "b-grip",
+    "b-shoulder"
+   ]
+  },
+  {
+   "id": "swim",
+   "kind": "ability",
+   "text": "a swimming-match; swims up from the mere",
+   "beats": [
+    "b-swim",
+    "b-nickers"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "the sword against nickers and the giant-sword",
+   "beats": [
+    "b-nickers",
+    "b-giant-sword"
+   ]
+  },
+  {
+   "id": "fire-breath",
+   "kind": "ability",
+   "text": "the dragon vomits fire",
+   "beats": [
+    "b-fire"
+   ]
+  },
+  {
+   "id": "flight",
+   "kind": "ability",
+   "text": "the dragon flies by night",
+   "beats": [
+    "b-dragon"
+   ]
+  },
+  {
+   "id": "corrosive-blood",
+   "kind": "ability",
+   "text": "the monster's blood melts the sword-blade",
+   "beats": [
+    "b-melt"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "beowulf",
+   "name": "Beowulf",
+   "species": "human",
+   "occupation": "warrior",
+   "abilities": [
+    "grapple",
+    "swim",
+    "melee-weapon"
+   ],
+   "attrs": {
+    "strength": {
+     "derive": "lift",
+     "beats": [
+      "b-thirty"
+     ]
+    }
+   }
+  },
+  {
+   "id": "grendel",
+   "name": "Grendel",
+   "species": "fen-monster",
+   "attrs": {
+    "strength": {
+     "derive": "lift",
+     "beats": [
+      "b-carries"
+     ]
+    }
+   }
+  },
+  {
+   "id": "mother",
+   "name": "Grendel's mother",
+   "species": "fen-monster",
+   "abilities": [
+    "corrosive-blood"
+   ]
+  },
+  {
+   "id": "dragon",
+   "name": "The dragon",
+   "species": "dragon",
+   "abilities": [
+    "fire-breath",
+    "flight"
+   ]
+  },
+  {
+   "id": "nicker",
+   "name": "A nicker",
+   "species": "sea-monster"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-thirty",
+   "quote": "Has the strength of thirty men. Engages in a swimming-match with Breca.",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "lift",
+     "mass_kg": 1800,
+     "outcome": "success",
+     "estimate": true,
+     "note": "Thirty men; Lex Strength 10 lifts 60 kg, so about 1.8 t."
+    }
+   ]
+  },
+  {
+   "id": "b-swim",
+   "quote": "Engages in a swimming-match with Breca.",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "has",
+     "need": "swim",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-nickers",
+   "quote": "But me did it fortune[1] to fell with my weapon Nine of the nickers.",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    },
+    {
+     "character": "beowulf",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-grendel",
+   "quote": "Grendel comes, the great march-stepper, bearing God's anger."
+  },
+  {
+   "id": "b-carries",
+   "quote": "Thirty of thanemen; thence he departed",
+   "checks": [
+    {
+     "character": "grendel",
+     "kind": "lift",
+     "mass_kg": 2100,
+     "outcome": "success",
+     "estimate": true,
+     "note": "He carries off thirty sleeping men; about 70 kg each, so about 2.1 t."
+    }
+   ]
+  },
+  {
+   "id": "b-grip",
+   "quote": "No arms are used, both combatants trusting to strength and hand-grip.",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "has",
+     "need": "grapple",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-shoulder",
+   "quote": "Beowulf tears Grendel's shoulder from its socket",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-mother",
+   "quote": "she seizes one of Hrothgar's favorite counsellors, and carries him off and devours him."
+  },
+  {
+   "id": "b-mere",
+   "quote": "Many a serpent, mere-dragons wondrous"
+  },
+  {
+   "id": "b-giant-sword",
+   "quote": "An ancient giant-sword, of edges a-doughty,",
+   "checks": [
+    {
+     "character": "beowulf",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-melt",
+   "quote": "The blood having touched it, contracting and shriveling",
+   "checks": [
+    {
+     "character": "mother",
+     "kind": "has",
+     "need": "corrosive-blood",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-king",
+   "quote": "Beowulf subsequently becomes king of his own people, the Geats."
+  },
+  {
+   "id": "b-dragon",
+   "quote": "He who flaming and fiery flies to the barrows,",
+   "checks": [
+    {
+     "character": "dragon",
+     "kind": "has",
+     "need": "flight",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-fire",
+   "quote": "The stranger began then to vomit forth fire,",
+   "checks": [
+    {
+     "character": "dragon",
+     "kind": "has",
+     "need": "fire-breath",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

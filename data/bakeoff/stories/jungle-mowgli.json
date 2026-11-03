@@ -1,0 +1,176 @@
+{
+ "id": "jungle-mowgli",
+ "title": "Mowgli's Brothers (Kipling)",
+ "source": {
+  "work": "Rudyard Kipling, The Jungle Book (1894)",
+  "text": "jungle-mowgli.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Mowgli, a man's cub",
+   "beats": [
+    "b-stare"
+   ]
+  },
+  {
+   "id": "wolf",
+   "kind": "species",
+   "text": "the Seeonee wolf pack",
+   "beats": [
+    "b-stare"
+   ]
+  },
+  {
+   "id": "big-cat",
+   "kind": "species",
+   "text": "Shere Khan the tiger",
+   "beats": [
+    "b-fire"
+   ]
+  },
+  {
+   "id": "bear",
+   "kind": "species",
+   "text": "Baloo, who teaches the Law",
+   "beats": [
+    "b-baloo"
+   ]
+  },
+  {
+   "id": "missing-limb",
+   "kind": "ability",
+   "text": "Shere Khan, lame from birth",
+   "beats": [
+    "b-lame"
+   ]
+  },
+  {
+   "id": "fear-aura",
+   "kind": "ability",
+   "text": "wolves cannot meet his stare",
+   "beats": [
+    "b-stare"
+   ]
+  },
+  {
+   "id": "lore",
+   "kind": "ability",
+   "text": "Baloo teaches the Law of the Jungle",
+   "beats": [
+    "b-baloo"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "beats the tiger with a burning branch",
+   "beats": [
+    "b-fire"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "mowgli",
+   "name": "Mowgli",
+   "species": "human",
+   "abilities": [
+    "fear-aura",
+    "melee-weapon"
+   ]
+  },
+  {
+   "id": "shere-khan",
+   "name": "Shere Khan",
+   "species": "big-cat",
+   "abilities": [
+    "missing-limb"
+   ],
+   "attrs": {
+    "willpower": {
+     "value": 8,
+     "beats": [
+      "b-fire"
+     ],
+     "estimate": true,
+     "note": "whimpers in fear of fire"
+    }
+   }
+  },
+  {
+   "id": "baloo",
+   "name": "Baloo",
+   "species": "bear",
+   "abilities": [
+    "lore"
+   ]
+  },
+  {
+   "id": "wolf",
+   "name": "A wolf of the pack",
+   "species": "wolf"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-lame",
+   "quote": "He has been lame in one foot from his birth.",
+   "checks": [
+    {
+     "character": "shere-khan",
+     "kind": "has",
+     "need": "missing-limb",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-baloo",
+   "quote": "the sleepy brown bear who teaches the wolf cubs the Law of the Jungle",
+   "checks": [
+    {
+     "character": "baloo",
+     "kind": "has",
+     "need": "lore",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-stare",
+   "quote": "if he stared hard at any wolf, the wolf would be forced to drop his eyes",
+   "checks": [
+    {
+     "character": "mowgli",
+     "kind": "has",
+     "need": "fear-aura",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-fire",
+   "quote": "He beat Shere Khan over the head with the branch, and the tiger whimpered and whined in an agony of fear.",
+   "checks": [
+    {
+     "character": "mowgli",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    },
+    {
+     "character": "shere-khan",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  }
+ ]
+}

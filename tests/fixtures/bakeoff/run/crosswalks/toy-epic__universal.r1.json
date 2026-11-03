@@ -1,0 +1,13 @@
+{
+  "from": "toy-epic",
+  "to": "universal",
+  "run": "r1",
+  "map": {
+    "species/human": [
+      "species/human"
+    ],
+    "occupation/warrior": [
+      "occupation/soldier"
+    ]
+  }
+}

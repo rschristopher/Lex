@@ -44,3 +44,11 @@ def melee_damage(weapon_dice: str, score: int, durability: str, pulled: int | No
         "destroyed": exp(prefix) > exp(durability),
     }
 
+
+
+def lift_kg(score: float) -> float:
+    """docs/universal-system.md, Attributes: 6 kg per point to 30, then 180 kg x 10^((Strength - 30) / 5)."""
+    s = float(score)
+    if s <= 30:
+        return 6.0 * s
+    return 180.0 * 10 ** ((min(s, 100.0) - 30) / 5)

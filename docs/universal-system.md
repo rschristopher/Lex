@@ -8,9 +8,11 @@ There are three primary components of Lex:
 2. combat and gaming layer -- manage player combat and gaming where dice rolls stay on the table and Lex handles the math and rules enforcement; utilizes the same universal effects/constraints engine such that character sheets dynamically update during combat and gameplay.
 3. GM-assistant -- helps manage adventures (serial or episodic) within a larger campaign. LLM-friendly such that custom characters, occupations, locations, and lore can be ingested and integrated into a campaign. 
 
+The game is the GM talking and the players playing their characters in a shared story. The same game can be played with paper and dice alone; tablets assist. Lex does not play the game, and it has nothing to start or stop. Nothing in the app holds the table until a sheet is finished.
+
 For example, ingest Homer's Iliad and Odyssey alongside wild west novelas for a Greek mythological take on the wild west. 
 Or if you want to integrate Japanese demons (oni or yokai) alognside the Greek gods, point your favorite LLM at the relevant text (in any language) and ingest that into Lex.
-Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign. Lex is the ideal RPG harness for a LLM.
+Use the GM-assistant with an LLM to create maps and towns in custom adventures for your campaign before play. At the table, the GM uses it to answer questions, help generate non-player characters, and do other things the GM needs done. It can read all of the campaign: the rules, packs and lore, adventures, and character sheets. The LLM is not involved in the deterministic parts of Lex, such as combat. Lex is the ideal RPG harness for a LLM.
 
 
 See [glossary.md](glossary.md) for definitions of terms.
@@ -19,6 +21,7 @@ The Lex app is NOT a virtual-table-top, and doesn't try to be. Lex manages chara
 The goal is that dice stay on the table, and Lex manages the math (using an effects/constraints engine) of leveling characters, combat, armor, and damage. 
 
 Other games are not separate engines. They are **adapters** which converts characters to/from other systems, acting as a kind of Rosetta stone for tabletop RPGs.
+There is one Lex engine, and one campaign has one set of rules. An adapter is a sheet language: labels, attribute names, and which dice are shown. It does not change the math. A different melee engine is later work, and it is not part of this app.
 Lex presupposes a multiversal RPG, where one can easily integrate disparate lore, for example, ingest Homer's Odyssey alongside wild-west novels for a Greek Mythological cowboy western campaign.
 
 **Packs are not exclusive.** Load as many as you want. Characters, species, occupations, and lore from every pack sit in one campaign. 
@@ -44,6 +47,8 @@ This however creates many conflated and confusing situations where a literal tan
 *Verisimilitude* is the recognition that the system itself shouldn't require GM intervention to avoid villagers with pitchforks defeating a tank.
 Other systems have a more accurate and believable "Damage Resistance" concept (or "Damage Threshold"), where a tank is trivially easy to hit, but the damage from pitchforks is simply never able to hurt the tank, and the tank easily wins against 100 villagers, but the martial artist does not.
 
+Armor is worn hits on the harm track, not a to-hit number. The GM may adapt labels, within the limits of verisimilitude.
+
 
 
 ## Combat Rules
@@ -59,6 +64,12 @@ Lex is customizable to any system (within reason, see *verisimilitude*)
 5. [optional] damage reduction, if applicable (specific to character ability, e.g., reduce fire damage)
 
 Combat has two bonuses, Strike and Defense. Strike applies to every attack. A parry works only against melee and thrown attacks, needs no room, and puts the parrying weapon's durability at stake. A dodge needs room. Neither stops an area effect.
+
+Every attack is physical or mental. A physical attack hits the body, such as a punch, a fireball, lightning, or conjured chains, vines, or tentacles, and is Strike against Defense. A mental attack acts on the target's mind or will, such as mind control, a trance, fear, or an illusion, including an illusion of chains. The attacker rolls the ability's own bonus, and the target makes a resist roll with their Willpower bonus. Resisting, like Defense, is reflexive and never costs the target an action.
+
+Rolls are never compared. The attacker rolls against their own target to land the attack. If it lands, the defender rolls against their own target to dodge, parry, or resist. A lucky attack only lands, and can still be dodged or resisted.
+
+With no bonuses, a Strike, Defense, or resist roll succeeds on 11 or higher on a `d20`, which is 50%. Each +1 lowers the roll needed by 1, which is +5%. Skill and attribute checks use the same base.
 
 A defense, whether it spends an action or comes from Reflex Defense, works only against an attack the defender perceives. What is perceived is the attacker, not the projectile: a dodge gets out of the line of fire before the shot.
 
@@ -82,6 +93,26 @@ In Lex a highly trained martial artist might have 8-10 actions per melee, and ea
 
 Our highly skilled martial artist would easily defeat any one villager, but if there is 100 of them then the martial artist is going to be overwhelmed.
 The tank on the other hand is still impervious to pitch forks (and even punches from the martial artist).
+
+
+
+### Fights in the app
+
+A group is a list the GM makes to see who is together. A fight is two or more groups, and during it a character is in only one of them. Outside a fight the GM groups any characters they want. Groups that follow from location are later work.
+
+The GM marks the groups as fighting, and the tablets of the characters in those groups show the combat screen. Every tablet in the fight shows both groups and the initiative order the whole time. Players can see non-player hit points and armor; in the first version they are always visible, and hiding them for a "what they look like" view is later work.
+
+Initiative is rolled once, at the start of the fight, on the table or with the auto-roll button. That order stays until the fight is over. Each melee gives every character their actions back, and Lex walks the same order, one action at a time; characters with actions left keep coming around. Lex does not stop the fight to collect a new initiative. The GM can call a fresh initiative if the situation changes, such as new characters joining. The GM can end the fight at any time, or it ends on its own when one side is defeated or has fled: the combat screen goes away, the sheets stay as updated, and Lex does not prompt about leftover actions.
+
+On your action you pick a weapon or a power on the combat screen and tap a target when the action needs one. A power spends Anima. How hit points heal depends on the character. Damaged armor in most cases needs repair. At zero flesh hit points a character is unconscious or dead; what happens next is the GM's call. Timed effects and constraints count down by melee during a fight. Outside a fight, timing is the GM's call, and Lex gives the GM tooling to see those timed effects and constraints; Lex does not run a game clock. If the action needs a roll, a modal shows that roll's dice and asks for the result, with a small button that rolls for you. If it does not need a roll, the effect happens when you select it.
+
+The roll modal is on the tablet of the character who is rolling and on the GM's tablet. Either can type the result or use the auto-roll button. The same rule covers every roll. A defense modal includes a pass, so the defender can keep the action and enter no roll.
+
+The GM can undo the last action, or several actions in a row, to fix a mistake such as a mistyped roll.
+
+A player with paper says the action, for example "laser rifle to the bandit." The GM selects it, the player rolls, and the GM enters the number.
+
+Outside a fight, a player can tap a skill on their sheet to open the same roll modal, and the GM can call for a roll, which opens the modal on that character's tablet. The same roll rules apply.
 
 
 
@@ -186,39 +217,79 @@ A character's flesh hit points are a total stored on the sheet. The total comes 
 
 The numeric gauge for magic, psionics, and other supernatural abilities. 
 Anima is measured in Magi or Magic points `M`.
-Anima recuperates dynamically as a character "catches their breath" during or after an encounter.
+Anima recovers at Willpower % of the character's total Anima per minute: Willpower 10 refills in 10 minutes, and Willpower 100 in 1 minute. In a fight, recovery comes only between melees, one sixth of the per-minute amount after each 10-second melee, and none within a melee. Between fights, a character recovers fully.
+
+Anima is Intellect + [Willpower](#willpower) + Endurance + Strength in `M`, plus a species bonus. The human species bonus is rolled `3d6`, from 3 to 18. Anima examples use 10 for it, so an average human has `50 M`. An occupation never grants Anima from nothing: a mage or psychic needs enough Anima to pay for their first abilities.
+
+Every mage or psychic occupation has the same Anima ladder, bought with experience. Each level replaces the formula, and each adds the species bonus:
+
+| Level | Anima | Example |
+|---|---|---|
+| Novice | Intellect + Willpower + Endurance + Strength | all 10s: `50 M` |
+| Apprentice | 10 × Intellect + 100 × Willpower + 60 × Endurance + 30 × Strength | all 10s: `2,010 M` |
+| Professional | 50 × Intellect + 400 × Willpower + 300 × Endurance + 150 × Strength | all 15s: `13,510 M` |
+| Expert | 200 × Intellect + 1,600 × Willpower + 1,200 × Endurance + 600 × Strength | all 20s: `72,010 M` |
+| Master | 800 × Intellect + 6,400 × Willpower + 4,800 × Endurance + 2,400 × Strength | all 30s: `432,010 M` |
+
+Most characters in a typical setting are Professional, and Expert is rare. A Master is a human trained to compete with superheroes and metahumans without cybernetics or metahuman abilities.
+
+Anima uses the standard prefixes: deka, hecto, kilo, then mega, giga, tera, and on; above kilo each prefix is 1,000 times the last. An average human starts at deka, which is enough to begin a mage or psychic occupation. Humans have 1 to 30 in the attributes that feed Anima, so even a Master stays below mega. Most metahumans are also up to 30, and some reach 100. Mega and above is a separate, cosmic category. Experience and occupations cannot reach it, and regular humans never do; it takes a special source, such as being a metahuman or a gift of cosmic power, always at the GM's discretion.
+
+#### Cosmic tiers
+
+Above Master are nine cosmic tiers, one per prefix from mega to quetta, named for the nine choirs of angels from lowest to highest. Each tier has a fallen, or demon, equivalent at the same power. Old gods and mythological beings sit on the same ladder. Angels use Master's coefficients ×100, and each later tier multiplies the one before by 1,000:
+
+| Tier | Fallen equivalent | Prefix | Anima, plus the species bonus | All 1s (`M`) | All 10s (`M`) | All 100s (`M`) |
+|---|---|---|---|---|---|---|
+| Angels | Fallen Angels | mega | 8 × 10⁴ I + 64 × 10⁴ W + 48 × 10⁴ E + 24 × 10⁴ S | 1.44 × 10⁶ + 10 | 1.44 × 10⁷ + 10 | 1.44 × 10⁸ + 10 |
+| Archangels | Fallen Archangels | giga | 8 × 10⁷ I + 64 × 10⁷ W + 48 × 10⁷ E + 24 × 10⁷ S | 1.44 × 10⁹ + 10 | 1.44 × 10¹⁰ + 10 | 1.44 × 10¹¹ + 10 |
+| Principalities | Fallen Principalities | tera | 8 × 10¹⁰ I + 64 × 10¹⁰ W + 48 × 10¹⁰ E + 24 × 10¹⁰ S | 1.44 × 10¹² + 10 | 1.44 × 10¹³ + 10 | 1.44 × 10¹⁴ + 10 |
+| Powers | Fallen Powers | peta | 8 × 10¹³ I + 64 × 10¹³ W + 48 × 10¹³ E + 24 × 10¹³ S | 1.44 × 10¹⁵ + 10 | 1.44 × 10¹⁶ + 10 | 1.44 × 10¹⁷ + 10 |
+| Virtues | Fallen Virtues | exa | 8 × 10¹⁶ I + 64 × 10¹⁶ W + 48 × 10¹⁶ E + 24 × 10¹⁶ S | 1.44 × 10¹⁸ + 10 | 1.44 × 10¹⁹ + 10 | 1.44 × 10²⁰ + 10 |
+| Dominions | Fallen Dominions | zetta | 8 × 10¹⁹ I + 64 × 10¹⁹ W + 48 × 10¹⁹ E + 24 × 10¹⁹ S | 1.44 × 10²¹ + 10 | 1.44 × 10²² + 10 | 1.44 × 10²³ + 10 |
+| Thrones | Fallen Thrones | yotta | 8 × 10²² I + 64 × 10²² W + 48 × 10²² E + 24 × 10²² S | 1.44 × 10²⁴ + 10 | 1.44 × 10²⁵ + 10 | 1.44 × 10²⁶ + 10 |
+| Cherubim | Fallen Cherubim | ronna | 8 × 10²⁵ I + 64 × 10²⁵ W + 48 × 10²⁵ E + 24 × 10²⁵ S | 1.44 × 10²⁷ + 10 | 1.44 × 10²⁸ + 10 | 1.44 × 10²⁹ + 10 |
+| Seraphim | Fallen Seraphim | quetta | 8 × 10²⁸ I + 64 × 10²⁸ W + 48 × 10²⁸ E + 24 × 10²⁸ S | 1.44 × 10³⁰ + 10 | 1.44 × 10³¹ + 10 | 1.44 × 10³² + 10 |
+
+With every attribute from 1 to 100, a pool stays in its tier's prefix. A Master with all 100s has `1,440,010 M`, the same as an Angel with all 1s.
+
+[GM examples of beings on each tier](cosmic-examples.md) are a draft.
+
+A pool is written in the prefix that matches the setting's power band. In a high-damage setting where powers deal hecto-scale damage, a mage's or psychic's power points are hecto, 1 point to `1 hM`, so a new mage with 137 points has `137 hM` (`13,700 M`).
 
 
-### Scaling and Anima Threshold
+### Prefixes and ability upgrades
 
-Lex uses the metric system to scale supernatural Anima, using `M` (Magi points) as the base universal unit. 
-And, like with Danage Thresholds, the Anima Threshold denoted by metric prefixes makes exceptionally large numbers clean and easy to read on a character sheet, especially for powerful characters.
+Anima uses `M` as its unit. Prefixes are notation only: `120 hM` is `12,000 M`.
 
-*   A base character with no real magic or psionic abilities might have an Anima pool of `12 M`.
-*   A mortal mage or psychic character might have an Anima pool of `160 M` with an Anima Threshold of 10, and thus `16 dM`
-*   A powerful demigod or metahuman might possess an Anima pool of `120 hM`, which represents a whopping `12,000 M` and an Anima Threshold of 100.
+*   An average human with no magic or psionic abilities has `50 M`.
+*   An apprentice mage or psychic with all 10s has `2,010 M`.
+*   A professional mage or psychic might have `120 hM`.
 
-### Trivial Costs and At-Will Powers
+An ability can list upgrades, such as reduced cost, free use, or always on. Each upgrade unlocks when the Anima pool reaches a level the ability sets, such as `1 kM`, `10 kM`, or a multiple of the ability's cost; one prefix step is only 10×. Depending on the ability, an upgrade is automatic at that level or is bought with experience. The character must already have the ability. Some abilities have no upgrades. For example, a psychic's sixth sense might become free at `1 kM`, and a fire-bolt power might offer reduced cost from `10 kM`. A free ability still takes an action.
 
-When calculating resource consumption, any ability (spell, psionic, etc) that costs less than a character's Anima Threshold is free, become an at-will power.
+An ability's Anima cost is the only limit on using it. There is no Willpower or prefix requirement, and anyone can attempt any ability. Whether it works on a target is decided by the target's resistance, such as Willpower against mind control.
 
-If a high-tier character casts a low-cost spell, the final cost naturally resolves to zero. This models immense power seamlessly without requiring specialized trait rules or exception lists:
+Each spell, power, or ability has its own skill level, so a character can be an expert in one and a novice in another, and can mix psionics, spells, and other powers. Experience improves whichever abilities the player chooses. The levels are Novice, Apprentice, Professional, Expert, and Master. A non-physical ability's casting roll is a `d20` like a Strike roll, and Expert and Master do not roll:
 
-*   **The God Effect:** A spell costing `30 M` cast by a demigod operating at a hecto-Magic scale (`hM`, scale 100) calculates as zero. The ability is free for that character to cast.
-*   **High-Tier Drain:** If that same demigod channels a world-shaking miracle costing `5,000 M`, the math resolves to `50 hM`. The action inflicts a noticeable drain on their massive reserves, keeping major magic balanced.
+| Level | Succeeds | `d20` |
+|---|---|---|
+| Novice | 50% | 11 or higher |
+| Apprentice | 70% | 7 or higher |
+| Professional | 80% | 5 or higher |
+| Expert | always | no roll |
+| Master | always | no roll |
 
-This also means that as character increases their Anima Threshold, their lower-level abilities (which costs less than their threshold) becone free. 
-
-*Note: While an ability may cost nothing to execute, it is still bound by the action economy and explicitly consumes an attack or action during a melee block.*
+A target can still resist. Skill level and the Anima ladder level are separate. Each ability says whether it uses the Intellect bonus, the Willpower bonus, or neither. An ability that is a physical attack, such as a fireball or conjured chains, has no separate roll to work: it always works, and uses the normal Strike roll against Defense.
 
 
 
 
 ## Attributes
 
-Lex has nine core attributes: Strength, Agility, Endurance, Speed, Intellect, Will, Awareness, Presence, and Appearance.
+Lex has seven core attributes: Strength, Agility, Endurance, Speed, Intellect, Willpower, and Appearance. Persuading, leading, intimidating, and performing are abilities. Hiding and stealth are skills, and a GM can call for a skill or ability roll. Adapters can derive stats such as Charisma from Appearance, Willpower, and Intellect.
 
-Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100.
+Attribute scores are integers, and 10 is an average human. From 1 to 30 a score is linear. The scale ends at 100. Below 1, a tiny creature's Strength or Speed is a fraction between 0 and 1, and the formula reads the same: Strength 0.5 lifts 3 kg.
 
 Strength and Speed have a physical measure:
 
@@ -235,11 +306,11 @@ A point is worth +10% at 10 and +3% at 29. Above 30 a Strength point is ×1.58, 
 
 100 means immeasurable. A score of 100 gets everything 100 gives. Anything beyond that comes from a specific power or ability, such as one that deals cosmic damage, or from the GM. It never comes from the attribute.
 
-Agility, Endurance, Intellect, Will, Awareness, Presence, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
+Agility, Endurance, Intellect, Willpower, and Appearance have no physical measure. They use the same integers. For these, 30 is the best humans on record and above 30 is beyond any human.
 
 ### Attribute table
 
-Strength, Speed, Endurance, and Agility are decided. The other five are proposals.
+All seven attributes are decided.
 
 | Attribute | Measures | Rolled for | 1 | 10 | 30 | 50 | 100 | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -247,11 +318,9 @@ Strength, Speed, Endurance, and Agility are decided. The other five are proposal
 | Speed | top speed, 0.7 m/s per point up to 30 | distance per melee, chases | 0.7 m/s | 7 m/s, untrained sprint | 21 m/s; the 100 m record peak is 18 | 5.1 km/s, under orbital speed | about 10 million times light; crosses the Milky Way in about 4 days | decided |
 | Endurance | how well a body holds up against what is done to it; unitless | resisting fatigue, poison, disease, heat, cold, and vacuum; staying conscious when badly hurt; recovery | bedridden | average adult | elite soldier or marathoner | beyond any human | ordinary poison, disease, and exhaustion cannot touch it | decided |
 | Agility | control and precision, not reaction time; unitless | strike, defense, free steps to pull a blow | cannot balance unaided | average adult | elite gymnast | beyond any human | full control of its body at any speed it can reach | decided |
-| Intellect | reasoning, memory, and learning; unitless | recall, deduction, learning a skill | cannot follow simple instructions | average adult | the best scientists on record | beyond any human | keeps everything it learns and works any ordinary problem through | proposal |
-| Will | resolve; unitless | resisting fear, pain, persuasion, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | proposal |
-| Awareness | perception and intuition; unitless | noticing, searching, sensing danger, reading a situation | barely registers its surroundings | average adult | elite sniper or scout | beyond any human | nothing within reach of its senses goes unnoticed | proposal |
-| Presence | force of personality; unitless | persuading, leading, intimidating, performing | goes unnoticed | average adult | a leader or performer who moves crowds | beyond any human | ordinary people yield or follow | proposal |
-| Appearance | how others react on sight; unitless | first impressions, standing out, blending in | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | proposal |
+| Intellect | reasoning, memory, and learning; unitless | knowledge and technical skills | cannot follow simple instructions | average adult | supernatural human genius; 20 is a human genius | learns a language in hours, a field in a day | knows any subject completely by thinking about it | decided |
+| Willpower | resolve; unitless | pushing through pain and the body's limits; resisting fear, persuasion, mind control, and mental powers; holding concentration | yields to any pressure | average adult | the most disciplined humans on record | beyond any human | ordinary fear, pain, and persuasion cannot move it | decided |
+| Appearance | how attractive a character is; unitless | nothing; it affects no game mechanics | repels on sight | average adult | top fashion model | beyond any human | captivates any ordinary observer | decided |
 
 At 100 or above, a character gets the 100 column. Anything past it, such as surviving deep space or the inside of a star, reading minds, or crossing the galaxy in a step, comes from a specific ability, a power, or the GM.
 
@@ -340,7 +409,7 @@ Distance in a 10-second melee is 10 seconds of top speed: 7 m × Speed up to 30.
 
 Speed is how fast a character, animal, or vehicle moves over time. Above 90 it needs a mechanism that gets around the light-speed limit of general relativity, such as warping or folding space or jumping along a trajectory; without one, Speed stays below 90. Warping, folding, or jumping counts as Speed only when it can land anywhere along its path in a given time. Teleporting with a range, line of sight, or limits on the target is an ability, not Speed. Teleporting with no limits can be 100+, and anything faster than 100 comes from abilities.
 
-A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn.
+A vehicle's Speed is on the vehicle, not the pilot's sheet. Worn gear such as power armor sets the wearer's Speed while it is worn. Power armor and robot armor are vehicles with their own attributes, which replace the wearer's physical attributes, Strength and Speed, while worn; normal armor has no attributes. A vehicle has only physical attributes.
 
 Speed governs movement only. It gives no actions, initiative, or reaction time. Power armor that flies faster than light leaves an ordinary wearer with human reactions and human actions per melee. A species or occupation with high Speed can come with abilities that add actions or reactions, and those are abilities.
 
@@ -368,7 +437,7 @@ Agility bonus = max(0, floor(Agility / 5) − 2)
 
 There is no penalty below 10. The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, +13 at 75, and +18 at 100.
 
-Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
+Skills, occupations, and species add abilities, each with its own Agility-based bonuses. Any character who learns the skill gains the ability. A skill can provide its own bonuses, and any skill can have levels, from novice through master, bought with experience. Each level's bonuses stack with the levels below it, and levels are bought in order without skipping. Gymnastics covers balance and tumbling. A hand-to-hand fighting skill can include catching thrown objects. Pickpocketing, sleight of hand, surgery, and riding a bicycle or a horse are skills too. Reflex Defense is an ability; each skill says whether it grants it and at what level. A sixth sense for danger, which adds to initiative and Defense, comes only from a species or a psionic power and cannot be trained. Catching full-draw arrows or bullets, acting first, and dodging beams are abilities.
 
 #### Safe fall
 
@@ -387,7 +456,7 @@ safe fall (m) = 6 × 2^((Agility − 30) / 5)    above 30
 | 75 | any fall on Earth; impacts to about 250 m/s |
 | 100 | impacts to about 1.4 km/s |
 
-A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe. Proposed: above the safe height, a successful roll halves fall damage.
+A falling human reaches terminal velocity, about 55 m/s, near Agility 54, so from 55 any fall on Earth is safe.
 
 #### Reflex Defense
 
@@ -401,41 +470,49 @@ Reflex Defense is the same whatever its source. Like any defense, it works only 
 
 Advanced fencing and sword-fighting skills, acrobatic occupations, augmented soldiers, and species grant Reflex Defense.
 
+### Intellect
+
+Intellect is reasoning, memory, and learning. From 1 to 30 it is the human range: 10 is average, 20 a human genius, and 30 a supernatural human genius. Its bonus uses the Agility formula and adds to knowledge and technical skill rolls:
+
+```
+Intellect bonus = max(0, floor(Intellect / 5) − 2)
+```
+
+The bonus is +0 at 10, +2 at 20, +4 at 30, +8 at 50, and +18 at 100. Some abilities, such as a spell or psionic power, use the Intellect bonus. Intellect does not add to willpower, perception, or initiative.
+
+Above 30, Intellect sets how fast and how deeply a mind learns:
+
+| Intellect | Learning |
+|---|---|
+| about 40 | perfect recall; masters a field in weeks |
+| about 50 | learns a language in hours, a field in a day |
+| about 75 | learns a field in minutes by reading or watching |
+| 100 | perfect knowledge: thinking about a subject is enough to know it completely, with no study; thinking about French gives fluency and its full history |
+
 ### Endurance
 
 Endurance is how well a body holds up against what is done to it: fatigue, poison, disease, exposure to heat, cold, and vacuum, staying conscious when badly hurt, and recovery. It is a bonus on resistance rolls. It does not set flesh hit points or the flesh prefix. Recovery from Endurance is the default, and a character's abilities can replace it.
 
-### Open questions
+### Willpower
 
-**How is a check bonus computed?**
-A check compares a score with a difficulty. For a lift, the difficulty is the Strength whose lift equals the mass. Below 30 the same difference in points is a different ratio at different scores: 10 against 20 is ×2, and 25 against 30 is ×1.2.
-One proposal: the bonus is 10 × log10 of the ratio of the two measures, rounded. Above 30 it is twice the difference in score. A bonus of +3 is about twice what the task needs at any score. On a `d20` the target is 10 minus the bonus, as in [Dice](#dice). At +9 or more the check always succeeds. At −11 or less it always fails.
+Willpower is resolve, the mental mirror of Endurance. Endurance covers the body's limits; Willpower covers pushing through them, and resisting what is done to the mind: fear, persuasion, mind control and other mental powers, and losing concentration. Pushing through pain is Willpower; the body's tolerance for it is Endurance.
 
-| Bonus | Chance | `d20` | `3d6` | `d100` |
-|---|---|---|---|---|
-| −3 | 40% | 13 or higher | 9 or lower | 61 or higher |
-| 0 | 55% | 10 or higher | 10 or lower | 46 or higher |
-| +1 | 60% | 9 or higher | 11 or lower | 41 or higher |
-| +5 | 80% | 5 or higher | 13 or lower | 21 or higher |
+Willpower is one of the sources of a character's [Anima](#anima), and it sets how fast Anima [recovers](#anima): Willpower % of the total per minute.
 
-* A Strength 21 soldier (126 kg) lifts a 100 kg crate. The difficulty is 17 and the bonus is +1.
-* Strength 15 arm-wrestles Strength 30. The bonus is −3.
-* A Strength 38 power armor flips a 1.8 t car. The difficulty is 35 and the bonus is +6.
-* A Strength 43 dragon drags a 63 t tank. The difficulty is 43 and the bonus is +1.
+As with Strength, up to 30 is human and 30 to 100 is superhuman. Occupations and species can raise Willpower, and experience can buy more.
 
-**What makes two humans of the same mass have different flesh hit points?**
+Willpower's bonus is the resist roll against a [mental attack](#combat-rules), on the `d20` scale. It is +0 up to 10, then +1 every 5 points up to +10 at 60, then +1 every 4 points up to +20 at 100:
 
-**Do flesh hit points grow with experience?**
+* +1 to +10 at 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+* +11 to +20 at 64, 68, 72, 76, 80, 84, 88, 92, 96, 100
 
-**Does Lex need a knock-out track separate from flesh hit points?**
++20 at 100 is immunity to all mental attacks; physical attacks still apply. Powers can add their own resist bonuses, some only against one kind of attack: an immunity to hypnotic suggestion lets a low-Willpower character resist that attack as if at Willpower 100. Shielding other people's minds is an ability, not part of Willpower.
 
-**How do two unitless scores above 30 compare in a check?**
+Adapters map willpower stats from point-buy and level-based games to Willpower: willpower, ego, mental endurance, power, psyche, and wisdom-based saves.
 
-**When two species meet, whose standard sets Appearance?**
+### Appearance
 
-**How is a contest between two characters at 100 settled?**
-
-**How are creatures below 1 shown?** A kitten or an insect lifts less than 6 kg, and the damage prefixes already go down to deci and centi.
+Appearance rates how attractive a character is. It affects no game mechanics in Lex; it is kept for campaigns that wish to use it.
 
 ### Anchors
 
@@ -459,11 +536,13 @@ RPGs have many different dice mechanics, from the classic `d20` roll, to `3d6` (
 
 Under the hood, the Lex engine is tracking effects/constraints, and is doesn't particularly care which dice mechanics determined a hit or miss, Lex just track the result. 
 
-That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` will nean the user just needs a 5 or higher to hit, an 80% likelihood. This means a `d100` is a 21 or higher. And likewise a `3d6` low to hit would be a roll of 13 or lower (a similar 80% likelihood).
+That said, combat bonuses will be adjusted to reflect the dice mechanics, e.g., a +5 to strike on a `d20` means the user needs a 6 or higher to hit, a 75% likelihood. On a `d100` that is 26 or higher. A `3d6` roll low to hit cannot match 75% exactly: 12 or lower is 74.1% (160 of 216), the closest, and 13 or lower is 83.8%.
+
+Every bonus in Lex is stored once on a `d20` scale, where +1 is 5%, and the campaign die converts it.
 
 The GM chooses the system, and can even opt-out of different dice mechanics, for example, skill rolls can be replaced by GM judgment, or attribute rolls can be replaced by a fixed point scale that players to their character as they wish.
 
-A campaign uses one die system for every roll; systems are not mixed by area (see [decisions.md](decisions.md)). For each of the following areas, the adapter sets how that die is read, or opts the area out:
+The GM sets the campaign's die system, for example `3d6`, `d20`, or `d100`. Every player at that table uses it, and the GM can change it at any time for everyone. A campaign uses one die system for every roll; systems are not mixed by area. Sheet labels may still differ per tablet; the die itself does not. For each of the following areas, the adapter sets how that die is read, or opts the area out:
 
 + attributes, character creation and per-level increases 
 + hit points and per-level increases
@@ -472,7 +551,7 @@ A campaign uses one die system for every roll; systems are not mixed by area (se
 + skill rolls, or knowledge rolls
 + saving throws
 
-In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from one to another using a simple probability conversion, and will display rolls like "roll 60 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`.
+In all cases, the underlying Lex engine does not care which dice mechanics are used on the table, Lex faithfully converts from one to another using a simple probability conversion, and will display rolls like "roll 56 or above" if using a `1d100`, or "roll 12 or above" if using a `1d20`, both 45%.
 
 Note that some rolls, like weapon damage, are fixed and universal across all games, although where exceptions exist those should be converted to the standard hit point system (one of the few areas most games agree on).
 
@@ -484,8 +563,76 @@ HUD, Heads Up Display, displays Hit Points and Anima and combat stats.
 Combined Hit Points: flesh on the left, remaining armor next, depleted on the right. Remainder is a darker same-color fill when the Damage Threshold is greater than 1; hover on that remainder shows the Damage Threshold. Black empty only when you are on base unit hits (threshold 1) and under 100. Hit Points colors are blood red (unit) → orange (deka) → amber (hecto) → gold (kilo and up). Anima is blue. Roster and sheet use the same HUD.
 
 
-## Occupations and lore
+## Species and occupations
 
-Species is what a character is, and exactly one. Occupation is what a character does. Lore is prose the engine does not read when resolving the sheet or a fight. The decisions for the app are in [decisions.md](decisions.md).
+Species is what a character is, and exactly one. A human, an elf, a mutant, a dragon. Things with the same name from different sources are different things, shown with their source, such as an elf from one book and an elf from another.
+
+Occupation is what a character does. A soldier, a politician, a wizard.
+
+An occupation is one ordered set of abilities, or several ordered sets side by side. A later set counts only when every set before it is met. The catalog is large, and includes catchalls such as Vagabond. The sheet shows the top two or three. The player can pin one as a reminder of what they are spending toward. The pin does not lock spending.
+
+Abilities are the truth. An ability works as soon as it is bought. Qualifying for an occupation follows from what the character owns. Gaps block the title and do not block the ability. The same purchase can satisfy a requirement on more than one occupation, and it is paid for once. Occupation positions are not added together. A wizard and a scholar are not a single higher number.
+
+Some species have growth that a source book writes as per-level bonuses. That growth is an occupation only that species can advance. The starting body is the first set, so a character who never spends on it stays there. Later sets are bought with experience. A metahuman can spend everything on Mage and leave the species occupation on its first set. The lock runs one way: only that species can advance that occupation, and the species can still advance any other occupation.
+
+Two characters of the same species can have different abilities available. Each carries their own list. A custom species occupation walks that list. The list can be one ordered set, or two or more ordered sets.
+
+An ability can be bought only when its constraints are met. A constraint can require a species, a previous set of an occupation, an ability already owned, or a list written on that character. The campaign can also forbid an ability. The set is made of the abilities you buy. Other abilities can require that set without being part of it.
+
+This is enough to convert characters from point-buy games and from level-based games into the same sheet. A point-buy system with no character level and no occupation level keeps its levels on single traits, and its sheet shows the points and the traits. A leveled occupation shows how far its ordered sets have been met.
+
+
+## Experience, prices, and loot
+
+The price of an ability is written in the data pack. The GM sets it while preparing data, not during play. Play spends that number.
+
+The GM adds unspent experience after a scene or after play. Each character gets their own amount. The GM decides. An adventure can record a suggested amount, and the GM can ignore it.
+
+A new character's starting unspent experience is in the pack. The player may spend it while creating the character or during play. Creation is not a phase the app locks. Fill the sheet enough for the GM to run, the way a paper sheet is filled in.
+
+The GM decides what loot exists, and the players receive it.
+
+### Rewards
+
+After a fight, Lex can open a reward screen. The GM puts up a stack of items and can type an experience award for each character. Experience is spent later, on the sheet.
+
+One player holds an item at a time. They click to claim it and click again to let go. Someone else who wants it talks with them at the table. The holder can let go, or the GM can assign it. The GM can also start a fight over it. The GM controls the screen and can close it whenever they want. While an item is held, every tablet still shows the full item details.
+
+Items nobody took stay on the ground, unclaimed. The GM can open that stack again. Nothing is discarded and nothing is given away by closing the screen.
+
+
+## Server and logins
+
+One local web server. The GM and the players are browsers on their own devices. This is not a cloud app and it is not real security.
+
+Login is a username and a password. The password may be blank. The player or the GM can create the login. Usernames are unique. Becoming the GM is an explicit setup or promote step; the first account created is not automatically GM. More than one login may be GM. A tablet is signed in as one login at a time. A shared tablet at the table is just the GM's login; players who use it are handled the same way as players with paper.
+
+The server can hold dozens of campaigns and dozens of adventures. The GM opens one campaign, and one adventure in that campaign is in play. Only one campaign is in play on the server at a time, even when there is more than one GM. Several GMs can co-run the same campaign, and every GM has full control of it. A GM can also play a character in a campaign they run; that character's turn opens the same locked modal as any player's.
+
+A login can have characters in more than one campaign. Before a campaign is open, the tablet lists every character on that login. After the GM opens a campaign, the screen is built around that campaign and one character. The player can switch to another of their characters in the open campaign, and can still open characters from closed campaigns, but those sit further back. In a fight, the modal follows whichever of their characters has the turn. Outside that turn modal they may switch characters freely, including characters not in the fight. The turn modal itself stays locked to the character whose action it is.
+
+The player does not browse campaigns or adventures. They see their characters, and anything the GM has shared.
+
+Players edit their own characters inside the constraints. The GM sees every player character and every non-player character, and can change a non-player character as they see fit. A GM can also directly edit any player character. Ordinary GM edits follow the same constraints and experience costs as a player's. The GM can also always add a power or ability to a character, or add a constraint to one. An owned ability that breaks a constraint stops working until the constraint is removed.
+
+The GM can generate a random non-player character before the game or during it. It is a full character. The pack decides which rolls are used. The GM can edit the result.
+
+
+## Adventures
+
+An adventure holds locations, stories in prose, maps, and non-player characters, plus any suggested experience, loot, and groups. The GM can edit it during the game. It is enough to run from.
+
+Player characters belong to the campaign and stay as the adventures change.
+
+For any adventure material, the GM can show it or hide it, for every player or for the players they pick. Players do not open the adventure. They see a map, or anything else, only when the GM sends it.
+
+
+## Lore, ingest, and packs
+
+Lore is prose the engine does not read when resolving the sheet or a fight.
+
+Lex is the agentic harness for ingest. The LLM reads a source material, such as Greek mythology or a Civil War story, and iterates with the user on building a data pack from it: characters, locations, powers, and everything else in it. Anyone can ingest; usually it is the GM.
 
 Ingest writes **rows** into `data/packs/` which is ingested into the Lex database; working notes and book links stay in `data/ingest/` (untracked except `data/ingest/README.md`).
+
+During play, sqlite on the server is the live record. Packs are import and export. Characters move between Lex servers through data packs. An exported character can depend on other packs; how dependencies work is later detail. The repo ships only original packs. A pack converted from a copyrighted or licensed game lives only on the local server and is gitignored. It is never committed or published. Ingest notes about a copyrighted game follow the same rule: they stay local and gitignored, not committed to `data/ingest/`. `.gitignore` enforces this: everything under `data/packs/` and `data/ingest/` is ignored except the READMEs and the original `universal` and `u-simplified` packs.

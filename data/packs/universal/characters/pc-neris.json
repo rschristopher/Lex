@@ -3,8 +3,8 @@
   "name": "Neris",
   "npc": false,
   "level": 8,
-  "ancestry": "human",
-  "class": "adept",
+  "species": "human",
+  "occupation": "adept",
   "portrait": "pc-neris.jpg",
   "coin": 4000,
   "attrs": {
@@ -13,9 +13,7 @@
     "endurance": 13,
     "speed": 10,
     "intellect": 17,
-    "will": 16,
-    "awareness": 15,
-    "presence": 13,
+    "willpower": 16,
     "appearance": 12
   },
   "gauges": [
@@ -35,86 +33,45 @@
     "defense": 3,
     "initiative": 2
   },
-  "armor": [
+  "items": [
     {
-      "id": "travel_cloak",
-      "name": "Travel cloak",
-      "prefix": "unit",
-      "total": 15,
-      "slot": "body"
-    }
-  ],
-  "weapons": [
-    {
-      "id": "punch",
-      "name": "Punch",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "travel_cloak"
     },
     {
-      "id": "kick",
-      "name": "Kick",
-      "damage": "1d6",
-      "material": "flesh and bone",
-      "durability": "unit"
+      "id": "punch"
     },
     {
-      "id": "staff",
-      "name": "Staff",
-      "damage": "2d6",
-      "material": "wood",
-      "durability": "unit"
+      "id": "kick"
+    },
+    {
+      "id": "staff"
     }
   ],
   "abilities": [
     {
       "id": "magic_shield",
-      "name": "Magic shield",
-      "kind": "spell",
-      "slot": "spell",
-      "prefix": "unit",
       "total": 50
     },
     {
-      "id": "energy_bolt",
-      "name": "Energy bolt",
-      "kind": "spell",
-      "damage": "4d6",
-      "prefix": "unit"
+      "id": "energy_bolt"
     },
     {
-      "id": "arc",
-      "name": "Arc",
-      "kind": "spell",
-      "damage": "1d6",
-      "prefix": "hecto"
+      "id": "arc"
     },
     {
-      "id": "call_storm",
-      "name": "Call storm",
-      "kind": "spell",
-      "damage": "10d6",
-      "prefix": "hecto"
+      "id": "call_storm"
     },
     {
-      "id": "channel",
-      "name": "Channel",
-      "qty": "80%"
+      "id": "channel"
     },
     {
-      "id": "lore",
-      "name": "Lore",
-      "qty": "75%"
+      "id": "lore"
     },
     {
-      "id": "sense_current",
-      "name": "Sense current",
-      "qty": "70%"
+      "id": "sense_current"
     },
     {
       "id": "languages",
-      "name": "Languages",
       "qty": "85%"
     }
   ],

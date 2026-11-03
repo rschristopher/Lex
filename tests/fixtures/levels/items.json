@@ -1,0 +1,14 @@
+[
+  {
+    "id": "bronze_giant",
+    "name": "Bronze giant",
+    "kind": "vehicle",
+    "slot": "body",
+    "categories": [
+      "giant"
+    ],
+    "attrs": {
+      "strength": 40
+    }
+  }
+]

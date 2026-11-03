@@ -1,0 +1,386 @@
+[
+  {
+    "id": "sword_drill",
+    "name": "Sword drill",
+    "kind": "skill",
+    "levels": [
+      {
+        "name": "Level 1",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 2",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 3",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 4",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 5",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "riding",
+    "name": "Riding",
+    "kind": "skill",
+    "levels": [
+      {
+        "name": "Level 1",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "initiative",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 2",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "initiative",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 3",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "initiative",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 4",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "initiative",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 5",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "initiative",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "letters",
+    "name": "Letters",
+    "kind": "skill",
+    "levels": [
+      {
+        "name": "Level 1",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "lore",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 2",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "lore",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 3",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "lore",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 4",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "lore",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 5",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "lore",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "swimming",
+    "name": "Swimming",
+    "kind": "skill",
+    "levels": [
+      {
+        "name": "Level 1",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "endurance_rolls",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 2",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "endurance_rolls",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 3",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "endurance_rolls",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 4",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "endurance_rolls",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 5",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "endurance_rolls",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tally",
+    "name": "Tally",
+    "kind": "skill",
+    "level_from": "experience",
+    "levels": [
+      {
+        "name": "Level 1",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "counting",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 2",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "counting",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 3",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "counting",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 4",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "counting",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Level 5",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "counting",
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "giant_piloting",
+    "name": "Giant piloting",
+    "kind": "skill",
+    "level_from": "experience",
+    "levels_mode": "replace",
+    "levels": [
+      {
+        "name": "Basic",
+        "price": 1,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "actions",
+            "value": 1,
+            "when": {
+              "wearing": "giant"
+            }
+          },
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 1,
+            "when": {
+              "wearing": "giant"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Elite",
+        "price": 2,
+        "effects": [
+          {
+            "verb": "mod.channel",
+            "target": "actions",
+            "value": 2,
+            "when": {
+              "wearing": "giant"
+            }
+          },
+          {
+            "verb": "mod.channel",
+            "target": "strike",
+            "value": 3,
+            "when": {
+              "wearing": "giant"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oath_of_the_order",
+    "name": "Oath of the order",
+    "kind": "skill",
+    "price": 1,
+    "requires": [
+      {
+        "kind": "occupation_set",
+        "id": "warrior",
+        "set": 1
+      }
+    ],
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "defense",
+        "value": 1
+      }
+    ]
+  }
+]

@@ -5,9 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lex</title>
   <link rel="stylesheet" href="/static/sheet.css">
+  <link rel="stylesheet" href="/static/nav.css">
 </head>
 <body>
   <header class="top">
+    <a class="brand" href="/">LEX</a>
+    <nav class="tabs" aria-label="Main">
+      <a href="/" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.3.2 3.9 1.8 4.5 4.8"/></svg><span>Characters</span></a>
+      <a href="/fight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="M9.5 6.5 13 3h3v3l-3.5 3.5"/><path d="m5 14 4 4"/><path d="m7 17-3 3"/></svg><span>Fight</span></a>
+      <a href="/browse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Zm0 0A2 2 0 0 0 6 22h13v-4"/><path d="M8 7h7M8 11h5"/></svg><span>Library</span></a>
+    </nav>
+    <form class="gsearch" action="/browse" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" name="q" placeholder="Search species, skills, weapons, places…" aria-label="Search the library" autocomplete="off">
+    </form>
     <a id="home" href="/" hidden>Roster</a>
     <label class="adapter-wrap">
       <span>View</span>
@@ -18,7 +29,24 @@
       <select id="scale" aria-label="Scale"></select>
     </label>
     <p id="err" hidden></p>
+    <form id="login" class="auth" hidden>
+      <input id="username" placeholder="Username" autocomplete="username" required>
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+      <button type="submit">Sign in</button>
+      <button type="button" id="signup">Sign up</button>
+    </form>
+    <div id="account" class="auth" hidden>
+      <span id="who"></span>
+      <button type="button" id="new-character">New character</button>
+      <button type="button" id="logout">Sign out</button>
+    </div>
   </header>
+  <form id="create" class="create" hidden>
+    <input id="new-name" placeholder="Name" required>
+    <select id="new-species" required></select>
+    <button type="submit">Create</button>
+    <button type="button" id="create-cancel">Cancel</button>
+  </form>
   <div id="sheet" class="sheet"></div>
   <script type="module" src="/static/sheet.js"></script>
 </body>

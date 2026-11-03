@@ -1,8 +1,0 @@
-{
-  "id": "adept",
-  "name": "Adept",
-  "kind": "class",
-  "effects": [
-    {"verb": "mod.channel", "target": "strike", "op": "add", "value": 1}
-  ]
-}

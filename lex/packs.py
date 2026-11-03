@@ -1,0 +1,751 @@
+"""Pack import and export. A pack directory is JSON rows; sqlite is the live record."""
+
+from __future__ import annotations
+
+import json
+import sqlite3
+from pathlib import Path
+from typing import Any
+
+from lex.engine import (
+    LEVEL_FROM,
+    LEVELS_MODES,
+    PHYSICAL_ATTRIBUTES,
+    VEHICLE,
+    check_when,
+)
+
+CHAR_KEYS = [
+    "id", "name", "npc", "level", "species", "occupation", "occupations", "pinned", "unspent_experience",
+    "portrait", "coin", "attrs", "gauges", "channels", "items", "abilities", "list", "activated", "attack",
+]
+CHAR_COLUMNS = {
+    "npc": "npc", "level": "level", "portrait": "portrait", "coin": "coin",
+    "attack": "attack", "unspent_experience": "xp_unspent",
+}
+REF_COLUMNS = {"species": "species", "occupation": "occupation", "pinned": "pinned"}
+ROW_SPLIT = ("attrs", "effects", "requires", "sets", "levels")
+
+
+class PackError(ValueError):
+    def __init__(self, errors: list[str]):
+        super().__init__("; ".join(errors))
+        self.errors = errors
+
+
+def _dumps(obj: Any) -> str:
+    return json.dumps(obj, ensure_ascii=False)
+
+
+def _num(v: Any) -> Any:
+    if isinstance(v, float) and v.is_integer():
+        return int(v)
+    return v
+
+
+def _read(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _write(path: Path, obj: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def read_pack(src: Path) -> dict[str, Any]:
+    """Read a pack directory into one document."""
+    src = Path(src)
+    if not src.is_dir():
+        raise PackError([f"{src}: not a directory"])
+    meta = _read(src / "pack.json") if (src / "pack.json").is_file() else {}
+    doc: dict[str, Any] = {
+        "id": meta.get("id") or src.name,
+        "name": meta.get("name") or meta.get("id") or src.name,
+        "adapter": _read(src / "adapter.json") if (src / "adapter.json").is_file() else None,
+        "adapter_text": (src / "adapter.json").read_text(encoding="utf-8") if (src / "adapter.json").is_file() else None,
+        "species": _read(src / "species.json") if (src / "species.json").is_file() else [],
+        "occupations": [_read(p) for p in sorted((src / "occupations").glob("*.json"))],
+        "abilities": _read(src / "abilities.json") if (src / "abilities.json").is_file() else [],
+        "items": _read(src / "items.json") if (src / "items.json").is_file() else [],
+        "entries": _read(src / "entries.json") if (src / "entries.json").is_file() else [],
+        "meta": {k: v for k, v in meta.items() if k not in ("id", "name")},
+        "characters": [],
+        "portraits": {},
+        "lore": [],
+    }
+    for p in sorted((src / "characters").glob("*.json")):
+        c = _read(p)
+        c.setdefault("id", p.stem)
+        doc["characters"].append(c)
+    pdir = src / "portraits"
+    if pdir.is_dir():
+        for p in sorted(pdir.iterdir()):
+            if p.is_file() and not p.name.startswith("."):
+                doc["portraits"][p.name] = p.read_bytes()
+    ldir = src / "lore"
+    if ldir.is_dir():
+        for p in sorted(ldir.glob("*.md")):
+            doc["lore"].append({"title": p.stem, "body": p.read_text(encoding="utf-8")})
+    return doc
+
+
+class _Refs:
+    """Resolve a reference ("id" or "pack:id") to (pack, id): this pack first, then the database."""
+
+    def __init__(self, conn: sqlite3.Connection, pack_id: str, doc: dict[str, Any]):
+        self.conn = conn
+        self.pack = pack_id
+        self.local = {
+            "species": {r["id"] for r in doc["species"]},
+            "occupations": {r["id"] for r in doc["occupations"]},
+            "abilities": {r["id"] for r in doc["abilities"]},
+            "items": {r["id"] for r in doc["items"]},
+            "entries": {r["id"] for r in doc.get("entries") or [] if isinstance(r, dict)},
+        }
+
+    def resolve(self, table: str, ref: Any, where: str, errors: list[str]) -> tuple[str, str] | None:
+        if not isinstance(ref, str) or not ref:
+            errors.append(f"{where}: reference must be a non-empty string")
+            return None
+        if ":" in ref:
+            pack, rid = ref.split(":", 1)
+            if pack == self.pack and rid in self.local[table]:
+                return pack, rid
+            if self.conn.execute(f"SELECT 1 FROM {table} WHERE pack=? AND id=?", (pack, rid)).fetchone():
+                return pack, rid
+            errors.append(f"{where}: unknown {table} {ref!r}")
+            return None
+        if ref in self.local[table]:
+            return self.pack, ref
+        rows = self.conn.execute(
+            f"SELECT pack FROM {table} WHERE id=? AND pack<>?", (ref, self.pack)
+        ).fetchall()
+        if len(rows) == 1:
+            return rows[0]["pack"], ref
+        if not rows:
+            errors.append(f"{where}: unknown {table} {ref!r}")
+        else:
+            errors.append(f"{where}: {ref!r} is in several packs; write it as pack:id")
+        return None
+
+    def resolve_any(self, ref: Any, where: str, errors: list[str]) -> tuple[str, str, str] | None:
+        """A link to a row in any table: "id" or "pack:id", or "table/id" when an id is in several tables.
+        Rows in this pack win over rows in other packs."""
+        if not isinstance(ref, str) or not ref:
+            errors.append(f"{where}: link must be a non-empty string")
+            return None
+        tables: tuple[str, ...] = LINK_TABLES
+        if "/" in ref and ref.split("/", 1)[0] in LINK_TABLES:
+            t, ref = ref.split("/", 1)
+            tables = (t,)
+        hits: list[tuple[str, str, str]] = []
+        for t in tables:
+            found = self.resolve(t, ref, where, [])
+            if found:
+                hits.append((t, *found))
+        local = [h for h in hits if h[1] == self.pack]
+        if local:
+            hits = local
+        if len(hits) == 1:
+            return hits[0]
+        if not hits:
+            errors.append(f"{where}: unknown row {ref!r}")
+        else:
+            errors.append(f"{where}: {ref!r} names rows in {', '.join(h[0] for h in hits)}; write it as table/id")
+        return None
+
+
+LINK_TABLES = ("species", "occupations", "abilities", "items", "entries")
+
+
+def _check_row(row: Any, where: str, errors: list[str], need: tuple[str, ...] = ("id", "name")) -> bool:
+    if not isinstance(row, dict):
+        errors.append(f"{where}: must be an object")
+        return False
+    ok = True
+    for k in need:
+        if not isinstance(row.get(k), str) or not row.get(k):
+            errors.append(f"{where}: missing {k}")
+            ok = False
+    return ok
+
+
+# Fields a fight reads on an ability or item row (lex/combat.py). All optional.
+COMBAT_COUNTS = ("cost", "melees", "bonus_roll")
+COMBAT_FLAGS = ("mental", "area", "thrown")
+
+
+def _check_combat(row: dict[str, Any], where: str, errors: list[str]) -> bool:
+    ok = True
+    for k in COMBAT_COUNTS:
+        v = row.get(k)
+        if v is not None and (isinstance(v, bool) or not isinstance(v, int) or (k != "bonus_roll" and v < 0)):
+            errors.append(f"{where}.{k}: must be a whole number" + ("" if k == "bonus_roll" else ", 0 or more"))
+            ok = False
+    for k in COMBAT_FLAGS:
+        if k in row and not isinstance(row[k], bool):
+            errors.append(f"{where}.{k}: must be true or false")
+            ok = False
+    return ok
+
+
+def _insert_effects(conn, owner_type, pack, owner_id, effects, where, errors, level=None) -> None:
+    if effects is None:
+        return
+    if not isinstance(effects, list):
+        errors.append(f"{where}.effects: must be a list")
+        return
+    for i, ef in enumerate(effects):
+        w = f"{where}.effects[{i}]"
+        if not isinstance(ef, dict) or not ef.get("verb") or not ef.get("target"):
+            errors.append(f"{w}: needs verb and target")
+            continue
+        value = ef.get("value")
+        if value is not None and not isinstance(value, (int, float)):
+            errors.append(f"{w}: value must be a number")
+            continue
+        if "when" in ef:
+            bad = check_when(ef["when"])
+            if bad:
+                errors.append(f"{w}.{bad}")
+                continue
+        extra = {k: v for k, v in ef.items() if k not in ("verb", "target", "value")}
+        conn.execute(
+            "INSERT INTO effects (owner_type, owner_pack, owner_id, position, verb, target, value, data, level)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
+            (owner_type, pack, owner_id, i, ef["verb"], ef["target"], value, _dumps(extra), level),
+        )
+
+
+def _insert_requirements(conn, refs: _Refs, owner_type, pack, owner_id, reqs, where, errors) -> None:
+    if reqs is None:
+        return
+    if not isinstance(reqs, list):
+        errors.append(f"{where}.requires: must be a list")
+        return
+    tables = {"species": "species", "ability": "abilities", "occupation_set": "occupations"}
+    for i, rq in enumerate(reqs):
+        w = f"{where}.requires[{i}]"
+        kind = rq.get("kind") if isinstance(rq, dict) else None
+        if kind not in ("species", "ability", "occupation_set", "list"):
+            errors.append(f"{w}: kind must be species, ability, occupation_set, or list")
+            continue
+        ref_pack = ref_id = None
+        if kind in tables:
+            r = refs.resolve(tables[kind], rq.get("id"), w, errors)
+            if r is None:
+                continue
+            ref_pack, ref_id = r
+        value = rq.get("set")
+        if kind == "occupation_set" and not isinstance(value, int):
+            errors.append(f"{w}: occupation_set needs an integer set")
+            continue
+        conn.execute(
+            "INSERT INTO requirements (owner_type, owner_pack, owner_id, position, kind, ref_pack, ref_id, value)"
+            " VALUES (?,?,?,?,?,?,?,?)",
+            (owner_type, pack, owner_id, i, kind, ref_pack, ref_id, value),
+        )
+
+
+def _catalog_data(row: dict[str, Any]) -> str:
+    return _dumps({k: v for k, v in row.items() if k not in ROW_SPLIT})
+
+
+def import_pack(conn: sqlite3.Connection, src: str | Path | dict[str, Any]) -> dict[str, int]:
+    """Validate and load a pack into sqlite, replacing any earlier copy. All or nothing."""
+    doc = src if isinstance(src, dict) else read_pack(Path(src))
+    pid = doc["id"]
+    errors: list[str] = []
+    kept = {
+        r["id"]: (r["owner_id"], r["campaign_id"])
+        for r in conn.execute("SELECT id, owner_id, campaign_id FROM characters WHERE pack=?", (pid,))
+    }
+    try:
+        conn.execute("BEGIN")
+        conn.execute("DELETE FROM effects WHERE owner_pack=?", (pid,))
+        conn.execute("DELETE FROM requirements WHERE owner_pack=?", (pid,))
+        conn.execute("DELETE FROM occupation_sets WHERE occupation_pack=?", (pid,))
+        conn.execute("DELETE FROM packs WHERE id=?", (pid,))
+        meta = doc.get("meta") or {}
+        if not isinstance(meta, dict):
+            errors.append("pack.json: must be an object")
+            meta = {}
+        decl = meta.get("categories")
+        if decl is not None and not (isinstance(decl, list) and all(
+                isinstance(c, dict) and isinstance(c.get("id"), str) and c["id"] and isinstance(c.get("name"), str)
+                for c in decl)):
+            errors.append("pack.json.categories: must be a list of {id, name}")
+        if meta.get("level_from") is not None and meta["level_from"] not in LEVEL_FROM:
+            errors.append("pack.json.level_from: must be experience or occupation")
+        conn.execute("INSERT INTO packs (id, name) VALUES (?, ?)", (pid, doc.get("name") or pid))
+        if meta:
+            conn.execute("INSERT INTO pack_meta (pack, data) VALUES (?, ?)", (pid, _dumps(meta)))
+        if doc.get("adapter") is not None:
+            if not isinstance(doc["adapter"], dict):
+                errors.append("adapter.json: must be an object")
+            else:
+                text = doc.get("adapter_text") or json.dumps(doc["adapter"], indent=2, ensure_ascii=False) + "\n"
+                conn.execute("INSERT INTO adapters (pack, data) VALUES (?, ?)", (pid, text))
+        refs = _Refs(conn, pid, doc)
+
+        for i, row in enumerate(doc["species"]):
+            w = f"species[{i}]"
+            if not _check_row(row, w, errors):
+                continue
+            conn.execute("INSERT INTO species (pack, id, position, name, data) VALUES (?,?,?,?,?)",
+                         (pid, row["id"], i, row["name"], _catalog_data(row)))
+        for i, row in enumerate(doc["abilities"]):
+            w = f"abilities[{i}]"
+            if not _check_row(row, w, errors) or not _check_combat(row, w, errors):
+                continue
+            price = row.get("price")
+            if price is not None and (not isinstance(price, int) or price < 0):
+                errors.append(f"{w}: price must be a whole number of experience")
+                continue
+            levels = row.get("levels")
+            if row.get("level_from") is not None and row["level_from"] not in LEVEL_FROM:
+                errors.append(f"{w}.level_from: must be experience or occupation")
+            if row.get("levels_mode") is not None and row["levels_mode"] not in LEVELS_MODES:
+                errors.append(f"{w}.levels_mode: must be stack or replace")
+            if levels is not None:
+                if not isinstance(levels, list) or not levels:
+                    errors.append(f"{w}.levels: must be a non-empty list")
+                    continue
+                if price is not None:
+                    errors.append(f"{w}: an ability with levels sets its price on each level")
+                    continue
+            conn.execute(
+                "INSERT INTO abilities (pack, id, position, name, kind, price, data) VALUES (?,?,?,?,?,?,?)",
+                (pid, row["id"], i, row["name"], row.get("kind"), price, _catalog_data(row)),
+            )
+            for li, lv in enumerate(levels or [], start=1):
+                lw = f"{w}.levels[{li - 1}]"
+                if not isinstance(lv, dict) or not isinstance(lv.get("name"), str) or not lv["name"]:
+                    errors.append(f"{lw}: needs a name")
+                    continue
+                lp = lv.get("price")
+                if lp is not None and (not isinstance(lp, int) or lp < 0):
+                    errors.append(f"{lw}: price must be a whole number of experience")
+                    continue
+                conn.execute(
+                    "INSERT INTO ability_levels VALUES (?,?,?,?,?,?)",
+                    (pid, row["id"], li, lv["name"], lp,
+                     _dumps({k: v for k, v in lv.items() if k not in ("name", "price", "effects")})),
+                )
+                _insert_effects(conn, "ability", pid, row["id"], lv.get("effects"), lw, errors, level=li)
+        for i, row in enumerate(doc["items"]):
+            w = f"items[{i}]"
+            if not _check_row(row, w, errors, ("id", "name", "kind")) or not _check_combat(row, w, errors):
+                continue
+            attrs = row.get("attrs")
+            if attrs is not None and row["kind"] != VEHICLE:
+                errors.append(f"{w}: only a vehicle has attributes; {row['kind']} has none")
+                continue
+            if attrs is not None and (not isinstance(attrs, dict) or not all(
+                k in PHYSICAL_ATTRIBUTES and isinstance(v, (int, float)) and v >= 0 for k, v in attrs.items()
+            )):
+                errors.append(f"{w}.attrs: a vehicle has only physical attributes ({', '.join(PHYSICAL_ATTRIBUTES)}),"
+                              " as numbers, 0 or more")
+                continue
+            cats = row.get("categories")
+            if cats is not None and (not isinstance(cats, list) or not all(isinstance(c, str) and c for c in cats)
+                                     or len(set(cats)) != len(cats)):
+                errors.append(f"{w}.categories: must be a list of different category names")
+                continue
+            conn.execute("INSERT INTO items (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
+                         (pid, row["id"], i, row["name"], row["kind"], _catalog_data(row)))
+            for ci, cat in enumerate(cats or []):
+                conn.execute("INSERT INTO item_categories VALUES (?,?,?,?)", (pid, row["id"], ci, cat))
+            for ai, (k, v) in enumerate((attrs or {}).items()):
+                conn.execute("INSERT INTO item_attrs VALUES (?,?,?,?,?)", (pid, row["id"], ai, k, v))
+        for row in doc["occupations"]:
+            w = f"occupations/{row.get('id') if isinstance(row, dict) else '?'}"
+            if not _check_row(row, w, errors):
+                continue
+            conn.execute("INSERT INTO occupations (pack, id, name, data) VALUES (?,?,?,?)",
+                         (pid, row["id"], row["name"], _catalog_data(row)))
+
+        entries = doc.get("entries") or []
+        if not isinstance(entries, list):
+            errors.append("entries.json: must be a list")
+            entries = []
+        for i, row in enumerate(entries):
+            w = f"entries[{i}]"
+            if not _check_row(row, w, errors, ("id", "name", "kind")):
+                continue
+            if "effects" in row or "requires" in row:
+                errors.append(f"{w}: an entry has no effects or requirements; put them on a species, occupation,"
+                              " ability, or item and link to it")
+                continue
+            conn.execute("INSERT INTO entries (pack, id, position, name, kind, data) VALUES (?,?,?,?,?,?)",
+                         (pid, row["id"], i, row["name"], row["kind"],
+                          _dumps({k: v for k, v in row.items() if k != "links"})))
+
+        # Effects, requirements, and sets after every catalog row exists, so references resolve.
+        for table, owner_type in (("species", "species"), ("abilities", "ability"),
+                                  ("items", "item"), ("occupations", "occupation")):
+            for i, row in enumerate(doc[table]):
+                if not isinstance(row, dict) or not row.get("id"):
+                    continue
+                w = f"{table}/{row['id']}"
+                _insert_effects(conn, owner_type, pid, row["id"], row.get("effects"), w, errors)
+                _insert_requirements(conn, refs, owner_type, pid, row["id"], row.get("requires"), w, errors)
+        for row in doc["occupations"]:
+            if not isinstance(row, dict) or not row.get("id"):
+                continue
+            sets = row.get("sets")
+            if sets is None:
+                continue
+            if not isinstance(sets, list) or not all(isinstance(s, list) for s in sets):
+                errors.append(f"occupations/{row['id']}.sets: must be a list of lists")
+                continue
+            for si, s in enumerate(sets, start=1):
+                for pos, ref in enumerate(s):
+                    r = refs.resolve("abilities", ref, f"occupations/{row['id']}.sets[{si}]", errors)
+                    if r:
+                        conn.execute(
+                            "INSERT INTO occupation_sets VALUES (?,?,?,?,?,?)",
+                            (pid, row["id"], si, pos, r[0], r[1]),
+                        )
+
+        for row in entries:
+            if not isinstance(row, dict) or not row.get("id") or row.get("links") is None:
+                continue
+            links = row["links"]
+            w = f"entries/{row['id']}.links"
+            if not isinstance(links, list):
+                errors.append(f"{w}: must be a list")
+                continue
+            for li, ref in enumerate(links):
+                r = refs.resolve_any(ref, f"{w}[{li}]", errors)
+                if r:
+                    conn.execute("INSERT INTO entry_links VALUES (?,?,?,?,?,?)", (pid, row["id"], li, *r))
+
+        for name, data in doc["portraits"].items():
+            conn.execute("INSERT INTO portraits (pack, name, data) VALUES (?,?,?)", (pid, name, data))
+        for i, lo in enumerate(doc["lore"]):
+            conn.execute("INSERT INTO lore (pack, title, chunk, body) VALUES (?,?,0,?)", (pid, lo["title"], lo["body"]))
+
+        for ci, c in enumerate(doc["characters"]):
+            _import_character(conn, refs, pid, ci, c, errors)
+            if isinstance(c, dict) and c.get("id") in kept:
+                conn.execute("UPDATE characters SET owner_id=?, campaign_id=? WHERE id=?", (*kept[c["id"]], c["id"]))
+
+        if errors:
+            raise PackError(errors)
+        conn.execute("COMMIT")
+    except BaseException:
+        conn.execute("ROLLBACK")
+        raise
+    return {
+        "species": len(doc["species"]), "occupations": len(doc["occupations"]),
+        "abilities": len(doc["abilities"]), "items": len(doc["items"]),
+        "entries": len(entries), "characters": len(doc["characters"]),
+    }
+
+
+def _import_character(conn, refs: _Refs, pid: str, ci: int, c: Any, errors: list[str]) -> None:
+    w = f"characters/{c.get('id') if isinstance(c, dict) else ci}"
+    if not _check_row(c, w, errors):
+        return
+    other = conn.execute("SELECT pack FROM characters WHERE id=?", (c["id"],)).fetchone()
+    if other:
+        errors.append(f"{w}: id already used by pack {other['pack']}")
+        return
+    cols: dict[str, Any] = {"id": c["id"], "pack": pid, "position": ci, "name": c["name"]}
+    for key, col in CHAR_COLUMNS.items():
+        if key in c:
+            v = c[key]
+            if key == "npc":
+                v = 1 if v else 0
+            elif key in ("level", "coin", "unspent_experience") and not isinstance(v, int):
+                errors.append(f"{w}.{key}: must be a whole number")
+                continue
+            cols[col] = v
+    for key, col in REF_COLUMNS.items():
+        if c.get(key) is not None:
+            table = "species" if key == "species" else "occupations"
+            r = refs.resolve(table, c[key], f"{w}.{key}", errors)
+            if r:
+                cols[f"{col}_pack"], cols[f"{col}_id"] = r
+    # occupations: one "occupation" (at the character's "level"), or "occupations": [{"id", "level"}, ...]
+    held: list[tuple[str, str, int | None]] = []
+    if c.get("occupations") is not None:
+        if c.get("occupation") is not None:
+            errors.append(f"{w}: give occupation or occupations, not both")
+        elif not isinstance(c["occupations"], list) or not c["occupations"]:
+            errors.append(f"{w}.occupations: must be a non-empty list of {{id, level}}")
+        else:
+            for i, o in enumerate(c["occupations"]):
+                ow = f"{w}.occupations[{i}]"
+                if not isinstance(o, dict) or not isinstance(o.get("level"), int) or o["level"] < 1:
+                    errors.append(f"{ow}: needs id and a level of 1 or more")
+                    continue
+                r = refs.resolve("occupations", o.get("id"), ow, errors)
+                if r and r not in [(h[0], h[1]) for h in held]:
+                    held.append((r[0], r[1], o["level"]))
+                elif r:
+                    errors.append(f"{ow}: occupation listed twice")
+            if held:
+                cols["occupation_pack"], cols["occupation_id"] = held[0][0], held[0][1]
+    elif cols.get("occupation_id"):
+        held.append((cols["occupation_pack"], cols["occupation_id"], None))
+    cols["data"] = _dumps({k: v for k, v in c.items() if k not in CHAR_KEYS})
+    names = ", ".join(cols)
+    conn.execute(f"INSERT INTO characters ({names}) VALUES ({', '.join('?' * len(cols))})", list(cols.values()))
+    cid = c["id"]
+    for i, (opack, oid, olevel) in enumerate(held):
+        conn.execute("INSERT INTO character_occupations VALUES (?,?,?,?,?)", (cid, i, opack, oid, olevel))
+
+    attrs = c.get("attrs") or {}
+    if not isinstance(attrs, dict):
+        errors.append(f"{w}.attrs: must be an object")
+        attrs = {}
+    for i, (k, v) in enumerate(attrs.items()):
+        if not isinstance(v, (int, float)) or v < 0:
+            errors.append(f"{w}.attrs.{k}: must be a number, 0 or more")
+            continue
+        conn.execute("INSERT INTO character_attrs VALUES (?,?,?,?)", (cid, i, k, v))
+    for i, g in enumerate(c.get("gauges") or []):
+        if not isinstance(g, dict) or not g.get("id"):
+            errors.append(f"{w}.gauges[{i}]: needs id")
+            continue
+        extra = {k: v for k, v in g.items() if k not in ("id", "prefix", "total", "current")}
+        conn.execute("INSERT INTO character_gauges VALUES (?,?,?,?,?,?,?)",
+                     (cid, i, g["id"], g.get("prefix"), g.get("total"), g.get("current"), _dumps(extra)))
+    for i, (k, v) in enumerate((c.get("channels") or {}).items()):
+        if isinstance(v, dict):
+            conn.execute("INSERT INTO character_channels VALUES (?,?,?,?,?)",
+                         (cid, i, k, int(v.get("value") or 0), _dumps(v)))
+        elif isinstance(v, int):
+            conn.execute("INSERT INTO character_channels VALUES (?,?,?,?,NULL)", (cid, i, k, v))
+        else:
+            errors.append(f"{w}.channels.{k}: must be a whole number")
+    for table, key, col in (("abilities", "abilities", "character_abilities"), ("items", "items", "character_items")):
+        for i, own in enumerate(c.get(key) or []):
+            own = {"id": own} if isinstance(own, str) else own
+            if not isinstance(own, dict):
+                errors.append(f"{w}.{key}[{i}]: must be an id or object")
+                continue
+            if key == "items" and "attrs" in own:
+                errors.append(f"{w}.items[{i}]: attributes belong on the vehicle row, not on the character")
+                continue
+            r = refs.resolve(table, own.get("id"), f"{w}.{key}[{i}]", errors)
+            if not r:
+                continue
+            ref_cols = "item_pack, item_id" if key == "items" else "ability_pack, ability_id"
+            data = _dumps({k: v for k, v in own.items() if k not in ("id", "level")})
+            if key == "abilities" and "level" in own:
+                n = conn.execute("SELECT COUNT(*) FROM ability_levels WHERE ability_pack=? AND ability_id=?", r).fetchone()[0]
+                if not isinstance(own["level"], int) or not 1 <= own["level"] <= n:
+                    errors.append(f"{w}.abilities[{i}].level: must be one of the ability's levels, 1 to {n}")
+                    continue
+                conn.execute(f"INSERT INTO {col} (character_id, position, {ref_cols}, data, level) VALUES (?,?,?,?,?,?)",
+                             (cid, i, r[0], r[1], data, own["level"]))
+            else:
+                conn.execute(f"INSERT INTO {col} (character_id, position, {ref_cols}, data) VALUES (?,?,?,?,?)",
+                             (cid, i, r[0], r[1], data))
+    for ref in c.get("list") or []:
+        r = refs.resolve("abilities", ref, f"{w}.list", errors)
+        if r:
+            conn.execute("INSERT INTO character_list VALUES (?,?,?)", (cid, *r))
+    for i, ref in enumerate(c.get("activated") or []):
+        conn.execute("INSERT INTO character_active VALUES (?,?,?)", (cid, i, ref))
+
+
+# ---------------------------------------------------------------- export
+
+
+def _ref_out(owner_pack: str, pack: str | None, rid: str | None) -> str | None:
+    if rid is None:
+        return None
+    return rid if pack == owner_pack else f"{pack}:{rid}"
+
+
+def _effects_out(conn, owner_type, pack, oid, level=None) -> list[dict[str, Any]]:
+    out = []
+    for r in conn.execute(
+        "SELECT * FROM effects WHERE owner_type=? AND owner_pack=? AND owner_id=? AND level IS ? ORDER BY position",
+        (owner_type, pack, oid, level),
+    ):
+        extra = json.loads(r["data"])
+        ef: dict[str, Any] = {"verb": r["verb"], "target": r["target"]}
+        if r["value"] is not None:
+            ef["value"] = _num(r["value"])
+        ef.update(extra)
+        out.append(ef)
+    return out
+
+
+def _requires_out(conn, owner_type, pack, oid) -> list[dict[str, Any]]:
+    out = []
+    for r in conn.execute(
+        "SELECT * FROM requirements WHERE owner_type=? AND owner_pack=? AND owner_id=? ORDER BY position",
+        (owner_type, pack, oid),
+    ):
+        rq: dict[str, Any] = {"kind": r["kind"]}
+        if r["ref_id"] is not None:
+            rq["id"] = _ref_out(pack, r["ref_pack"], r["ref_id"])
+        if r["value"] is not None:
+            rq["set"] = r["value"]
+        out.append(rq)
+    return out
+
+
+def _row_out(conn, owner_type: str, pack: str, r: sqlite3.Row) -> dict[str, Any]:
+    row = json.loads(r["data"])
+    if owner_type == "item":
+        attrs = conn.execute(
+            "SELECT attr, value FROM item_attrs WHERE item_pack=? AND item_id=? ORDER BY position", (pack, r["id"])
+        ).fetchall()
+        if attrs:
+            row["attrs"] = {a["attr"]: _num(a["value"]) for a in attrs}
+    effects = _effects_out(conn, owner_type, pack, r["id"])
+    reqs = _requires_out(conn, owner_type, pack, r["id"])
+    if effects:
+        row["effects"] = effects
+    if reqs:
+        row["requires"] = reqs
+    if owner_type == "ability":
+        levels = []
+        for lv in conn.execute(
+            "SELECT * FROM ability_levels WHERE ability_pack=? AND ability_id=? ORDER BY level", (pack, r["id"])
+        ):
+            out: dict[str, Any] = {"name": lv["name"]}
+            if lv["price"] is not None:
+                out["price"] = lv["price"]
+            out.update(json.loads(lv["data"]))
+            lvl_effects = _effects_out(conn, "ability", pack, r["id"], lv["level"])
+            if lvl_effects:
+                out["effects"] = lvl_effects
+            levels.append(out)
+        if levels:
+            row["levels"] = levels
+    return row
+
+
+def character_doc(conn: sqlite3.Connection, cid: str) -> dict[str, Any]:
+    """One character as pack JSON (references, not definitions)."""
+    r = conn.execute("SELECT * FROM characters WHERE id=?", (cid,)).fetchone()
+    if r is None:
+        raise KeyError(cid)
+    pack = r["pack"]
+    doc: dict[str, Any] = {"id": r["id"], "name": r["name"]}
+    if r["npc"] is not None:
+        doc["npc"] = bool(r["npc"])
+    if r["level"] is not None:
+        doc["level"] = r["level"]
+    held = conn.execute("SELECT * FROM character_occupations WHERE character_id=? ORDER BY position", (cid,)).fetchall()
+    listed = any(o["level"] is not None for o in held)
+    for key, col in REF_COLUMNS.items():
+        if key == "occupation" and listed:
+            doc["occupations"] = [{"id": _ref_out(pack, o["occupation_pack"], o["occupation_id"]), "level": o["level"]}
+                                  for o in held]
+            continue
+        ref = _ref_out(pack, r[f"{col}_pack"], r[f"{col}_id"])
+        if ref is not None:
+            doc[key] = ref
+    if r["xp_unspent"] is not None:
+        doc["unspent_experience"] = r["xp_unspent"]
+    for key in ("portrait", "coin"):
+        if r[key] is not None:
+            doc[key] = r[key]
+    attrs = conn.execute("SELECT attr, value FROM character_attrs WHERE character_id=? ORDER BY position", (cid,))
+    doc["attrs"] = {a["attr"]: _num(a["value"]) for a in attrs}
+    gauges = []
+    for g in conn.execute("SELECT * FROM character_gauges WHERE character_id=? ORDER BY position", (cid,)):
+        row: dict[str, Any] = {"id": g["gauge"]}
+        for k in ("prefix", "total", "current"):
+            if g[k] is not None:
+                row[k] = g[k]
+        row.update(json.loads(g["data"]))
+        gauges.append(row)
+    if gauges:
+        doc["gauges"] = gauges
+    channels = {}
+    for ch in conn.execute("SELECT * FROM character_channels WHERE character_id=? ORDER BY position", (cid,)):
+        channels[ch["channel"]] = json.loads(ch["data"]) if ch["data"] is not None else ch["value"]
+    if channels:
+        doc["channels"] = channels
+    for key, col, pcol, icol in (("items", "character_items", "item_pack", "item_id"),
+                                 ("abilities", "character_abilities", "ability_pack", "ability_id")):
+        rows = [
+            {"id": _ref_out(pack, o[pcol], o[icol]),
+             **({"level": o["level"]} if "level" in o.keys() and o["level"] is not None else {}),
+             **json.loads(o["data"])}
+            for o in conn.execute(f"SELECT * FROM {col} WHERE character_id=? ORDER BY position", (cid,))
+        ]
+        if rows:
+            doc[key] = rows
+    lst = [_ref_out(pack, o["ability_pack"], o["ability_id"]) for o in conn.execute(
+        "SELECT * FROM character_list WHERE character_id=? ORDER BY ability_pack, ability_id", (cid,))]
+    if lst:
+        doc["list"] = lst
+    act = [a["ref"] for a in conn.execute(
+        "SELECT ref FROM character_active WHERE character_id=? ORDER BY position", (cid,))]
+    if act or r["attack"] is not None:
+        doc["activated"] = act
+    if r["attack"] is not None:
+        doc["attack"] = r["attack"]
+    doc.update(json.loads(r["data"]))
+    return doc
+
+
+def _link_ambiguous(conn, pack_id: str, x: sqlite3.Row) -> bool:
+    """True when the link written without its table would match rows in more than one table."""
+    n = sum(conn.execute(f"SELECT COUNT(*) FROM {t} WHERE pack=? AND id=?", (x["ref_pack"], x["ref_id"])).fetchone()[0]
+            for t in LINK_TABLES)
+    return n > 1
+
+
+def export_pack(conn: sqlite3.Connection, pack_id: str, dest: str | Path) -> Path:
+    if not conn.execute("SELECT 1 FROM packs WHERE id=?", (pack_id,)).fetchone():
+        raise PackError([f"no pack {pack_id!r} in the database"])
+    dest = Path(dest)
+    dest.mkdir(parents=True, exist_ok=True)
+    name = conn.execute("SELECT name FROM packs WHERE id=?", (pack_id,)).fetchone()["name"]
+    m = conn.execute("SELECT data FROM pack_meta WHERE pack=?", (pack_id,)).fetchone()
+    meta = json.loads(m["data"]) if m else {}
+    _write(dest / "pack.json", {"id": pack_id, "name": name, **meta})
+    ad = conn.execute("SELECT data FROM adapters WHERE pack=?", (pack_id,)).fetchone()
+    if ad:
+        (dest / "adapter.json").write_text(ad["data"], encoding="utf-8")
+    for table, owner_type, fname in (("species", "species", "species.json"),
+                                     ("abilities", "ability", "abilities.json"),
+                                     ("items", "item", "items.json")):
+        rows = conn.execute(f"SELECT * FROM {table} WHERE pack=? ORDER BY position", (pack_id,)).fetchall()
+        if rows:
+            _write(dest / fname, [_row_out(conn, owner_type, pack_id, r) for r in rows])
+    entries = []
+    for r in conn.execute("SELECT * FROM entries WHERE pack=? ORDER BY position", (pack_id,)).fetchall():
+        row = json.loads(r["data"])
+        links = [
+            (f"{x['ref_table']}/" if _link_ambiguous(conn, pack_id, x) else "") + _ref_out(pack_id, x["ref_pack"], x["ref_id"])
+            for x in conn.execute("SELECT * FROM entry_links WHERE entry_pack=? AND entry_id=? ORDER BY position",
+                                  (pack_id, r["id"]))
+        ]
+        if links:
+            row["links"] = links
+        entries.append(row)
+    if entries:
+        _write(dest / "entries.json", entries)
+    for r in conn.execute("SELECT * FROM occupations WHERE pack=? ORDER BY id", (pack_id,)).fetchall():
+        row = _row_out(conn, "occupation", pack_id, r)
+        sets: dict[int, list[str]] = {}
+        for s in conn.execute(
+            "SELECT * FROM occupation_sets WHERE occupation_pack=? AND occupation_id=? ORDER BY set_index, position",
+            (pack_id, r["id"]),
+        ):
+            sets.setdefault(s["set_index"], []).append(_ref_out(pack_id, s["ability_pack"], s["ability_id"]))
+        if sets:
+            row["sets"] = [sets[k] for k in sorted(sets)]
+        _write(dest / "occupations" / f"{r['id']}.json", row)
+    for r in conn.execute("SELECT id FROM characters WHERE pack=? ORDER BY position, id", (pack_id,)).fetchall():
+        _write(dest / "characters" / f"{r['id']}.json", character_doc(conn, r["id"]))
+    for r in conn.execute("SELECT name, data FROM portraits WHERE pack=? ORDER BY name", (pack_id,)):
+        (dest / "portraits").mkdir(parents=True, exist_ok=True)
+        (dest / "portraits" / r["name"]).write_bytes(r["data"])
+    for r in conn.execute("SELECT title, body FROM lore WHERE pack=? ORDER BY id", (pack_id,)):
+        (dest / "lore").mkdir(parents=True, exist_ok=True)
+        (dest / "lore" / f"{r['title']}.md").write_text(r["body"], encoding="utf-8")
+    return dest

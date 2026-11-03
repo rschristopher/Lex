@@ -1,0 +1,17 @@
+{
+  "id": "metahuman",
+  "name": "Metahuman",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 2
+    },
+    {
+      "verb": "mod.channel",
+      "target": "defense",
+      "value": 2,
+      "reflex": true
+    }
+  ]
+}

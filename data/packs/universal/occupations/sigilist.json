@@ -1,0 +1,16 @@
+{
+  "id": "sigilist",
+  "name": "Sigilist",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 1
+    },
+    {
+      "verb": "mod.channel",
+      "target": "defense",
+      "value": 1
+    }
+  ]
+}

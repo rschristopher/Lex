@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lex import store
-from lex.paths import DEFAULT_ADAPTER
+from lex.engine import VEHICLE, apply_effects, worn_vehicle_attributes
 from lex.prefixes import ORDER, color_band, convert, factor, hit_factor, hit_threshold
 from lex.agility import AGILITY_CHANNELS, agility_bonus, reflex_free
 from lex.strength import melee_damage
@@ -41,34 +40,16 @@ def _channel_value(v: Any) -> int:
     return int(v or 0)
 
 
-def _apply_class(
-    doc: dict[str, Any], klass: dict[str, Any] | None
-) -> tuple[dict[str, int], set[str]]:
+def _apply_channels(doc: dict[str, Any]) -> tuple[dict[str, int], set[str]]:
+    """Trained channels written on the sheet, then every owned row's mod.channel effects."""
     channels: dict[str, int] = {}
     reflex: set[str] = set()
     for k, v in (doc.get("channels") or {}).items():
         channels[k] = _channel_value(v)
         if isinstance(v, dict) and v.get("reflex"):
             reflex.add(k)
-    if not klass:
-        return channels, reflex
-    for ef in klass.get("effects") or []:
-        if ef.get("verb") != "mod.channel":
-            continue
-        target = ef.get("target")
-        if not target:
-            continue
-        if "value" in ef or ef.get("op"):
-            op = ef.get("op") or "add"
-            val = int(ef.get("value") or 0)
-            cur = channels.get(target, 0)
-            if op == "add":
-                channels[target] = cur + val
-            elif op == "replace":
-                channels[target] = val
-        if ef.get("reflex"):
-            reflex.add(target)
-    return channels, reflex
+    values, flagged = apply_effects(channels, doc.get("_effects") or [], "mod.channel")
+    return {k: int(v) for k, v in values.items()}, reflex | flagged
 
 
 def _raw_attr(doc: dict[str, Any], key: str) -> int:
@@ -82,7 +63,17 @@ def _attr_spec(meta: Any, aid: str) -> dict[str, Any]:
         "label": meta.get("label") or aid,
         "from": meta.get("from") or aid,
         "mod": meta.get("mod"),
+        "scale": meta.get("scale"),
     }
+
+
+def scale_attr(value: int, spec: dict[str, Any] | None) -> int:
+    """Equal up to spec["above"]; past it, x10 every spec["per"] points, rounded, uncapped."""
+    import math
+    if not spec or value <= spec["above"]:
+        return value
+    top = float(spec["above"])
+    return int(math.floor(top * 10 ** ((value - top) / float(spec["per"])) + 0.5))
 
 
 def worn_pieces(doc: dict[str, Any]) -> list[dict[str, Any]]:
@@ -116,6 +107,7 @@ def activated_layers(doc: dict[str, Any], adapter: dict[str, Any] | None = None)
             "id": a.get("id"),
             "name": a.get("name"),
             "total": int(a.get("total") or 0),
+            "current": a.get("current"),
             "prefix": a.get("prefix") or "unit",
             "factor": f,
             "threshold": hit_threshold(a),
@@ -129,6 +121,7 @@ def activated_layers(doc: dict[str, Any], adapter: dict[str, Any] | None = None)
             "id": p.get("id"),
             "name": p.get("name"),
             "total": int(p.get("total") or 0),
+            "current": p.get("current"),
             "prefix": prefix,
             "factor": f,
             "threshold": hit_threshold(p),
@@ -144,14 +137,10 @@ def worn_armor(doc: dict[str, Any]) -> dict[str, Any] | None:
     return pieces[0] if pieces else None
 
 
-def _worn_attr_values(base: dict[str, Any], doc: dict[str, Any]) -> dict[str, int]:
-    val = {k: int(v) for k, v in base.items()}
-    for p in worn_pieces(doc):
-        for k, v in (p.get("mod") or {}).items():
-            val[k] = val.get(k, 0) + int(v)
-        for k, v in (p.get("set") or {}).items():
-            val[k] = int(v)
-    return val
+def _worn_attr_values(base: dict[str, Any], doc: dict[str, Any]) -> dict[str, Any]:
+    """Attributes after owned rows' mod.attr effects; a worn vehicle's physical attributes replace the wearer's."""
+    vehicles = [p for p in worn_pieces(doc) if p.get("kind") == VEHICLE]
+    return worn_vehicle_attributes(dict(base), vehicles, doc.get("_effects") or [])
 
 
 def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, Any]]:
@@ -162,10 +151,19 @@ def _fold_attrs(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str, 
     for aid, meta in spec.items():
         s = _attr_spec(meta, aid)
         src = s["from"]
-        if src not in raw and aid not in raw:
-            continue
-        base = int(raw.get(src, raw.get(aid, 0)))
-        val = int(worn.get(src, worn.get(aid, base)))
+        if isinstance(src, list):
+            # Derived stat: the average of several attributes, rounded down.
+            if not all(k in raw for k in src):
+                continue
+            base = int(sum(raw[k] for k in src) // len(src))
+            val = int(sum(worn.get(k, raw[k]) for k in src) // len(src))
+        else:
+            if src not in raw and aid not in raw:
+                continue
+            base = raw.get(src, raw.get(aid, 0))
+            val = worn.get(src, worn.get(aid, base))
+        if s.get("scale"):
+            base, val = scale_attr(base, s["scale"]), scale_attr(val, s["scale"])
         row = {"id": aid, "label": s["label"], "value": val}
         if val != base:
             row["boosted"] = True
@@ -291,7 +289,8 @@ def _fold_defense(doc: dict[str, Any], adapter: dict[str, Any]) -> dict[str, Any
         segs.append({
             "id": p.get("id"),
             "name": p.get("name"),
-            "value": int(p.get("total") or 0),
+            "value": int(p["current"] if p.get("current") is not None else p.get("total") or 0),
+            "total": int(p.get("total") or 0),
             "prefix": p.get("prefix") or band,
             "factor": f,
             "threshold": int(p.get("threshold") or hit_threshold(p)),
@@ -305,7 +304,8 @@ def _fold_defense(doc: dict[str, Any], adapter: dict[str, Any]) -> dict[str, Any
         segs.append({
             "id": "hit_points",
             "name": "Hit Points",
-            "value": int(hp["total"]),
+            "value": int(hp["current"] if hp.get("current") is not None else hp["total"]),
+            "total": int(hp["total"]),
             "prefix": hp.get("prefix") or band,
             "factor": f,
             "threshold": hit_threshold(hp),
@@ -391,13 +391,12 @@ def _term_value(
 def _fold_channels(
     doc: dict[str, Any],
     adapter: dict[str, Any],
-    klass: dict[str, Any] | None,
     attrs: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     spec_map = adapter.get("channels") or {}
-    raw, reflex = _apply_class(doc, klass)
+    raw, reflex = _apply_channels(doc)
     worn = worn_armor(doc)
-    agility = next((int(a["value"]) for a in attrs if a["id"] == "agility"), 0)
+    agility = next((a["value"] for a in attrs if a["id"] == "agility"), 0)
     out = []
     for cid, meta in spec_map.items():
         s = _ch_spec(meta, cid)
@@ -476,7 +475,10 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
     for a in doc.get("abilities") or []:
         kind = a.get("kind")
         if not kind:
-            skill_rows.append({"id": a.get("id"), "name": a.get("name"), "qty": a.get("qty") or ""})
+            row = {"id": a.get("id"), "name": a.get("name"), "qty": a.get("qty") or ""}
+            if a.get("level_name"):
+                row["level"] = a["level_name"]
+            skill_rows.append(row)
             continue
         prefix = a.get("prefix") or "unit"
         if a.get("total") is not None:
@@ -502,6 +504,8 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
                 "prefix": prefix,
                 "high": factor(prefix) >= 100 if a.get("damage") else False,
             }
+        if a.get("level_name"):
+            row["level"] = a["level_name"]
         by_kind.setdefault(kind, []).append(row)
 
     groups = []
@@ -539,24 +543,19 @@ def _fold_groups(doc: dict[str, Any], adapter: dict[str, Any]) -> list[dict[str,
     return groups
 
 
-def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
-    pack_id = doc.get("pack") or DEFAULT_ADAPTER
-    adapter_id = adapter_id or DEFAULT_ADAPTER
-    try:
-        adapter = store.load_adapter(adapter_id)
-    except FileNotFoundError:
-        adapter = store.load_adapter(DEFAULT_ADAPTER)
-        adapter_id = DEFAULT_ADAPTER
-
-    class_id = doc.get("class")
-    klass = store.load_class(pack_id, class_id) if class_id else None
-    ancestry_id = doc.get("ancestry")
-    ancestry = store.load_ancestry(pack_id, ancestry_id) if ancestry_id else None
-
+def fold(
+    doc: dict[str, Any],
+    adapter: dict[str, Any],
+    *,
+    occupation: dict[str, Any] | None = None,
+    species: dict[str, Any] | None = None,
+    portrait: str | None = None,
+) -> dict[str, Any]:
+    """Render a resolved character (owned rows merged, effects in doc["_effects"]) in one adapter's sheet language."""
     attrs = _fold_attrs(doc, adapter)
     gauges = _fold_gauges(doc, adapter, attrs)
     defense = _fold_defense(doc, adapter)
-    channels = _fold_channels(doc, adapter, klass, attrs)
+    channels = _fold_channels(doc, adapter, attrs)
     groups = _fold_groups(doc, adapter)
     person = _fold_person(doc, adapter)
     anima = _fold_anima(doc, adapter)
@@ -576,19 +575,15 @@ def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
             "bonus": _bonus_rows(src, adapter),
         }
 
-    portrait = None
-    if doc.get("portrait"):
-        portrait = f"/portraits/{pack_id}/{doc['portrait']}"
-
     return {
         "id": doc.get("id"),
         "name": doc.get("name"),
         "npc": bool(doc.get("npc")),
         "level": int(doc.get("level") or 1),
-        "pack": pack_id,
-        "adapter": adapter_id,
-        "class": {"id": class_id, "name": (klass or {}).get("name") or class_id} if class_id else None,
-        "ancestry": {"id": ancestry_id, "name": (ancestry or {}).get("name") or ancestry_id} if ancestry_id else None,
+        "pack": doc.get("pack"),
+        "adapter": adapter.get("id"),
+        "occupation": occupation,
+        "species": species,
         "attrs": attrs,
         "gauges": gauges,
         "defense": defense,
@@ -602,24 +597,6 @@ def fold(doc: dict[str, Any], adapter_id: str | None = None) -> dict[str, Any]:
         "attack": doc.get("attack") or (using or {}).get("id") or "",
         "portrait": portrait,
     }
-
-
-def list_sheets(adapter_id: str | None = None) -> list[dict[str, Any]]:
-    rows = []
-    for _pid, doc in store.iter_characters():
-        sheet = fold(doc, adapter_id)
-        rows.append({
-            "id": sheet["id"],
-            "name": sheet["name"],
-            "npc": sheet["npc"],
-            "level": sheet["level"],
-            "class": sheet.get("class"),
-            "ancestry": sheet.get("ancestry"),
-            "portrait": sheet.get("portrait"),
-            "sheet": sheet,
-        })
-    rows.sort(key=lambda r: (r["npc"], r["name"] or r["id"]))
-    return rows
 
 
 def harm_on_layer(

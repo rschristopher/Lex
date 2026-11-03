@@ -1,0 +1,11 @@
+{
+  "id": "lancer",
+  "name": "Lancer",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 2
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "myth-sample",
+  "name": "Myth sample",
+  "labels": {
+    "gear": "Gear and equipment"
+  },
+  "source": "Public-domain myth, a small test pack",
+  "categories": [
+    {
+      "id": "knife",
+      "name": "Knife"
+    },
+    {
+      "id": "spear",
+      "name": "Spear"
+    },
+    {
+      "id": "bow",
+      "name": "Bow"
+    },
+    {
+      "id": "melee",
+      "name": "Melee weapon"
+    },
+    {
+      "id": "shield",
+      "name": "Shield"
+    },
+    {
+      "id": "robot-armor",
+      "name": "Robot armor"
+    }
+  ]
+}

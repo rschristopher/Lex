@@ -1,0 +1,214 @@
+[
+  {
+    "id": "scales",
+    "name": "Scales",
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "bite",
+    "name": "Bite",
+    "material": "dragon tooth",
+    "kind": "weapon"
+  },
+  {
+    "id": "claw",
+    "name": "Claw",
+    "material": "dragon claw",
+    "kind": "weapon"
+  },
+  {
+    "id": "breath",
+    "name": "Breath",
+    "kind": "weapon"
+  },
+  {
+    "id": "siege_enforcer",
+    "name": "Siege Enforcer",
+    "prefix": "hecto",
+    "total": 800,
+    "slot": "body",
+    "attacks": [
+      {
+        "id": "punch",
+        "name": "Punch",
+        "damage": "1d6",
+        "material": "alloy",
+        "durability": "hecto"
+      },
+      {
+        "id": "kick",
+        "name": "Kick",
+        "damage": "2d6",
+        "material": "alloy",
+        "durability": "hecto"
+      }
+    ],
+    "kind": "vehicle",
+    "attrs": {
+      "strength": 38,
+      "speed": 31
+    }
+  },
+  {
+    "id": "punch",
+    "name": "Punch",
+    "damage": "1d6",
+    "material": "flesh and bone",
+    "durability": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "kick",
+    "name": "Kick",
+    "damage": "1d6",
+    "material": "flesh and bone",
+    "durability": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "siege_cannon",
+    "name": "Siege Cannon",
+    "damage": "4d6",
+    "prefix": "kilo",
+    "kind": "weapon"
+  },
+  {
+    "id": "laser_rifle",
+    "name": "Laser rifle",
+    "damage": "3d6",
+    "prefix": "hecto",
+    "kind": "weapon"
+  },
+  {
+    "id": "robes",
+    "name": "Warded robes",
+    "prefix": "unit",
+    "total": 18,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "staff",
+    "name": "Staff",
+    "damage": "2d6",
+    "material": "wood",
+    "durability": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "field_plate",
+    "name": "Field plate",
+    "prefix": "deka",
+    "total": 40,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "service_rifle",
+    "name": "Service rifle",
+    "damage": "4d6",
+    "prefix": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "sidearm",
+    "name": "Sidearm",
+    "damage": "2d6",
+    "prefix": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "knife",
+    "name": "Knife",
+    "damage": "1d6",
+    "material": "steel",
+    "durability": "deka",
+    "kind": "weapon"
+  },
+  {
+    "id": "hide",
+    "name": "Hide",
+    "prefix": "unit",
+    "total": 32,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "club",
+    "name": "Club",
+    "damage": "3d6",
+    "material": "wood",
+    "durability": "unit",
+    "kind": "weapon"
+  },
+  {
+    "id": "travel_cloak",
+    "name": "Travel cloak",
+    "prefix": "unit",
+    "total": 15,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "harness",
+    "name": "Combat harness",
+    "prefix": "hecto",
+    "total": 50,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "resonant_blade",
+    "name": "Resonant blade",
+    "damage": "1d6",
+    "material": "alloy steel",
+    "durability": "hecto",
+    "bonus": [
+      {
+        "damage": "2d6",
+        "prefix": "hecto",
+        "type": "resonance"
+      }
+    ],
+    "kind": "weapon"
+  },
+  {
+    "id": "pulse_pistol",
+    "name": "Pulse pistol",
+    "damage": "2d6",
+    "prefix": "hecto",
+    "kind": "weapon"
+  },
+  {
+    "id": "leathers",
+    "name": "Hardened leathers",
+    "prefix": "unit",
+    "total": 18,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "carapace",
+    "name": "Carapace",
+    "prefix": "deka",
+    "total": 60,
+    "slot": "body",
+    "kind": "armor"
+  },
+  {
+    "id": "plasma_lance",
+    "name": "Plasma lance",
+    "damage": "2d6",
+    "material": "titanium",
+    "durability": "hecto",
+    "bonus": [
+      {
+        "damage": "1d6",
+        "prefix": "hecto",
+        "type": "plasma"
+      }
+    ],
+    "kind": "weapon"
+  }
+]

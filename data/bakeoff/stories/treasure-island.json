@@ -1,0 +1,219 @@
+{
+ "id": "treasure-island",
+ "title": "Treasure Island (Stevenson)",
+ "source": {
+  "work": "Robert Louis Stevenson, Treasure Island (1883)",
+  "text": "treasure-island.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Jim, Silver, Trelawney",
+   "beats": [
+    "b-leg"
+   ]
+  },
+  {
+   "id": "pirate",
+   "kind": "occupation",
+   "text": "Silver, a gentleman of fortune",
+   "beats": [
+    "b-pirate"
+   ]
+  },
+  {
+   "id": "captain",
+   "kind": "occupation",
+   "text": "Captain Smollett",
+   "beats": [
+    "b-shot"
+   ]
+  },
+  {
+   "id": "missing-limb",
+   "kind": "ability",
+   "text": "Silver's leg is cut off at the hip",
+   "beats": [
+    "b-leg"
+   ]
+  },
+  {
+   "id": "stealth",
+   "kind": "ability",
+   "text": "Jim hides in the apple barrel",
+   "beats": [
+    "b-barrel"
+   ]
+  },
+  {
+   "id": "thrown-weapon",
+   "kind": "ability",
+   "text": "Silver hurls his crutch",
+   "beats": [
+    "b-crutch"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "Silver's knife",
+   "beats": [
+    "b-knife"
+   ]
+  },
+  {
+   "id": "firearm",
+   "kind": "ability",
+   "text": "Trelawney, the best shot",
+   "beats": [
+    "b-shot"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "silver",
+   "name": "Long John Silver",
+   "species": "human",
+   "occupation": "pirate",
+   "abilities": [
+    "missing-limb",
+    "thrown-weapon",
+    "melee-weapon"
+   ],
+   "attrs": {
+    "agility": {
+     "value": 16,
+     "beats": [
+      "b-knife"
+     ],
+     "estimate": true,
+     "note": "'agile as a monkey even without leg or crutch'"
+    }
+   }
+  },
+  {
+   "id": "jim",
+   "name": "Jim Hawkins",
+   "species": "human",
+   "abilities": [
+    "stealth"
+   ]
+  },
+  {
+   "id": "trelawney",
+   "name": "Squire Trelawney",
+   "species": "human",
+   "abilities": [
+    "firearm"
+   ],
+   "attrs": {
+    "agility": {
+     "value": 14,
+     "beats": [
+      "b-shot"
+     ],
+     "estimate": true,
+     "note": "the best shot aboard; he still misses"
+    }
+   }
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-leg",
+   "quote": "His left leg was cut off close by the hip, and under the left shoulder he carried a crutch",
+   "checks": [
+    {
+     "character": "silver",
+     "kind": "has",
+     "need": "missing-limb",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-pirate",
+   "quote": "neither more nor less than a common pirate"
+  },
+  {
+   "id": "b-barrel",
+   "quote": "In I got bodily into the apple barrel",
+   "checks": [
+    {
+     "character": "jim",
+     "kind": "has",
+     "need": "stealth",
+     "outcome": "success"
+    },
+    {
+     "character": "jim",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "stealth"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-crutch",
+   "quote": "sent that uncouth missile hurtling through the air. It struck poor Tom",
+   "checks": [
+    {
+     "character": "silver",
+     "kind": "has",
+     "need": "thrown-weapon",
+     "outcome": "success"
+    },
+    {
+     "character": "silver",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-knife",
+   "quote": "Silver, agile as a monkey even without leg or crutch, was on the top of him next moment and had twice buried his knife up to the hilt",
+   "checks": [
+    {
+     "character": "silver",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-shot",
+   "quote": "just as Trelawney fired, down he stooped, the ball whistled over him",
+   "checks": [
+    {
+     "character": "trelawney",
+     "kind": "has",
+     "need": "firearm",
+     "outcome": "success"
+    },
+    {
+     "character": "trelawney",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  }
+ ]
+}

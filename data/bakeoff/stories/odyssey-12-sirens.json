@@ -1,0 +1,251 @@
+{
+ "id": "odyssey-12-sirens",
+ "title": "The Sirens, Scylla and Charybdis (Odyssey XII)",
+ "source": {
+  "work": "Homer, Odyssey XII, Butler translation (1900)",
+  "text": "odyssey-12.txt"
+ },
+ "items": [
+  {
+   "id": "bonds_and_wax",
+   "name": "Bound to the mast",
+   "kind": "restraint",
+   "effects": [
+    {
+     "verb": "mod.channel",
+     "target": "magic_resist",
+     "value": 20
+    }
+   ],
+   "estimate": true,
+   "beats": [
+    "b-bound",
+    "b-passed"
+   ],
+   "note": "Bound 'with a bond so fast that I cannot possibly break away' (b-bound): whatever the song does to his will, he cannot act on it. Modeled as +20 on the resist roll (the docs' immunity level). Estimate; a real rule for restraints is a gap."
+  }
+ ],
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Ulysses and his crew",
+   "beats": [
+    "b-bound"
+   ]
+  },
+  {
+   "id": "siren",
+   "kind": "species",
+   "text": "the Sirens, whose song lures sailors",
+   "beats": [
+    "b-song"
+   ]
+  },
+  {
+   "id": "sea-monster",
+   "kind": "species",
+   "text": "Scylla, who snatches six men from the ship",
+   "beats": [
+    "b-scylla"
+   ]
+  },
+  {
+   "id": "deity",
+   "kind": "species",
+   "text": "Jove, who strikes the ship with lightning",
+   "beats": [
+    "b-thunder"
+   ]
+  },
+  {
+   "id": "captain",
+   "kind": "occupation",
+   "text": "Ulysses commands the ship",
+   "beats": [
+    "b-wax"
+   ]
+  },
+  {
+   "id": "enchanting-song",
+   "kind": "ability",
+   "text": "a song that charms all who hear it",
+   "beats": [
+    "b-song"
+   ]
+  },
+  {
+   "id": "prophecy",
+   "kind": "ability",
+   "text": "the Sirens know everything that will happen",
+   "beats": [
+    "b-song"
+   ]
+  },
+  {
+   "id": "lightning",
+   "kind": "ability",
+   "text": "Jove's thunderbolt",
+   "beats": [
+    "b-thunder"
+   ]
+  },
+  {
+   "id": "craft",
+   "kind": "ability",
+   "text": "kneads wax to stop the men's ears",
+   "beats": [
+    "b-wax"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "ulysses",
+   "name": "Ulysses",
+   "species": "human",
+   "occupation": "captain",
+   "abilities": [
+    "craft"
+   ],
+   "attrs": {
+    "willpower": {
+     "value": 14,
+     "beats": [
+      "b-longing"
+     ],
+     "estimate": true,
+     "note": "he longs to stay and signals to be freed"
+    }
+   }
+  },
+  {
+   "id": "sirens",
+   "name": "The Sirens",
+   "species": "siren",
+   "abilities": [
+    "enchanting-song",
+    "prophecy"
+   ]
+  },
+  {
+   "id": "scylla",
+   "name": "Scylla",
+   "species": "sea-monster"
+  },
+  {
+   "id": "jove",
+   "name": "Jove",
+   "species": "deity",
+   "abilities": [
+    "lightning"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-wax",
+   "quote": "Then I kneaded the wax in my strong hands till it became soft",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "craft",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bound",
+   "quote": "they bound me hands and feet to the mast as I stood upright on the cross piece"
+  },
+  {
+   "id": "b-song",
+   "quote": "No one ever sailed past us without staying to hear the enchanting sweetness of our song",
+   "checks": [
+    {
+     "character": "sirens",
+     "kind": "has",
+     "need": "enchanting-song",
+     "outcome": "success"
+    },
+    {
+     "character": "sirens",
+     "kind": "has",
+     "need": "prophecy",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-longing",
+   "quote": "as I longed to hear them further I made signs by frowning to my men that they should set me free",
+   "summary": "His will fails, but the bonds hold.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  },
+  {
+   "id": "b-passed",
+   "quote": "Eurylochus and Perimedes bound me with still stronger bonds till we had got out of hearing of the Sirens' voices.",
+   "grants": [
+    {
+     "character": "ulysses",
+     "item": "bonds_and_wax"
+    }
+   ],
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      },
+      {
+       "channel": "magic_resist"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-scylla",
+   "quote": "Scylla pounced down suddenly upon us and snatched up my six best men.",
+   "checks": [
+    {
+     "character": "scylla",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-thunder",
+   "quote": "Then Jove let fly with his thunderbolts, and the ship went round and round",
+   "checks": [
+    {
+     "character": "jove",
+     "kind": "has",
+     "need": "lightning",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,118 @@
+{
+ "id": "grimm-snowdrop",
+ "title": "Snowdrop (Grimm)",
+ "source": {
+  "work": "Grimm, Snowdrop, Taylor and Edwardes translation",
+  "text": "grimm-snowdrop.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Snowdrop, the queen",
+   "beats": [
+    "b-glass"
+   ]
+  },
+  {
+   "id": "little-man",
+   "kind": "species",
+   "text": "seven little dwarfs",
+   "beats": [
+    "b-dwarfs"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "the vain queen",
+   "beats": [
+    "b-glass"
+   ]
+  },
+  {
+   "id": "scrying",
+   "kind": "ability",
+   "text": "a fairy looking-glass that answers truly",
+   "beats": [
+    "b-glass"
+   ]
+  },
+  {
+   "id": "disguise",
+   "kind": "ability",
+   "text": "dresses as an old pedlar",
+   "beats": [
+    "b-pedlar"
+   ]
+  },
+  {
+   "id": "poison",
+   "kind": "ability",
+   "text": "a poisoned comb and apple",
+   "beats": [
+    "b-apple"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "queen",
+   "name": "The queen",
+   "species": "human",
+   "occupation": "ruler",
+   "abilities": [
+    "scrying",
+    "disguise",
+    "poison"
+   ]
+  },
+  {
+   "id": "dwarf",
+   "name": "A dwarf",
+   "species": "little-man"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-glass",
+   "quote": "She had a fairy looking-glass, to which she used to go",
+   "checks": [
+    {
+     "character": "queen",
+     "kind": "has",
+     "need": "scrying",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-dwarfs",
+   "quote": "Now they were seven little dwarfs, that lived among the mountains, and dug and searched for gold."
+  },
+  {
+   "id": "b-pedlar",
+   "quote": "so she dressed herself up as an old pedlar",
+   "checks": [
+    {
+     "character": "queen",
+     "kind": "has",
+     "need": "disguise",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-apple",
+   "quote": "ready a poisoned apple: the outside looked very rosy and tempting, but whoever tasted it was sure to die.",
+   "checks": [
+    {
+     "character": "queen",
+     "kind": "has",
+     "need": "poison",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

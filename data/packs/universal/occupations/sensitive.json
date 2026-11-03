@@ -1,0 +1,11 @@
+{
+  "id": "sensitive",
+  "name": "Sensitive",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "initiative",
+      "value": 1
+    }
+  ]
+}

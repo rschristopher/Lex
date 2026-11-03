@@ -1,0 +1,16 @@
+{
+  "id": "beast",
+  "name": "Beast",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 3
+    },
+    {
+      "verb": "mod.channel",
+      "target": "actions",
+      "value": 1
+    }
+  ]
+}

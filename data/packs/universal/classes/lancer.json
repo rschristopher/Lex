@@ -1,8 +1,0 @@
-{
-  "id": "lancer",
-  "name": "Lancer",
-  "kind": "class",
-  "effects": [
-    {"verb": "mod.channel", "target": "strike", "op": "add", "value": 2}
-  ]
-}

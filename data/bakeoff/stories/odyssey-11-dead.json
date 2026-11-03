@@ -1,0 +1,145 @@
+{
+ "id": "odyssey-11-dead",
+ "title": "The visit to the dead (Odyssey XI)",
+ "source": {
+  "work": "Homer, Odyssey XI, Butler translation (1900)",
+  "text": "odyssey-11.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Ulysses",
+   "beats": [
+    "b-trench"
+   ]
+  },
+  {
+   "id": "ghost",
+   "kind": "species",
+   "text": "the ghosts of the dead, who must drink blood to speak",
+   "beats": [
+    "b-ghosts",
+    "b-teiresias"
+   ]
+  },
+  {
+   "id": "seer",
+   "kind": "occupation",
+   "text": "Teiresias the prophet",
+   "beats": [
+    "b-teiresias"
+   ]
+  },
+  {
+   "id": "necromancy",
+   "kind": "ability",
+   "text": "calls up the dead with a blood offering",
+   "beats": [
+    "b-trench",
+    "b-ghosts"
+   ]
+  },
+  {
+   "id": "prophecy",
+   "kind": "ability",
+   "text": "answers questions truly about what is to come",
+   "beats": [
+    "b-teiresias"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "holds the ghosts back with a drawn sword",
+   "beats": [
+    "b-guard"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "ulysses",
+   "name": "Ulysses",
+   "species": "human",
+   "abilities": [
+    "necromancy",
+    "melee-weapon"
+   ],
+   "attrs": {
+    "willpower": {
+     "value": 14,
+     "beats": [
+      "b-ghosts"
+     ],
+     "estimate": true,
+     "note": "turns pale but holds his ground"
+    }
+   }
+  },
+  {
+   "id": "teiresias",
+   "name": "Teiresias",
+   "species": "ghost",
+   "occupation": "seer",
+   "abilities": [
+    "prophecy"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-trench",
+   "quote": "I cut the throats of the two sheep and let the blood run into the trench",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "necromancy",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-ghosts",
+   "quote": "they came from every quarter and flitted round the trench with a strange kind of screaming sound that made me turn pale with fear.",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      }
+     ],
+     "outcome": "success",
+     "note": "He is afraid but stays at the trench."
+    }
+   ]
+  },
+  {
+   "id": "b-guard",
+   "quote": "I sat where I was with my sword drawn and would not let the poor feckless ghosts come near the blood",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-teiresias",
+   "quote": "withdraw your sword that I may drink of the blood and answer your questions truly.",
+   "checks": [
+    {
+     "character": "teiresias",
+     "kind": "has",
+     "need": "prophecy",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

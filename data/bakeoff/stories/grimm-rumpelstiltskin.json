@@ -1,0 +1,133 @@
+{
+ "id": "grimm-rumpelstiltskin",
+ "title": "Rumpelstiltskin (Grimm)",
+ "source": {
+  "work": "Grimm, Rumpelstiltskin, Taylor and Edwardes translation",
+  "text": "grimm-rumpelstiltskin.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "the miller's daughter, the king",
+   "beats": [
+    "b-boast"
+   ]
+  },
+  {
+   "id": "little-man",
+   "kind": "species",
+   "text": "a droll-looking little man, hobgoblin or dwarf",
+   "beats": [
+    "b-little"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "the king, later the queen",
+   "beats": [
+    "b-boast"
+   ]
+  },
+  {
+   "id": "miller",
+   "kind": "occupation",
+   "text": "the miller who boasts",
+   "beats": [
+    "b-boast"
+   ]
+  },
+  {
+   "id": "transmute",
+   "kind": "ability",
+   "text": "spins straw into gold",
+   "beats": [
+    "b-gold"
+   ]
+  },
+  {
+   "id": "binding-bargain",
+   "kind": "ability",
+   "text": "a promise that binds, undone only by his name",
+   "beats": [
+    "b-bargain",
+    "b-name"
+   ]
+  },
+  {
+   "id": "investigate",
+   "kind": "ability",
+   "text": "messengers search the land for his name",
+   "beats": [
+    "b-name"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "daughter",
+   "name": "The miller's daughter",
+   "species": "human",
+   "occupation": "ruler",
+   "abilities": [
+    "investigate"
+   ]
+  },
+  {
+   "id": "manikin",
+   "name": "Rumpelstiltskin",
+   "species": "little-man",
+   "abilities": [
+    "transmute",
+    "binding-bargain"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-boast",
+   "quote": "that he one day told the king of the land, who used to come and hunt in the wood, that his daughter could spin gold out of straw."
+  },
+  {
+   "id": "b-little",
+   "quote": "a droll-looking little man hobbled in"
+  },
+  {
+   "id": "b-gold",
+   "quote": "the work was quickly done, and the straw was all spun into gold.",
+   "checks": [
+    {
+     "character": "manikin",
+     "kind": "has",
+     "need": "transmute",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-bargain",
+   "quote": "if during that time you tell me my name, you shall keep your child.",
+   "checks": [
+    {
+     "character": "manikin",
+     "kind": "has",
+     "need": "binding-bargain",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-name",
+   "quote": "I have travelled two days without hearing of any other names",
+   "checks": [
+    {
+     "character": "daughter",
+     "kind": "has",
+     "need": "investigate",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,53 @@
+{
+  "story": "odyssey-cyclops",
+  "candidate": "K",
+  "run": "r1",
+  "map": {
+    "human": {
+      "fit": "exact",
+      "rows": [
+        "kinds/human"
+      ]
+    },
+    "cyclops": {
+      "fit": "partial",
+      "rows": [
+        "kinds/giant"
+      ]
+    },
+    "shepherd": {
+      "fit": "exact",
+      "rows": [
+        "callings/herdsman"
+      ]
+    },
+    "warrior": {
+      "fit": "exact",
+      "rows": [
+        "callings/fighter"
+      ]
+    },
+    "craft-weapon": {
+      "fit": "partial",
+      "rows": [
+        "talents/woodworking"
+      ]
+    },
+    "deceive": {
+      "fit": "exact",
+      "rows": [
+        "talents/lying"
+      ]
+    },
+    "hide": {
+      "fit": "exact",
+      "rows": [
+        "talents/sneaking"
+      ]
+    },
+    "divine-courage": {
+      "fit": "none",
+      "rows": []
+    }
+  }
+}

@@ -11,6 +11,7 @@ let scaleId = localStorage.getItem("lex.scale") || "auto";
 let adapters = [];
 let roster = [];
 let payload = null;
+let me = null;
 
 function el(tag, cls, text) {
   const n = document.createElement(tag);
@@ -334,8 +335,11 @@ function renderPlay(s) {
   whoBox.append(renderPortrait(s.portrait, s.name));
   const ident = el("div");
   ident.append(el("h1", "", s.name || s.id));
-  const bits = [s.ancestry?.name, s.class?.name, s.level != null ? `Level ${s.level}` : ""].filter(Boolean);
-  ident.append(el("p", "occ", bits.join(" · ")));
+  const held = s.occupation_levels || [];
+  const occ = held.length > 1 ? held.map((o) => `L${o.level} ${o.name}`).join(" / ") : s.occupation?.name;
+  const lvl = held.length > 1 ? "" : (s.level != null ? `Level ${s.level}` : "");
+  const bits = [s.species?.name, occ, lvl].filter(Boolean);
+  ident.append(el("p", "occupation", bits.join(" · ")));
   whoBox.append(ident);
   left.append(whoBox);
   const list = s.attrs || [];
@@ -359,11 +363,35 @@ function renderPlay(s) {
     }
     left.append(person);
   }
+  if (s.bonuses) left.append(renderBonuses(s.bonuses));
   const colA = el("div", "pane");
   const colW = el("div", "pane");
   renderGroups(s, colA, colW);
   root.replaceChildren();
   root.append(renderHud(s), left, colA, colW);
+}
+
+// Always-on bonuses, then conditional ones; a conditional bonus that applies right now is lit.
+function renderBonuses(b) {
+  const box = el("section", "bonuses");
+  const rowsOf = (list) => {
+    const ul = el("ul");
+    for (const r of list) {
+      const li = el("li", r.met === false ? "off" : r.met ? "on" : "");
+      li.append(el("span", "", r.text), el("small", "", r.from?.name || ""));
+      ul.append(li);
+    }
+    return ul;
+  };
+  if ((b.always || []).length) box.append(el("h3", "", "Bonuses"), rowsOf(b.always));
+  if ((b.conditional || []).length) {
+    const now = [b.using?.length ? `Using: ${b.using.join(", ")}` : "", b.wearing?.length ? `Wearing: ${b.wearing.join(", ")}` : ""]
+      .filter(Boolean).join(" · ");
+    box.append(el("h3", "", "Conditional bonuses"));
+    if (now) box.append(el("p", "now", now));
+    box.append(rowsOf(b.conditional));
+  }
+  return box;
 }
 
 async function persist(patch) {
@@ -375,14 +403,109 @@ async function persist(patch) {
     body: JSON.stringify(patch),
   });
   if (!r.ok) {
-    if (err) {
-      err.hidden = false;
-      err.textContent = `save ${r.status}`;
-    }
+    showError(r.status === 401 ? "Sign in to edit" : r.status === 403 ? "Not your character" : `save ${r.status}`);
     return;
   }
   renderPlay(await r.json());
 }
+
+function showError(text) {
+  if (!err) return;
+  err.hidden = !text;
+  err.textContent = text || "";
+}
+
+const loginForm = document.getElementById("login");
+const account = document.getElementById("account");
+const createForm = document.getElementById("create");
+
+function renderAccount() {
+  loginForm.hidden = Boolean(me);
+  account.hidden = !me;
+  document.getElementById("who").textContent = me ? `${me.username}${me.role === "gm" ? " (GM)" : ""}` : "";
+}
+
+async function postJson(url, body) {
+  return fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || {}),
+  });
+}
+
+async function signIn(create) {
+  const body = {
+    username: document.getElementById("username").value.trim(),
+    password: document.getElementById("password").value,
+  };
+  if (!body.username) return;
+  if (create) {
+    const made = await postJson("/users", body);
+    if (!made.ok) {
+      showError(made.status === 409 ? "Username taken" : `sign up ${made.status}`);
+      return;
+    }
+  }
+  const r = await postJson("/login", body);
+  if (!r.ok) {
+    showError("Wrong username or password");
+    return;
+  }
+  me = await r.json();
+  showError("");
+  renderAccount();
+}
+
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  signIn(false);
+});
+document.getElementById("signup").addEventListener("click", () => signIn(true));
+document.getElementById("logout").addEventListener("click", async () => {
+  await postJson("/logout");
+  me = null;
+  renderAccount();
+});
+
+document.getElementById("new-character").addEventListener("click", async () => {
+  const sel = document.getElementById("new-species");
+  const r = await fetch("/species");
+  const list = r.ok ? await r.json() : [];
+  sel.replaceChildren();
+  const blank = document.createElement("option");
+  blank.value = "";
+  blank.textContent = "Species";
+  sel.append(blank);
+  for (const sp of list) {
+    const o = document.createElement("option");
+    o.value = `${sp.pack}:${sp.id}`;
+    o.textContent = list.filter((x) => x.name === sp.name).length > 1 ? `${sp.name} (${sp.pack})` : sp.name;
+    sel.append(o);
+  }
+  createForm.hidden = false;
+  document.getElementById("new-name").focus();
+});
+document.getElementById("create-cancel").addEventListener("click", () => {
+  createForm.hidden = true;
+});
+createForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const q = new URLSearchParams({ adapter: adapterId });
+  const r = await postJson(`/characters?${q}`, {
+    name: document.getElementById("new-name").value.trim(),
+    species: document.getElementById("new-species").value,
+  });
+  if (!r.ok) {
+    showError(`create ${r.status}`);
+    return;
+  }
+  createForm.hidden = true;
+  createForm.reset();
+  const s = await r.json();
+  charId = s.id;
+  syncUrl();
+  renderPlay(s);
+});
 
 function renderCard(row) {
   const s = row.sheet || {};
@@ -390,7 +513,9 @@ function renderCard(row) {
   b.type = "button";
   const line = el("div", "who-line");
   line.append(el("div", "name", s.name || row.name || row.id));
-  const meta = [s.class?.name || row.class?.name, s.level != null ? `L${s.level}` : ""].filter(Boolean).join(" · ");
+  const many = (s.occupation_levels || []).length > 1;
+  const meta = (many ? [s.occupation_levels.map((o) => `L${o.level} ${o.name}`).join(" / ")]
+    : [s.occupation?.name || row.occupation?.name, s.level != null ? `L${s.level}` : ""]).filter(Boolean).join(" · ");
   if (meta) line.append(el("div", "meta", meta));
   b.append(line, renderPortrait(s.portrait || row.portrait, s.name));
   if (row.sheet) b.append(renderHud(row.sheet, true));
@@ -480,6 +605,9 @@ if (home) {
   });
 }
 
+const who = await fetch("/me");
+me = who.ok ? await who.json() : null;
+renderAccount();
 const listed = await fetch("/adapters");
 adapters = listed.ok ? await listed.json() : [{ id: "universal", name: "Universal" }];
 fillAdapters();

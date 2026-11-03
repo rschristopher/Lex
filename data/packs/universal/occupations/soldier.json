@@ -1,0 +1,16 @@
+{
+  "id": "soldier",
+  "name": "Soldier",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 2
+    },
+    {
+      "verb": "mod.channel",
+      "target": "actions",
+      "value": 1
+    }
+  ]
+}

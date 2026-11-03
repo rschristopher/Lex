@@ -1,0 +1,27 @@
+{
+  "id": "levels-old",
+  "name": "Old form",
+  "level": 4,
+  "occupation": "warrior",
+  "attrs": {
+    "strength": 12,
+    "agility": 10,
+    "endurance": 10,
+    "speed": 10,
+    "intellect": 10,
+    "willpower": 10,
+    "appearance": 10
+  },
+  "channels": {
+    "actions": 2,
+    "strike": 0,
+    "defense": 0,
+    "initiative": 0
+  },
+  "abilities": [
+    {
+      "id": "sword_drill",
+      "level": 1
+    }
+  ]
+}

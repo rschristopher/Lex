@@ -1,0 +1,169 @@
+{
+ "id": "grimm-golden-bird",
+ "title": "The Golden Bird (Grimm)",
+ "source": {
+  "work": "Grimm, The Golden Bird, Taylor and Edwardes translation",
+  "text": "grimm-golden-bird.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "the gardener's sons",
+   "beats": [
+    "b-counsel"
+   ]
+  },
+  {
+   "id": "fox",
+   "kind": "species",
+   "text": "a talking fox, really an enchanted man",
+   "beats": [
+    "b-counsel",
+    "b-man"
+   ]
+  },
+  {
+   "id": "royal",
+   "kind": "occupation",
+   "text": "the king's daughter, the heir",
+   "beats": [
+    "b-heir"
+   ]
+  },
+  {
+   "id": "prophecy",
+   "kind": "ability",
+   "text": "the fox knows what will happen and gives counsel",
+   "beats": [
+    "b-counsel"
+   ]
+  },
+  {
+   "id": "athletics",
+   "kind": "ability",
+   "text": "the fox runs so fast their hair whistles",
+   "beats": [
+    "b-run"
+   ]
+  },
+  {
+   "id": "earth-moving",
+   "kind": "ability",
+   "text": "a hill dug away in one night",
+   "beats": [
+    "b-hill"
+   ]
+  },
+  {
+   "id": "archery",
+   "kind": "ability",
+   "text": "the brothers shoot at the fox",
+   "beats": [
+    "b-shoot"
+   ]
+  },
+  {
+   "id": "transform-other",
+   "kind": "ability",
+   "text": "the fox was a man under enchantment",
+   "beats": [
+    "b-man"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "fox",
+   "name": "The fox",
+   "species": "fox",
+   "abilities": [
+    "prophecy",
+    "athletics",
+    "earth-moving"
+   ]
+  },
+  {
+   "id": "brother",
+   "name": "The eldest son",
+   "species": "human",
+   "abilities": [
+    "archery"
+   ]
+  },
+  {
+   "id": "youngest",
+   "name": "The youngest son",
+   "species": "human",
+   "occupation": "royal"
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-counsel",
+   "quote": "for I will give you good counsel; I know what your business is",
+   "checks": [
+    {
+     "character": "fox",
+     "kind": "has",
+     "need": "prophecy",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-shoot",
+   "quote": "So he shot his arrow at",
+   "checks": [
+    {
+     "character": "brother",
+     "kind": "has",
+     "need": "archery",
+     "outcome": "success"
+    },
+    {
+     "character": "brother",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  },
+  {
+   "id": "b-run",
+   "quote": "away they went over stock and stone so quick that their hair whistled in the wind.",
+   "checks": [
+    {
+     "character": "fox",
+     "kind": "has",
+     "need": "athletics",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-hill",
+   "quote": "And in the morning he awoke and the hill was gone",
+   "checks": [
+    {
+     "character": "fox",
+     "kind": "has",
+     "need": "earth-moving",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-heir",
+   "quote": "after the king’s death he was heir to his kingdom."
+  },
+  {
+   "id": "b-man",
+   "quote": "in a moment the fox was changed into a man"
+  }
+ ]
+}

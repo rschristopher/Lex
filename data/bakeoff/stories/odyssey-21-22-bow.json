@@ -1,0 +1,201 @@
+{
+ "id": "odyssey-21-22-bow",
+ "title": "The bow and the slaying of the suitors (Odyssey XXI-XXII)",
+ "source": {
+  "work": "Homer, Odyssey XXI-XXII, Butler translation (1900)",
+  "text": "odyssey-21-22.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Ulysses, Telemachus, the suitors",
+   "beats": [
+    "b-strung"
+   ]
+  },
+  {
+   "id": "deity",
+   "kind": "species",
+   "text": "Minerva, on the rafter",
+   "beats": [
+    "b-aegis"
+   ]
+  },
+  {
+   "id": "beggar",
+   "kind": "occupation",
+   "text": "Ulysses in the house as a beggarly tramp",
+   "beats": [
+    "b-tramp"
+   ]
+  },
+  {
+   "id": "warrior",
+   "kind": "occupation",
+   "text": "Ulysses fights in close quarters",
+   "beats": [
+    "b-spear"
+   ]
+  },
+  {
+   "id": "archery",
+   "kind": "ability",
+   "text": "strings the great bow and shoots",
+   "beats": [
+    "b-strung",
+    "b-axes"
+   ]
+  },
+  {
+   "id": "deceive",
+   "kind": "ability",
+   "text": "hides who he is under a beggar's guise",
+   "beats": [
+    "b-tramp"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "spear in close fight",
+   "beats": [
+    "b-spear"
+   ]
+  },
+  {
+   "id": "fear-aura",
+   "kind": "ability",
+   "text": "the aegis makes the suitors' hearts quail",
+   "beats": [
+    "b-aegis"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "ulysses",
+   "name": "Ulysses",
+   "species": "human",
+   "occupation": "beggar",
+   "abilities": [
+    "archery",
+    "deceive",
+    "melee-weapon"
+   ],
+   "attrs": {
+    "agility": {
+     "value": 20,
+     "beats": [
+      "b-axes"
+     ],
+     "estimate": true,
+     "note": "a shot through twelve axe-holes"
+    }
+   }
+  },
+  {
+   "id": "minerva",
+   "name": "Minerva",
+   "species": "deity",
+   "abilities": [
+    "fear-aura"
+   ]
+  },
+  {
+   "id": "suitor",
+   "name": "A suitor",
+   "species": "human",
+   "attrs": {
+    "willpower": {
+     "value": 10,
+     "beats": [
+      "b-aegis"
+     ],
+     "estimate": true
+    }
+   }
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-tramp",
+   "quote": "a beggarly tramp who came to the house strung",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "deceive",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-strung",
+   "quote": "strung it as easily as a skilled bard strings a new peg of his lyre",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "archery",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-axes",
+   "quote": "his arrow pierced every one of the handle-holes of the axes from the first onwards till it had gone right through them",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "roll",
+     "terms": [
+      {
+       "channel": "strike"
+      },
+      {
+       "const": -5
+      }
+     ],
+     "outcome": "success",
+     "estimate": true,
+     "note": "Twelve handle-holes in line: a hard shot, -5 (estimate)."
+    }
+   ]
+  },
+  {
+   "id": "b-spear",
+   "quote": "Ulysses struck the son of Damastor with a spear in close fight",
+   "checks": [
+    {
+     "character": "ulysses",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-aegis",
+   "quote": "Then Minerva from her seat on the rafter held up her deadly aegis, and the hearts of the suitors quailed.",
+   "checks": [
+    {
+     "character": "minerva",
+     "kind": "has",
+     "need": "fear-aura",
+     "outcome": "success"
+    },
+    {
+     "character": "suitor",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "willpower"
+      }
+     ],
+     "outcome": "failure"
+    }
+   ]
+  }
+ ]
+}

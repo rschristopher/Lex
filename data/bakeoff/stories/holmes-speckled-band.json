@@ -1,0 +1,173 @@
+{
+ "id": "holmes-speckled-band",
+ "title": "The Adventure of the Speckled Band (Doyle)",
+ "source": {
+  "work": "Arthur Conan Doyle, The Adventures of Sherlock Holmes (1892)",
+  "text": "holmes-speckled-band.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "Holmes, Watson, Miss Stoner, Dr. Roylott",
+   "beats": [
+    "b-mud"
+   ]
+  },
+  {
+   "id": "detective",
+   "kind": "occupation",
+   "text": "Holmes, a consulting detective",
+   "beats": [
+    "b-mud"
+   ]
+  },
+  {
+   "id": "physician",
+   "kind": "occupation",
+   "text": "Dr. Grimesby Roylott",
+   "beats": [
+    "b-trained"
+   ]
+  },
+  {
+   "id": "snake",
+   "kind": "species",
+   "text": "a swamp adder",
+   "beats": [
+    "b-adder"
+   ]
+  },
+  {
+   "id": "deduction",
+   "kind": "ability",
+   "text": "reads where a client came from by the mud on her sleeve",
+   "beats": [
+    "b-mud"
+   ]
+  },
+  {
+   "id": "animal-training",
+   "kind": "ability",
+   "text": "trains a snake to come back to a whistle",
+   "beats": [
+    "b-trained"
+   ]
+  },
+  {
+   "id": "venom",
+   "kind": "ability",
+   "text": "the deadliest snake in India",
+   "beats": [
+    "b-adder"
+   ]
+  },
+  {
+   "id": "melee-weapon",
+   "kind": "ability",
+   "text": "lashes at the snake with his cane",
+   "beats": [
+    "b-cane"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "holmes",
+   "name": "Sherlock Holmes",
+   "species": "human",
+   "occupation": "detective",
+   "abilities": [
+    "deduction",
+    "melee-weapon"
+   ],
+   "attrs": {
+    "intellect": {
+     "value": 20,
+     "beats": [
+      "b-mud"
+     ],
+     "estimate": true,
+     "note": "the best reasoner in the stories"
+    }
+   }
+  },
+  {
+   "id": "roylott",
+   "name": "Dr. Grimesby Roylott",
+   "species": "human",
+   "occupation": "physician",
+   "abilities": [
+    "animal-training"
+   ]
+  },
+  {
+   "id": "adder",
+   "name": "The swamp adder",
+   "species": "snake",
+   "abilities": [
+    "venom"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-mud",
+   "quote": "The left arm of your jacket is spattered with mud in no less than seven places.",
+   "checks": [
+    {
+     "character": "holmes",
+     "kind": "has",
+     "need": "deduction",
+     "outcome": "success"
+    },
+    {
+     "character": "holmes",
+     "kind": "roll",
+     "terms": [
+      {
+       "attr_bonus": "intellect"
+      }
+     ],
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-trained",
+   "quote": "He had trained it, probably by the use of the milk which we saw, to return to him when summoned.",
+   "checks": [
+    {
+     "character": "roylott",
+     "kind": "has",
+     "need": "animal-training",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-cane",
+   "quote": "Holmes sprang from the bed, struck a match, and lashed furiously with his cane at the bell-pull.",
+   "checks": [
+    {
+     "character": "holmes",
+     "kind": "has",
+     "need": "melee-weapon",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-adder",
+   "quote": "It is a swamp adder!” cried Holmes; “the deadliest snake in India.",
+   "checks": [
+    {
+     "character": "adder",
+     "kind": "has",
+     "need": "venom",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

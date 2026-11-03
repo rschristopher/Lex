@@ -1,0 +1,21 @@
+{
+  "id": "aegis",
+  "name": "Aegis",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 2
+    },
+    {
+      "verb": "mod.channel",
+      "target": "defense",
+      "value": 1
+    },
+    {
+      "verb": "mod.channel",
+      "target": "actions",
+      "value": 1
+    }
+  ]
+}

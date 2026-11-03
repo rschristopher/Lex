@@ -1,0 +1,120 @@
+{
+ "id": "grimm-frog-prince",
+ "title": "The Frog-Prince (Grimm)",
+ "source": {
+  "work": "Grimm, The Frog-Prince, Taylor and Edwardes translation",
+  "text": "grimm-frog-prince.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "the princess, the prince",
+   "beats": [
+    "b-prince"
+   ]
+  },
+  {
+   "id": "frog",
+   "kind": "species",
+   "text": "a talking frog, really an enchanted prince",
+   "beats": [
+    "b-frog"
+   ]
+  },
+  {
+   "id": "royal",
+   "kind": "occupation",
+   "text": "a princess and a prince",
+   "beats": [
+    "b-prince"
+   ]
+  },
+  {
+   "id": "transform-other",
+   "kind": "ability",
+   "text": "a fairy changed him into a frog",
+   "beats": [
+    "b-fairy"
+   ]
+  },
+  {
+   "id": "binding-bargain",
+   "kind": "ability",
+   "text": "a promise the king makes her keep",
+   "beats": [
+    "b-promise"
+   ]
+  },
+  {
+   "id": "swim",
+   "kind": "ability",
+   "text": "the frog dives deep for the ball",
+   "beats": [
+    "b-dive"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "princess",
+   "name": "The princess",
+   "species": "human",
+   "occupation": "royal"
+  },
+  {
+   "id": "frog",
+   "name": "The frog",
+   "species": "frog",
+   "abilities": [
+    "swim"
+   ]
+  },
+  {
+   "id": "fairy",
+   "name": "The spiteful fairy",
+   "abilities": [
+    "transform-other"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-frog",
+   "quote": "a frog put its head out of the water"
+  },
+  {
+   "id": "b-promise",
+   "quote": "bring me my ball, I will do all you ask.",
+   "summary": "A promise the king later makes her keep."
+  },
+  {
+   "id": "b-dive",
+   "quote": "dived deep under the water; and after a little while he came up again, with the ball in his mouth",
+   "checks": [
+    {
+     "character": "frog",
+     "kind": "has",
+     "need": "swim",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-prince",
+   "quote": "astonished to see, instead of the frog, a handsome prince"
+  },
+  {
+   "id": "b-fairy",
+   "quote": "He told her that he had been enchanted by a spiteful fairy, who had changed him into a frog",
+   "checks": [
+    {
+     "character": "fairy",
+     "kind": "has",
+     "need": "transform-other",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

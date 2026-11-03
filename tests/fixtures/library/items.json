@@ -1,0 +1,146 @@
+[
+  {
+    "id": "bronze_spear",
+    "name": "Bronze spear",
+    "kind": "weapon",
+    "damage": "1d8",
+    "prefix": "unit",
+    "thrown": true,
+    "material": "bronze and ash wood",
+    "text": "Ash shaft, bronze head. Thrown or thrust.",
+    "categories": [
+      "spear",
+      "melee"
+    ]
+  },
+  {
+    "id": "bronze_knife",
+    "name": "Bronze knife",
+    "kind": "weapon",
+    "damage": "1d6",
+    "prefix": "unit",
+    "durability": "unit",
+    "categories": [
+      "knife",
+      "melee"
+    ],
+    "text": "A short bronze blade, balanced for the hand.",
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "initiative",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "bow",
+    "name": "Great bow",
+    "kind": "weapon",
+    "damage": "1d10",
+    "prefix": "unit",
+    "text": "A bow so stiff that only its master can string it.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book XXI"
+    },
+    "categories": [
+      "bow"
+    ],
+    "requires": [
+      {
+        "kind": "ability",
+        "id": "bull_strength"
+      }
+    ]
+  },
+  {
+    "id": "shield",
+    "name": "Bronze shield",
+    "kind": "armor",
+    "slot": "body",
+    "prefix": "unit",
+    "total": 30,
+    "text": "Seven layers of oxhide faced with bronze.",
+    "source": "Homer, Iliad, Book VII",
+    "categories": [
+      "shield"
+    ],
+    "effects": [
+      {
+        "verb": "mod.channel",
+        "target": "defense",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "cuirass",
+    "name": "Linen cuirass",
+    "kind": "armor",
+    "slot": "body",
+    "prefix": "unit",
+    "total": 12
+  },
+  {
+    "id": "rope",
+    "name": "Rope, 15 m",
+    "kind": "gear",
+    "weight": "2 kg"
+  },
+  {
+    "id": "wineskin",
+    "name": "Wineskin of strong wine",
+    "kind": "gear",
+    "text": "Dark, unmixed wine, strong enough to put a giant to sleep.",
+    "source": {
+      "book": "Homer, Odyssey",
+      "section": "Book IX"
+    }
+  },
+  {
+    "id": "ship",
+    "name": "Black ship",
+    "kind": "vehicle",
+    "crew": 50,
+    "text": "A fast, hollow ship with fifty oars.",
+    "attrs": {
+      "strength": 60,
+      "speed": 14
+    }
+  },
+  {
+    "id": "chariot",
+    "name": "War chariot",
+    "kind": "vehicle",
+    "crew": 2,
+    "attrs": {
+      "speed": 30
+    }
+  },
+  {
+    "id": "bronze_giant",
+    "name": "Bronze giant shell",
+    "kind": "vehicle",
+    "slot": "body",
+    "prefix": "deka",
+    "total": 200,
+    "categories": [
+      "robot-armor"
+    ],
+    "text": "A hollow bronze giant a hero can climb inside and walk like a god.",
+    "attacks": [
+      {
+        "id": "giant_fist",
+        "name": "Bronze fist",
+        "damage": "2d6",
+        "prefix": "deka",
+        "durability": "deka"
+      }
+    ],
+    "attrs": {
+      "strength": 40,
+      "speed": 20
+    }
+  }
+]

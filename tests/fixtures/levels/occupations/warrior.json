@@ -1,0 +1,10 @@
+{
+  "id": "warrior",
+  "name": "Warrior",
+  "sets": [
+    [
+      "sword_drill",
+      "riding"
+    ]
+  ]
+}

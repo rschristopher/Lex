@@ -47,6 +47,17 @@ select, input {
   border: 1px solid var(--line); padding: 0.4rem 0.7rem; font: inherit;
 }
 #err { color: #ff6b6b; margin: 0; margin-left: auto; }
+.auth { display: flex; align-items: center; gap: 0.45rem; margin-left: auto; }
+#err:not([hidden]) + .auth, #err:not([hidden]) ~ .auth { margin-left: 0; }
+.auth input { width: 8rem; }
+.auth button, .create button {
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); padding: 0.4rem 0.7rem; font: inherit; cursor: pointer;
+}
+.auth button:hover, .create button:hover { border-color: var(--ink); }
+#who { color: var(--muted); font-size: 0.85rem; }
+.create { display: flex; gap: 0.45rem; padding: 0.6rem 1.25rem; border-bottom: 1px solid var(--line); }
+.create[hidden], .auth[hidden] { display: none; }
 
 .sheet {
   display: grid;
@@ -193,7 +204,7 @@ select, input {
 }
 .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .who h1 { margin: 0; font-size: 1.75rem; letter-spacing: -0.02em; }
-.who .occ { margin: 0.2rem 0 0; color: var(--muted); }
+.who .occupation { margin: 0.2rem 0 0; color: var(--muted); }
 .attrs {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 0.4rem; margin: 0 0 1rem;
@@ -300,3 +311,12 @@ h3 {
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 600;
 }
 .pane > h3:first-child { margin-top: 0.15rem; }
+
+.bonuses { margin-top: 1rem; font-size: 0.88rem; }
+.bonuses h3 { margin: 0.9rem 0 0.35rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.bonuses .now { margin: 0 0 0.35rem; color: var(--accent); font-size: 0.8rem; }
+.bonuses ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.bonuses li { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.3rem 0.55rem; background: var(--card); border: 1px solid var(--line); }
+.bonuses li small { color: var(--muted); text-align: right; }
+.bonuses li.on { border-color: #2f6f4a; color: #9be7c4; }
+.bonuses li.off { opacity: 0.5; }

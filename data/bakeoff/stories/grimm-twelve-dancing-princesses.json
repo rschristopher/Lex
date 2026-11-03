@@ -1,0 +1,146 @@
+{
+ "id": "grimm-twelve-dancing-princesses",
+ "title": "The Twelve Dancing Princesses (Grimm)",
+ "source": {
+  "work": "Grimm, The Twelve Dancing Princesses, Taylor and Edwardes translation",
+  "text": "grimm-twelve-dancing-princesses.txt"
+ },
+ "needs": [
+  {
+   "id": "human",
+   "kind": "species",
+   "text": "the old soldier, the princesses",
+   "beats": [
+    "b-soldier"
+   ]
+  },
+  {
+   "id": "soldier",
+   "kind": "occupation",
+   "text": "an old soldier, wounded in battle",
+   "beats": [
+    "b-soldier"
+   ]
+  },
+  {
+   "id": "ruler",
+   "kind": "occupation",
+   "text": "the king and his daughters",
+   "beats": [
+    "b-soldier"
+   ]
+  },
+  {
+   "id": "invisibility",
+   "kind": "ability",
+   "text": "a cloak that makes the wearer invisible",
+   "beats": [
+    "b-cloak"
+   ]
+  },
+  {
+   "id": "deceive",
+   "kind": "ability",
+   "text": "pretends to be fast asleep",
+   "beats": [
+    "b-snore"
+   ]
+  },
+  {
+   "id": "poison",
+   "kind": "ability",
+   "text": "the sleeping draught in the wine",
+   "beats": [
+    "b-draught"
+   ]
+  },
+  {
+   "id": "stealth",
+   "kind": "ability",
+   "text": "follows the princesses unseen",
+   "beats": [
+    "b-follow"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "soldier",
+   "name": "The old soldier",
+   "species": "human",
+   "occupation": "soldier",
+   "abilities": [
+    "deceive",
+    "stealth"
+   ]
+  },
+  {
+   "id": "eldest",
+   "name": "The eldest princess",
+   "species": "human",
+   "occupation": "ruler",
+   "abilities": [
+    "poison"
+   ]
+  }
+ ],
+ "beats": [
+  {
+   "id": "b-soldier",
+   "quote": "an old soldier, who had been wounded in battle and could fight no longer, passed through the country where this king reigned"
+  },
+  {
+   "id": "b-cloak",
+   "quote": "As soon as you put that on you will become invisible, and you will then be able to follow the princesses wherever they go."
+  },
+  {
+   "id": "b-snore",
+   "quote": "began to snore very loud as if he was fast asleep.",
+   "checks": [
+    {
+     "character": "soldier",
+     "kind": "has",
+     "need": "deceive",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-draught",
+   "quote": "even if I had not given him his sleeping draught, he would have slept soundly enough.",
+   "checks": [
+    {
+     "character": "eldest",
+     "kind": "has",
+     "need": "poison",
+     "outcome": "success"
+    }
+   ]
+  },
+  {
+   "id": "b-follow",
+   "quote": "he jumped up, put on the cloak which the old woman had given him, and followed them",
+   "grants": [
+    {
+     "character": "soldier",
+     "need": "invisibility",
+     "from": "the old woman's cloak"
+    }
+   ],
+   "checks": [
+    {
+     "character": "soldier",
+     "kind": "has",
+     "need": "invisibility",
+     "outcome": "success"
+    },
+    {
+     "character": "soldier",
+     "kind": "has",
+     "need": "stealth",
+     "outcome": "success"
+    }
+   ]
+  }
+ ]
+}

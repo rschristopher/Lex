@@ -1,0 +1,27 @@
+{
+  "id": "augmented",
+  "name": "Augmented",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "actions",
+      "value": 4
+    },
+    {
+      "verb": "mod.channel",
+      "target": "strike",
+      "value": 2
+    },
+    {
+      "verb": "mod.channel",
+      "target": "defense",
+      "value": 2,
+      "reflex": true
+    },
+    {
+      "verb": "mod.channel",
+      "target": "initiative",
+      "value": 2
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "scout",
+  "name": "Scout",
+  "effects": [
+    {
+      "verb": "mod.channel",
+      "target": "initiative",
+      "value": 2
+    },
+    {
+      "verb": "mod.channel",
+      "target": "defense",
+      "value": 1
+    }
+  ]
+}

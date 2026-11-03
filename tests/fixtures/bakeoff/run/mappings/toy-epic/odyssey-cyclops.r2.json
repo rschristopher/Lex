@@ -1,0 +1,57 @@
+{
+  "story": "odyssey-cyclops",
+  "candidate": "toy-epic",
+  "run": "r2",
+  "map": {
+    "human": {
+      "fit": "exact",
+      "rows": [
+        "species/human"
+      ]
+    },
+    "cyclops": {
+      "fit": "partial",
+      "rows": [
+        "species/giant"
+      ]
+    },
+    "shepherd": {
+      "fit": "exact",
+      "rows": [
+        "occupation/herder"
+      ]
+    },
+    "warrior": {
+      "fit": "exact",
+      "rows": [
+        "occupation/warrior"
+      ]
+    },
+    "craft-weapon": {
+      "fit": "exact",
+      "rows": [
+        "ability/craft"
+      ]
+    },
+    "deceive": {
+      "fit": "exact",
+      "rows": [
+        "ability/deceive"
+      ]
+    },
+    "hide": {
+      "fit": "none",
+      "rows": [],
+      "new_row": {
+        "kind": "ability",
+        "name": "Hide"
+      }
+    },
+    "divine-courage": {
+      "fit": "exact",
+      "rows": [
+        "ability/divine_courage"
+      ]
+    }
+  }
+}

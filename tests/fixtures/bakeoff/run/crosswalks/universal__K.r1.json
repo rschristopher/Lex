@@ -1,0 +1,13 @@
+{
+  "from": "universal",
+  "to": "K",
+  "run": "r1",
+  "map": {
+    "species/human": [
+      "kinds/human"
+    ],
+    "occupation/soldier": [
+      "callings/fighter"
+    ]
+  }
+}
